@@ -1,0 +1,17 @@
+10/29
+<question?>
+How swerving speed is determined>
+parameter: avoidance limit -> What is the role?
+Fast out problem when do swerving.
+Swerving Scoring?-detail-PPT level
+
+<TODO>
+planner 단에서 속도 0이어도 고려하게 하기
+우리 autoware 올리기
+
+
+<default parameter>
+avoid Distance: 15
+avoid limit: 4
+
+
