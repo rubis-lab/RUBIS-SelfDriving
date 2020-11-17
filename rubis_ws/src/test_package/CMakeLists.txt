@@ -209,15 +209,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-
-add_executable(data_type_test
-  src/data_type_test.cpp
-)
-add_dependencies(data_type_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(data_type_test
-  ${catkin_LIBRARIES}
-)
-
 add_executable(fake_object_generator
   src/fake_object_generator.cpp
 )
