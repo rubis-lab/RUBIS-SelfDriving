@@ -7,7 +7,8 @@ project(test_package)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS geometry_msgs autoware_msgs std_msgs)
+find_package(catkin REQUIRED COMPONENTS
+  roscpp geometry_msgs autoware_msgs std_msgs jsk_recognition_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -36,6 +37,7 @@ find_package(catkin REQUIRED COMPONENTS geometry_msgs autoware_msgs std_msgs)
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  jsk_recognition_msgs
   autoware_msgs
   geometry_msgs
   std_msgs
