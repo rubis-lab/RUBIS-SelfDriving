@@ -14,6 +14,7 @@
 
 static std::vector<std::string> type_names;
 void init_type_names();
+void create_fake_objects(std::vector< std::vector<double> >& object_list, autoware_msgs::DetectedObjectArray& object_array_msg, jsk_recognition_msgs::PolygonArray& polygon_array_msg);
 
 std_msgs::Header create_header(int seq, std::string frame_id);
 
@@ -25,10 +26,12 @@ int main(int argc, char* argv[]){
     ros::NodeHandle nh;
     ros::Rate rate(10);
     ros::Publisher object_array_pub;
-    ros::Publisher polygon_array_pub;    
+    ros::Publisher object_polygon_array_pub;    
+    ros::Publisher person_polygon_array_pub;    
     
     object_array_pub = nh.advertise<autoware_msgs::DetectedObjectArray>("/tracked_objects", 10);
-    polygon_array_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("/fake_polygons", 10);
+    object_polygon_array_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("/fake_object_polygons", 10);
+    person_polygon_array_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("/fake_person_polygons", 10);
 
     // Load Parameters
     XmlRpc::XmlRpcValue xml_object_list;
@@ -42,12 +45,67 @@ int main(int argc, char* argv[]){
         object_list.push_back(object);
     }
 
+    XmlRpc::XmlRpcValue xml_person_list;
+    nh.getParam("/fake_object_generator/person_list", xml_person_list);
+    std::vector< std::vector<double> > person_list;
+    for(int i=0; i<xml_person_list.size(); i++){
+        XmlRpc::XmlRpcValue xml_person = xml_person_list[i];
+        std::vector<double> person;
+        for(int j=0; j<xml_person.size(); j++)
+            person.push_back((double)(xml_person[j]));
+        person_list.push_back(person);
+    }
+
     std::string frame_id = "/none";
     nh.getParam("/fake_object_generator/frame_id", frame_id);
 
     autoware_msgs::DetectedObjectArray object_array_msg;
-    jsk_recognition_msgs::PolygonArray polygon_array_msg;
-    int object_id = 415;
+    jsk_recognition_msgs::PolygonArray object_polygon_array_msg;
+    create_fake_objects(object_list, object_array_msg, object_polygon_array_msg);
+    
+    autoware_msgs::DetectedObjectArray person_array_msg;
+    jsk_recognition_msgs::PolygonArray person_polygon_array_msg;
+    create_fake_objects(person_list, person_array_msg, person_polygon_array_msg);
+
+    int seq = 0;
+    while(1){
+        std_msgs::Header header = create_header(seq, frame_id);
+        object_array_msg.header = header;
+        for(auto it = object_array_msg.objects.begin(); it != object_array_msg.objects.end(); ++it)
+            (*it).header = header;
+        object_polygon_array_msg.header = header;
+        for(auto it = object_polygon_array_msg.polygons.begin(); it != object_polygon_array_msg.polygons.end(); ++it)
+            (*it).header = header;      
+        
+        person_array_msg.header = header;                  
+        for(auto it = person_array_msg.objects.begin(); it != person_array_msg.objects.end(); ++it)
+            (*it).header = header;
+        person_polygon_array_msg.header = header;
+        for(auto it = person_polygon_array_msg.polygons.begin(); it != person_polygon_array_msg.polygons.end(); ++it)
+            (*it).header = header;            
+
+            
+        object_array_pub.publish(object_array_msg);
+        object_polygon_array_pub.publish(object_polygon_array_msg);
+        person_polygon_array_pub.publish(person_polygon_array_msg);
+        seq++;
+        rate.sleep();
+    }
+
+
+    return 0;
+}
+
+std_msgs::Header create_header(int seq, std::string frame_id){
+    std_msgs::Header header;
+    header.stamp = ros::Time::now();
+    header.seq = seq;
+    header.frame_id = frame_id;
+    return header;
+}
+
+void create_fake_objects(std::vector< std::vector<double> >& object_list, autoware_msgs::DetectedObjectArray& object_array_msg, jsk_recognition_msgs::PolygonArray& polygon_array_msg){
+    static int object_id = 415;
 
     for(auto itlist = object_list.begin(); itlist != object_list.end(); ++itlist){
         std::vector<double> object = *itlist;
@@ -113,36 +171,7 @@ int main(int argc, char* argv[]){
         object_array_msg.objects.push_back(object_msg);
         polygon_array_msg.polygons.push_back(polygon_msg);
     }
-
-    int seq = 0;
-    while(1){
-        std_msgs::Header header = create_header(seq, frame_id);
-        object_array_msg.header = header;
-        for(auto it = object_array_msg.objects.begin(); it != object_array_msg.objects.end(); ++it)
-            (*it).header = header;
-        polygon_array_msg.header = header;
-        for(auto it = polygon_array_msg.polygons.begin(); it != polygon_array_msg.polygons.end(); ++it){
-            (*it).header = header;            
-        }
-            
-        object_array_pub.publish(object_array_msg);
-        polygon_array_pub.publish(polygon_array_msg);
-        seq++;
-        rate.sleep();
-    }
-
-
-    return 0;
 }
-
-std_msgs::Header create_header(int seq, std::string frame_id){
-    std_msgs::Header header;
-    header.stamp = ros::Time::now();
-    header.seq = seq;
-    header.frame_id = frame_id;
-    return header;
-}
-
 
 
 void init_type_names(){
