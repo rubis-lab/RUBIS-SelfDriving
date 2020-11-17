@@ -15,6 +15,9 @@
 static std::vector<std::string> type_names;
 void init_type_names();
 void create_fake_objects(std::vector< std::vector<double> >& object_list, autoware_msgs::DetectedObjectArray& object_array_msg, jsk_recognition_msgs::PolygonArray& polygon_array_msg);
+void add_objects(std_msgs::Header& header, autoware_msgs::DetectedObjectArray& input_msg, autoware_msgs::DetectedObjectArray& output_msg);
+
+
 
 std_msgs::Header create_header(int seq, std::string frame_id);
 
@@ -59,6 +62,8 @@ int main(int argc, char* argv[]){
     std::string frame_id = "/none";
     nh.getParam("/fake_object_generator/frame_id", frame_id);
 
+    
+
     autoware_msgs::DetectedObjectArray object_array_msg;
     jsk_recognition_msgs::PolygonArray object_polygon_array_msg;
     create_fake_objects(object_list, object_array_msg, object_polygon_array_msg);
@@ -67,27 +72,52 @@ int main(int argc, char* argv[]){
     jsk_recognition_msgs::PolygonArray person_polygon_array_msg;
     create_fake_objects(person_list, person_array_msg, person_polygon_array_msg);
 
+    std::vector< std::vector<double> > empty_list;
+    autoware_msgs::DetectedObjectArray empty_array_msg;
+    jsk_recognition_msgs::PolygonArray empty_polygon_array_msg;
+    create_fake_objects(empty_list, empty_array_msg, empty_polygon_array_msg);
+
+
     int seq = 0;
+    int object_flag, person_flag;
+    autoware_msgs::DetectedObjectArray final_object_msg;
+
     while(1){
+        nh.getParam("/fake_object_generator/object_flag", object_flag);
+        nh.getParam("/fake_object_generator/person_flag", person_flag);
+
         std_msgs::Header header = create_header(seq, frame_id);
-        object_array_msg.header = header;
-        for(auto it = object_array_msg.objects.begin(); it != object_array_msg.objects.end(); ++it)
-            (*it).header = header;
+
         object_polygon_array_msg.header = header;
         for(auto it = object_polygon_array_msg.polygons.begin(); it != object_polygon_array_msg.polygons.end(); ++it)
             (*it).header = header;      
-        
-        person_array_msg.header = header;                  
-        for(auto it = person_array_msg.objects.begin(); it != person_array_msg.objects.end(); ++it)
-            (*it).header = header;
         person_polygon_array_msg.header = header;
         for(auto it = person_polygon_array_msg.polygons.begin(); it != person_polygon_array_msg.polygons.end(); ++it)
-            (*it).header = header;            
+            (*it).header = header;
+        empty_polygon_array_msg.header = header;
+        // for(auto it = fake_polygon_array_msg.polygons.begin(); it != fake_polygon_array_msg.polygons.end(); ++it)
+        //     (*it).header = header;
 
-            
-        object_array_pub.publish(object_array_msg);
-        object_polygon_array_pub.publish(object_polygon_array_msg);
-        person_polygon_array_pub.publish(person_polygon_array_msg);
+        final_object_msg.header = header;
+        final_object_msg.objects.clear();
+
+        if(object_flag==1){
+            add_objects(header, object_array_msg, final_object_msg);
+            object_polygon_array_pub.publish(object_polygon_array_msg);
+        }
+        else{            
+            object_polygon_array_pub.publish(empty_polygon_array_msg);
+        }
+        
+        if(person_flag==1){
+            add_objects(header, person_array_msg, final_object_msg);
+            person_polygon_array_pub.publish(person_polygon_array_msg);
+        }
+        else{
+            person_polygon_array_pub.publish(empty_polygon_array_msg);
+        }
+
+        object_array_pub.publish(final_object_msg);
         seq++;
         rate.sleep();
     }
@@ -103,6 +133,15 @@ std_msgs::Header create_header(int seq, std::string frame_id){
     header.frame_id = frame_id;
     return header;
 }
+
+void add_objects(std_msgs::Header& header, autoware_msgs::DetectedObjectArray& input_msg, autoware_msgs::DetectedObjectArray& output_msg){
+    for(auto it = input_msg.objects.begin(); it != input_msg.objects.end(); ++it){
+        (*it).header = header;
+        output_msg.objects.push_back(*it);
+    }
+}
+
+
 
 void create_fake_objects(std::vector< std::vector<double> >& object_list, autoware_msgs::DetectedObjectArray& object_array_msg, jsk_recognition_msgs::PolygonArray& polygon_array_msg){
     static int object_id = 415;
