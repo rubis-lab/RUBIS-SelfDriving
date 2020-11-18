@@ -27,9 +27,20 @@ AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Releas
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
+Since Autoware recommend to use directory name 'autoware.ai', you should make soft link with autoware.ai to this repository
+```
+ln -s ${WORKSPACE_DIR}/RUBIS-SelfDriving ~/autoware.ai
+```
+
+And it is recommned to add below sourcing command in your `~/.bashrc` file.
+```
+source ~/autoware.ai/install/setup.bash
+source ~/autoware.ai/rubis_ws/devel/setup.bash
+```
+
 ## How to build fake object generator (in test_package)
 
 ```
-cd test_package
+cd rubis_ws
 catkin_make
 ```
