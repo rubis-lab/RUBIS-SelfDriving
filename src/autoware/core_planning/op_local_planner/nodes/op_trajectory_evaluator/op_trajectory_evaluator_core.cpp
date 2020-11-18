@@ -230,7 +230,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     {
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
       m_PredictedObjects.push_back(obj);
-      ROS_ERROR("predicted object's id > 0, %d", msg->objects.at(i).id);
+      // ROS_ERROR("predicted object's id > 0, %d", msg->objects.at(i).id);
     }
 //    else
 //    {

@@ -790,6 +790,7 @@ public:
   LIGHT_INDICATOR indicator;
   bool bNewPlan;
   int iTrajectory;
+  int currTrajectory;
 
 
   BehaviorState()
@@ -803,7 +804,7 @@ public:
     indicator  = INDICATOR_NONE;
     bNewPlan = false;
     iTrajectory = -1;
-
+    currTrajectory = -1;
   }
 
 };

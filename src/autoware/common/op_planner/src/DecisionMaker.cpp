@@ -339,6 +339,22 @@ void DecisionMaker::InitBehaviorStates()
   if(average_braking_distance  < m_params.minIndicationDistance)
     average_braking_distance = m_params.minIndicationDistance;
 
+  double minDistanceToRollOut = 0;
+  for(int i=0; i<m_RollOuts.size(); i++){
+    const PlannerHNS::WayPoint rollout_start_waypoint = m_RollOuts.at(i).at(20);
+
+    double direct_distance = hypot(rollout_start_waypoint.pos.y - state.pos.y, rollout_start_waypoint.pos.x - state.pos.x);
+
+    // std::cout << "dd : " << direct_distance << " ";
+
+    if(minDistanceToRollOut == 0 || minDistanceToRollOut > direct_distance){
+      minDistanceToRollOut = direct_distance;
+      currentBehavior.currTrajectory = i;
+    }
+  }
+
+  // std::cout << std::endl;
+
   currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 
   return currentBehavior;

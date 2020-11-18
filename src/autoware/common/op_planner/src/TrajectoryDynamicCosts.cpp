@@ -15,8 +15,8 @@ namespace PlannerHNS
 TrajectoryDynamicCosts::TrajectoryDynamicCosts()
 {
   m_PrevCostIndex = -1;
-  //m_WeightPriority = 0.125;
-  //m_WeightTransition = 0.13;
+  m_WeightPriority = 0;
+  m_WeightTransition = 0.9;
   m_WeightLong = 1.0;
   m_WeightLat = 1.2;
   m_WeightLaneChange = 0.0;
@@ -25,8 +25,8 @@ TrajectoryDynamicCosts::TrajectoryDynamicCosts()
 
   m_CollisionTimeDiff = 6.0; //seconds
   m_PrevIndex = -1;
-  m_WeightPriority = 0.9;
-  m_WeightTransition = 0.9;
+  // m_WeightPriority = 0.9;
+  // m_WeightTransition = 0.9;
 }
 
 TrajectoryDynamicCosts::~TrajectoryDynamicCosts()
