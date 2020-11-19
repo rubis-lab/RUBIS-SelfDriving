@@ -47,7 +47,8 @@ MotionPrediction::MotionPrediction()
   pub_ParticlesRviz = nh.advertise<visualization_msgs::MarkerArray>("prediction_particles", 1);
 
   sub_StepSignal = nh.subscribe("/pred_step_signal",     1, &MotionPrediction::callbackGetStepForwardSignals,     this);
-  sub_tracked_objects  = nh.subscribe("/tracked_objects",       1,    &MotionPrediction::callbackGetTrackedObjects,     this);
+  // sub_tracked_objects  = nh.subscribe("/tracked_objects",       1,    &MotionPrediction::callbackGetTrackedObjects,     this);
+  sub_tracked_objects  = nh.subscribe("/detection/fusion_tools/objects",       1,    &MotionPrediction::callbackGetTrackedObjects,     this);
   sub_current_pose   = nh.subscribe("/current_pose", 10,  &MotionPrediction::callbackGetCurrentPose,     this);
 
   int bVelSource = 1;
