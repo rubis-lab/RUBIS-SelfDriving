@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
     ros::Publisher object_polygon_array_pub;    
     ros::Publisher person_polygon_array_pub;    
     
-    object_array_pub = nh.advertise<autoware_msgs::DetectedObjectArray>("/tracked_objects", 10);
+    object_array_pub = nh.advertise<autoware_msgs::DetectedObjectArray>("/detection/fusion_tools/objects", 10);
     object_polygon_array_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("/fake_object_polygons", 10);
     person_polygon_array_pub = nh.advertise<jsk_recognition_msgs::PolygonArray>("/fake_person_polygons", 10);
 
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
     int object_flag, person_flag;
     autoware_msgs::DetectedObjectArray final_object_msg;
 
-    while(1){
+    while(ros::ok()){
         nh.getParam("/fake_object_generator/object_flag", object_flag);
         nh.getParam("/fake_object_generator/person_flag", person_flag);
 
