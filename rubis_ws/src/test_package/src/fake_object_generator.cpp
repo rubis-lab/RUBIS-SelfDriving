@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
     int object_flag, person_flag;
     autoware_msgs::DetectedObjectArray final_object_msg;
 
-    while(1){
+    while(ros::ok()){
         nh.getParam("/fake_object_generator/object_flag", object_flag);
         nh.getParam("/fake_object_generator/person_flag", person_flag);
 

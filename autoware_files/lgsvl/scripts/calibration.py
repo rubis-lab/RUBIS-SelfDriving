@@ -15,9 +15,9 @@ from lgsvl.utils import transform_to_matrix
 
 
 class AutowareCalibration:
-    def __init__(self, agent_name="XE_Rigged-autoware"):
+    def __init__(self, agent_name="Lexus2016RXHybrid (Autoware)"):
         self.agent_name = agent_name
-        self.scene_name = "SimpleMap"
+        self.scene_name = "BorregasAve"
         self.sim = lgsvl.Simulator(os.environ.get("SIMULATOR_HOST", "127.0.0.1"), 8181)
         if self.sim.current_scene != self.scene_name:
             self.sim.load(self.scene_name)
@@ -27,9 +27,10 @@ class AutowareCalibration:
     
     def _load_sensors(self):
         for sensor in self.ego.get_sensors():
+            print(sensor.name)
             if sensor.name == "Main Camera":
                 self.sensor_camera = sensor
-            if sensor.name == "velodyne":
+            if sensor.name == "Lidar":
                 self.sensor_lidar = sensor
     
     def calibrate(self):
