@@ -425,14 +425,13 @@ void DecisionMaker::InitBehaviorStates()
   {
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
-    if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
-    {
-      // if(CurrStatus.speed > 5){
-      //   target_velocity = CurrStatus.speed*0.15;
-      // }
-      target_velocity*=0.5;
-      bSlowBecauseChange = true;
-    }
+    // std::cout << "curr Traj : " << beh.currTrajectory << ", curr Safe Traj : " << m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << std::endl;
+    // if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
+    // if(beh.currTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory)
+    // {
+    //   target_velocity /= fabs(beh.currTrajectory - m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory);
+    //   bSlowBecauseChange = true;
+    // }
 
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
