@@ -15,7 +15,7 @@ namespace PlannerHNS
 TrajectoryDynamicCosts::TrajectoryDynamicCosts()
 {
   m_PrevCostIndex = -1;
-  m_WeightPriority = 0;
+  m_WeightPriority = 0.9;
   m_WeightTransition = 0.9;
   m_WeightLong = 1.0;
   m_WeightLat = 1.2;
@@ -422,6 +422,8 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
             && longitudinalDist >= -carInfo.length/1.5
             && longitudinalDist < params.minFollowingDistance)
           trajectoryCosts.at(iCostIndex).bBlocked = true;
+
+        std::cout << "point " << icon << "long_d : " << longitudinalDist << ", lat_d : " << lateralDist << std::endl;
 
 
         if(lateralDist != 0)
