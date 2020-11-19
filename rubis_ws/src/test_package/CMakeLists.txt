@@ -216,3 +216,11 @@ add_dependencies(fake_object_generator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${cat
 target_link_libraries(fake_object_generator
   ${catkin_LIBRARIES}
 )
+
+add_executable(lidar_republisher
+  src/lidar_republisher.cpp
+)
+add_dependencies(lidar_republisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(lidar_republisher
+  ${catkin_LIBRARIES}
+)
