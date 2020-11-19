@@ -2,3 +2,4 @@ build
 log
 install
 autoware.ai.repos
+*.weights

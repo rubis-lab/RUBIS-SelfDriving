@@ -1,0 +1,6 @@
+<launch>
+    <arg name="input_topic" default="/points_raw_origin"/>
+    <node pkg="test_package" type="lidar_republisher" name="lidar_republisher" output="screen">
+        <param name="/input_topic" value="$(arg input_topic)" />
+    </node>
+</launch>
