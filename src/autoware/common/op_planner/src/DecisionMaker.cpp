@@ -345,15 +345,11 @@ void DecisionMaker::InitBehaviorStates()
 
     double direct_distance = hypot(rollout_start_waypoint.pos.y - state.pos.y, rollout_start_waypoint.pos.x - state.pos.x);
 
-    // std::cout << "dd : " << direct_distance << " ";
-
     if(minDistanceToRollOut == 0 || minDistanceToRollOut > direct_distance){
       minDistanceToRollOut = direct_distance;
       currentBehavior.currTrajectory = i;
     }
   }
-
-  // std::cout << std::endl;
 
   currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 

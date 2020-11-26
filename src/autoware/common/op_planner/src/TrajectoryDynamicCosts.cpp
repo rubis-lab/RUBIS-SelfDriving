@@ -8,6 +8,8 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
+#define DEBUG_ENABLE
+
 namespace PlannerHNS
 {
 
@@ -20,13 +22,10 @@ TrajectoryDynamicCosts::TrajectoryDynamicCosts()
   m_WeightLong = 1.0;
   m_WeightLat = 1.2;
   m_WeightLaneChange = 0.0;
-  m_LateralSkipDistance = 50;
-
+  m_LateralSkipDistance = 5;
 
   m_CollisionTimeDiff = 6.0; //seconds
   m_PrevIndex = -1;
-  // m_WeightPriority = 0.9;
-  // m_WeightTransition = 0.9;
 }
 
 TrajectoryDynamicCosts::~TrajectoryDynamicCosts()
@@ -125,6 +124,13 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   bestTrajectory.closest_obj_velocity = 0;
   bestTrajectory.index = -1;
 
+  // get parameter
+  m_WeightPriority = params.weightPriority;
+  m_WeightTransition = params.weightTransition;
+  m_WeightLong = params.weightLong;
+  m_WeightLat = params.weightLat;
+  m_LateralSkipDistance = params.LateralSkipDistance;
+
   RelativeInfo obj_info;
   PlanningHelpers::GetRelativeInfo(totalPaths, currState, obj_info);
   int currIndex = params.rollOutNumber/2 + floor(obj_info.perp_distance/params.rollOutDensity);
@@ -181,10 +187,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   double smallestDistance = DBL_MAX;
   double velo_of_next = 0;
 
-  //cout << "Trajectory Costs Log : CurrIndex: " << currIndex << " --------------------- " << endl;
   for(unsigned int ic = 0; ic < m_TrajectoryCosts.size(); ic++)
   {
-    //cout << m_TrajectoryCosts.at(ic).ToString();
     if(!m_TrajectoryCosts.at(ic).bBlocked && m_TrajectoryCosts.at(ic).cost < smallestCost)
     {
       smallestCost = m_TrajectoryCosts.at(ic).cost;
@@ -197,7 +201,6 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
       velo_of_next = m_TrajectoryCosts.at(ic).closest_obj_velocity;
     }
   }
-  //cout << "Smallest Distance: " <<  smallestDistance << "------------------------------------------------------------- " << endl;
 
   if(smallestIndex == -1)
   {
@@ -365,14 +368,13 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
   m_SafetyBorder.points.push_back(top_right_car) ;
   m_SafetyBorder.points.push_back(top_right) ;
   m_SafetyBorder.points.push_back(top_left) ;
-  m_SafetyBorder.points.push_back(top_left_car) ;
+  m_SafetyBorder.points.push_back(top_left_car);
 
   int iCostIndex = 0;
   if(rollOuts.size() > 0 && rollOuts.at(0).size()>0)
   {
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
-
 
     for(unsigned int it=0; it< rollOuts.size(); it++)
     {
@@ -384,26 +386,13 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         RelativeInfo obj_info;
         PlanningHelpers::GetRelativeInfo(totalPaths, contourPoints.at(icon), obj_info);
-        double longitudinalDist = PlanningHelpers::GetExactDistanceOnTrajectory(totalPaths, car_info, obj_info); // Caculate cumulated distance between car and boj in path
+        double longitudinalDist = PlanningHelpers::GetExactDistanceOnTrajectory(totalPaths, car_info, obj_info); // Caculate cumulated distance between car and obj in path
         if(obj_info.iFront == 0 && longitudinalDist > 0)
           longitudinalDist = -longitudinalDist;
 
         double direct_distance = hypot(obj_info.perp_point.pos.y-contourPoints.at(icon).pos.y, obj_info.perp_point.pos.x-contourPoints.at(icon).pos.x); // Caculate direct distance
-        if(contourPoints.at(icon).v < params.minSpeed && direct_distance > (m_LateralSkipDistance+contourPoints.at(icon).cost))
-        {
-          skip_id = contourPoints.at(icon).id;
-          continue;
-        }
-
-        double close_in_percentage = 1;
-//          close_in_percentage = ((longitudinalDist- critical_long_front_distance)/params.rollInMargin)*4.0;
-//
-//          if(close_in_percentage <= 0 || close_in_percentage > 1) close_in_percentage = 1;
 
         double distance_from_center = trajectoryCosts.at(iCostIndex).distance_from_center; // Disetance between center and trajectory
-
-        if(close_in_percentage < 1) //legacy
-          distance_from_center = distance_from_center - distance_from_center * (1.0-close_in_percentage);
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
@@ -422,9 +411,6 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
             && longitudinalDist >= -carInfo.length/1.5
             && longitudinalDist < params.minFollowingDistance)
           trajectoryCosts.at(iCostIndex).bBlocked = true;
-
-        std::cout << "point " << icon << "long_d : " << longitudinalDist << ", lat_d : " << lateralDist << std::endl;
-
 
         if(lateralDist != 0)
           trajectoryCosts.at(iCostIndex).lateral_cost += 1.0/lateralDist;
