@@ -4,12 +4,24 @@
   <arg name="enablePrediction"       default="false" />                
   <arg name="horizontalSafetyDistance"   default="1.2" />
   <arg name="verticalSafetyDistance"     default="0.8" />
+
+  <arg name="weightPriority"   default="0.9" />
+  <arg name="weightTransition"     default="0.9" />
+  <arg name="weightLong"   default="1.0" />
+  <arg name="weightLat"     default="1.2" />
+  <arg name="LateralSkipDistance"   default="5.0" />
       
   <node pkg="op_local_planner" type="op_trajectory_evaluator" name="op_trajectory_evaluator" output="screen">
   
     <param name="enablePrediction"       value="$(arg enablePrediction)" />            
     <param name="horizontalSafetyDistance"   value="$(arg horizontalSafetyDistance)" />
-    <param name="verticalSafetyDistance"   value="$(arg verticalSafetyDistance)" />        
+    <param name="verticalSafetyDistance"   value="$(arg verticalSafetyDistance)" />    
+
+    <param name="weightPriority"       value="$(arg weightPriority)" />            
+    <param name="weightTransition"       value="$(arg weightTransition)" />            
+    <param name="weightLong"       value="$(arg weightLong)" />            
+    <param name="weightLat"       value="$(arg weightLat)" />            
+    <param name="LateralSkipDistance"       value="$(arg LateralSkipDistance)" />                
       
   </node>        
       
