@@ -8,7 +8,7 @@ project(test_package)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp geometry_msgs autoware_msgs std_msgs jsk_recognition_msgs)
+  roscpp geometry_msgs autoware_msgs std_msgs jsk_recognition_msgs tf)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -41,6 +41,7 @@ find_package(catkin REQUIRED COMPONENTS
   autoware_msgs
   geometry_msgs
   std_msgs
+  tf
 )
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
@@ -230,5 +231,13 @@ add_executable(camera_republisher
 )
 add_dependencies(camera_republisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(camera_republisher
+  ${catkin_LIBRARIES}
+)
+
+add_executable(TF_test
+  src/TF_test.cpp
+)
+add_dependencies(TF_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(TF_test
   ${catkin_LIBRARIES}
 )

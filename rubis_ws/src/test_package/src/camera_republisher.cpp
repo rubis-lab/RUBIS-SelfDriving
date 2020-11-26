@@ -16,7 +16,7 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "lidar_republisher");
     ros::NodeHandle nh;    
     std::string input_topic;
-    nh.param<std::string>("/camera_republisher/input_topic", input_topic, "/points_raw_origin");
+    nh.param<std::string>("/camera_republisher/input_topic", input_topic, "/image_raw_origin");
 
     sub = nh.subscribe(input_topic, 1, camera_cb);
     pub = nh.advertise<sensor_msgs::Image>("/image_raw", 1);    
