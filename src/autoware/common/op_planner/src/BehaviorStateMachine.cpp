@@ -413,6 +413,11 @@ BehaviorStateMachine* SwerveStateII::GetNextState()
   pCParams->iPrevSafeTrajectory = pCParams->iCurrSafeTrajectory;
   pCParams->bRePlan = true;
 
+  // if(pCParams->iCurrSafeTrajectory != pCParams->iPrevSafeTrajectory)
+  //   return FindBehaviorState(FORWARD_STATE);
+  // else
+  //   return FindBehaviorState(this->m_Behavior);
+
   return FindBehaviorState(FORWARD_STATE);
 }
 
