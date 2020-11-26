@@ -790,6 +790,7 @@ public:
   LIGHT_INDICATOR indicator;
   bool bNewPlan;
   int iTrajectory;
+  int currTrajectory;
 
 
   BehaviorState()
@@ -803,7 +804,7 @@ public:
     indicator  = INDICATOR_NONE;
     bNewPlan = false;
     iTrajectory = -1;
-
+    currTrajectory = -1;
   }
 
 };
@@ -891,6 +892,13 @@ public:
   double   smoothingSmoothWeight;
   double   smoothingToleranceError;
 
+  // hjw added for make traj eval parameter
+  double weightPriority;
+  double weightTransition;
+  double weightLong;
+  double weightLat;
+  double LateralSkipDistance;
+
   double stopSignStopTime;
 
   double additionalBrakingDistance;
@@ -931,6 +939,12 @@ public:
     smoothingDataWeight        = 0.47;
     smoothingSmoothWeight      = 0.2;
     smoothingToleranceError      = 0.05;
+
+    double weightPriority     = 1;
+    double weightTransition   = 1;
+    double weightLong         = 1.2;
+    double weightLat          = 1;
+    double LateralSkipDistance = 5;
 
     stopSignStopTime         = 2.0;
 

@@ -339,6 +339,18 @@ void DecisionMaker::InitBehaviorStates()
   if(average_braking_distance  < m_params.minIndicationDistance)
     average_braking_distance = m_params.minIndicationDistance;
 
+  double minDistanceToRollOut = 0;
+  for(int i=0; i<m_RollOuts.size(); i++){
+    const PlannerHNS::WayPoint rollout_start_waypoint = m_RollOuts.at(i).at(20);
+
+    double direct_distance = hypot(rollout_start_waypoint.pos.y - state.pos.y, rollout_start_waypoint.pos.x - state.pos.x);
+
+    if(minDistanceToRollOut == 0 || minDistanceToRollOut > direct_distance){
+      minDistanceToRollOut = direct_distance;
+      currentBehavior.currTrajectory = i;
+    }
+  }
+
   currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 
   return currentBehavior;
@@ -409,14 +421,13 @@ void DecisionMaker::InitBehaviorStates()
   {
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
-    if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
-    {
-      // if(CurrStatus.speed > 5){
-      //   target_velocity = CurrStatus.speed*0.15;
-      // }
-      target_velocity*=0.5;
-      bSlowBecauseChange = true;
-    }
+    // std::cout << "curr Traj : " << beh.currTrajectory << ", curr Safe Traj : " << m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << std::endl;
+    // if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
+    // if(beh.currTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory)
+    // {
+    //   target_velocity /= fabs(beh.currTrajectory - m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory);
+    //   bSlowBecauseChange = true;
+    // }
 
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
