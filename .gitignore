@@ -3,3 +3,4 @@ log
 install
 autoware.ai.repos
 *.weights
+.vscode
