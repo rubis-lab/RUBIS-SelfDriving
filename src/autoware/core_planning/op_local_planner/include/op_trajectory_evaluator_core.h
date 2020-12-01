@@ -112,6 +112,8 @@ protected:
   //Helper Functions
   void UpdatePlanningParams(ros::NodeHandle& _nh);
 
+  void UpdateMyParams();
+
 public:
   TrajectoryEval();
   ~TrajectoryEval();

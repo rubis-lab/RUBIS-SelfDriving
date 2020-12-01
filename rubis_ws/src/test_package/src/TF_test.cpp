@@ -40,11 +40,12 @@ int main(int argc, char* argv[]){
     tf2_ros::TransformListener tfListener(tfBuffer);
     
 
+    listener.waitForTransform("/world", "/test",
+                              ros::Time::now(), ros::Duration(1));
     
     while(ros::ok()){
         try{
-            listener.waitForTransform("/world", "/test",
-                              ros::Time::now(), ros::Duration(1));
+            
             listener.lookupTransform("/world", "/test", ros::Time::now(), transform);
             std::cout<<"Transform!"<<std::endl;
         }

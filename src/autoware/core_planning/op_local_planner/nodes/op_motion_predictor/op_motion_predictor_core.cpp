@@ -208,16 +208,11 @@ void MotionPrediction::callbackGetTrackedObjects(const autoware_msgs::DetectedOb
 
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
-    if(msg->objects.at(i).id > 0)
-    {
+    // if(msg->objects.at(i).id > 0)
+    // {
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
       m_TrackedObjects.push_back(obj);
-    }
-//    else
-//    {
-//      std::cout << " Ego Car avoid detecting itself from motion prediction node! ID: " << msg->objects.at(i).id << std::endl;
-//    }
-
+    // }
   }
 
   if(bMap)

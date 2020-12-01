@@ -230,7 +230,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     {
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
       m_PredictedObjects.push_back(obj);
-      //ROS_ERROR("predicted object's id > 0, %d", msg->objects.at(i).id);
+      // ROS_ERROR("predicted object's id > 0, %d", msg->objects.at(i).id);
     }
 //    else
 //    {
@@ -256,6 +256,16 @@ void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedC
   m_CurrentBehavior.iTrajectory = msg->twist.angular.z;
 }
 
+void TrajectoryEval::UpdateMyParams()
+{
+  ros::NodeHandle _nh;
+  _nh.getParam("/op_trajectory_evaluator/weightPriority", m_PlanningParams.weightPriority);
+  _nh.getParam("/op_trajectory_evaluator/weightTransition", m_PlanningParams.weightTransition);
+  _nh.getParam("/op_trajectory_evaluator/weightLong", m_PlanningParams.weightLong);
+  _nh.getParam("/op_trajectory_evaluator/weightLat", m_PlanningParams.weightLat);
+  _nh.getParam("/op_trajectory_evaluator/LateralSkipDistance", m_PlanningParams.LateralSkipDistance);
+}
+
 void TrajectoryEval::MainLoop()
 {
   ros::Rate loop_rate(100);
@@ -264,6 +274,8 @@ void TrajectoryEval::MainLoop()
 
   while (ros::ok())
   {
+    UpdateMyParams();
+
     ros::spinOnce();
     // PlannerHNS::TrajectoryCost tc;
 
