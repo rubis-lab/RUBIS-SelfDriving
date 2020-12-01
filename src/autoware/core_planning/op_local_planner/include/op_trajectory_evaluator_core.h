@@ -27,6 +27,7 @@
 #include <autoware_msgs/LaneArray.h>
 #include <autoware_can_msgs/CANInfo.h>
 #include <autoware_msgs/DetectedObjectArray.h>
+#include <autoware_msgs/DetectedObject.h>
 #include <visualization_msgs/MarkerArray.h>
 
 #include "op_planner/PlannerCommonDef.h"

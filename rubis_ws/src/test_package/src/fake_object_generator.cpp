@@ -191,10 +191,10 @@ void create_fake_objects(std::vector< std::vector<double> >& object_list, autowa
         object_msg.pose.position.x = min_x + (max_x-min_x)/2.0;
         object_msg.pose.position.y = min_y + (max_y-min_y)/2.0;
         object_msg.pose.position.z = min_z + (max_z-min_z)/2.0;
-        object_msg.pose.orientation.x = 0;
-        object_msg.pose.orientation.y = 0;
-        object_msg.pose.orientation.z = 0;
-        object_msg.pose.orientation.w = 0;
+        object_msg.pose.orientation.x = 0.0132425152446;
+        object_msg.pose.orientation.y = 0.00564379347071;
+        object_msg.pose.orientation.z = -0.792667771434;
+        object_msg.pose.orientation.w = 0.609483869775;
         // Dimension
         object_msg.dimensions.x = (max_x-min_x)/2.0;
         object_msg.dimensions.y = (max_y-min_y)/2.0;

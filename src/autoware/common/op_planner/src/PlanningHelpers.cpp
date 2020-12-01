@@ -2797,5 +2797,4 @@ double PlanningHelpers::fpprunge ( double x )
   return fx;
 }
 
-
 } /* namespace PlannerHNS */

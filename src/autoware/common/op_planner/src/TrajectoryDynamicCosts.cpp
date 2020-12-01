@@ -114,6 +114,9 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepDynamic(const vector<vector<WayP
   return bestTrajectory;
 }
 
+
+
+
 TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPoint> >& rollOuts,
     const vector<WayPoint>& totalPaths, const WayPoint& currState,
     const PlanningParams& params, const CAR_BASIC_INFO& carInfo, const VehicleState& vehicleState,
@@ -172,6 +175,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     }
   }
 
+
+
   CalculateLateralAndLongitudinalCostsStatic(m_TrajectoryCosts, rollOuts, totalPaths, currState, m_AllContourPoints, params, carInfo, vehicleState);
 
   NormalizeCosts(m_TrajectoryCosts);
@@ -212,9 +217,15 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     bestTrajectory = m_TrajectoryCosts.at(smallestIndex);
   }
 
+  
+
+
   m_PrevIndex = currIndex;
   return bestTrajectory;
 }
+
+
+
 
 TrajectoryCost TrajectoryDynamicCosts::DoOneStep(const vector<vector<vector<WayPoint> > >& rollOuts,
     const vector<vector<WayPoint> >& totalPaths, const WayPoint& currState, const int& currIndex,
