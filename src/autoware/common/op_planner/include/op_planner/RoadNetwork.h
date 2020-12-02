@@ -12,6 +12,7 @@
 #include <vector>
 #include <sstream>
 #include "op_utility/UtilityH.h"
+#include <std_msgs/Header.h>
 
 #define OPENPLANNER_ENABLE_LOGS
 
@@ -29,7 +30,9 @@ enum DRIVABLE_TYPE {DIRT, TARMAC, PARKINGAREA, INDOOR, GENERAL_AREA};
 enum GLOBAL_STATE_TYPE {G_WAITING_STATE, G_PLANING_STATE, G_FORWARD_STATE, G_BRANCHING_STATE, G_FINISH_STATE};
 
 enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
-  TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE, FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE};
+  TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE,
+  FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, 
+  BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE, PEDESTRIAN_STATE};
 
 enum LIGHT_INDICATOR {INDICATOR_LEFT, INDICATOR_RIGHT, INDICATOR_BOTH , INDICATOR_NONE};
 
@@ -812,6 +815,7 @@ public:
 class DetectedObject
 {
 public:
+  std_msgs::Header header;
   int id;
   std::string label;
   OBSTACLE_TYPE t;
@@ -899,6 +903,9 @@ public:
   double weightLat;
   double LateralSkipDistance;
 
+  // Added by PHY
+  bool pedestrianAppearence;
+
   double stopSignStopTime;
 
   double additionalBrakingDistance;
@@ -963,6 +970,7 @@ public:
     enableStopSignBehavior      = false;
     enabTrajectoryVelocities     = false;
     minIndicationDistance      = 15;
+    pedestrianAppearence       = false;
   }
 };
 

@@ -40,26 +40,27 @@ int main(int argc, char* argv[]){
     tf2_ros::TransformListener tfListener(tfBuffer);
     
 
-    listener.waitForTransform("/world", "/test",
-                              ros::Time::now(), ros::Duration(1));
+    
     
     while(ros::ok()){
+        ros::spinOnce();
         try{
-            
+            listener.waitForTransform("/world", "/test",
+                              ros::Time::now(), ros::Duration(0.01));
             listener.lookupTransform("/world", "/test", ros::Time::now(), transform);
             std::cout<<"Transform!"<<std::endl;
+
+            listener.transformPose("/test", pose, trans_pose);
+            std::cout<<"Trans Pose"<<std::endl;
+            std::cout<<trans_pose.pose.position.x << " " << trans_pose.pose.position.y << " " << trans_pose.pose.position.z << " " <<
+            trans_pose.pose.orientation.x << " " << trans_pose.pose.orientation.y << " " << trans_pose.pose.orientation.z << " " << 
+            trans_pose.pose.orientation.w << std::endl;
         }
         catch(tf::TransformException& ex){
             ROS_ERROR("%s", ex.what());
         }
-        ros::spinOnce();
-        listener.transformPose("/test", pose, trans_pose);
         
-
-        std::cout<<"Trans Pose"<<std::endl;
-        std::cout<<trans_pose.pose.position.x << " " << trans_pose.pose.position.y << " " << trans_pose.pose.position.z << " " <<
-            trans_pose.pose.orientation.x << " " << trans_pose.pose.orientation.y << " " << trans_pose.pose.orientation.z << " " << 
-            trans_pose.pose.orientation.w << std::endl;
+        
 
 
         rate.sleep();

@@ -272,6 +272,15 @@ public:
   virtual BehaviorStateMachine* GetNextState();
 };
 
+class PedestrianState : public BehaviorStateMachine
+{
+public:
+  PedestrianState(PlanningParams* pParams, PreCalculatedConditions* pPreCalcVal, BehaviorStateMachine* pNextState)
+  : BehaviorStateMachine(pParams, pPreCalcVal, pNextState){m_Behavior = PEDESTRIAN_STATE;}
+  virtual ~PedestrianState(){}
+  virtual BehaviorStateMachine* GetNextState();
+};
+
 } /* namespace PlannerHNS */
 
 #endif /* BEHAVIORSTATEMACHINE_H_ */

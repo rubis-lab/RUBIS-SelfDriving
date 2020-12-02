@@ -374,7 +374,7 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
         range_in_cv.objects[j].width = vision_object.width;
         range_in_cv.objects[j].height = vision_object.height;
         range_in_cv.objects[j].angle = vision_object.angle;
-        range_in_cv.objects[j].id = vision_object.id;
+        //range_in_cv.objects[j].id = vision_object.id;
         CheckMinimumDimensions(range_in_cv.objects[j]);
         if (vision_object.pose.orientation.x > 0
             || vision_object.pose.orientation.y > 0

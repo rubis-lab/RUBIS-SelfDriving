@@ -4,3 +4,5 @@ install
 autoware.ai.repos
 *.weights
 .vscode
+*.o
+extra_library
