@@ -70,6 +70,7 @@ BehaviorGen::BehaviorGen()
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
   //sub_ctrl_cmd = nh.subscribe("/ctrl_cmd", 1, &BehaviorGen::callbackGetCommandCMD, this);
+  sub_DistanceToPedestrian = nh.subscribe("/distance_to_pedestrian", 1, &BehaviorGen::callbackDistanceToPedestrian, this);
 
   //Mapping Section
   sub_lanes = nh.subscribe("/vector_map_info/lane", 1, &BehaviorGen::callbackGetVMLanes,  this);
@@ -163,9 +164,23 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
 
   //std::cout << "nReliableCount: " << m_PlanningParams.nReliableCount << std::endl;
 
+  _nh.getParam("/op_behavior_selector/distanceToPedestrianThreshold", m_distanceToPedestrianThreshold);
+
   m_BehaviorGenerator.Init(controlParams, m_PlanningParams, m_CarInfo);
   m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior = PlannerHNS::INITIAL_STATE;
+}
 
+void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
+  double distance = msg.data;
+  if(distance < m_distanceToPedestrianThreshold){
+    m_PlanningParams.pedestrianAppearence = true;
+  }
+  else
+  {
+    m_PlanningParams.pedestrianAppearence = false;
+  }
+  m_BehaviorGenerator.UpdatePedestrianAppearence(m_PlanningParams.pedestrianAppearence);
+  // m_BehaviorGenerator.printPedestrianAppearence();
 }
 
 void BehaviorGen::callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg)
@@ -534,6 +549,7 @@ void BehaviorGen::MainLoop()
   while (ros::ok())
   {
     ros::spinOnce();
+    // Check Pedestrian is Appeared    
 
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
     UtilityHNS::UtilityH::GetTickCount(planningTimer);
@@ -597,9 +613,8 @@ void BehaviorGen::MainLoop()
         bNewLightStatus = false;
         for(unsigned int itls = 0 ; itls < m_PrevTrafficLight.size() ; itls++)
           m_PrevTrafficLight.at(itls).lightState = m_CurrLightStatus;
-      }
-
-      m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0 );
+      }      
+      m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
 
       SendLocalPlanningTopics();
       VisualizeLocalPlanner();

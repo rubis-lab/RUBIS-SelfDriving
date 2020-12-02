@@ -44,6 +44,9 @@ public:
   StopSignStopStateII*       m_pStopSignStopState;
   StopSignWaitStateII*       m_pStopSignWaitState;
 
+  //Added by PHY
+  PedestrianState*  m_pPedestrianState;
+
   void InitBehaviorStates();
 
   //For Simulation
@@ -61,6 +64,10 @@ public:
       const TrajectoryCost& bestTrajectory);
   void SetNewGlobalPath(const std::vector<std::vector<WayPoint> >& globalPath);
 
+  // Added by PHY
+  void UpdatePedestrianAppearence(const bool pedestrianAppearence);
+  void printPedestrianAppearence();
+
   BehaviorState DoOneStep(
       const double& dt,
       const PlannerHNS::WayPoint currPose,
@@ -69,6 +76,8 @@ public:
       const std::vector<TrafficLight>& trafficLight,
       const TrajectoryCost& tc,
       const bool& bEmergencyStop);
+
+  
 
 protected:
   bool GetNextTrafficLight(const int& prevTrafficLightId, const std::vector<TrafficLight>& trafficLights, TrafficLight& trafficL);

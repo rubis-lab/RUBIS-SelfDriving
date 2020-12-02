@@ -1065,6 +1065,9 @@ std::string ROSHelpers::GetBehaviorNameFromCode(const PlannerHNS::STATE_TYPE& be
   case PlannerHNS::STOP_SIGN_WAIT_STATE:
     str = "Sign Wait";
     break;
+  case PlannerHNS::PEDESTRIAN_STATE:
+    str = "Pedestrian";
+    break;
   default:
     str = "Unknown";
     break;
@@ -1565,6 +1568,7 @@ void ROSHelpers::GetTrafficLightForVisualization(std::vector<PlannerHNS::Traffic
 
 void ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(const autoware_msgs::DetectedObject& det_obj, PlannerHNS::DetectedObject& obj)
 {
+  obj.header = det_obj.header;
   obj.id = det_obj.id;
   obj.label = det_obj.label;
   obj.l = det_obj.dimensions.x;
@@ -1623,6 +1627,7 @@ void ROSHelpers::ConvertFromOpenPlannerDetectedObjectToAutowareDetectedObject(co
   else
     obj.id = det_obj.id;
 
+  obj.header = det_obj.header;
   obj.label = det_obj.label;
   obj.indicator_state = det_obj.indicator_state;
   obj.dimensions.x = det_obj.l;

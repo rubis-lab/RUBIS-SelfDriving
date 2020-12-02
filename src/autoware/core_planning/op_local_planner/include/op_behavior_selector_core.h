@@ -46,6 +46,8 @@
 #include <autoware_msgs/ControlCommand.h>
 #include <visualization_msgs/MarkerArray.h>
 
+#include <std_msgs/Float64.h>
+
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"
 #include "op_utility/DataRW.h"
@@ -101,6 +103,9 @@ protected: //Planning Related variables
   geometry_msgs::TwistStamped m_Twist_cmd;
   autoware_msgs::ControlCommand m_Ctrl_cmd;
 
+  //Added by PHY
+  double m_distanceToPedestrianThreshold;
+
   //ROS messages (topics)
   ros::NodeHandle nh;
 
@@ -111,6 +116,7 @@ protected: //Planning Related variables
   ros::Publisher pub_BehaviorState;
   ros::Publisher pub_SimuBoxPose;
   ros::Publisher pub_SelectedPathRviz;
+  ros::Publisher pub_BehaviorStateRviz;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
@@ -122,11 +128,13 @@ protected: //Planning Related variables
   ros::Subscriber sub_TrafficLightStatus;
   ros::Subscriber sub_TrafficLightSignals;
   ros::Subscriber sub_Trajectory_Cost;
-  ros::Publisher pub_BehaviorStateRviz;
 
   ros::Subscriber sub_twist_cmd;
   ros::Subscriber sub_twist_raw;
   ros::Subscriber sub_ctrl_cmd;
+
+  //Added by PHY
+  ros::Subscriber sub_DistanceToPedestrian;
 
   // Callback function for subscriber.
   void callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg);
@@ -138,6 +146,7 @@ protected: //Planning Related variables
   void callbackGetLocalTrajectoryCost(const autoware_msgs::LaneConstPtr& msg);
   void callbackGetTrafficLightStatus(const autoware_msgs::TrafficLight & msg);
   void callbackGetTrafficLightSignals(const autoware_msgs::Signals& msg);
+  void callbackDistanceToPedestrian(const std_msgs::Float64& msg);
 
   void callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg);

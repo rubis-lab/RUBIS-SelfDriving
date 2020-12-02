@@ -39,6 +39,7 @@ DecisionMaker::DecisionMaker()
   m_pInitState = 0;
   m_pFollowState = 0;
   m_pAvoidObstacleState = 0;
+  m_pPedestrianState = 0;
 }
 
 DecisionMaker::~DecisionMaker()
@@ -55,6 +56,7 @@ DecisionMaker::~DecisionMaker()
   delete m_pTrafficLightWaitState;
   delete m_pStopSignWaitState;
   delete m_pStopSignStopState;
+  delete m_pPedestrianState;
 }
 
 void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::PlanningParams& params,const CAR_BASIC_INFO& carInfo)
@@ -94,6 +96,9 @@ void DecisionMaker::InitBehaviorStates()
 
   m_pTrafficLightWaitState  = new TrafficLightWaitStateII(m_pStopState->m_pParams, m_pStopState->GetCalcParams(), m_pGoToGoalState);
   m_pTrafficLightStopState  = new TrafficLightStopStateII(m_pStopState->m_pParams, m_pStopState->GetCalcParams(), m_pGoToGoalState);
+
+  // Added by PHY
+  m_pPedestrianState         = new PedestrianState(m_pStopState->m_pParams, m_pStopState->GetCalcParams(), m_pGoToGoalState);
 
   m_pGoToGoalState->InsertNextState(m_pAvoidObstacleState);
   m_pGoToGoalState->InsertNextState(m_pStopSignStopState);
@@ -369,7 +374,11 @@ void DecisionMaker::InitBehaviorStates()
   unsigned int point_index = 0;
   double critical_long_front_distance = m_CarInfo.length/2.0;
 
-  if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == STOP_SIGN_STOP_STATE)
+  if(beh.state == PEDESTRIAN_STATE){
+    double desiredVelocity = 0;
+    return desiredVelocity;
+  }
+  else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == STOP_SIGN_STOP_STATE)
   {
     PlanningHelpers::GetFollowPointOnTrajectory(m_Path, info, beh.stopDistance - critical_long_front_distance, point_index);
 
@@ -498,6 +507,21 @@ void DecisionMaker::InitBehaviorStates()
   //std::cout << "Eval_i: " << tc.index << ", Curr_i: " <<  m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << ", Prev_i: " << m_pCurrentBehaviorState->GetCalcParams()->iPrevSafeTrajectory << std::endl;
 
   return beh;
+ }
+
+ // Added by PHY
+ void DecisionMaker::UpdatePedestrianAppearence(const bool pedestrianAppearence){
+   m_params.pedestrianAppearence = pedestrianAppearence;
+ }
+
+ void DecisionMaker::printPedestrianAppearence(){
+   if(m_params.pedestrianAppearence == true){
+    std::cout<<"Pedestrian Appearence: True"<<std::endl;  
+   }
+   else{
+     std::cout<<"Pedestrian Appearence: False"<<std::endl;  
+   }
+   
  }
 
 } /* namespace PlannerHNS */

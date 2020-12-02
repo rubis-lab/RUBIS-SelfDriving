@@ -237,7 +237,7 @@ void MotionPrediction::callbackGetTrackedObjects(const autoware_msgs::DetectedOb
         pred_obj.behavior_state = m_PredictBeh.m_ParticleInfo_II.at(i)->best_beh_track->best_beh;
       m_PredictedResultsResults.objects.push_back(pred_obj);
     }
-
+    
     if(m_bEnableCurbObstacles)
     {
       curr_curbs_obstacles.clear();
@@ -251,6 +251,8 @@ void MotionPrediction::callbackGetTrackedObjects(const autoware_msgs::DetectedOb
     }
 
     m_PredictedResultsResults.header.stamp = ros::Time().now();
+    m_PredictedResultsResults.header.frame_id = "/velodyne";
+
     pub_predicted_objects_trajectories.publish(m_PredictedResultsResults);
   }
 }
