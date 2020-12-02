@@ -100,7 +100,6 @@ BehaviorStateMachine* BehaviorStateMachine::FindBehaviorState(const STATE_TYPE& 
       return pState;
     }
   }
-
   return nullptr;
 }
 
@@ -348,11 +347,11 @@ BehaviorStateMachine* GoalState::GetNextState()
 BehaviorStateMachine* ForwardStateII::GetNextState()
 {
   PreCalculatedConditions* pCParams = GetCalcParams();
-
   if(pCParams->currentGoalID != pCParams->prevGoalID)
     return FindBehaviorState(GOAL_STATE);
-  else if(m_pParams->pedestrianAppearence)
+  else if(m_pParams->pedestrianAppearence){
     return FindBehaviorState(PEDESTRIAN_STATE);
+  }
   else if(m_pParams->enableTrafficLightBehavior
         && pCParams->currentTrafficLightID > 0
         && pCParams->bTrafficIsRed
@@ -531,8 +530,9 @@ BehaviorStateMachine* TrafficLightWaitStateII::GetNextState()
 
 BehaviorStateMachine* PedestrianState::GetNextState()
 {
-  if(m_pParams->pedestrianAppearence)
+  if(m_pParams->pedestrianAppearence){
     return FindBehaviorState(this->m_Behavior);
+  }
   else
     return FindBehaviorState(FORWARD_STATE);
 }
