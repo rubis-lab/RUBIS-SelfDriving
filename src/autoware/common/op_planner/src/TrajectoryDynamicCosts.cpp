@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-#define DEBUG_ENABLE
+// #define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -113,9 +113,6 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepDynamic(const vector<vector<WayP
   return bestTrajectory;
 }
 
-
-
-
 TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPoint> >& rollOuts,
     const vector<WayPoint>& totalPaths, const WayPoint& currState,
     const PlanningParams& params, const CAR_BASIC_INFO& carInfo, const VehicleState& vehicleState,
@@ -181,8 +178,6 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     }
   }
 
-
-
   CalculateLateralAndLongitudinalCostsStatic(m_TrajectoryCosts, rollOuts, totalPaths, currState, m_AllContourPoints, params, carInfo, vehicleState);
 
   NormalizeCosts(m_TrajectoryCosts);
@@ -220,15 +215,9 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     bestTrajectory = m_TrajectoryCosts.at(smallestIndex);
   }
 
-  
-
-
   m_PrevIndex = currIndex;
   return bestTrajectory;
 }
-
-
-
 
 TrajectoryCost TrajectoryDynamicCosts::DoOneStep(const vector<vector<vector<WayPoint> > >& rollOuts,
     const vector<vector<WayPoint> >& totalPaths, const WayPoint& currState, const int& currIndex,
@@ -389,11 +378,15 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
     for(unsigned int it=0; it< rollOuts.size(); it++)
     {
+      #ifdef DEBUG_ENABLE
+      int unskipped = 0;
+      #endif
+
       int skip_id = -1;
       for(unsigned int icon = 0; icon < contourPoints.size(); icon++)
       {
-        if(skip_id == contourPoints.at(icon).id)
-          continue;
+        // if(skip_id == contourPoints.at(icon).id)
+        //   continue;
 
         RelativeInfo obj_info;
         PlanningHelpers::GetRelativeInfo(totalPaths, contourPoints.at(icon), obj_info);
@@ -401,27 +394,49 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         if(obj_info.iFront == 0 && longitudinalDist > 0)
           longitudinalDist = -longitudinalDist;
 
-        double direct_distance = hypot(obj_info.perp_point.pos.y-contourPoints.at(icon).pos.y, obj_info.perp_point.pos.x-contourPoints.at(icon).pos.x); // Caculate direct distance
+        // double direct_distance = hypot(obj_info.perp_point.pos.y-contourPoints.at(icon).pos.y, obj_info.perp_point.pos.x-contourPoints.at(icon).pos.x); // Caculate direct distance
+
+        // Original
+        // if(contourPoints.at(icon).v < params.minSpeed && direct_distance > (m_LateralSkipDistance+contourPoints.at(icon).cost))
+        // {
+        //   skip_id = contourPoints.at(icon).id;
+        //   continue;
+        // }
 
         double distance_from_center = trajectoryCosts.at(iCostIndex).distance_from_center; // Disetance between center and trajectory
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
-        // We changed from -carInfo.length
-        if(longitudinalDist < -carInfo.length*3 || longitudinalDist > params.minFollowingDistance || lateralDist > m_LateralSkipDistance)
+        if(longitudinalDist < 0 ||
+          longitudinalDist > 20 ||
+          lateralDist > rollOuts.size() * params.rollOutDensity / 2)
         {
           continue;
         }
 
-        longitudinalDist = longitudinalDist - critical_long_front_distance;
+        #ifdef DEBUG_ENABLE
+        unskipped++;
+        #endif
+
+        // Original
+        // if(longitudinalDist < -carInfo.length || longitudinalDist > params.minFollowingDistance || lateralDist > m_LateralSkipDistance)
+        // {
+        //   continue;
+        // }
 
         if(m_SafetyBorder.PointInsidePolygon(m_SafetyBorder, contourPoints.at(icon).pos) == true)
           trajectoryCosts.at(iCostIndex).bBlocked = true;
 
-        if(lateralDist <= critical_lateral_distance
-            && longitudinalDist >= -carInfo.length/1.5
-            && longitudinalDist < params.minFollowingDistance)
+        if(lateralDist <= 2
+            && longitudinalDist >= -carInfo.length
+            && longitudinalDist < 5)
           trajectoryCosts.at(iCostIndex).bBlocked = true;
+
+        // Original
+        // if(lateralDist <= critical_lateral_distance
+        //     && longitudinalDist >= -carInfo.length/1.5
+        //     && longitudinalDist < params.minFollowingDistance)
+        //   trajectoryCosts.at(iCostIndex).bBlocked = true;
 
         if(lateralDist != 0)
           trajectoryCosts.at(iCostIndex).lateral_cost += 1.0/lateralDist;
@@ -429,16 +444,24 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         if(longitudinalDist != 0)
           trajectoryCosts.at(iCostIndex).longitudinal_cost += 1.0/fabs(longitudinalDist);
 
-
         if(longitudinalDist >= -critical_long_front_distance && longitudinalDist < trajectoryCosts.at(iCostIndex).closest_obj_distance)
         {
           trajectoryCosts.at(iCostIndex).closest_obj_distance = longitudinalDist;
           trajectoryCosts.at(iCostIndex).closest_obj_velocity = contourPoints.at(icon).v;
         }
       }
+
+      #ifdef DEBUG_ENABLE
+      std::cout << trajectoryCosts.at(iCostIndex).longitudinal_cost << " " << trajectoryCosts.at(iCostIndex).lateral_cost << ", ";
+      // std::cout << unskipped << " ";
+      #endif
+
       // Calculate lateral/logitudinal cost, disdtance and velocity
       iCostIndex++;
     }
+    #ifdef DEBUG_ENABLE
+    std::cout << std::endl;
+    #endif
   }
 }
 
@@ -623,17 +646,17 @@ void TrajectoryDynamicCosts::NormalizeCosts(vector<TrajectoryCost>& trajectoryCo
 
     trajectoryCosts.at(ic).cost = (m_WeightPriority*trajectoryCosts.at(ic).priority_cost + m_WeightTransition*trajectoryCosts.at(ic).transition_cost + m_WeightLat*trajectoryCosts.at(ic).lateral_cost + m_WeightLong*trajectoryCosts.at(ic).longitudinal_cost)/4.0;
 
-//    cout << "Index: " << ic
-//            << ", Priority: " << trajectoryCosts.at(ic).priority_cost
-//            << ", Transition: " << trajectoryCosts.at(ic).transition_cost
-//            << ", Lat: " << trajectoryCosts.at(ic).lateral_cost
-//            << ", Long: " << trajectoryCosts.at(ic).longitudinal_cost
-//            << ", Change: " << trajectoryCosts.at(ic).lane_change_cost
-//            << ", Avg: " << trajectoryCosts.at(ic).cost
-//            << endl;
+  //  std::cout << "Index: " << ic
+  //          << ", Priority: " << trajectoryCosts.at(ic).priority_cost
+  //          << ", Transition: " << trajectoryCosts.at(ic).transition_cost
+  //          << ", Lat: " << trajectoryCosts.at(ic).lateral_cost
+  //          << ", Long: " << trajectoryCosts.at(ic).longitudinal_cost
+  //          << ", Change: " << trajectoryCosts.at(ic).lane_change_cost
+  //          << ", Avg: " << trajectoryCosts.at(ic).cost
+  //          << std::endl;
   }
 
-//  cout << "------------------------ " << endl;
+  // std::cout << "------------------------ " << std::endl;
 }
 
 vector<TrajectoryCost> TrajectoryDynamicCosts::CalculatePriorityAndLaneChangeCosts(const vector<vector<WayPoint> >& laneRollOuts,

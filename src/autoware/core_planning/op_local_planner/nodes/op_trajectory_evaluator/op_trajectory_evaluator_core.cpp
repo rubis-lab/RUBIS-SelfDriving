@@ -235,11 +235,10 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   {
     if(msg->objects.at(i).id > 0)
     {
-      PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
-      m_PredictedObjects.push_back(obj);
-      // ROS_ERROR("predicted object's id > 0, %d", msg->objects.at(i).id);
       autoware_msgs::DetectedObject msg_obj = msg->objects.at(i);
-      if( (msg_obj.label == "person") ){      
+
+      // calculate distance to person first
+      if(msg_obj.label == "person"){
         geometry_msgs::PoseStamped pose;
         pose.header = msg_obj.header;
         pose.pose = msg_obj.pose;
@@ -250,11 +249,42 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
         }
         if(abs(temp_distance) < abs(distanceToPedestrian)) distanceToPedestrian = temp_distance;
       }
+
+      PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
+
+      // transform center pose into map frame
+      geometry_msgs::PoseStamped pose_in_map;
+      pose_in_map.header = msg_obj.header;
+      pose_in_map.pose = msg_obj.pose;
+      m_vtom_listener.transformPose("/map", pose_in_map, pose_in_map);
+
+      // msg_obj.header.frame_id = "map";
+      obj.center.pos.x = pose_in_map.pose.position.x;
+      obj.center.pos.y = pose_in_map.pose.position.y;
+      obj.center.pos.z = pose_in_map.pose.position.z;
+
+      // transform contour into map frame
+      for(unsigned int j = 0; j < msg_obj.convex_hull.polygon.points.size(); j++){
+        geometry_msgs::PoseStamped contour_point_in_map;
+        contour_point_in_map.header = msg_obj.header;
+        contour_point_in_map.pose.position.x = msg_obj.convex_hull.polygon.points.at(j).x;
+        contour_point_in_map.pose.position.y = msg_obj.convex_hull.polygon.points.at(j).y;
+        contour_point_in_map.pose.position.z = msg_obj.convex_hull.polygon.points.at(j).z;
+
+        // For resolve TF malform, set orientation w to 1
+        contour_point_in_map.pose.orientation.w = 1;
+
+        m_vtom_listener.transformPose("/map", contour_point_in_map, contour_point_in_map);
+
+        obj.contour.at(j).x = contour_point_in_map.pose.position.x;
+        obj.contour.at(j).y = contour_point_in_map.pose.position.y;
+        obj.contour.at(j).z = contour_point_in_map.pose.position.z;
+      }
+
+      msg_obj.header.frame_id = "map";
+
+      m_PredictedObjects.push_back(obj);
     }
-//    else
-//    {
-//      std::cout << " Ego Car avoid detecting itself in trajectory evaluator node! ID: " << msg->objects.at(i).id << std::endl;
-//    }
   }
   std_msgs::Float64 distanceToPedestrianMsg; 
   distanceToPedestrianMsg.data = distanceToPedestrian;
