@@ -49,6 +49,7 @@ BehaviorGen::BehaviorGen()
   pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 1);
   pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
   pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
+  pub_EmergencyStop = nh.advertise<std_msgs::Bool>("emergency_stop", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10,  &BehaviorGen::callbackGetCurrentPose, this);
 
@@ -545,6 +546,7 @@ void BehaviorGen::MainLoop()
 
   timespec planningTimer;
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
+  std_msgs::Bool emergency_stop_msg;
 
   while (ros::ok())
   {
@@ -615,6 +617,10 @@ void BehaviorGen::MainLoop()
           m_PrevTrafficLight.at(itls).lightState = m_CurrLightStatus;
       }      
       m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
+      emergency_stop_msg.data = false;
+      if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
+        emergency_stop_msg.data = true;
+      pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();
       VisualizeLocalPlanner();

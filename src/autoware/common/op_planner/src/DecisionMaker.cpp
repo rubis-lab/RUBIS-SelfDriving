@@ -383,7 +383,7 @@ void DecisionMaker::InitBehaviorStates()
   double critical_long_front_distance = m_CarInfo.length/2.0;
 
   if(beh.state == PEDESTRIAN_STATE){
-    double desiredVelocity = 0;
+    double desiredVelocity = -1;
     return desiredVelocity;
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == STOP_SIGN_STOP_STATE)
@@ -511,6 +511,7 @@ void DecisionMaker::InitBehaviorStates()
   beh.bNewPlan = SelectSafeTrajectory();
 
   beh.maxVelocity = UpdateVelocityDirectlyToTrajectory(beh, vehicleState, dt);
+ 
 
   //std::cout << "Eval_i: " << tc.index << ", Curr_i: " <<  m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << ", Prev_i: " << m_pCurrentBehaviorState->GetCalcParams()->iPrevSafeTrajectory << std::endl;
 
