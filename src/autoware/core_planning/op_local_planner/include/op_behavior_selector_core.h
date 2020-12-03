@@ -47,6 +47,7 @@
 #include <visualization_msgs/MarkerArray.h>
 
 #include <std_msgs/Float64.h>
+#include <std_msgs/Bool.h>
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"
@@ -117,6 +118,9 @@ protected: //Planning Related variables
   ros::Publisher pub_SimuBoxPose;
   ros::Publisher pub_SelectedPathRviz;
   ros::Publisher pub_BehaviorStateRviz;
+
+  // Added by PHY
+  ros::Publisher pub_EmergencyStop;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
