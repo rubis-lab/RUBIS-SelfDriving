@@ -240,32 +240,40 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     if(msg->objects.at(i).id > 0)
     {
       autoware_msgs::DetectedObject msg_obj = msg->objects.at(i);
-
+      
       // calculate distance to person first
       if(msg_obj.label == "person"){
         geometry_msgs::PoseStamped pose;
         pose.header = msg_obj.header;
         pose.pose = msg_obj.pose;
-        m_vtob_listener.transformPose("/base_link", pose, pose);
-        double temp_x_distance = pose.pose.position.x;
-        double temp_y_distance = pose.pose.position.y;
-        // y-axis: Left + / Right -
-        if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ) continue;
-        if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+        try{
+          m_vtob_listener.transformPose("/base_link", pose, pose);
+          double temp_x_distance = pose.pose.position.x;
+          double temp_y_distance = pose.pose.position.y;
+          // y-axis: Left + / Right -
+          if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ) continue;
+          if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+        }
+        catch(tf::TransformException& ex){
+          ROS_ERROR("Cannot transform person pose: %s", ex.what());
+
+        }
       }
-
-      std_msgs::Float64 distanceToPedestrianMsg; 
-      distanceToPedestrianMsg.data = distance_to_pedestrian;
-      pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
-
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
-
+    
+    
       // transform center pose into map frame
       geometry_msgs::PoseStamped pose_in_map;
       pose_in_map.header = msg_obj.header;
       pose_in_map.pose = msg_obj.pose;
+      try{
       m_vtom_listener.transformPose("/map", pose_in_map, pose_in_map);
-
+      }
+      catch(tf::TransformException& ex)
+      {
+        ROS_ERROR("Cannot transform object pose: %s", ex.what());
+        continue;
+      }
       // msg_obj.header.frame_id = "map";
       obj.center.pos.x = pose_in_map.pose.position.x;
       obj.center.pos.y = pose_in_map.pose.position.y;
@@ -282,7 +290,13 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
         // For resolve TF malform, set orientation w to 1
         contour_point_in_map.pose.orientation.w = 1;
 
-        m_vtom_listener.transformPose("/map", contour_point_in_map, contour_point_in_map);
+        try{
+          m_vtom_listener.transformPose("/map", contour_point_in_map, contour_point_in_map);
+        }
+        catch(tf::TransformException& ex){
+          ROS_ERROR("Cannot transform contour pose: %s", ex.what());
+          continue;
+        }
 
         obj.contour.at(j).x = contour_point_in_map.pose.position.x;
         obj.contour.at(j).y = contour_point_in_map.pose.position.y;
@@ -295,6 +309,9 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     }
   }
   
+  std_msgs::Float64 distanceToPedestrianMsg; 
+      distanceToPedestrianMsg.data = distance_to_pedestrian;
+      pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
 }
 
 void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr& msg)
