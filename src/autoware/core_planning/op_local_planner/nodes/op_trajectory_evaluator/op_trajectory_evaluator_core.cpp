@@ -120,6 +120,10 @@ void TrajectoryEval::UpdatePlanningParams(ros::NodeHandle& _nh)
   m_CarInfo.max_speed_forward = m_PlanningParams.maxSpeed;
   m_CarInfo.min_speed_forward = m_PlanningParams.minSpeed;
 
+  _nh.param("/op_trajectory_evaluator/PedestrianRightThreshold", m_PedestrianRightThreshold, 7.0);
+  _nh.param("/op_trajectory_evaluator/PedestrianLeftThreshold", m_PedestrianLeftThreshold, 2.0);
+  m_PedestrianRightThreshold *= -1;
+
 }
 
 void TrajectoryEval::callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg)
@@ -228,7 +232,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
 {
   m_PredictedObjects.clear();
   bPredictedObjects = true;
-  double distanceToPedestrian = 1000;
+  double distance_to_pedestrian = 1000;
 
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
@@ -243,12 +247,16 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
         pose.header = msg_obj.header;
         pose.pose = msg_obj.pose;
         m_vtob_listener.transformPose("/base_link", pose, pose);
-        double temp_distance = pose.pose.position.x;
-        if(pose.pose.position.x<0){
-          temp_distance *= -1;
-        }
-        if(abs(temp_distance) < abs(distanceToPedestrian)) distanceToPedestrian = temp_distance;
+        double temp_x_distance = pose.pose.position.x;
+        double temp_y_distance = pose.pose.position.y;
+        // y-axis: Left + / Right -
+        if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ) continue;
+        if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
       }
+
+      std_msgs::Float64 distanceToPedestrianMsg; 
+      distanceToPedestrianMsg.data = distance_to_pedestrian;
+      pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
 
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
 
@@ -286,9 +294,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       m_PredictedObjects.push_back(obj);
     }
   }
-  std_msgs::Float64 distanceToPedestrianMsg; 
-  distanceToPedestrianMsg.data = distanceToPedestrian;
-  pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
+  
 }
 
 void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr& msg)
