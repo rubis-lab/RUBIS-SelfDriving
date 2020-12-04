@@ -114,7 +114,6 @@ void TwistFilterNode::twistCmdCallback(const geometry_msgs::TwistStampedConstPtr
     out_msg.twist.angular.z = twist_out.az;
   }
   else{
-    std::cout<<"STOP!!"<<std::endl;
     out_msg.twist.linear.x = 0;
     out_msg.twist.angular.z = 0;
   }
@@ -211,21 +210,25 @@ void TwistFilterNode::ctrlCmdCallback(const autoware_msgs::ControlCommandStamped
 
 void TwistFilterNode::emergencyStopCallback(const std_msgs::Bool& msg){
   bool current_emergency_stop = msg.data;
-
+  static std::string state("none");
   
   if(current_emergency_stop == true){
+    state = std::string("object is detected");
     emergency_stop_ = true;
     current_stop_count_ = max_stop_count_;
   }
   else if(current_emergency_stop == false && emergency_stop_ == true){ // Emergency Stop event is finished or wait
     current_stop_count_--;
-    if(current_stop_count_ > 0)
+    if(current_stop_count_ > 0){
+      state = std::string("Wait for go");
       emergency_stop_ = true;
+    }
     else
       emergency_stop_ = false;
   }
   else if(current_emergency_stop == false && emergency_stop_ == false){ // No event
-    emergency_stop_ = true;
+    state = std::string("No object");
+    emergency_stop_ = false;
     current_stop_count_ = 0;
   }
 }

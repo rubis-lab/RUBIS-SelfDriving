@@ -7,7 +7,7 @@
   <arg name="lowpass_gain_linear_x" default="0.0" />
   <arg name="lowpass_gain_angular_z" default="0.0" />
   <arg name="lowpass_gain_steering_angle" default="0.0" />
-  <arg name="max_stop_count" default="30" /> <!-- 10 = 1 second -->
+  <arg name="max_stop_count" default="40" /> <!-- 10 = 1 second -->
 
   <param name="vehicle_info/wheel_base" value="$(arg wheel_base)" />
 

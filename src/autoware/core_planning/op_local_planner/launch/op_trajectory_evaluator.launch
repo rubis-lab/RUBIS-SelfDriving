@@ -10,6 +10,9 @@
   <arg name="weightLong"   default="1.0" />
   <arg name="weightLat"     default="1.2" />
   <arg name="LateralSkipDistance"   default="5.0" />
+
+  <arg name="PedestrianRightThreshold" default="7.0" />
+  <arg name="PedestrianLeftThreshold" default="2.0" />
       
   <node pkg="op_local_planner" type="op_trajectory_evaluator" name="op_trajectory_evaluator" output="screen">
   
@@ -22,6 +25,9 @@
     <param name="weightLong"       value="$(arg weightLong)" />            
     <param name="weightLat"       value="$(arg weightLat)" />            
     <param name="LateralSkipDistance"       value="$(arg LateralSkipDistance)" />                
+
+    <param name="PedestrianRightThreshold"  value="$(arg PedestrianRightThreshold)" />                
+    <param name="PedestrianLeftThreshold"   value="$(arg PedestrianLeftThreshold)" />                
       
   </node>        
       

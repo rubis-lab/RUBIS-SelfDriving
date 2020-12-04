@@ -79,6 +79,8 @@ protected:
   PlannerHNS::BehaviorState   m_CurrentBehavior;
   visualization_msgs::MarkerArray m_CollisionsDummy;
   visualization_msgs::MarkerArray m_CollisionsActual;
+  double m_PedestrianRightThreshold;
+  double m_PedestrianLeftThreshold;
 
   //ROS messages (topics)
   ros::NodeHandle nh;
@@ -106,6 +108,7 @@ protected:
   tf::TransformListener m_vtom_listener;
   tf::StampedTransform  m_velodyne_to_base_link;
   tf::StampedTransform  m_velodyne_to_map;
+
 
   // Callback function for subscriber.
   void callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg);
