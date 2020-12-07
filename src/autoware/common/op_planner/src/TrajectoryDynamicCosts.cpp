@@ -17,6 +17,7 @@ namespace PlannerHNS
 TrajectoryDynamicCosts::TrajectoryDynamicCosts()
 {
   m_PrevCostIndex = -1;
+  m_PrevSelectedIndex = -1;
   m_WeightPriority = 0.9;
   m_WeightTransition = 0.9;
   m_WeightLong = 1.0;
@@ -160,7 +161,14 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     }
   }
 
-  CalculateTransitionCosts(m_TrajectoryCosts, currIndex, params);
+  std::cout << m_PrevSelectedIndex << std::endl;
+
+  if(m_PrevSelectedIndex == -1){
+    CalculateTransitionCosts(m_TrajectoryCosts, currIndex, params);
+  }
+  else{
+    CalculateTransitionCosts(m_TrajectoryCosts, m_PrevSelectedIndex, params);
+  }
   //end
 
   // Calculate trajectory cost with object
@@ -201,6 +209,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
       velo_of_next = m_TrajectoryCosts.at(ic).closest_obj_velocity;
     }
   }
+
+  m_PrevSelectedIndex = smallestIndex;
 
   if(smallestIndex == -1)
   {
@@ -370,6 +380,10 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
   m_SafetyBorder.points.push_back(top_left) ;
   m_SafetyBorder.points.push_back(top_left_car);
 
+  #ifdef DEBUG_ENABLE
+    std::cout << "points num : " << contourPoints.size() << std::endl;
+  #endif
+
   int iCostIndex = 0;
   if(rollOuts.size() > 0 && rollOuts.at(0).size()>0)
   {
@@ -407,9 +421,14 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
+        #ifdef DEBUG_ENABLE
+        // if(contourPoints.at(icon).laneChangeCost == 1000)
+          std::cout << longitudinalDist << " " << lateralDist << std::endl;
+        #endif
+
         if(longitudinalDist < 0 ||
           longitudinalDist > 20 ||
-          lateralDist > rollOuts.size() * params.rollOutDensity / 2)
+          obj_info.perp_distance > rollOuts.size() * params.rollOutDensity / 2)
         {
           continue;
         }
@@ -452,7 +471,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
       }
 
       #ifdef DEBUG_ENABLE
-      std::cout << trajectoryCosts.at(iCostIndex).longitudinal_cost << " " << trajectoryCosts.at(iCostIndex).lateral_cost << ", ";
+      // std::cout << trajectoryCosts.at(iCostIndex).longitudinal_cost << " " << trajectoryCosts.at(iCostIndex).lateral_cost << ", ";
       // std::cout << unskipped << " ";
       #endif
 
