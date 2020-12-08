@@ -18,7 +18,7 @@ bool enableLocalize;
 float tf_x, tf_y, tf_z, tf_roll, tf_pitch, tf_yaw;
 std::string input_topic;
 std::string detection_point_output_topic;
-std::string localize_point_output_topic;
+std::string localization_point_output_topic;
 std::string output_frame_id;
 float localization_center_angle;
 float localization_viewing_angle;
@@ -27,27 +27,27 @@ float detection_viewing_angle;
 
 bool isInside(float y, float x, float center_angle, float viewing_angle){
     float angle = atan2(fabs(y), fabs(x)) * 57.295779; // deg = rad * 180 / PI
-    float angle_from_left = center_angle - viewing_angle / 2;
+    float angle_from_left = center_angle + viewing_angle / 2;
     float angle_from_right = center_angle - viewing_angle / 2;
-    
-    if(x > 0 && y > 0){
-        if(angle_from_right < 0 && 90 + angle_from_right < angle) return true;
-        if(angle_from_left > 270 && angle_from_left - 270 > angle && angle_from_right - 270 < angle) return true;
+
+    if(x > 0 && y > 0){ // quadrant 1
+        if(angle_from_right <= 0 && 90 + angle_from_right < angle) return true;
+        if(angle_from_left - 270 > angle && angle_from_right - 270 < angle) return true;
         return false;
     }
-    else if(x > 0 && y < 0){
-        if(angle_from_right < -90 && -(90 + angle_from_right) > angle) return true;
-        if(angle_from_left > 180 && 270 - angle_from_left < angle && 270 - angle_from_right - 270 > angle) return true;
+    else if(x < 0 && y > 0){ // quadrant 2
+        if(angle_from_left >= 360 && 450 - angle_from_left < angle) return true;
+        if(90 - angle_from_right > angle && 90 - angle_from_left < angle) return true;
         return false;
     }
-    else if(x < 0 && y > 0){
-        if(angle_from_left > 360 && 450 - angle_from_left < angle) return true;
-        if(angle_from_right < 90 && 90 - angle_from_right < angle && 90 - angle_from_left < angle) return true;
+    else if(x < 0 && y < 0){ // quadrant 3
+        if(angle_from_left >= 450 && angle_from_left - 450 > angle) return true;
+        if(angle_from_right - 90 < angle && angle_from_left - 90 > angle) return true;
         return false;
     }
-    else if(x < 0 && y < 0){
-        if(angle_from_left > 450 && angle_from_left - 450 > angle) return true;
-        if(angle_from_right < 180 && angle_from_right - 90 > angle && angle_from_left - 90 > angle) return true;
+    else if(x > 0 && y < 0){ // quadrant 4
+        if(angle_from_right <= -90 && -(90 + angle_from_right) > angle) return true;
+        if(270 - angle_from_left < angle && 270 - angle_from_right > angle) return true;
         return false;
     }
     return false;
@@ -75,15 +75,15 @@ void points_cb(const sensor_msgs::PointCloud2& msg){
     }
 
     if(enableLocalize){
+        pcl::toROSMsg(*localization_points, localization_out);
         localization_out.header = msg.header;
         localization_out.header.frame_id = output_frame_id;
-        pcl::toROSMsg(*localization_points, localization_out);
         localize_pcd_pub.publish(localization_out);
     }
 
+    pcl::toROSMsg(*detection_points, detection_out);
     detection_out.header = msg.header;
     detection_out.header.frame_id = output_frame_id;
-    pcl::toROSMsg(*detection_points, detection_out);
     detection_pcd_pub.publish(detection_out);
 }
 
@@ -103,7 +103,7 @@ int main(int argc, char** argv){
 
     std::string input_topic_name = node_name + "/input_topic";
     std::string detection_pcd_topic_name = node_name + "/detection_point_output_topic";
-    std::string localization_pcd_topic_name = node_name + "/localize_point_output_topic";
+    std::string localization_pcd_topic_name = node_name + "/localization_point_output_topic";
 
     std::string output_frame_id_topic_name = node_name + "/output_frame_id";
 
@@ -121,7 +121,7 @@ int main(int argc, char** argv){
     nh.param<float>(tf_yaw_name, tf_yaw, 0);
     nh.param<std::string>(input_topic_name, input_topic, "/points_raw_origin");
     nh.param<std::string>(detection_pcd_topic_name, detection_point_output_topic, "/detection_points_raw");
-    nh.param<std::string>(localization_pcd_topic_name, localize_point_output_topic, "/localization_points_raw");
+    nh.param<std::string>(localization_pcd_topic_name, localization_point_output_topic, "/localization_points_raw");
 
     nh.param<std::string>(output_frame_id_topic_name, output_frame_id, "velodyne");
 
@@ -133,7 +133,7 @@ int main(int argc, char** argv){
     sub = nh.subscribe(input_topic, 1, points_cb);
 
     if(enableLocalize){
-        localize_pcd_pub = nh.advertise<sensor_msgs::PointCloud2>(localize_point_output_topic, 1);
+        localize_pcd_pub = nh.advertise<sensor_msgs::PointCloud2>(localization_point_output_topic, 1);
     }
 
     detection_pcd_pub = nh.advertise<sensor_msgs::PointCloud2>(detection_point_output_topic, 1); 

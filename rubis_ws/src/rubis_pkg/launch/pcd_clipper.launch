@@ -1,5 +1,5 @@
 <launch>
-    <arg name="node_name" default="lidar_republisher"/>
+    <arg name="node_name" default="pcd_clipper"/>
 
     <arg name="enableLocalize" default="true"/>
 
@@ -10,16 +10,16 @@
     <arg name="tf_pitch" default="0"/>
     <arg name="tf_yaw" default="0"/>
 
-    <arg name="input_topic" default="/points_raw_origin"/>
+    <arg name="input_topic" default="/points_raw_1"/>
     <arg name="detection_point_output_topic" default="/detection_points_raw"/>
-    <arg name="localize_point_output_topic" default="/localization_points_raw"/>
-    <arg name="output_frame_id" default="velodyne"/>
+    <arg name="localization_point_output_topic" default="/localization_points_raw"/>
+    <arg name="output_frame_id" default="/velodyne"/>
     <arg name="localization_center_angle" default="0"/>
     <arg name="localization_viewing_angle" default="360"/>
     <arg name="detection_center_angle" default="0"/>
     <arg name="detection_viewing_angle" default="360"/>
 
-    <node pkg="rubis_pkg" type="pcd_clipper" name="$(arg node_name)">
+    <node pkg="rubis_pkg" type="pcd_clipper" name="$(arg node_name)" output="screen">
         <param name="/enableLocalize" value="$(arg enableLocalize)" />
         <param name="/tf_x" value="$(arg tf_x)" />
         <param name="/tf_y" value="$(arg tf_y)" />
@@ -29,7 +29,7 @@
         <param name="/tf_yaw" value="$(arg tf_yaw)" />
         <param name="/input_topic" value="$(arg input_topic)" />
         <param name="/detection_point_output_topic" value="$(arg detection_point_output_topic)" />
-        <param name="/localize_point_output_topic" value="$(arg localize_point_output_topic)" />
+        <param name="/localization_point_output_topic" value="$(arg localization_point_output_topic)" />
         <param name="/output_frame_id" value="$(arg output_frame_id)" />
         <param name="/localization_center_angle" value="$(arg localization_center_angle)" />
         <param name="/localization_viewing_angle" value="$(arg localization_viewing_angle)" />
