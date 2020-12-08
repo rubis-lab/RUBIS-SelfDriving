@@ -1,0 +1,39 @@
+<launch>
+    <arg name="node_name" default="lidar_republisher"/>
+
+    <arg name="enableLocalize" default="true"/>
+
+    <arg name="tf_x" default="0"/>
+    <arg name="tf_y" default="0"/>
+    <arg name="tf_z" default="0"/>
+    <arg name="tf_roll" default="0"/>
+    <arg name="tf_pitch" default="0"/>
+    <arg name="tf_yaw" default="0"/>
+
+    <arg name="input_topic" default="/points_raw_origin"/>
+    <arg name="detection_point_output_topic" default="/detection_points_raw"/>
+    <arg name="localize_point_output_topic" default="/localization_points_raw"/>
+    <arg name="output_frame_id" default="velodyne"/>
+    <arg name="localization_center_angle" default="0"/>
+    <arg name="localization_viewing_angle" default="360"/>
+    <arg name="detection_center_angle" default="0"/>
+    <arg name="detection_viewing_angle" default="360"/>
+
+    <node pkg="rubis_pkg" type="pcd_clipper" name="$(arg node_name)">
+        <param name="/enableLocalize" value="$(arg enableLocalize)" />
+        <param name="/tf_x" value="$(arg tf_x)" />
+        <param name="/tf_y" value="$(arg tf_y)" />
+        <param name="/tf_z" value="$(arg tf_z)" />
+        <param name="/tf_roll" value="$(arg tf_roll)" />
+        <param name="/tf_pitch" value="$(arg tf_pitch)" />
+        <param name="/tf_yaw" value="$(arg tf_yaw)" />
+        <param name="/input_topic" value="$(arg input_topic)" />
+        <param name="/detection_point_output_topic" value="$(arg detection_point_output_topic)" />
+        <param name="/localize_point_output_topic" value="$(arg localize_point_output_topic)" />
+        <param name="/output_frame_id" value="$(arg output_frame_id)" />
+        <param name="/localization_center_angle" value="$(arg localization_center_angle)" />
+        <param name="/localization_viewing_angle" value="$(arg localization_viewing_angle)" />
+        <param name="/detection_center_angle" value="$(arg detection_center_angle)" />
+        <param name="/detection_viewing_angle" value="$(arg detection_viewing_angle)" />
+    </node>
+</launch>
