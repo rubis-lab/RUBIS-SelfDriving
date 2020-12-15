@@ -38,6 +38,7 @@ public:
 public:
   int m_PrevCostIndex;
   int m_PrevIndex;
+  int m_PrevSelectedIndex;
   vector<TrajectoryCost> m_TrajectoryCosts;
   PlanningParams m_Params;
   PolygonShape m_SafetyBorder;

@@ -237,6 +237,11 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
+    if(msg->objects.at(i).pose.position.y < -10 || msg->objects.at(i).pose.position.y > 10)
+      continue;
+    if(msg->objects.at(i).pose.position.z < -2)
+      continue;
+
     if(msg->objects.at(i).id > 0)
     {
       autoware_msgs::DetectedObject msg_obj = msg->objects.at(i);
@@ -267,7 +272,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       pose_in_map.header = msg_obj.header;
       pose_in_map.pose = msg_obj.pose;
       try{
-      m_vtom_listener.transformPose("/map", pose_in_map, pose_in_map);
+        m_vtom_listener.transformPose("/map", pose_in_map, pose_in_map);
       }
       catch(tf::TransformException& ex)
       {
@@ -308,6 +313,8 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       m_PredictedObjects.push_back(obj);
     }
   }
+
+  // ROS_INFO("object # : %d", m_PredictedObjects.size());
   
   std_msgs::Float64 distanceToPedestrianMsg; 
       distanceToPedestrianMsg.data = distance_to_pedestrian;
