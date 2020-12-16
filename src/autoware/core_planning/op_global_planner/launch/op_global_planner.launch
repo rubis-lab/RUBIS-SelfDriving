@@ -10,7 +10,10 @@
   <arg name="mapFileName"           default="" /> <!-- incase of kml map source -->
   <arg name="enableDynamicMapUpdate"       default="false" />  
   
-<node pkg="op_global_planner" type="op_global_planner" name="op_global_planner" output="screen">
+  <rosparam command="load" file="$(find test_package)/cfg/fake_traffic_light.yaml"/>
+  <rosparam command="load" file="$(find test_package)/cfg/fake_stop_line.yaml"/>
+
+  <node pkg="op_global_planner" type="op_global_planner" name="op_global_planner" output="screen">
     
     <param name="pathDensity"         value="$(arg pathDensity)" />
     <param name="enableSmoothing"       value="$(arg enableSmoothing)" />

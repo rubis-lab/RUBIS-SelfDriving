@@ -3439,5 +3439,71 @@ void MappingHelpers::GetMapMaxIds(PlannerHNS::RoadNetwork& map)
   }
 }
 
+void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRpc::XmlRpcValue tl_list, XmlRpc::XmlRpcValue sl_list){
+
+  // Parsing Traffic Light
+  for(int i=0; i<tl_list.size(); i++){
+    TrafficLight tl;
+    tl.id = tl_list[i]["id"];
+    tl.pos.x = tl_list[i]["pose"]["x"];
+    tl.pos.y = tl_list[i]["pose"]["y"];
+    tl.pos.z = tl_list[i]["pose"]["z"];
+
+    map.trafficLights.push_back(tl);
+  }
+
+  std::cout << "hi tl" << std::endl;
+
+  // Parsing StopLine
+  for(int i=0; i<sl_list.size(); i++){
+    StopLine sl;
+
+    sl.id = sl_list[i]["id"];
+    sl.trafficLightID = sl_list[i]["tl_id"];
+    GPSPoint point;
+    // use only one point
+    point.x = sl_list[i]["pose"]["x"];
+    point.y = sl_list[i]["pose"]["y"];
+    point.z = sl_list[i]["pose"]["z"];
+    sl.points.push_back(point);
+
+    map.stopLines.push_back(sl);
+  }
+
+  std::cout << "hi sl" << std::endl;
+
+  // Link StopLine and Traffic Light
+  for(unsigned int rs = 0; rs < map.roadSegments.size(); rs++)
+  {
+    for(unsigned int i = 0; i < map.roadSegments.at(rs).Lanes.size(); i++)
+    {
+      for(unsigned int p = 0; p < map.roadSegments.at(rs).Lanes.at(i).points.size(); p++){
+        WayPoint* pWP = &map.roadSegments.at(rs).Lanes.at(i).points.at(p);
+        RelativeInfo waypoint_info;
+        PlannerHNS::PlanningHelpers::GetRelativeInfo(map.roadSegments.at(rs).Lanes.at(i).points, *pWP, waypoint_info);
+
+        pWP->closestStopLineDistance = DBL_MAX;
+
+        for(int sl_idx = 0; sl_idx < map.stopLines.size(); sl_idx++){
+          map.roadSegments.at(rs).Lanes.at(i).stopLines.push_back(map.stopLines.at(sl_idx));
+
+          WayPoint stopLineWP;
+          RelativeInfo stopline_info;
+          stopLineWP.pos = map.stopLines.at(sl_idx).points.at(0);
+          PlannerHNS::PlanningHelpers::GetRelativeInfo(map.roadSegments.at(rs).Lanes.at(i).points, stopLineWP, stopline_info);
+
+          double localDistance = PlannerHNS::PlanningHelpers::GetExactDistanceOnTrajectory(map.roadSegments.at(rs).Lanes.at(i).points, waypoint_info, stopline_info);
+
+          if(pWP->closestStopLineDistance > localDistance){
+            pWP->stopLineID = map.stopLines.at(sl_idx).id;
+            pWP->closestStopLineDistance = localDistance;
+          }
+        }
+      }
+    }
+  }
+
+}
+
 
 } /* namespace PlannerHNS */

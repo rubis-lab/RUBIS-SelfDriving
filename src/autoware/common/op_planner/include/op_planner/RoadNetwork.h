@@ -380,6 +380,7 @@ public:
   double    totalReward;
   double    collisionCost;
   double     laneChangeCost;
+  double    closestStopLineDistance;
   int     laneId;
   int     id;
   int     LeftPointId;
