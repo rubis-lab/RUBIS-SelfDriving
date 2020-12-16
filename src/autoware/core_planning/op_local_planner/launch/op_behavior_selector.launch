@@ -1,8 +1,5 @@
 <launch>
   <!-- Behavior selector specific parameters -->
-
-  <rosparam command="load" file="$(find test_package)/cfg/fake_traffic_light.yaml"/>
-  <rosparam command="load" file="$(find test_package)/cfg/fake_stop_line.yaml"/>
   
   <arg name="evidence_tust_number"   default="25"/>
   <arg name="distanceToPedestrianThreshold" default="20.0" />

@@ -580,16 +580,15 @@ void BehaviorGen::MainLoop()
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
 
-        // Add Stop Line and Traffic Signal Info by yaml file
-        XmlRpc::XmlRpcValue traffic_light_list;
-        nh.getParam("/traffic_light_list", traffic_light_list);
+        // Add Traffic Signal Info from yaml file
+        // XmlRpc::XmlRpcValue traffic_light_list;
+        // nh.getParam("/traffic_light_list", traffic_light_list);
 
-        XmlRpc::XmlRpcValue stop_line_list;
-        nh.getParam("/stop_line_list", stop_line_list);
+        // Add Traffic Signal Info from yaml file
+        // XmlRpc::XmlRpcValue stop_line_list;
+        // nh.getParam("/stop_line_list", stop_line_list);
 
-        for(int i=0; i<traffic_light_list.size(); i++){
-          std::cout << traffic_light_list[i]["id"] << std::endl;
-        }
+        // PlannerHNS::MappingHelpers::ConstructStopLine_RUBIS(m_Map, traffic_light_list, stop_line_list);        
 
         if(m_Map.roadSegments.size() > 0)
         {
