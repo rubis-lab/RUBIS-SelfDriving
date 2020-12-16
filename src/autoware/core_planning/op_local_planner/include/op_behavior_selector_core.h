@@ -51,6 +51,7 @@
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"
+#include "op_planner/RoadNetwork.h"
 #include "op_utility/DataRW.h"
 
 
