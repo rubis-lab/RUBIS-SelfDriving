@@ -1,0 +1,13 @@
+traffic_light_list:
+  -
+    id : 1
+    pose :
+      x : -28.61
+      y : -16.46
+      z : 0.1
+  -
+    id : 2
+    pose :
+      x : -24.99
+      y : -15.88
+      z : 0.1
