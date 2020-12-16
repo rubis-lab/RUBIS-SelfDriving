@@ -7,13 +7,14 @@
 
 import os
 import lgsvl
+import json
 
 sim = lgsvl.Simulator(os.environ.get("SIMULATOR_HOST", "127.0.0.1"), 8181)
 
-if sim.current_scene == "BorregasAve":
+if sim.current_scene == "testbed":
   sim.reset()
 else:
-  sim.load("BorregasAve")
+  sim.load("testbed")
 
 spawns = sim.get_spawn()
 forward = lgsvl.utils.transform_to_forward(spawns[0])
@@ -44,18 +45,18 @@ npc1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, state)
 #set npc vehicle2's initial position
 state = lgsvl.AgentState()
 state.transform.position = spawns[0].position + 60 * forward + 5 * right
-state.transform.rotation = lgsvl.Vector(0, -75.823371887207, 0)
+state.transform.rotation = spawns[0].rotation
 
 
 print(state.transform.rotation)
-npc2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, state)
+npc2 = sim.add_agent("BoxTruck", lgsvl.AgentType.NPC, state)
 
 #set npc vehicle3's initial position
 angle = spawns[0].rotation
 state = lgsvl.AgentState()
 state.transform.position = spawns[0].position + 90 * forward
-state.transform.rotation = lgsvl.Vector(0, -75.823371887207, 0)
-npc3 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, state)
+state.transform.rotation = spawns[0].rotation
+npc3 = sim.add_agent("SchoolBus", lgsvl.AgentType.NPC, state)
 
 
 for sensor in ego.get_sensors():
