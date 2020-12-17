@@ -6,7 +6,7 @@
   <arg name="is_register_lidar2camera_tf" default="true" />
   <arg name="is_publish_projection_matrix" default="true" />
   <arg name="is_publish_camera_info" default="true" />
-  <arg name="camera_calib" default="$(env HOME)/autoware.ai/autoware_files/lgsvl/data/calibration/Lexus2016RXHybrid.yaml"/>
+  <arg name="camera_calib" default="$(env HOME)/autoware.ai/autoware_files/lgsvl/data/calibration/single_lidar/Lexus2016RXHybrid.yaml"/>
 
   <!-- calibration_publisher -->
   <include file="$(find runtime_manager)/launch_files/calibration_publisher.launch">
@@ -66,7 +66,7 @@
     <arg name="wayarea_gridmap_layer" value="wayarea" />
     <arg name="output_frame" value="velodyne" />
     <arg name="remove_points_upto" value="0.0" />
-    <arg name="use_gpu" value="true" />
+    <arg name="use_gpu" value="true" />    
     <arg name="use_multiple_thres" value="false"/>
     <arg name="clustering_ranges" value="[15,30,45,60]"/><!-- Distances to segment pointcloud -->
     <arg name="clustering_distances"
@@ -76,8 +76,8 @@
   <!-- imm_ukf_pda_track -->
   <include file="$(find imm_ukf_pda_track)/launch/imm_ukf_pda_track.launch">
     <arg name="namespace" default="/detection/object_tracker"/>
-    <arg name="tracker_input_topic" default="/detection/lidar_detector/objects" />
-    <arg name="tracker_output_topic" default="/detection/object_tracker/objects" />
+    <arg name="tracker_input_topic" default="/detection/lidar_detector/objects_center" />
+    <arg name="tracker_output_topic" default="/detection/object_tracker/objects_center" />
     <arg name="tracking_frame" default="/world" />
     <arg name="gating_threshold" default="9.22" />
     <arg name="gate_probability" default="0.99" />
@@ -96,7 +96,7 @@
 
   <!-- range_fusion -->
   <include file="$(find range_vision_fusion)/launch/range_vision_fusion.launch">
-    <arg name="detected_objects_range" default="/detection/object_tracker/objects"/>
+    <arg name="detected_objects_range" default="/detection/object_tracker/objects_center"/>
     <arg name="detected_objects_vision" default="/detection/image_detector/objects"/>
     <arg name="camera_info_src" default="/camera_info"/>
     <arg name="min_car_dimensions" default="[3,2,2]"/>
