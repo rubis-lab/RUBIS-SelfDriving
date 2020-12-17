@@ -398,23 +398,7 @@ void BehaviorGen::callbackGetTrafficLightSignals(const autoware_msgs::Signals& m
     simulatedLights.push_back(tl);
   }
 
-  //std::cout << "Received Traffic Lights : " << lights.markers.size() << std::endl;
-
   m_CurrTrafficLight = simulatedLights;
-
-//  int stopLineID = -1, stopSignID = -1, trafficLightID=-1;
-//  PlannerHNS::PlanningHelpers::GetDistanceToClosestStopLineAndCheck(m_BehaviorGenerator.m_Path, m_CurrentPos, stopLineID, stopSignID, trafficLightID);
-//  m_CurrTrafficLight.clear();
-//  if(trafficLightID > 0)
-//  {
-//    for(unsigned int i=0; i < simulatedLights.size(); i++)
-//    {
-//      if(simulatedLights.at(i).id == trafficLightID)
-//      {
-//        m_CurrTrafficLight.push_back(simulatedLights.at(i));
-//      }
-//    }
-//  }
 }
 
 void BehaviorGen::VisualizeLocalPlanner()
@@ -581,14 +565,16 @@ void BehaviorGen::MainLoop()
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
 
         // Add Traffic Signal Info from yaml file
-        // XmlRpc::XmlRpcValue traffic_light_list;
-        // nh.getParam("/traffic_light_list", traffic_light_list);
+        XmlRpc::XmlRpcValue traffic_light_list;
+        nh.getParam("/traffic_light_list", traffic_light_list);
 
         // Add Traffic Signal Info from yaml file
-        // XmlRpc::XmlRpcValue stop_line_list;
-        // nh.getParam("/stop_line_list", stop_line_list);
+        XmlRpc::XmlRpcValue stop_line_list;
+        nh.getParam("/stop_line_list", stop_line_list);
 
-        // PlannerHNS::MappingHelpers::ConstructStopLine_RUBIS(m_Map, traffic_light_list, stop_line_list);        
+        PlannerHNS::MappingHelpers::ConstructStopLine_RUBIS(m_Map, traffic_light_list, stop_line_list);
+
+        m_BehaviorGenerator.m_Map = m_Map;
 
         if(m_Map.roadSegments.size() > 0)
         {

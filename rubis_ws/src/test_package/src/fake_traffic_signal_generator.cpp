@@ -83,15 +83,15 @@ int main(int argc, char* argv[]){
 
     while(ros::ok()){
         for(int i=0; i<stop_line_list.size(); i++){
-            if(!isGreen){
-                stop_line_marker_array.markers.at(2*i).color.r = 1.0f;
-                stop_line_marker_array.markers.at(2*i).color.g = 0.0f;
-                roi_signal.Signals.at(i).type = 1; // Red
-            }
-            else{
+            if(isGreen){
                 stop_line_marker_array.markers.at(2*i).color.r = 0.0f;
                 stop_line_marker_array.markers.at(2*i).color.g = 1.0f;
-                roi_signal.Signals.at(i).type = 2; // Green
+                roi_signal.Signals.at(i).type = 1; // Green
+            }
+            else{
+                stop_line_marker_array.markers.at(2*i).color.r = 1.0f;
+                stop_line_marker_array.markers.at(2*i).color.g = 0.0f;
+                roi_signal.Signals.at(i).type = 2; // Red
             }
         }
         isGreen = !isGreen;

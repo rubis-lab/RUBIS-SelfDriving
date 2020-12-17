@@ -9,9 +9,6 @@
   <arg name="mapSource"             default="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
   <arg name="mapFileName"           default="" /> <!-- incase of kml map source -->
   <arg name="enableDynamicMapUpdate"       default="false" />  
-  
-  <rosparam command="load" file="$(find test_package)/cfg/fake_traffic_light.yaml"/>
-  <rosparam command="load" file="$(find test_package)/cfg/fake_stop_line.yaml"/>
 
   <node pkg="op_global_planner" type="op_global_planner" name="op_global_planner" output="screen">
     
