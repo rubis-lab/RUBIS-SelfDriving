@@ -3452,8 +3452,6 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
     map.trafficLights.push_back(tl);
   }
 
-  std::cout << "hi tl" << std::endl;
-
   // Parsing StopLine
   for(int i=0; i<sl_list.size(); i++){
     StopLine sl;
@@ -3470,9 +3468,8 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
     map.stopLines.push_back(sl);
   }
 
-  std::cout << "hi sl" << std::endl;
-
   // Link StopLine and Traffic Light
+  /*
   for(unsigned int rs = 0; rs < map.roadSegments.size(); rs++)
   {
     for(unsigned int i = 0; i < map.roadSegments.at(rs).Lanes.size(); i++)
@@ -3494,6 +3491,8 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
 
           double localDistance = PlannerHNS::PlanningHelpers::GetExactDistanceOnTrajectory(map.roadSegments.at(rs).Lanes.at(i).points, waypoint_info, stopline_info);
 
+          // std::cout << "localDistance " << sl_idx << " " << localDistance << std::endl;
+
           if(pWP->closestStopLineDistance > localDistance){
             pWP->stopLineID = map.stopLines.at(sl_idx).id;
             pWP->closestStopLineDistance = localDistance;
@@ -3502,6 +3501,7 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
       }
     }
   }
+  */
 
 }
 

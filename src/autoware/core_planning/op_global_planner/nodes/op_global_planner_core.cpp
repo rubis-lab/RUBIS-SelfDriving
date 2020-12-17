@@ -439,15 +439,6 @@ void GlobalPlanner::MainLoop()
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_params.bEnableLaneChange, false);
 
-        // Add Traffic Signal Info from yaml file
-        XmlRpc::XmlRpcValue traffic_light_list;
-        nh.getParam("/traffic_light_list", traffic_light_list);
-
-        // Add Traffic Signal Info from yaml file
-        XmlRpc::XmlRpcValue stop_line_list;
-        nh.getParam("/stop_line_list", stop_line_list);
-
-        PlannerHNS::MappingHelpers::ConstructStopLine_RUBIS(m_Map, traffic_light_list, stop_line_list);        
       }
       else if(m_MapRaw.GetVersion()==1)
       {
