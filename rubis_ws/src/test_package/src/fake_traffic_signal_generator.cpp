@@ -3,20 +3,19 @@
 #include <std_msgs/Header.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
-// #include <geometry_msgs/Point.h>
-// #include <geometry_msgs/Vector.h>
+#include <autoware_msgs/Signals.h>
+#include <autoware_msgs/ExtractedPosition.h>
 
 int main(int argc, char* argv[]){
     // Initialize
     ros::init(argc, argv, "fake_traffic_signal_generator");
     ros::NodeHandle nh;
-    ros::Rate rate(10);
+    ros::Rate rate(0.2);
 
     ros::Publisher traffic_signal_pub;
     ros::Publisher stop_line_rviz_pub;
 
-    // traffic_signal_pub = nh.advertise<autoware_msgs::Signals>("/roi_state");
-
+    traffic_signal_pub = nh.advertise<autoware_msgs::Signals>("/roi_signal", 10);
     stop_line_rviz_pub = nh.advertise<visualization_msgs::MarkerArray>("/stop_line_marker", 10);
 
     // Add Traffic Signal Info from yaml file
@@ -69,11 +68,35 @@ int main(int argc, char* argv[]){
         text_marker.color.b = 1.0;
         text_marker.color.a = 1.0;
 
-        stop_line_marker_array.markers.push_back(text_marker);
         stop_line_marker_array.markers.push_back(marker);
+        stop_line_marker_array.markers.push_back(text_marker);
+    }
+
+    // Make signal msg
+    bool isGreen = true;
+    autoware_msgs::Signals roi_signal;
+    for(int i=0; i<stop_line_list.size(); i++){
+        autoware_msgs::ExtractedPosition sig;
+        sig.signalId = stop_line_list[i]["tl_id"];
+        roi_signal.Signals.push_back(sig);
     }
 
     while(ros::ok()){
+        for(int i=0; i<stop_line_list.size(); i++){
+            if(!isGreen){
+                stop_line_marker_array.markers.at(2*i).color.r = 1.0f;
+                stop_line_marker_array.markers.at(2*i).color.g = 0.0f;
+                roi_signal.Signals.at(i).type = 1; // Red
+            }
+            else{
+                stop_line_marker_array.markers.at(2*i).color.r = 0.0f;
+                stop_line_marker_array.markers.at(2*i).color.g = 1.0f;
+                roi_signal.Signals.at(i).type = 2; // Green
+            }
+        }
+        isGreen = !isGreen;
+
+        traffic_signal_pub.publish(roi_signal);
         stop_line_rviz_pub.publish(stop_line_marker_array);
         rate.sleep();
     }
