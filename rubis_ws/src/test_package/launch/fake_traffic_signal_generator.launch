@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find test_package)/cfg/fake_stop_line.yaml"/>
+    <rosparam command="load" file="$(find test_package)/cfg/fake_traffic_light.yaml"/>
+    <node pkg="test_package" type="fake_traffic_signal_generator" name="fake_traffic_signal_generator" output="screen"/>        
+</launch>
