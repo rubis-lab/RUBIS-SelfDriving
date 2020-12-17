@@ -11,7 +11,6 @@
 
   <param name="evidence_tust_number"   value="$(arg evidence_tust_number)"/>        
   <param name="distanceToPedestrianThreshold" value="$(arg distanceToPedestrianThreshold)" />
-      
   </node>        
       
 </launch>

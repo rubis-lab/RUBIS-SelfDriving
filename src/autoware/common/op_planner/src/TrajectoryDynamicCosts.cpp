@@ -161,7 +161,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     }
   }
 
-  std::cout << m_PrevSelectedIndex << std::endl;
+  // std::cout << m_PrevSelectedIndex << std::endl;
 
   if(m_PrevSelectedIndex == -1){
     CalculateTransitionCosts(m_TrajectoryCosts, currIndex, params);

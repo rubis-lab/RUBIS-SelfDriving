@@ -30,7 +30,11 @@ VisualizeDetectedObjects::VisualizeDetectedObjects() : arrow_height_(0.5), label
     ros_namespace_.erase(ros_namespace_.begin());
   }
 
-  std::string markers_out_topic = ros_namespace_ + "/objects_markers";
+  std::string node_name = ros::this_node::getName();
+  std::string label_param = node_name+"/label";
+  std::string label;
+  private_nh_.param<std::string>(label_param, label, "center");
+  std::string markers_out_topic = ros_namespace_ + "/objects_markers_"+label;
 
   std::string object_src_topic;
   private_nh_.param<std::string>("objects_src_topic", object_src_topic, "/objects");
@@ -144,8 +148,8 @@ void VisualizeDetectedObjects::DetectedObjectsCallback(const autoware_msgs::Dete
   label_markers = ObjectsToLabels(in_objects);
   arrow_markers = ObjectsToArrows(in_objects);
   polygon_hulls = ObjectsToHulls(in_objects);
-  bounding_boxes = ObjectsToBoxes(in_objects);
-  object_models = ObjectsToModels(in_objects);
+  // bounding_boxes = ObjectsToBoxes(in_objects);
+  // object_models = ObjectsToModels(in_objects);
   centroid_markers = ObjectsToCentroids(in_objects);
 
   visualization_markers.markers.insert(visualization_markers.markers.end(),
@@ -154,10 +158,10 @@ void VisualizeDetectedObjects::DetectedObjectsCallback(const autoware_msgs::Dete
                                        arrow_markers.markers.begin(), arrow_markers.markers.end());
   visualization_markers.markers.insert(visualization_markers.markers.end(),
                                        polygon_hulls.markers.begin(), polygon_hulls.markers.end());
-  visualization_markers.markers.insert(visualization_markers.markers.end(),
-                                       bounding_boxes.markers.begin(), bounding_boxes.markers.end());
-  visualization_markers.markers.insert(visualization_markers.markers.end(),
-                                       object_models.markers.begin(), object_models.markers.end());
+  // visualization_markers.markers.insert(visualization_markers.markers.end(),
+  //                                      bounding_boxes.markers.begin(), bounding_boxes.markers.end());
+  // visualization_markers.markers.insert(visualization_markers.markers.end(),
+  //                                      object_models.markers.begin(), object_models.markers.end());
   visualization_markers.markers.insert(visualization_markers.markers.end(),
                                        centroid_markers.markers.begin(), centroid_markers.markers.end());
 
@@ -308,7 +312,8 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_msgs::DetectedObjectArra
 
   for (auto const &object: in_objects.objects)
   {
-    if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty() && object.label == "unknown")
+    // if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty() && object.label == "unknown")
+    if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty())
     {
       visualization_msgs::Marker hull;
       hull.lifetime = ros::Duration(marker_display_duration_);
