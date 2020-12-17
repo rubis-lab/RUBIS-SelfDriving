@@ -19,11 +19,11 @@ flags = [
 '-isystem',
 '/opt/ros/' + os.getenv('ROS_DISTRO') + '/include',
 '-isystem',
-'/home/hypark/RUBIS-SelfDriving/rubis_ws/devel/include',
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/devel/include',
 '-isystem',
-'/home/hypark/RUBIS-SelfDriving/rubis_ws/src/CMakeLists.txt/include',
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/rubis_pkg/include',
 '-isystem',
-'/home/hypark/RUBIS-SelfDriving/rubis_ws/src/test_package/include'
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/test_package/include'
 ]
 
 compilation_database_folder = ''
