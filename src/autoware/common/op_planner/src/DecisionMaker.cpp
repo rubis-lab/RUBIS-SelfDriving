@@ -224,9 +224,10 @@ void DecisionMaker::InitBehaviorStates()
     for(unsigned int i=0; i< detectedLights.size(); i++)
     {
       // TODO : calculate with current velocity
-      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < 20){
+      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < 30){
         pValues->currentTrafficLightID = trafficLightID;
         bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
+        pValues->stoppingDistances.push_back(distanceToClosestStopLine);
       }
     }
   }
@@ -398,7 +399,20 @@ void DecisionMaker::InitBehaviorStates()
     double desiredVelocity = -1;
     return desiredVelocity;
   }
-  else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == STOP_SIGN_STOP_STATE)
+  else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
+  {
+    double desiredAcceleration = CurrStatus.speed * CurrStatus.speed / 2 / std::max(beh.stopDistance - 10, 0.1);
+    double desiredVelocity = CurrStatus.speed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+
+    if(desiredVelocity < 0.5)
+      desiredVelocity = 0;
+
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = desiredVelocity;
+
+    return desiredVelocity;
+  }
+  else if(beh.state == STOP_SIGN_STOP_STATE)
   {
     PlanningHelpers::GetFollowPointOnTrajectory(m_Path, info, beh.stopDistance - critical_long_front_distance, point_index);
 
@@ -416,6 +430,14 @@ void DecisionMaker::InitBehaviorStates()
       m_Path.at(i).v = desiredVelocity;
 
     return desiredVelocity;
+  }
+  else if(beh.state == STOP_SIGN_WAIT_STATE)
+  {
+    double target_velocity = 0;
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = target_velocity;
+
+    return target_velocity;
   }
   else if(beh.state == FOLLOW_STATE)
   {
@@ -472,14 +494,6 @@ void DecisionMaker::InitBehaviorStates()
     //std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
 
     return desiredVelocity;
-  }
-  else if(beh.state == STOP_SIGN_WAIT_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
-  {
-    double target_velocity = 0;
-    for(unsigned int i = 0; i < m_Path.size(); i++)
-      m_Path.at(i).v = target_velocity;
-
-    return target_velocity;
   }
   else
   {
