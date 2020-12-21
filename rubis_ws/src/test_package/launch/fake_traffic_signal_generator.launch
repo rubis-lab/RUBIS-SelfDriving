@@ -1,5 +1,9 @@
 <launch>
+    <arg name="traffic_light_rate" default="0.3" />
+
     <rosparam command="load" file="$(find test_package)/cfg/fake_stop_line.yaml"/>
     <rosparam command="load" file="$(find test_package)/cfg/fake_traffic_light.yaml"/>
-    <node pkg="test_package" type="fake_traffic_signal_generator" name="fake_traffic_signal_generator" output="screen"/>        
+    <node pkg="test_package" type="fake_traffic_signal_generator" name="fake_traffic_signal_generator" output="screen">
+        <param name="traffic_light_rate" value="$(arg traffic_light_rate)"/>
+    </node>
 </launch>

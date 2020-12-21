@@ -45,6 +45,7 @@
 #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/ControlCommand.h>
 #include <visualization_msgs/MarkerArray.h>
+#include <XmlRpcException.h>
 
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>

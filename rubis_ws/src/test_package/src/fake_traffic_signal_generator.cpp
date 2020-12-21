@@ -10,7 +10,11 @@ int main(int argc, char* argv[]){
     // Initialize
     ros::init(argc, argv, "fake_traffic_signal_generator");
     ros::NodeHandle nh;
-    ros::Rate rate(0.3);
+    double traffic_light_rate;
+
+    nh.param<double>("/fake_traffic_signal_generator/traffic_light_rate", traffic_light_rate, 1.0);
+
+    ros::Rate rate(traffic_light_rate);
 
     ros::Publisher traffic_signal_pub;
     ros::Publisher stop_line_rviz_pub;
