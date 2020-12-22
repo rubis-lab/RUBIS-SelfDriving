@@ -223,7 +223,7 @@ void DecisionMaker::InitBehaviorStates()
 
     for(unsigned int i=0; i< detectedLights.size(); i++)
     {
-      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < 20){
+      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < m_params.stopLineDetectionDistance){
         double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
         bool bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
 
@@ -382,7 +382,7 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
-    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - 10, 0.1);
+    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
     double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
 
     if(desiredVelocity < 0.5)

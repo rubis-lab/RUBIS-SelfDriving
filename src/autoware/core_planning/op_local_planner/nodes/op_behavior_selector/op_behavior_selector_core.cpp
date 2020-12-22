@@ -144,6 +144,9 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
   m_CarInfo.max_speed_forward = m_PlanningParams.maxSpeed;
   m_CarInfo.min_speed_forward = m_PlanningParams.minSpeed;
 
+  _nh.getParam("/op_common_params/stopLineMargin", m_PlanningParams.stopLineMargin);
+  _nh.getParam("/op_common_params/stopLineDetectionDistance", m_PlanningParams.stopLineDetectionDistance);
+
   PlannerHNS::ControllerParams controlParams;
   controlParams.Steering_Gain = PlannerHNS::PID_CONST(0.07, 0.02, 0.01);
   controlParams.Velocity_Gain = PlannerHNS::PID_CONST(0.1, 0.005, 0.1);
@@ -528,8 +531,8 @@ void BehaviorGen::MainLoop()
   while (ros::ok())
   {
     ros::spinOnce();
-    // Check Pedestrian is Appeared    
 
+    // Check Pedestrian is Appeared
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
     UtilityHNS::UtilityH::GetTickCount(planningTimer);
 

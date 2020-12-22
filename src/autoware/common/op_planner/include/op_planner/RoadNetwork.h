@@ -898,12 +898,16 @@ public:
   double   smoothingSmoothWeight;
   double   smoothingToleranceError;
 
-  // hjw added for make traj eval parameter
+  // Added by HJW for make traj eval parameter
   double weightPriority;
   double weightTransition;
   double weightLong;
   double weightLat;
   double LateralSkipDistance;
+  
+  // Added by HJW for traffic signal parameter
+  double stopLineMargin;
+  double stopLineDetectionDistance;
 
   // Added by PHY
   bool pedestrianAppearence;
