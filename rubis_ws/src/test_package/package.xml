@@ -50,6 +50,7 @@
 <build_export_depend>std_msgs</build_export_depend>
 <build_export_depend>jsk_recognition_msgs</build_export_depend>
 <exec_depend>geometry_msgs</exec_depend>
+<exec_depend>nmea_msgs</exec_depend>
 <exec_depend>autoware_msgs</exec_depend>
 <exec_depend>std_msgs</exec_depend>
 <exec_depend>jsk_recognition_msgs</exec_depend>

@@ -13,7 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   roscpp
   std_msgs
+  nmea_msgs
   tf
+  gnss
 )
 
 catkin_package(
@@ -44,5 +46,14 @@ add_executable(pcd_clipper
 add_dependencies(pcd_clipper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(pcd_clipper
+  ${catkin_LIBRARIES}
+)
+
+add_executable(gnss_localizer
+  src/gnss_localizer_node.cpp
+  src/gnss_localizer.cpp
+)
+add_dependencies(gnss_localizer ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gnss_localizer
   ${catkin_LIBRARIES}
 )

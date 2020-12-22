@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   jsk_recognition_msgs
   autoware_msgs
   geometry_msgs
+  nmea_msgs
   std_msgs
   tf
 )
@@ -67,5 +68,13 @@ add_executable(TF_test
 )
 add_dependencies(TF_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(TF_test
+  ${catkin_LIBRARIES}
+)
+
+add_executable(gnss_republisher
+  src/gnss_republisher.cpp
+)
+add_dependencies(gnss_republisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gnss_republisher
   ${catkin_LIBRARIES}
 )
