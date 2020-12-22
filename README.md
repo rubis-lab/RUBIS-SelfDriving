@@ -72,3 +72,20 @@ pip3 install --user .
 sudo chomod 755 {TARGET_SCRIPTS}
 ./{TARGET_SCRIPTS}
 ```
+
+## Configurable Parameter
+
+### Dynamic Parameter (Can configure on runtime)
+
+* `/op_trajectory_evaluator/weightPriority` : weight for priority cost
+* `/op_trajectory_evaluator/weightTransition` : weight for transition cost
+* `/op_trajectory_evaluator/weightLong` : weight for longitudinal cost
+* `/op_trajectory_evaluator/weightLat` : weight for lateral cost
+* `/op_trajectory_evaluator/LateralSkipDistance` : skip an object whose horizontal distance is this much
+
+### Static Parameter (Should configure in launch file)
+
+* `/op_common_params/stopLineMargin` : Stop ahead of this value at the stop line
+* `/op_common_params/stopLineDetectionDistance` : detect stop lines whose distance are closer than thie value.
+
+
