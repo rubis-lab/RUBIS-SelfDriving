@@ -1,35 +1,44 @@
+#include <vector>
 #include <ros/ros.h>
 #include <ros/time.h>
 #include <std_msgs/Header.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
-#include <autoware_msgs/Signals.h>
+// #include <autoware_msgs/Signals.h>
+#include <autoware_msgs/RUBISTrafficSignal.h>
+#include <autoware_msgs/RUBISTrafficSignalArray.h>
 #include <autoware_msgs/ExtractedPosition.h>
 
 int main(int argc, char* argv[]){
     // Initialize
     ros::init(argc, argv, "fake_traffic_signal_generator");
     ros::NodeHandle nh;
-    double traffic_light_rate;
+    double traffic_signal_rate;
+    double remain_time = 0.0;
+    std::vector<int> signal_seq;
+    int current_signal_seq_idx = 0;
+    double spin_rate = 10.0;
 
-    nh.param<double>("/fake_traffic_signal_generator/traffic_light_rate", traffic_light_rate, 1.0);
-
-    ros::Rate rate(traffic_light_rate);
+    ros::Rate rate(spin_rate);
 
     ros::Publisher traffic_signal_pub;
     ros::Publisher stop_line_rviz_pub;
 
-    traffic_signal_pub = nh.advertise<autoware_msgs::Signals>("/roi_signal", 10);
+    traffic_signal_pub = nh.advertise<autoware_msgs::RUBISTrafficSignalArray>("/rubis_traffic_signal", 10);
     stop_line_rviz_pub = nh.advertise<visualization_msgs::MarkerArray>("/stop_line_marker", 10);
 
     // Add Traffic Signal Info from yaml file
     XmlRpc::XmlRpcValue traffic_light_list;
-    nh.getParam("/traffic_light_list", traffic_light_list);
+    nh.getParam("/fake_traffic_signal_generator/traffic_light_list", traffic_light_list);
 
     // Add Traffic Signal Info from yaml file
     XmlRpc::XmlRpcValue stop_line_list;
-    nh.getParam("/stop_line_list", stop_line_list);
+    nh.getParam("/fake_traffic_signal_generator/stop_line_list", stop_line_list);
 
+    // Get Traffic Signal Sequence
+    nh.getParam("/fake_traffic_signal_generator/traffic_signal_sequence", signal_seq);
+
+    // Make Visualization Marker msg
     visualization_msgs::MarkerArray stop_line_marker_array;
 
     for(int i=0; i<stop_line_list.size(); i++){
@@ -77,31 +86,42 @@ int main(int argc, char* argv[]){
     }
 
     // Make signal msg
-    bool isGreen = true;
-    autoware_msgs::Signals roi_signal;
+    autoware_msgs::RUBISTrafficSignalArray signal_msg;
     for(int i=0; i<stop_line_list.size(); i++){
-        autoware_msgs::ExtractedPosition sig;
-        sig.signalId = stop_line_list[i]["tl_id"];
-        roi_signal.Signals.push_back(sig);
+        autoware_msgs::RUBISTrafficSignal sig;
+        sig.id = stop_line_list[i]["tl_id"];
+        signal_msg.signals.push_back(sig);
     }
 
     while(ros::ok()){
-        for(int i=0; i<stop_line_list.size(); i++){
-            if(isGreen){
-                stop_line_marker_array.markers.at(2*i).color.r = 0.0f;
-                stop_line_marker_array.markers.at(2*i).color.g = 1.0f;
-                roi_signal.Signals.at(i).type = 1; // Green
-            }
-            else{
-                stop_line_marker_array.markers.at(2*i).color.r = 1.0f;
-                stop_line_marker_array.markers.at(2*i).color.g = 0.0f;
-                roi_signal.Signals.at(i).type = 2; // Red
-            }
-        }
-        isGreen = !isGreen;
+        if(remain_time < 0.05){ // check if remain time is 0
+            nh.param<double>("/fake_traffic_signal_generator/traffic_signal_rate", traffic_signal_rate, 0.3);
+            remain_time = 1 / traffic_signal_rate;
 
-        traffic_signal_pub.publish(roi_signal);
-        stop_line_rviz_pub.publish(stop_line_marker_array);
+            for(int i=0; i<stop_line_list.size(); i++){
+                signal_msg.signals.at(i).type = signal_seq.at(current_signal_seq_idx);
+
+                if(signal_seq.at(current_signal_seq_idx) == 1){ // green
+                    stop_line_marker_array.markers.at(2*i).color.r = 0.0f;
+                    stop_line_marker_array.markers.at(2*i).color.g = 1.0f;
+                }
+                else if (signal_seq.at(current_signal_seq_idx) == 2){ // red
+                    stop_line_marker_array.markers.at(2*i).color.r = 1.0f;
+                    stop_line_marker_array.markers.at(2*i).color.g = 0.0f;
+                }
+            }
+            stop_line_rviz_pub.publish(stop_line_marker_array);
+            current_signal_seq_idx = (current_signal_seq_idx + 1) % signal_seq.size();
+        }
+
+        // update remain_time;
+        for(int i=0; i<stop_line_list.size(); i++){
+            signal_msg.signals.at(i).time = remain_time;
+        }
+
+        traffic_signal_pub.publish(signal_msg);
+
+        remain_time -= (1 / spin_rate);
         rate.sleep();
     }
 

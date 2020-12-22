@@ -64,6 +64,9 @@ add_message_files(
     VscanTrackedArray.msg
     Waypoint.msg
     WaypointState.msg
+    
+    RUBISTrafficSignal.msg
+    RUBISTrafficSignalArray.msg
 )
 
 add_service_files(
