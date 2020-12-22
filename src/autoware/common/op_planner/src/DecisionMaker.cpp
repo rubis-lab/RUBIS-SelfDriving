@@ -212,7 +212,7 @@ void DecisionMaker::InitBehaviorStates()
   int stopSignID = -1;
   int trafficLightID = -1;
   double distanceToClosestStopLine = 0;
-  bool bGreenTrafficLight = true;
+  bool bShouldForward = false;
 
   distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, trafficLightID) - critical_long_front_distance;
 
@@ -223,39 +223,20 @@ void DecisionMaker::InitBehaviorStates()
 
     for(unsigned int i=0; i< detectedLights.size(); i++)
     {
-      // TODO : calculate with current velocity
-      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < 30){
+      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < 20){
+        double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        bool bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
+
+        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
+                      (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
+
         pValues->currentTrafficLightID = trafficLightID;
-        bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
         pValues->stoppingDistances.push_back(distanceToClosestStopLine);
       }
     }
   }
 
-  // Original
-  // distanceToClosestStopLine = PlanningHelpers::GetDistanceToClosestStopLineAndCheck(m_TotalPath.at(pValues->iCurrSafeLane), state, m_params.giveUpDistance, stopLineID, stopSignID, trafficLightID) - critical_long_front_distance;
-  //  if(distanceToClosestStopLine > m_params.giveUpDistance && distanceToClosestStopLine < (pValues->minStoppingDistance + 1.0))
-  //  {
-  //    if(m_pCurrentBehaviorState->m_pParams->enableTrafficLightBehavior)
-  //    {
-  //      pValues->currentTrafficLightID = trafficLightID;
-  //      //std::cout << "Detected Traffic Light: " << trafficLightID << std::endl;
-  //      for(unsigned int i=0; i< detectedLights.size(); i++)
-  //      {
-  //        if(detectedLights.at(i).id == trafficLightID)
-  //          bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
-  //      }
-  //    }
-
-  //    if(m_pCurrentBehaviorState->m_pParams->enableStopSignBehavior)
-  //      pValues->currentStopSignID = stopSignID;
-
-  //   pValues->stoppingDistances.push_back(distanceToClosestStopLine);
-  //   //std::cout << "LP => D: " << pValues->distanceToStop() << ", PrevSignID: " << pValues->prevTrafficLightID << ", CurrSignID: " << pValues->currentTrafficLightID << ", Green: " << bGreenTrafficLight << endl;
-  //  }
-   //std::cout << "Distance To Closest: " << distanceToClosestStopLine << ", Stop LineID: " << stopLineID << ", Stop SignID: " << stopSignID << ", TFID: " << trafficLightID << std::endl;
-
-   pValues->bTrafficIsRed = !bGreenTrafficLight;
+   pValues->bTrafficIsRed = !bShouldForward;
 
    if(bEmergencyStop)
   {
@@ -401,8 +382,8 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
-    double desiredAcceleration = CurrStatus.speed * CurrStatus.speed / 2 / std::max(beh.stopDistance - 10, 0.1);
-    double desiredVelocity = CurrStatus.speed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - 10, 0.1);
+    double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
 
     if(desiredVelocity < 0.5)
       desiredVelocity = 0;
