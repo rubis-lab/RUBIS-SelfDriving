@@ -4,7 +4,6 @@
 #include <std_msgs/Header.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <visualization_msgs/Marker.h>
-// #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/RUBISTrafficSignal.h>
 #include <autoware_msgs/RUBISTrafficSignalArray.h>
 #include <autoware_msgs/ExtractedPosition.h>
@@ -24,7 +23,7 @@ int main(int argc, char* argv[]){
     ros::Publisher traffic_signal_pub;
     ros::Publisher stop_line_rviz_pub;
 
-    traffic_signal_pub = nh.advertise<autoware_msgs::RUBISTrafficSignalArray>("/rubis_traffic_signal", 10);
+    traffic_signal_pub = nh.advertise<autoware_msgs::RUBISTrafficSignalArray>("/v2x_traffic_signal", 10);
     stop_line_rviz_pub = nh.advertise<visualization_msgs::MarkerArray>("/stop_line_marker", 10);
 
     // Add Traffic Signal Info from yaml file

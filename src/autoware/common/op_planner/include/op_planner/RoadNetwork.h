@@ -633,6 +633,7 @@ public:
   std::vector<int> laneIds;
   std::vector<Lane*> pLanes;
   int linkID;
+  double remainTime;
 
   TrafficLight()
   {
@@ -640,6 +641,7 @@ public:
     id       = 0;
     lightState  = GREEN_LIGHT;
     linkID     = 0;
+    remainTime = 0;
   }
 
   bool CheckLane(const int& laneId)
