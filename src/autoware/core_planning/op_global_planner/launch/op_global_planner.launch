@@ -9,8 +9,8 @@
   <arg name="mapSource"             default="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
   <arg name="mapFileName"           default="" /> <!-- incase of kml map source -->
   <arg name="enableDynamicMapUpdate"       default="false" />  
-  
-<node pkg="op_global_planner" type="op_global_planner" name="op_global_planner" output="screen">
+
+  <node pkg="op_global_planner" type="op_global_planner" name="op_global_planner" output="screen">
     
     <param name="pathDensity"         value="$(arg pathDensity)" />
     <param name="enableSmoothing"       value="$(arg enableSmoothing)" />
