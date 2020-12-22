@@ -354,8 +354,8 @@ BehaviorStateMachine* ForwardStateII::GetNextState()
   }
   else if(m_pParams->enableTrafficLightBehavior
         && pCParams->currentTrafficLightID > 0
-        && pCParams->bTrafficIsRed
-        && pCParams->currentTrafficLightID != pCParams->prevTrafficLightID)
+        && pCParams->bTrafficIsRed)
+        // && pCParams->currentTrafficLightID != pCParams->prevTrafficLightID)
       return FindBehaviorState(TRAFFIC_LIGHT_STOP_STATE);
 
   else if(m_pParams->enableStopSignBehavior

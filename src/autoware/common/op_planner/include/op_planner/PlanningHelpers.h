@@ -188,6 +188,9 @@ public:
 
   static double fpprunge ( double x );
 
+  // RUBIS added
+  static double CalculateStopLineDistance_RUBIS(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<StopLine> stopLines, int& stopLineID, int& trafficLightID);
+
 };
 
 } /* namespace PlannerHNS */

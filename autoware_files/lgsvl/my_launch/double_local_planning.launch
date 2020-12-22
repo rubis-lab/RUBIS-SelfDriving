@@ -7,16 +7,16 @@
     <arg name="pathDensity"                     default="0.5" />      <!-- Path Density-->
     <arg name="rollOutDensity"                  default="1.5" />      <!-- Horizontal Density -->
     <arg name="rollOutsNumber"                  default="4"    />     <!-- Rollouts Number -->
-    <arg name="maxVelocity"                     default="10.0" />      <!-- Max Velocity -->
+    <arg name="maxVelocity"                     default="10.0" />     <!-- Max Velocity -->
     <arg name="maxAcceleration"                 default="5.0" />      <!-- Acceleration -->
-    <arg name="maxDeceleration"                 default="-15.0" />     <!-- Deceleration -->
+    <arg name="maxDeceleration"                 default="-15.0" />    <!-- Deceleration -->
     <arg name="enableFollowing"                 default="true" />     <!-- Enable Following -->
     <arg name="enableSwerving"                  default="true"  />    <!-- Enable Avoidance -->
     <arg name="minFollowingDistance"            default="30.0"  />    <!-- Follow Distance --> <!-- should be bigger than Distance to follow -->  
     <arg name="minDistanceToAvoid"              default="20.0" />     <!-- Avoiding Distance --> <!-- should be smaller than minFollowingDistance and larger than maxDistanceToAvoid -->
     <arg name="maxDistanceToAvoid"              default="0.1"  />     <!-- Avoidnace Limit--> <!-- should be smaller than minDistanceToAvoid -->
     <arg name="enableStopSignBehavior"          default="false" />    <!-- Enable Stop Sign Stop-->
-    <arg name="enableTrafficLightBehavior"      default="false" />    <!-- Enable Traffic Light -->
+    <arg name="enableTrafficLightBehavior"      default="true" />     <!-- Enable Traffic Light -->
     <arg name="enableLaneChange"                default="false" />    <!-- Enable Lane Change -->
     <arg name="horizontalSafetyDistance"        default="1"  />       <!-- Lateral Safety --> 
     <arg name="verticalSafetyDistance"          default="2"  />       <!-- Longitudinal Safet y-->

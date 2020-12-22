@@ -206,43 +206,37 @@ void DecisionMaker::InitBehaviorStates()
   else
     pValues->currentGoalID = goalID;
 
-   m_iCurrentTotalPathId = pValues->iCurrSafeLane;
+  m_iCurrentTotalPathId = pValues->iCurrSafeLane;
 
-   int stopLineID = -1;
-   int stopSignID = -1;
-   int trafficLightID = -1;
-   double distanceToClosestStopLine = 0;
-   bool bGreenTrafficLight = true;
+  int stopLineID = -1;
+  int stopSignID = -1;
+  int trafficLightID = -1;
+  double distanceToClosestStopLine = 0;
+  bool bShouldForward = false;
 
+  distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, trafficLightID) - critical_long_front_distance;
 
-    distanceToClosestStopLine = PlanningHelpers::GetDistanceToClosestStopLineAndCheck(m_TotalPath.at(pValues->iCurrSafeLane), state, m_params.giveUpDistance, stopLineID, stopSignID, trafficLightID) - critical_long_front_distance;
+  // std::cout << "StopLineID : " << stopLineID << ", TrafficLightID : " << trafficLightID << ", Distance: " << distanceToClosestStopLine << ", MinStopDistance: " << pValues->minStoppingDistance << std::endl;
+  // std::cout << "detected Lights # : " << detectedLights.size() << std::endl;
 
-    //std::cout << "StopLineID" << stopLineID << ", StopSignID: " << stopSignID << ", TrafficLightID: " << trafficLightID << ", Distance: " << distanceToClosestStopLine << ", MinStopDistance: " << pValues->minStoppingDistance << std::endl;
+  if(m_pCurrentBehaviorState->m_pParams->enableTrafficLightBehavior){
 
-   if(distanceToClosestStopLine > m_params.giveUpDistance && distanceToClosestStopLine < (pValues->minStoppingDistance + 1.0))
-   {
-     if(m_pCurrentBehaviorState->m_pParams->enableTrafficLightBehavior)
-     {
-       pValues->currentTrafficLightID = trafficLightID;
-       //std::cout << "Detected Traffic Light: " << trafficLightID << std::endl;
-       for(unsigned int i=0; i< detectedLights.size(); i++)
-       {
-         if(detectedLights.at(i).id == trafficLightID)
-           bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
-       }
-     }
+    for(unsigned int i=0; i< detectedLights.size(); i++)
+    {
+      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < m_params.stopLineDetectionDistance){
+        double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        bool bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
 
-     if(m_pCurrentBehaviorState->m_pParams->enableStopSignBehavior)
-       pValues->currentStopSignID = stopSignID;
+        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
+                      (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
-    pValues->stoppingDistances.push_back(distanceToClosestStopLine);
-    //std::cout << "LP => D: " << pValues->distanceToStop() << ", PrevSignID: " << pValues->prevTrafficLightID << ", CurrSignID: " << pValues->currentTrafficLightID << ", Green: " << bGreenTrafficLight << endl;
-   }
+        pValues->currentTrafficLightID = trafficLightID;
+        pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+      }
+    }
+  }
 
-
-   //std::cout << "Distance To Closest: " << distanceToClosestStopLine << ", Stop LineID: " << stopLineID << ", Stop SignID: " << stopSignID << ", TFID: " << trafficLightID << std::endl;
-
-   pValues->bTrafficIsRed = !bGreenTrafficLight;
+   pValues->bTrafficIsRed = !bShouldForward;
 
    if(bEmergencyStop)
   {
@@ -386,7 +380,20 @@ void DecisionMaker::InitBehaviorStates()
     double desiredVelocity = -1;
     return desiredVelocity;
   }
-  else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == STOP_SIGN_STOP_STATE)
+  else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
+  {
+    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+
+    if(desiredVelocity < 0.5)
+      desiredVelocity = 0;
+
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = desiredVelocity;
+
+    return desiredVelocity;
+  }
+  else if(beh.state == STOP_SIGN_STOP_STATE)
   {
     PlanningHelpers::GetFollowPointOnTrajectory(m_Path, info, beh.stopDistance - critical_long_front_distance, point_index);
 
@@ -404,6 +411,14 @@ void DecisionMaker::InitBehaviorStates()
       m_Path.at(i).v = desiredVelocity;
 
     return desiredVelocity;
+  }
+  else if(beh.state == STOP_SIGN_WAIT_STATE)
+  {
+    double target_velocity = 0;
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = target_velocity;
+
+    return target_velocity;
   }
   else if(beh.state == FOLLOW_STATE)
   {
@@ -460,14 +475,6 @@ void DecisionMaker::InitBehaviorStates()
     //std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
 
     return desiredVelocity;
-  }
-  else if(beh.state == STOP_SIGN_WAIT_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
-  {
-    double target_velocity = 0;
-    for(unsigned int i = 0; i < m_Path.size(); i++)
-      m_Path.at(i).v = target_velocity;
-
-    return target_velocity;
   }
   else
   {

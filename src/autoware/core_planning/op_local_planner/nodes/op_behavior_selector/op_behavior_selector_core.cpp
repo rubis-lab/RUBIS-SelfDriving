@@ -64,9 +64,11 @@ BehaviorGen::BehaviorGen()
 
   sub_GlobalPlannerPaths = nh.subscribe("/lane_waypoints_array", 1, &BehaviorGen::callbackGetGlobalPlannerPath, this);
   sub_LocalPlannerPaths = nh.subscribe("/local_weighted_trajectories", 1, &BehaviorGen::callbackGetLocalPlannerPath, this);
-  sub_TrafficLightStatus = nh.subscribe("/light_color", 1, &BehaviorGen::callbackGetTrafficLightStatus, this);
-  sub_TrafficLightSignals  = nh.subscribe("/roi_signal", 1, &BehaviorGen::callbackGetTrafficLightSignals, this);
+  // sub_TrafficLightStatus = nh.subscribe("/light_color", 1, &BehaviorGen::callbackGetTrafficLightStatus, this);
+  // sub_TrafficLightSignals  = nh.subscribe("/roi_signal", 1, &BehaviorGen::callbackGetTrafficLightSignals, this);
   sub_Trajectory_Cost = nh.subscribe("/local_trajectory_cost", 1, &BehaviorGen::callbackGetLocalTrajectoryCost, this);
+
+  sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
 
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
@@ -141,6 +143,9 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
   _nh.getParam("/op_common_params/maxDeceleration", m_CarInfo.max_deceleration);
   m_CarInfo.max_speed_forward = m_PlanningParams.maxSpeed;
   m_CarInfo.min_speed_forward = m_PlanningParams.minSpeed;
+
+  _nh.getParam("/op_common_params/stopLineMargin", m_PlanningParams.stopLineMargin);
+  _nh.getParam("/op_common_params/stopLineDetectionDistance", m_PlanningParams.stopLineDetectionDistance);
 
   PlannerHNS::ControllerParams controlParams;
   controlParams.Steering_Gain = PlannerHNS::PID_CONST(0.07, 0.02, 0.01);
@@ -358,24 +363,15 @@ void BehaviorGen::callbackGetLocalPlannerPath(const autoware_msgs::LaneArrayCons
   }
 }
 
-void BehaviorGen::callbackGetTrafficLightStatus(const autoware_msgs::TrafficLight& msg)
-{
-  std::cout << "Received Traffic Light Status : " << msg.traffic_light << std::endl;
-  bNewLightStatus = true;
-  if(msg.traffic_light == 1) // green
-    m_CurrLightStatus = PlannerHNS::GREEN_LIGHT;
-  else //0 => RED , 2 => Unknown
-    m_CurrLightStatus = PlannerHNS::RED_LIGHT;
-}
-
-void BehaviorGen::callbackGetTrafficLightSignals(const autoware_msgs::Signals& msg)
+void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTrafficSignalArray& msg)
 {
   bNewLightSignal = true;
   std::vector<PlannerHNS::TrafficLight> simulatedLights;
-  for(unsigned int i = 0 ; i < msg.Signals.size() ; i++)
+  for(unsigned int i = 0 ; i < msg.signals.size() ; i++)
   {
     PlannerHNS::TrafficLight tl;
-    tl.id = msg.Signals.at(i).signalId;
+    tl.id = msg.signals.at(i).id;
+    tl.remainTime = msg.signals.at(i).time;
 
     for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
     {
@@ -386,7 +382,7 @@ void BehaviorGen::callbackGetTrafficLightSignals(const autoware_msgs::Signals& m
       }
     }
 
-    if(msg.Signals.at(i).type == 1)
+    if(msg.signals.at(i).type == 1)
     {
       tl.lightState = PlannerHNS::GREEN_LIGHT;
     }
@@ -398,23 +394,7 @@ void BehaviorGen::callbackGetTrafficLightSignals(const autoware_msgs::Signals& m
     simulatedLights.push_back(tl);
   }
 
-  //std::cout << "Received Traffic Lights : " << lights.markers.size() << std::endl;
-
   m_CurrTrafficLight = simulatedLights;
-
-//  int stopLineID = -1, stopSignID = -1, trafficLightID=-1;
-//  PlannerHNS::PlanningHelpers::GetDistanceToClosestStopLineAndCheck(m_BehaviorGenerator.m_Path, m_CurrentPos, stopLineID, stopSignID, trafficLightID);
-//  m_CurrTrafficLight.clear();
-//  if(trafficLightID > 0)
-//  {
-//    for(unsigned int i=0; i < simulatedLights.size(); i++)
-//    {
-//      if(simulatedLights.at(i).id == trafficLightID)
-//      {
-//        m_CurrTrafficLight.push_back(simulatedLights.at(i));
-//      }
-//    }
-//  }
 }
 
 void BehaviorGen::VisualizeLocalPlanner()
@@ -551,8 +531,8 @@ void BehaviorGen::MainLoop()
   while (ros::ok())
   {
     ros::spinOnce();
-    // Check Pedestrian is Appeared    
 
+    // Check Pedestrian is Appeared
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
     UtilityHNS::UtilityH::GetTickCount(planningTimer);
 
@@ -579,6 +559,24 @@ void BehaviorGen::MainLoop()
             m_MapRaw.pVectors->m_data_list, m_MapRaw.pCurbs->m_data_list, m_MapRaw.pRoadedges->m_data_list, m_MapRaw.pWayAreas->m_data_list,
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
+
+        try{
+          // Add Traffic Signal Info from yaml file
+          XmlRpc::XmlRpcValue traffic_light_list;
+          nh.getParam("/op_behavior_selector/traffic_light_list", traffic_light_list);
+
+          // Add Stop Line Info from yaml file
+          XmlRpc::XmlRpcValue stop_line_list;
+          nh.getParam("/op_behavior_selector/stop_line_list", stop_line_list);
+
+          PlannerHNS::MappingHelpers::ConstructStopLine_RUBIS(m_Map, traffic_light_list, stop_line_list);
+        }
+        catch(XmlRpc::XmlRpcException& e){
+          ROS_ERROR("[XmlRpc Error] %s", e.getMessage().c_str());
+          exit(1);
+        }
+
+        m_BehaviorGenerator.m_Map = m_Map;
 
         if(m_Map.roadSegments.size() > 0)
         {
