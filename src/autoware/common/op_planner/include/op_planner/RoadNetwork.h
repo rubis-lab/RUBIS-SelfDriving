@@ -633,6 +633,7 @@ public:
   std::vector<int> laneIds;
   std::vector<Lane*> pLanes;
   int linkID;
+  double remainTime;
 
   TrafficLight()
   {
@@ -640,6 +641,7 @@ public:
     id       = 0;
     lightState  = GREEN_LIGHT;
     linkID     = 0;
+    remainTime = 0;
   }
 
   bool CheckLane(const int& laneId)
@@ -896,12 +898,16 @@ public:
   double   smoothingSmoothWeight;
   double   smoothingToleranceError;
 
-  // hjw added for make traj eval parameter
+  // Added by HJW for make traj eval parameter
   double weightPriority;
   double weightTransition;
   double weightLong;
   double weightLat;
   double LateralSkipDistance;
+  
+  // Added by HJW for traffic signal parameter
+  double stopLineMargin;
+  double stopLineDetectionDistance;
 
   // Added by PHY
   bool pedestrianAppearence;
