@@ -9,6 +9,7 @@ project(test_package)
 ## is used, also find other catkin packages
 
 find_package(catkin REQUIRED COMPONENTS
+  rospy
   roscpp
   jsk_recognition_msgs
   autoware_msgs
@@ -16,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
 )
-
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -76,4 +76,8 @@ add_executable(TF_test
 add_dependencies(TF_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(TF_test
   ${catkin_LIBRARIES}
+)
+
+catkin_install_python(PROGRAMS src/test_light.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
