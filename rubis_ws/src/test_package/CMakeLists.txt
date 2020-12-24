@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   jsk_recognition_msgs
   autoware_msgs
   geometry_msgs
+  nmea_msgs
   std_msgs
   tf
 )
@@ -37,6 +38,8 @@ include_directories(
 # ${catkin_INCLUDE_DIRS}
 )
 
+catkin_install_python(PROGRAMS src/test_light.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 
 add_executable(fake_object_generator
   src/fake_object_generator.cpp
@@ -78,6 +81,10 @@ target_link_libraries(TF_test
   ${catkin_LIBRARIES}
 )
 
-catkin_install_python(PROGRAMS src/test_light.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+add_executable(gnss_republisher
+  src/gnss_republisher.cpp
+)
+add_dependencies(gnss_republisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gnss_republisher
+  ${catkin_LIBRARIES}
 )

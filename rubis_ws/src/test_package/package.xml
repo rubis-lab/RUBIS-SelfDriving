@@ -68,6 +68,7 @@
 <exec_depend>python-json</exec_depend>
 <exec_depend>python-threading</exec_depend>
 <exec_depend>geometry_msgs</exec_depend>
+<exec_depend>nmea_msgs</exec_depend>
 <exec_depend>autoware_msgs</exec_depend>
 <exec_depend>std_msgs</exec_depend>
 <exec_depend>jsk_recognition_msgs</exec_depend>
