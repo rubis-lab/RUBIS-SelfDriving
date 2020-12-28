@@ -65,7 +65,7 @@ void Nmea2TFPoseNode::run()
 void Nmea2TFPoseNode::publishPoseStamped()
 { 
   cur_pose_.header.frame_id = GPS_FRAME_;
-  cur_pose_.header.stamp = current_time_;
+  cur_pose_.header.stamp = ros::Time::now();
   cur_pose_.pose.position.x = geo_.y();
   cur_pose_.pose.position.y = geo_.x();
   cur_pose_.pose.position.z = geo_.z();
@@ -84,7 +84,7 @@ void Nmea2TFPoseNode::publishTF()
   tf::Quaternion quaternion;
   quaternion.setRPY(roll_, pitch_, yaw_);
   transform.setRotation(quaternion);
-  br_.sendTransform(tf::StampedTransform(transform, current_time_, MAP_FRAME_, GPS_FRAME_));
+  br_.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, GPS_FRAME_));
 }
 
 void Nmea2TFPoseNode::createOrientation()
@@ -119,6 +119,8 @@ void Nmea2TFPoseNode::convert(std::vector<std::string> nmea, ros::Time current_s
     }
     else if (nmea.at(0).compare(3, 3, "GGA") == 0)
     {
+      std::cout.precision(20);
+      current_time_ = stod(nmea.at(1));
       position_time_ = stod(nmea.at(1));
       double lat = stod(nmea.at(2));
       double lon = stod(nmea.at(4));
@@ -136,6 +138,7 @@ void Nmea2TFPoseNode::convert(std::vector<std::string> nmea, ros::Time current_s
     }
     else if (nmea.at(0) == "$GPRMC")
     {
+      current_time_ = stod(nmea.at(1));
       position_time_ = stoi(nmea.at(1));
       double lat = stod(nmea.at(3));
       double lon = stod(nmea.at(5));
@@ -189,13 +192,7 @@ void Nmea2TFPoseNode::publishVelocity(){
         zero_cnt=0;
     }
 
-
-    std::cout<<"diff_x:"<<diff_x<<std::endl;
-    std::cout<<"diff_y:"<<diff_y<<std::endl;
-    std::cout<<"diff_z:"<<diff_z<<std::endl;
-    
-
-    const double diff_time = (current_time_ - prev_time_).toSec();
+    const double diff_time = current_time_ - prev_time_;
     current_velocity = (diff_time > 0) ? (diff / diff_time) : 0;
     // std::cout<<"current_velocity:"<<current_velocity<<std::endl;
     // current_velocity =  (cur_pose_.pose.position.x - prev_pose_.pose.position.x >= 0) ? current_velocity : -current_velocity;
@@ -203,9 +200,6 @@ void Nmea2TFPoseNode::publishVelocity(){
     // current_velocity_y = (diff_time > 0) ? (diff_y / diff_time) : 0;
     // current_velocity_z = (diff_time > 0) ? (diff_z / diff_time) : 0;
     angular_velocity = (diff_time > 0) ? (diff_yaw / diff_time) : 0;
-    
-    std::cout<<"Velocity:"<<current_velocity<<std::endl;
-    std::cout<<"Angular Velocity:"<<angular_velocity<<std::endl;
 
     geometry_msgs::TwistStamped twist_msg;
     twist_msg.header.stamp = ros::Time::now();
@@ -224,7 +218,6 @@ void Nmea2TFPoseNode::publishVelocity(){
 
 void Nmea2TFPoseNode::callbackFromNmeaSentence(const nmea_msgs::Sentence::ConstPtr &msg)
 {
-  current_time_ = msg->header.stamp;
 //   std::cout<<msg->sentence<<std::endl;
   convert(split(msg->sentence), msg->header.stamp);
 
