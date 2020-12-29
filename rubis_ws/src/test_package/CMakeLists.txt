@@ -9,6 +9,7 @@ project(test_package)
 ## is used, also find other catkin packages
 
 find_package(catkin REQUIRED COMPONENTS
+  rospy
   roscpp
   jsk_recognition_msgs
   autoware_msgs
@@ -17,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
 )
-
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -38,6 +38,9 @@ include_directories(
 # ${catkin_INCLUDE_DIRS}
 )
 
+catkin_install_python(PROGRAMS src/lgsvl_traffic_signal_test.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 add_executable(fake_object_generator
   src/fake_object_generator.cpp
