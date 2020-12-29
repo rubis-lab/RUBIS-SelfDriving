@@ -47,6 +47,11 @@ for light in light_list:
   signal_msg.time = sync_time
   signal_array_msg.signals.append(signal_msg)
 
+###
+# 0 : Red
+# 1 : Yellow
+# 2 : Green
+
 while not rospy.is_shutdown():
   for (i, topic) in enumerate(topic_list):
     if topic['time'] < 0.05:

@@ -382,13 +382,13 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
       }
     }
 
-    if(msg.signals.at(i).type == 1)
+    if(msg.signals.at(i).type == 0)
     {
-      tl.lightState = PlannerHNS::GREEN_LIGHT;
+      tl.lightState = PlannerHNS::RED_LIGHT;
     }
     else
     {
-      tl.lightState = PlannerHNS::RED_LIGHT;
+      tl.lightState = PlannerHNS::GREEN_LIGHT;
     }
 
     simulatedLights.push_back(tl);
