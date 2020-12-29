@@ -2,9 +2,9 @@
     {
         "id": 0,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2
@@ -12,9 +12,9 @@
     {
         "id": 1,
         "type_list": {
-            "red": 7,
-            "yellow": 3,
-            "green": 7
+            "red": 7.0,
+            "yellow": 3.0,
+            "green": 7.0
         },
         "type": 0,
         "time": 7
@@ -22,9 +22,9 @@
     {
         "id": 2,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -32,9 +32,9 @@
     {
         "id": 3,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2
@@ -42,9 +42,9 @@
     {
         "id": 4,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2
@@ -52,9 +52,9 @@
     {
         "id": 5,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -62,9 +62,9 @@
     {
         "id": 6,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2
@@ -72,9 +72,9 @@
     {
         "id": 7,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -82,9 +82,9 @@
     {
         "id": 8,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -92,9 +92,9 @@
     {
         "id": 9,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -102,9 +102,9 @@
     {
         "id": 10,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -112,9 +112,9 @@
     {
         "id": 11,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2
@@ -122,9 +122,9 @@
     {
         "id": 12,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -132,9 +132,9 @@
     {
         "id": 13,
         "type_list": {
-            "red": 22,
-            "yellow": 3,
-            "green": 15
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 22
@@ -142,9 +142,9 @@
     {
         "id": 14,
         "type_list": {
-            "red": 2,
-            "yellow": 3,
-            "green": 15
+            "red": 2.0,
+            "yellow": 3.0,
+            "green": 15.0
         },
         "type": 0,
         "time": 2

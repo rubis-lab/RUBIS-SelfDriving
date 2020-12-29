@@ -38,8 +38,9 @@ include_directories(
 # ${catkin_INCLUDE_DIRS}
 )
 
-catkin_install_python(PROGRAMS src/test_light.py
+catkin_install_python(PROGRAMS src/lgsvl_traffic_signal_test.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 add_executable(fake_object_generator
   src/fake_object_generator.cpp

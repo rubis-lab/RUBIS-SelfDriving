@@ -12,12 +12,10 @@ import time
 import subprocess
 import rospy
 from pathlib import Path
-from std_msgs.msg import String
-
-
+from autoware_msgs.msg import RUBISTrafficSignalArray, RUBISTrafficSignal
 
 ## main ##
-pub = rospy.Publisher('traffic_signal', String, queue_size=50)
+pub = rospy.Publisher('v2x_traffic_signal', RUBISTrafficSignalArray, queue_size=50)
 rospy.init_node('traffic_signal_pub', anonymous=True)
 rate = rospy.Rate(10)
 remain_time = float(10)
@@ -28,9 +26,10 @@ subprocess.Popen(["./test_light.py"],cwd=dict_path)
 with open(file_path, "r") as read_json:
   light_list = json.load(read_json)
 
-
 topic_list = []
 topic_typelist = []
+
+signal_array_msg = RUBISTrafficSignalArray()
 
 for light in light_list:
   sync_time = 5 + float(light['time'])
@@ -42,9 +41,14 @@ for light in light_list:
   topic_list.append(topic)
   topic_typelist.append(light['type_list'])
 
+  signal_msg = RUBISTrafficSignal()
+  signal_msg.id = light['id']
+  signal_msg.type = light['type']
+  signal_msg.time = sync_time
+  signal_array_msg.signals.append(signal_msg)
 
-while True:
-  for topic in topic_list:
+while not rospy.is_shutdown():
+  for (i, topic) in enumerate(topic_list):
     if topic['time'] < 0.05:
       if topic['type'] == 0:
         topic['type'] = 1
@@ -56,8 +60,12 @@ while True:
         topic['type'] = 0
         topic['time'] = float(topic_typelist[topic['id']]['red'])
     topic['time'] = topic['time'] - (1/remain_time)
+
+    signal_array_msg.signals[i].type = topic['type']
+    signal_array_msg.signals[i].time = topic['time']
+
   data = json.dumps(topic_list, indent=4)
-  print(data)
-  rospy.loginfo(data)
-  pub.publish(data)
+  # print(data)
+  # rospy.loginfo(data)
+  pub.publish(signal_array_msg)
   rate.sleep()
