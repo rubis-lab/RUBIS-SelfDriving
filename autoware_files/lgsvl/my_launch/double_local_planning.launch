@@ -37,7 +37,10 @@
     <arg name="minVelocity"                     default="0.1" />  
     <arg name="speedProfileFactor"              default="1.2"  />
     <arg name="smoothingDataWeight"             default="0.45"  />
-    <arg name="smoothingSmoothWeight"           default="0.4"  />  
+    <arg name="smoothingSmoothWeight"           default="0.4"  />
+    <!-- HJW Added for traffic signal -->
+    <arg name="stopLineMargin"                  default="10.0"  />
+    <arg name="stopLineDetectionDistance"       default="20.0"  />
   </include>
 
   <!-- op_trajectory_generator -->

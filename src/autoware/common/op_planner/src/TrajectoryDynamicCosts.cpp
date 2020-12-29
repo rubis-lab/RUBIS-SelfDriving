@@ -428,7 +428,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         if(longitudinalDist < 0 ||
           longitudinalDist > 20 ||
-          obj_info.perp_distance > rollOuts.size() * params.rollOutDensity / 2)
+          obj_info.perp_distance > rollOuts.size() * params.rollOutDensity / 2 + critical_lateral_distance)
         {
           continue;
         }
