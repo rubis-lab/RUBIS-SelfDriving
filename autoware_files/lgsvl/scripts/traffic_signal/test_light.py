@@ -23,11 +23,13 @@ state = lgsvl.AgentState()
 forward = lgsvl.utils.transform_to_forward(spawns[0])
 state.transform = spawns[0]
 state.transform.position = spawns[0].position
-ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
+ego = sim.add_agent("DoubleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
+
+ego.connect_bridge(os.environ.get("BRIDGE_HOST", "127.0.0.1"), 9090)
 
 light_list = []
 ## Get a list of controllable objects
-set_control = "red=7;yellow=3;green=7;loop"
+set_control = "red=7;green=7;yellow=3;loop"
 signal = sim.get_controllable(lgsvl.Vector(15.5465927124023, 4.72256088256836, -23.8751735687256), "signal")
 signal.control(set_control)
 controllables = sim.get_controllables("signal")
