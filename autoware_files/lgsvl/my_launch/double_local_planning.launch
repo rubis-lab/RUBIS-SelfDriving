@@ -84,5 +84,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="20.0" />
+    <arg name="trafficLightFile"                default="borregas_traffic_light.yaml" />
+    <arg name="stopLineFile"                    default="borregas_stop_line.yaml" />
   </include>
 </launch>
