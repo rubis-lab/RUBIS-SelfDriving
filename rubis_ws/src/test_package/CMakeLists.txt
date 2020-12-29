@@ -89,3 +89,11 @@ add_dependencies(gnss_republisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 target_link_libraries(gnss_republisher
   ${catkin_LIBRARIES}
 )
+
+add_executable(twist_cmd_publisher
+  src/twist_cmd_publisher.cpp
+)
+add_dependencies(twist_cmd_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(twist_cmd_publisher
+  ${catkin_LIBRARIES}
+)
