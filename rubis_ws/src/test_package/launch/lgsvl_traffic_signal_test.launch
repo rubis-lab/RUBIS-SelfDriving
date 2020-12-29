@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="test_package" type="lgsvl_traffic_signal_test.py" name="lgsvl_traffic_signal_test" output="screen">
+    </node>
+</launch>
