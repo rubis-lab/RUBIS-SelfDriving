@@ -210,19 +210,22 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     }
   }
 
-  m_PrevSelectedIndex = smallestIndex;
+  #ifdef DEBUG_ENABLE
+    std::cout << "Index : " << smallestIndex << std::endl;
+  #endif
 
   if(smallestIndex == -1)
   {
     bestTrajectory.bBlocked = true;
-    bestTrajectory.lane_index = 0;
-    bestTrajectory.index = m_PrevCostIndex;
+    bestTrajectory.lane_index = m_PrevSelectedIndex;
+    bestTrajectory.index = m_PrevSelectedIndex;
     bestTrajectory.closest_obj_distance = smallestDistance;
     bestTrajectory.closest_obj_velocity = velo_of_next;
   }
   else if(smallestIndex >= 0)
   {
     bestTrajectory = m_TrajectoryCosts.at(smallestIndex);
+    m_PrevSelectedIndex = smallestIndex;
   }
 
   m_PrevIndex = currIndex;
@@ -381,7 +384,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
   m_SafetyBorder.points.push_back(top_left_car);
 
   #ifdef DEBUG_ENABLE
-    std::cout << "points num : " << contourPoints.size() << std::endl;
+    // std::cout << "points num : " << contourPoints.size() << std::endl;
   #endif
 
   int iCostIndex = 0;
@@ -421,13 +424,8 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
-        #ifdef DEBUG_ENABLE
-        // if(contourPoints.at(icon).laneChangeCost == 1000)
-          std::cout << longitudinalDist << " " << lateralDist << std::endl;
-        #endif
-
         if(longitudinalDist < 0 ||
-          longitudinalDist > 20 ||
+          longitudinalDist > 30 ||
           obj_info.perp_distance > rollOuts.size() * params.rollOutDensity / 2 + critical_lateral_distance)
         {
           continue;
@@ -446,10 +444,11 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         if(m_SafetyBorder.PointInsidePolygon(m_SafetyBorder, contourPoints.at(icon).pos) == true)
           trajectoryCosts.at(iCostIndex).bBlocked = true;
 
-        if(lateralDist <= 2
-            && longitudinalDist >= -carInfo.length
-            && longitudinalDist < 5)
-          trajectoryCosts.at(iCostIndex).bBlocked = true;
+        // // Disabled bj hjw
+        // if(lateralDist <= 2
+        //     && longitudinalDist >= -carInfo.length
+        //     && longitudinalDist < 5)
+        //   trajectoryCosts.at(iCostIndex).bBlocked = true;
 
         // Original
         // if(lateralDist <= critical_lateral_distance
@@ -472,7 +471,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
       #ifdef DEBUG_ENABLE
       // std::cout << trajectoryCosts.at(iCostIndex).longitudinal_cost << " " << trajectoryCosts.at(iCostIndex).lateral_cost << ", ";
-      // std::cout << unskipped << " ";
+      std::cout << unskipped << " ";
       #endif
 
       // Calculate lateral/logitudinal cost, disdtance and velocity
@@ -672,7 +671,8 @@ void TrajectoryDynamicCosts::NormalizeCosts(vector<TrajectoryCost>& trajectoryCo
   //          << ", Long: " << trajectoryCosts.at(ic).longitudinal_cost
   //          << ", Change: " << trajectoryCosts.at(ic).lane_change_cost
   //          << ", Avg: " << trajectoryCosts.at(ic).cost
-  //          << std::endl;
+  //          << ", Blocked : " << trajectoryCosts.at(ic).bBlocked
+          //  << std::endl;
   }
 
   // std::cout << "------------------------ " << std::endl;

@@ -94,7 +94,6 @@ void Nmea2TFPoseNode::convert(std::vector<std::string> nmea, ros::Time current_s
   {
     if (nmea.at(0).compare(0, 2, "QQ") == 0)
     {
-      std::cout<<"!!"<<nmea.at(3)<<"/"<<nmea.at(4)<<"/"<<nmea.at(5)
       orientation_time_ = stod(nmea.at(3));
       roll_ = stod(nmea.at(4)) * M_PI / 180.;
       pitch_ = -1 * stod(nmea.at(5)) * M_PI / 180.;
