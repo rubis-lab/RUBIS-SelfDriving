@@ -74,8 +74,8 @@ private:
   geo_pos_conv geo_;
   geo_pos_conv last_geo_;
   double roll_, pitch_, yaw_;
-  double orientation_time_, position_time_;
-  ros::Time current_time_, orientation_stamp_, prev_time_;
+  double orientation_time_, position_time_, current_time_, prev_time_;
+  ros::Time orientation_stamp_;
   tf::TransformBroadcaster br_;
   bool orientation_ready_;  // true if position history is long enough to compute orientation
   geometry_msgs::TwistStamped gnss_vel_;
