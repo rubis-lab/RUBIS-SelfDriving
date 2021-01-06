@@ -15,10 +15,10 @@ sim = lgsvl.Simulator(os.environ.get("SIMULATOR_HOST", "127.0.0.1"), 8181)
 layer_mask = 0
 layer_mask |= 1 << 0  # 0 is the layer for the road (default)
 
-if sim.current_scene == "testbed":
+if sim.current_scene == "Testbed":
   sim.reset()
 else:
-  sim.load("testbed")
+  sim.load("Testbed")
 
 spawns = sim.get_spawn()
 forward = lgsvl.utils.transform_to_forward(spawns[0])
