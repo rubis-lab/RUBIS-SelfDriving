@@ -1,4 +1,6 @@
 <launch>
     <node pkg="test_package" type="lgsvl_traffic_signal_test.py" name="lgsvl_traffic_signal_test" output="screen">
+        <!-- <rosparam command="load" file="$(find test_package)/cfg/testbed_stop_line.yaml"/> -->
+        <rosparam command="load" file="$(find test_package)/cfg/borregas_stop_line.yaml"/>
     </node>
 </launch>
