@@ -56,7 +56,7 @@
     <arg name="output_frame" value="velodyne_left" />
     <arg name="remove_ground" value="true" />
     <arg name="downsample_cloud" value="false" /> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
-    <arg name="leaf_size" value="0.68" /><!-- Voxel Grid Filter leaf size-->
+    <arg name="leaf_size" value="0.7" /><!-- Voxel Grid Filter leaf size-->
     <arg name="cluster_size_min" value="1" /><!-- Minimum number of points to consider a cluster as valid-->
     <arg name="cluster_size_max" value="100000" /><!-- Maximum number of points to allow inside a cluster-->
     <arg name="sync" value="false" />
@@ -68,7 +68,7 @@
     <arg name="keep_lane_left_distance" value="5" />
     <arg name="keep_lane_right_distance" value="5" />
     <arg name="cluster_merge_threshold" value="1.5" />
-    <arg name="clustering_distance" value="0.75" />
+    <arg name="clustering_distance" value="0.01" />
     <arg name="use_vector_map" value="false" />
     <arg name="wayarea_gridmap_layer" value="wayarea" />
     <arg name="remove_points_upto" value="0.0" />
@@ -111,8 +111,8 @@
     <arg name="min_person_dimensions" default="[1,2,1]"/>
     <arg name="min_truck_dimensions" default="[4,2,2]"/>
     <arg name="sync_topics" default="true"/>
-    <arg name="overlap_threshold" default="0.2"/>
-    <arg name="vision_area_ratio_threshold" default="0.0025"/>
+    <arg name="overlap_threshold" default="0.000001"/>
+    <arg name="vision_area_ratio_threshold" default="0.000001"/>
     <arg name="use_vector_map" default="false"/>
     <arg name="namespace" default="/detection/fusion_tools"/>
   </include>
@@ -152,7 +152,7 @@
     <arg name="output_frame" value="velodyne_right" />
     <arg name="remove_ground" value="true" />
     <arg name="downsample_cloud" value="false" /> <!-- Apply VoxelGrid Filter with the value given by "leaf_size"-->
-    <arg name="leaf_size" value="0.68" /><!-- Voxel Grid Filter leaf size-->
+    <arg name="leaf_size" value="0.7" /><!-- Voxel Grid Filter leaf size-->
     <arg name="cluster_size_min" value="1" /><!-- Minimum number of points to consider a cluster as valid-->
     <arg name="cluster_size_max" value="100000" /><!-- Maximum number of points to allow inside a cluster-->
     <arg name="sync" value="false" />
@@ -164,7 +164,7 @@
     <arg name="keep_lane_left_distance" value="5" />
     <arg name="keep_lane_right_distance" value="5" />
     <arg name="cluster_merge_threshold" value="1.5" />
-    <arg name="clustering_distance" value="0.75" />
+    <arg name="clustering_distance" value="0.01" />
     <arg name="use_vector_map" value="false" />
     <arg name="wayarea_gridmap_layer" value="wayarea" />
     <arg name="remove_points_upto" value="0.0" />
@@ -211,6 +211,11 @@
     <arg name="vision_area_ratio_threshold" default="0.0025"/>
     <arg name="use_vector_map" default="false"/>
     <arg name="namespace" default="/detection/fusion_tools"/>
+  </include>
+
+  <!-- Traffic Signal -->
+  <include file="$(find test_package)/launch/lgsvl_traffic_signal_test.launch">
+    <arg name="stopline_data" value="$(env HOME)/autoware.ai/rubis_ws/src/test_package/cfg/testbed_stop_line.yaml"/>
   </include>
 
 </launch>

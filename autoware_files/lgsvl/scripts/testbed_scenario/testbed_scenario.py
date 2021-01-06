@@ -9,6 +9,8 @@ import os
 import lgsvl
 import random
 import time
+from pathlib import Path
+import json
 
 sim = lgsvl.Simulator(os.environ.get("SIMULATOR_HOST", "127.0.0.1"), 8181)
 
@@ -29,15 +31,61 @@ sz = spawns[0].position.z
 spawns = sim.get_spawn()
 
 state = lgsvl.AgentState()
-state.transform.position = spawns[0].position + 5 * right
+state.transform.position = spawns[0].position
 state.transform.rotation = spawns[0].rotation
 
-ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
+#ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
+ego = sim.add_agent("DoubleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
 ego.connect_bridge(os.environ.get("BRIDGE_HOST", "127.0.0.1"), 9090)
 
-set_control = "red=7;yellow=3;green=7;loop"
+
+
+light_list = []
+## Get a list of controllable objects
+set_control = "green=7;red=7;yellow=3;loop"
 signal = sim.get_controllables("signal")
 signal[1].control(set_control)
+controllables = sim.get_controllables("signal")
+
+# print("\n# List of controllable objects in {} scene:".format(scene_name))
+for idx, c in enumerate(controllables):
+  light = {
+    'id': 0,
+    'type_list': {
+      'red': 0,
+      'yellow': 0,
+      'green': 0
+    },
+    'type': 0,
+    'time': 0
+  }
+  policy_time = []
+
+  temp = c.__repr__()
+  _temp = str.split(temp, ',')
+  s_temp = str.split(_temp[14], ':')
+  light['id'] = idx
+  if idx == 1:
+    control_policy = str.split(set_control, ';')
+  else:
+    control_policy = str.split(s_temp[1], ';')
+    control_policy[0] = control_policy[0][2:]
+  control_policy.pop()
+
+  for color_list in control_policy:
+    policy_time.append(str.split(color_list, '='))
+
+  for color in policy_time:
+    light['type_list'][color[0]] = float(color[1])
+  light['time'] = int(light['type_list']['red'])
+  light_list.append(light)
+
+
+dict_path = os.path.join(str(Path.home()), "autoware.ai/autoware_files/lgsvl/scripts/traffic_signal")
+file_path = os.path.join(dict_path, "traffic_signal_policy.json")
+config_file = open(file_path, 'w')
+json.dump(light_list, config_file, indent=4)
+config_file.close()
 
 
 #------- Fast Pedestrian -------#
@@ -47,28 +95,26 @@ speed = 7
 #set start waypoint
 start = spawns[0].position + 81 * forward + 44 * right
 
-hit = sim.raycast(start, lgsvl.Vector(0, -1, 0), layer_mask)
 #you can change trigger_distance what you want
-fp_wp1 = lgsvl.WalkWaypoint(position=hit.point, speed=speed, idle=5.0, trigger_distance=60, trigger=None)
+fp_wp1 = lgsvl.WalkWaypoint(position=lgsvl.Vector(start.x, start.y, start.z), speed=speed, idle=5.0,
+                            trigger_distance=60, trigger=None)
 fp_waypoints.append(fp_wp1)
 
 
 second = spawns[0].position + 81 * forward + 20 * right
 
-hit = sim.raycast(second, lgsvl.Vector(0, -1, 0), layer_mask)
-fp_wp2 = lgsvl.WalkWaypoint(position=hit.point, speed=speed, idle=8.0, trigger_distance=0, trigger=None)
+fp_wp2 = lgsvl.WalkWaypoint(position=lgsvl.Vector(second.x, second.y, second.z), speed=speed, idle=8.0,
+                            trigger_distance=0, trigger=None)
 fp_waypoints.append(fp_wp2)
 
 third = spawns[0].position + 110 * forward + 8 * right
-
-hit = sim.raycast(third, lgsvl.Vector(0, -1, 0), layer_mask)
-fp_wp3 = lgsvl.WalkWaypoint(position=hit.point, speed=speed, idle=0, trigger_distance=0, trigger=None)
+fp_wp3 = lgsvl.WalkWaypoint(position=lgsvl.Vector(third.x, third.y, third.z), speed=speed, idle=0,
+                            trigger_distance=0, trigger=None)
 fp_waypoints.append(fp_wp3)
 
 end = spawns[0].position + 110 * forward - 3 * right
-
-hit = sim.raycast(end, lgsvl.Vector(0, -1, 0), layer_mask)
-fp_wp4 = lgsvl.WalkWaypoint(position=hit.point, speed=speed, idle=0, trigger_distance=0, trigger=None)
+fp_wp4 = lgsvl.WalkWaypoint(position=lgsvl.Vector(end.x, end.y, end.z), speed=speed, idle=0,
+                            trigger_distance=0, trigger=None)
 fp_waypoints.append(fp_wp4)
 
 #set position of fast pedestrian
@@ -79,16 +125,11 @@ fp_state.transform.rotation = spawns[0].rotation
 fast_pedestrian = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN, fp_state)
 fast_pedestrian.follow(fp_waypoints, False)
 
-def on_waypoint(agent, index):
-  print("Waypoint {} reached".format(index))
-
-fast_pedestrian.on_waypoint_reached(on_waypoint)
-
 
 #------- Stand vehicle -------#
 #set stand vehicle's initial position
 sv_state = lgsvl.AgentState()
-sv_state.transform.position = spawns[0].position + 30 * forward + 6 * right
+sv_state.transform.position = spawns[0].position + 80 * forward
 sv_state.transform.rotation = spawns[0].rotation
 
 stand_vehicle = sim.add_agent("Sedan", lgsvl.AgentType.NPC, sv_state)
@@ -113,57 +154,61 @@ np_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, np2_state)
 
 #set traffic cone1
 cone1_state = lgsvl.ObjectState()
-cone1_state.transform.position = spawns[0].position + 385 * forward - right
+cone1_state.transform.position = spawns[0].position + 383 * forward - right
 cone1_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone1 = sim.controllable_add("TrafficCone", cone1_state)
 
 #set traffic cone2
 cone2_state = lgsvl.ObjectState()
-cone2_state.transform.position = spawns[0].position + 385 * forward
+cone2_state.transform.position = spawns[0].position + 383 * forward
 cone2_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone2 = sim.controllable_add("TrafficCone", cone2_state)
 
 #set traffic cone3
 cone3_state = lgsvl.ObjectState()
-cone3_state.transform.position = spawns[0].position + 385 * forward + right
+cone3_state.transform.position = spawns[0].position + 383 * forward + right
 cone3_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone3 = sim.controllable_add("TrafficCone", cone3_state)
 
-
 #set worker
-worker_state = lgsvl.ObjectState()
-worker_state.transform.position = spawns[0].position + 387 * forward
-worker_state.transform.rotation = lgsvl.Vector(0, 0, 0)
-worker = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN, worker_state)
+cunscar1_state = lgsvl.ObjectState()
+cunscar1_state.transform.position = spawns[0].position + 390 * forward
+cunscar1_state.transform.rotation = lgsvl.Vector(0, 0, 0)
+worker1 = sim.add_agent("BoxTruck", lgsvl.AgentType.NPC, cunscar1_state)
 
 
 #------- Move pedestrian -------#
 
+#set position of move pedestrian
+mp_state = lgsvl.AgentState()
+mp_state.transform.position = spawns[0].position + 440 * forward + 9 * right
+mp_state.transform.rotation = spawns[0].rotation
+
 mp_waypoints = []
 
 #set start waypoint of cross walk
-start = spawns[0].position + 460 * forward + 8 * right
-
-mp_hit1 = sim.raycast(start, lgsvl.Vector(0, -1, 0), layer_mask)
+mp_start = spawns[0].position + 440 * forward + 8 * right
 
 #you can change trigger_distance what you want
-mp_wp1 = lgsvl.WalkWaypoint(position=mp_hit1.point, speed=1, idle=0, trigger_distance=30, trigger=None)
+mp_wp1 = lgsvl.WalkWaypoint(position=lgsvl.Vector(mp_start.x, mp_start.y, mp_start.z), speed=3, idle=0,
+                            trigger_distance=30, trigger=None)
 mp_waypoints.append(mp_wp1)
 
 #set end waypoint of cross walk
-end = start - 23 * right
-
-mp_hit2 = sim.raycast(end, lgsvl.Vector(0, -1, 0), layer_mask)
-mp_wp2 = lgsvl.WalkWaypoint(position=mp_hit2.point, speed=1, idle=0, trigger_distance=0, trigger=None)
+mp_mid = mp_start - 3 * right
+mp_wp2 = lgsvl.WalkWaypoint(position=lgsvl.Vector(mp_mid.x, mp_mid.y, mp_mid.z), speed=2, idle=3,
+                            trigger_distance=0, trigger=None)
 mp_waypoints.append(mp_wp2)
 
-#set position of move pedestrian
-mp_state = lgsvl.AgentState()
-mp_state.transform.position = spawns[0].position + 460 * forward + 9 * right
-mp_state.transform.rotation = spawns[0].rotation
+mp_end = mp_mid - 18 * right
+mp_wp3 = lgsvl.WalkWaypoint(position=lgsvl.Vector(mp_end.x, mp_end.y, mp_end.z), speed=2, idle=0,
+                            trigger_distance=0, trigger=None)
+mp_waypoints.append(mp_wp3)
+
+
 
 move_pedestrian = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN, mp_state)
 move_pedestrian.follow(mp_waypoints, False)
@@ -176,22 +221,25 @@ cs1_state.transform.position = spawns[0].position + 485 * forward - 40 * right
 cs1_state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 cs_angle = cs1_state.transform.rotation
-cs_speed = 2
+cs_speed = 5
 
 #set cs_vehicle1's start waypoint of congestion section
 cs1_waypoints = []
 cs1_start = cs1_state.transform.position - 2 * right
-cs1_hit1 = sim.raycast(cs1_start, lgsvl.Vector(0, -1, 0), layer_mask)
-cs1_wp1 = lgsvl.DriveWaypoint(position=cs1_hit1.point, speed=cs_speed, angle=cs_angle, idle=0,
-                              trigger_distance=30, trigger=None)
+cs1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs1_start.x, cs1_start.y, cs1_start.z), speed=cs_speed,
+                              angle=cs_angle, idle=0, trigger_distance=30, trigger=None)
 cs1_waypoints.append(cs1_wp1)
 
 #set cs_vehicle1's end waypoint of congestion section
 cs1_end = cs1_start - 100 * right
-cs1_hit2 = sim.raycast(cs1_end, lgsvl.Vector(0, -1, 0), layer_mask)
-cs1_wp2 = lgsvl.DriveWaypoint(position=cs1_hit2.point, speed=cs_speed, angle=cs_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+cs1_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs1_end.x, cs1_end.y, cs1_end.z), speed=cs_speed,
+                              angle=cs_angle, idle=100, trigger_distance=0, trigger=None)
 cs1_waypoints.append(cs1_wp2)
+
+cs1_dump = cs1_end - 5000 * forward - 5000 * right
+cs1_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs1_dump.x, cs1_dump.y, cs1_dump.z), speed=1,
+                              angle=cs_angle, idle=0, trigger_distance=0, trigger=None)
+cs1_waypoints.append(cs1_wp3)
 
 cs_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, cs1_state)
 cs_vehicle1.follow(cs1_waypoints)
@@ -205,24 +253,27 @@ cs2_waypoints = []
 
 #set cs_vehicle2's start waypoint of congestion section
 cs2_start = cs2_state.transform.position - 2 * right
-cs2_hit1 = sim.raycast(cs2_start, lgsvl.Vector(0, -1, 0), layer_mask)
-cs2_wp1 = lgsvl.DriveWaypoint(position=cs2_hit1.point, speed=cs_speed, angle=cs_angle, idle=0,
-                              trigger_distance=50, trigger=None)
+cs2_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs2_start.x, cs2_start.y, cs2_start.z),
+                              speed=cs_speed, angle=cs_angle, idle=0, trigger_distance=50, trigger=None)
 cs2_waypoints.append(cs2_wp1)
 
 #set cs_vehicle2's end waypoint of congestion section
 cs2_end = cs2_start - 100 * right
-cs2_hit2 = sim.raycast(cs2_end, lgsvl.Vector(0, -1, 0), layer_mask)
-cs2_wp2 = lgsvl.DriveWaypoint(position=cs2_hit2.point, speed=cs_speed, angle=cs_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+cs2_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs2_end.x, cs2_end.y, cs2_end.z), speed=cs_speed,
+                              angle=cs_angle, idle=100, trigger_distance=0, trigger=None)
 cs2_waypoints.append(cs2_wp2)
 
 cs_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, cs2_state)
 cs_vehicle2.follow(cs2_waypoints)
 
+cs2_dump = cs2_end - 5000 * forward - 5000 * right
+cs2_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs2_dump.x, cs2_dump.y, cs2_dump.z), speed=1,
+                              angle=cs_angle, idle=0, trigger_distance=0, trigger=None)
+cs2_waypoints.append(cs2_wp3)
 
 #------- Cut in scenario 1 -------#
 
+#set vehicle 1 in Cut in scenario
 ci1_state = lgsvl.AgentState()
 ci1_state.transform.position = spawns[0].position + 483 * forward - 250 * right
 ci1_state.transform.rotation = lgsvl.Vector(0, -90, 0)
@@ -235,10 +286,10 @@ ci1_waypoints = []
 #set ci_vehicle1's waypoints of Cut in scenario
 ci1_start = ci1_state.transform.position - 2 * forward
 ci1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci1_start.x, ci1_start.y, ci1_start.z), speed=ci_speed,
-                              angle=ci_angle, idle=0, trigger_distance=20, trigger=None)
+                              angle=ci_angle, idle=0, trigger_distance=30, trigger=None)
 ci1_waypoints.append(ci1_wp1)
 
-ci1_way1 = ci1_start - 30 * right
+ci1_way1 = ci1_start - 5 * right
 ci1_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci1_way1.x, ci1_way1.y, ci1_way1.z), speed=ci_speed, angle=ci_angle,
                               idle=0, trigger_distance=0, trigger=None)
 ci1_waypoints.append(ci1_wp2)
@@ -250,49 +301,53 @@ ci1_waypoints.append(ci1_wp3)
 
 ci1_end = ci1_way2 - 30 * right
 ci1_wp4 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci1_end.x, ci1_end.y, ci1_end.z), speed=ci_speed,
-                              angle=ci_angle, idle=0, trigger_distance=0, trigger=None)
+                              angle=ci_angle, idle=100, trigger_distance=0, trigger=None)
 ci1_waypoints.append(ci1_wp4)
+
+ci1_dump = ci1_end + 1000 * right
+ci1_wp5 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci1_dump.x, ci1_dump.y, ci1_dump.z), speed=ci_speed,
+                              angle=ci_angle, idle=0, trigger_distance=0, trigger=None)
+ci1_waypoints.append(ci1_wp5)
 
 ci_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, ci1_state)
 ci_vehicle1.follow(ci1_waypoints)
 
-# #----dump----#
-# ci1_state = lgsvl.AgentState()
-# ci1_state.transform.position = spawns[0].position + 450 * forward - 615 * right
-# ci1_state.transform.rotation = lgsvl.Vector(0, -180, 0)
-#
-# ci_speed = 6
-# ci_angle = ci1_state.transform.rotation
-#
-# ci1_waypoints = []
-#
-# #set ci_vehicle1's waypoints of Cut in scenario
-# ci1_start = ci1_state.transform.position - 2 * forward
-# ci1_hit1 = sim.raycast(ci1_start, lgsvl.Vector(0, -1, 0), layer_mask)
-# ci1_wp1 = lgsvl.DriveWaypoint(position=ci1_hit1.point, speed=ci_speed, angle=ci_angle, idle=0,
-#                               trigger_distance=20, trigger=None)
-# ci1_waypoints.append(ci1_wp1)
-#
-# ci1_way1 = ci1_start - 30 * forward
-# ci1_hit2 = sim.raycast(ci1_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-# ci1_wp2 = lgsvl.DriveWaypoint(position=ci1_hit2.point, speed=ci_speed, angle=ci_angle, idle=0,
-#                               trigger_distance=0, trigger=None)
-# ci1_waypoints.append(ci1_wp2)
-#
-# ci1_way2 = ci1_way1 - 10 * forward - 5 * right
-# ci1_hit3 = sim.raycast(ci1_way2, lgsvl.Vector(0, -1, 0), layer_mask)
-# ci1_wp3 = lgsvl.DriveWaypoint(position=ci1_hit3.point, speed=ci_speed, angle=ci_angle, idle=0,
-#                               trigger_distance=0, trigger=None)
-# ci1_waypoints.append(ci1_wp3)
-#
-# ci1_end = ci1_way2 - 30 * forward
-# ci1_hit4 = sim.raycast(ci1_end, lgsvl.Vector(0, -1, 0), layer_mask)
-# ci1_wp4 = lgsvl.DriveWaypoint(position=ci1_hit4.point, speed=ci_speed, angle=ci_angle, idle=0,
-#                               trigger_distance=0, trigger=None)
-# ci1_waypoints.append(ci1_wp4)
-#
-# ci_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, ci1_state)
-# ci_vehicle1.follow(ci1_waypoints)
+#set vehicle 2 in Cut in scenario
+ci2_state = lgsvl.AgentState()
+ci2_state.transform.position = spawns[0].position + 486 * forward - 350 * right
+ci2_state.transform.rotation = lgsvl.Vector(0, -180, 0)
+
+
+ci2_waypoints = []
+
+#set ci_vehicle2's waypoints of Cut in scenario
+ci2_start = ci2_state.transform.position - 2 * right
+ci2_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci2_start.x, ci2_start.y, ci2_start.z), speed=ci_speed,
+                              angle=ci_angle, idle=0, trigger_distance=30, trigger=None)
+ci2_waypoints.append(ci2_wp1)
+
+ci2_way1 = ci2_start - 5 * right
+ci2_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci2_way1.x, ci2_way1.y, ci2_way1.z), speed=ci_speed,
+                              angle=ci_angle, idle=0, trigger_distance=0, trigger=None)
+ci2_waypoints.append(ci2_wp2)
+
+ci2_way2 = ci2_way1 - 5 * forward - 10 * right
+ci2_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci2_way2.x, ci2_way2.y, ci2_way2.z), speed=ci_speed,
+                              angle=ci_angle, idle=0, trigger_distance=0, trigger=None)
+ci2_waypoints.append(ci2_wp3)
+
+ci2_end = ci2_way2 - 30 * right
+ci2_wp4 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci2_end.x, ci2_end.y, ci2_end.z), speed=ci_speed,
+                              angle=ci_angle, idle=10, trigger_distance=0, trigger=None)
+ci2_waypoints.append(ci2_wp4)
+
+ci2_dump = ci2_end + 1000 * right
+ci2_wp5 = lgsvl.DriveWaypoint(position=lgsvl.Vector(ci2_dump.x, ci2_dump.y, ci2_dump.z), speed=ci_speed,
+                              angle=ci_angle, idle=0, trigger_distance=0, trigger=None)
+ci2_waypoints.append(ci2_wp5)
+
+ci_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, ci2_state)
+ci_vehicle2.follow(ci2_waypoints)
 
 
 #set all of npc_vehicle speed on scenes
@@ -309,43 +364,47 @@ npc1_s1_waypoints = []
 
 #set npc_s1_vehicle1's waypoint1
 npc1_s1_start = npc1_s1_state.transform.position + 2 * right
-npc1_s1_hit1 = sim.raycast(npc1_s1_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_wp1 = lgsvl.DriveWaypoint(position=npc1_s1_hit1.point, speed=npc_speed, angle=npc_s1_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s1_start.x, npc1_s1_start.y, npc1_s1_start.z),
+                               speed=npc_speed, angle=npc_s1_angle, idle=0, trigger_distance=0, trigger=None)
 npc1_s1_waypoints.append(npc1_wp1)
 
 #set npc_s1_vehicle1's waypoint2
 npc1_s1_way1 = npc1_s1_start + 500 * right
-npc1_s1_hit2 = sim.raycast(npc1_s1_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s1_wp2 = lgsvl.DriveWaypoint(position=npc1_s1_hit2.point, speed=npc_speed, angle=npc_s1_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_s1_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s1_way1.x, npc1_s1_way1.y, npc1_s1_way1.z),
+                                  speed=npc_speed, angle=npc_s1_angle, idle=100, trigger_distance=0, trigger=None)
 npc1_s1_waypoints.append(npc1_s1_wp2)
+
+npc1_s1_dump = npc1_s1_way1 - 5000 * right
+npc1_s1_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s1_dump.x, npc1_s1_dump.y, npc1_s1_dump.z),
+                                  speed=1, angle=npc_s1_angle, idle=0, trigger_distance=0, trigger=None)
+npc1_s1_waypoints.append(npc1_s1_wp3)
 
 #set npc_s1_vehicle1
 npc_s1_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc1_s1_state)
 npc_s1_vehicle1.follow(npc1_s1_waypoints)
 
-
 npc2_s1_state = lgsvl.AgentState()
 npc2_s1_state.transform.position = spawns[0].position + 85 * forward - 80 * right
 npc2_s1_state.transform.rotation = lgsvl.Vector(0, 90, 0)
-
 
 npc2_s1_waypoints = []
 
 #set npc_s1_vehicle2's waypoint1
 npc2_s1_start = npc2_s1_state.transform.position + 2 * right
-npc2_s1_hit1 = sim.raycast(npc2_s1_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s1_wp1 = lgsvl.DriveWaypoint(position=npc2_s1_hit1.point, speed=npc_speed, angle=npc_s1_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s1_start.x, npc2_s1_start.y, npc2_s1_start.z),
+                                  speed=npc_speed, angle=npc_s1_angle, idle=0, trigger_distance=0, trigger=None)
 npc2_s1_waypoints.append(npc2_s1_wp1)
 
 #set npc_s1_vehicle2's waypoint2
 npc2_s1_way1 = npc2_s1_start + 500 * right
-npc2_s1_hit2 = sim.raycast(npc2_s1_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s1_wp2 = lgsvl.DriveWaypoint(position=npc2_s1_hit2.point, speed=npc_speed, angle=npc_s1_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s1_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s1_way1.x, npc2_s1_way1.y, npc2_s1_way1.z),
+                                  speed=npc_speed, angle=npc_s1_angle, idle=100, trigger_distance=0, trigger=None)
 npc2_s1_waypoints.append(npc2_s1_wp2)
+
+npc2_s1_dump = npc1_s1_way1 - 5000 * right
+npc2_s1_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s1_dump.x, npc2_s1_dump.y, npc2_s1_dump.z),
+                                  speed=1, angle=npc_s1_angle, idle=0, trigger_distance=0, trigger=None)
+npc2_s1_waypoints.append(npc1_s1_wp3)
 
 #set npc_s1_vehicle2
 npc_s1_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc2_s1_state)
@@ -365,33 +424,35 @@ npc1_s2_waypoints = []
 
 #set npc_s2_vehicle1's waypoint1
 npc1_s2_start = npc1_s2_state.transform.position - 2 * forward
-npc1_s2_hit1 = sim.raycast(npc1_s2_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s2_wp1 = lgsvl.DriveWaypoint(position=npc1_s2_hit1.point, speed=npc_speed, angle=npc_s2_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_s2_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s2_start.x, npc1_s2_start.y, npc1_s2_start.z),
+                                  speed=npc_speed, angle=npc_s2_angle, idle=0, trigger_distance=0, trigger=None)
 npc1_s2_waypoints.append(npc1_s2_wp1)
 
 #set npc_s2_vehicle1's waypoint2
 npc1_s2_way1 = npc1_s2_start - 98 * forward
-npc1_s2_hit2 = sim.raycast(npc1_s2_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s2_wp2 = lgsvl.DriveWaypoint(position=npc1_s2_hit2.point, speed=npc_speed, angle=npc_s2_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_s2_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s2_way1.x, npc1_s2_way1.y, npc1_s2_way1.z),
+                                  speed=npc_speed, angle=npc_s2_angle, idle=0, trigger_distance=0, trigger=None)
 npc1_s2_waypoints.append(npc1_s2_wp2)
 
 npc_s2_angle1 = lgsvl.Vector(0, 270, 0)
 
 #set npc_s2_vehicle1's waypoint3
 npc1_s2_way2 = npc1_s2_way1 - 2 * right
-npc1_s2_hit3 = sim.raycast(npc1_s2_way2, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s2_wp3 = lgsvl.DriveWaypoint(position=npc1_s2_hit3.point, speed=npc_speed, angle=npc_s2_angle1, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_s2_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s2_way2.x, npc1_s2_way2.y, npc1_s2_way2.z),
+                                  speed=npc_speed, angle=npc_s2_angle1, idle=0, trigger_distance=0, trigger=None)
 npc1_s2_waypoints.append(npc1_s2_wp3)
 
 #set npc_s2_vehicle1's waypoint4
-npc1_s2_way3 = npc1_s2_way2 - 1000 * right
-npc1_s2_hit4 = sim.raycast(npc1_s2_way3, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s2_wp4 = lgsvl.DriveWaypoint(position=npc1_s2_hit4.point, speed=npc_speed, angle=npc_s2_angle1, idle=0,
-                              trigger_distance=0, trigger=None)
+npc1_s2_way3 = npc1_s2_way2 - 500 * right
+npc1_s2_wp4 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s2_way3.x, npc1_s2_way3.y, npc1_s2_way3.z),
+                                  speed=npc_speed, angle=npc_s2_angle1, idle=100, trigger_distance=0, trigger=None)
 npc1_s2_waypoints.append(npc1_s2_wp4)
+
+#set npc_s2_vehicle1's waypoint4
+npc1_s2_dump = npc1_s2_way3 - 5000 * right
+npc1_s2_wp5 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s2_dump.x, npc1_s2_dump.y, npc1_s2_dump.z),
+                                  speed=1, angle=npc_s2_angle1, idle=0, trigger_distance=0, trigger=None)
+npc1_s2_waypoints.append(npc1_s2_wp5)
 
 #set npc_s2_vehicle1
 npc_s2_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc1_s2_state)
@@ -409,33 +470,34 @@ npc2_s2_waypoints = []
 
 #set npc_s2_vehicle2's waypoint1
 npc2_s2_start = npc2_s2_state.transform.position - 2 * forward
-npc2_s2_hit1 = sim.raycast(npc2_s2_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s2_wp1 = lgsvl.DriveWaypoint(position=npc2_s2_hit1.point, speed=npc_speed, angle=npc_s2_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s2_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s2_start.x, npc2_s2_start.y, npc2_s2_start.z),
+                                  speed=npc_speed, angle=npc_s2_angle, idle=0, trigger_distance=0, trigger=None)
 npc2_s2_waypoints.append(npc2_s2_wp1)
 
 #set npc_s2_vehicle2's waypoint2
 npc2_s2_way1 = npc2_s2_start - 82 * forward
-npc2_s2_hit2 = sim.raycast(npc2_s2_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s2_wp2 = lgsvl.DriveWaypoint(position=npc2_s2_hit2.point, speed=npc_speed, angle=npc_s2_angle, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s2_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s2_way1.x, npc2_s2_way1.y, npc2_s2_way1.z),
+                                  speed=npc_speed, angle=npc_s2_angle, idle=0, trigger_distance=0, trigger=None)
 npc2_s2_waypoints.append(npc2_s2_wp2)
 
 npc_s2_angle1 = lgsvl.Vector(0, 270, 0)
 
 #set npc_s2_vehicle2's waypoint3
 npc2_s2_way2 = npc2_s2_way1 - 2 * right
-npc2_s2_hit3 = sim.raycast(npc2_s2_way2, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s2_wp3 = lgsvl.DriveWaypoint(position=npc2_s2_hit3.point, speed=npc_speed, angle=npc_s2_angle1, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s2_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s2_way2.x, npc2_s2_way2.y, npc2_s2_way2.z),
+                                  speed=npc_speed, angle=npc_s2_angle1, idle=0, trigger_distance=0, trigger=None)
 npc2_s2_waypoints.append(npc2_s2_wp3)
 
 #set npc_s2_vehicle2's waypoint4
-npc2_s2_way3 = npc2_s2_way2 - 1000 * right
-npc2_s2_hit4 = sim.raycast(npc2_s2_way3, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s2_wp4 = lgsvl.DriveWaypoint(position=npc2_s2_hit4.point, speed=npc_speed, angle=npc_s2_angle1, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s2_way3 = npc2_s2_way2 - 500 * right
+npc2_s2_wp4 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s2_way3.x, npc2_s2_way3.y, npc2_s2_way3.z),
+                                  speed=npc_speed, angle=npc_s2_angle1, idle=100, trigger_distance=0, trigger=None)
 npc2_s2_waypoints.append(npc2_s2_wp4)
+
+npc2_s2_dump = npc2_s2_way3 - 5000 * right
+npc2_s2_wp5 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s2_way3.x, npc2_s2_way3.y, npc2_s2_way3.z),
+                                  speed=1, angle=npc_s2_angle1, idle=0, trigger_distance=0, trigger=None)
+npc2_s2_waypoints.append(npc2_s2_wp5)
 
 #set npc_s2_vehicle2
 npc_s2_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc2_s2_state)
@@ -454,16 +516,21 @@ npc1_s3_waypoints = []
 
 #set npc_s3_vehicle2's waypoint1
 npc1_s3_start = npc1_s3_state.transform.position + 2 * right
-npc1_s3_hit1 = sim.raycast(npc1_s3_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s3_wp1 = lgsvl.DriveWaypoint(position=npc1_s3_hit1.point, speed=npc_speed, angle=npc_s3_angle, idle=0,
-                              trigger_distance=100, trigger=None)
+npc1_s3_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s3_start.x, npc1_s3_start.y, npc1_s3_start.z),
+                                  speed=npc_speed, angle=npc_s3_angle, idle=0, trigger_distance=100, trigger=None)
 npc1_s3_waypoints.append(npc1_s3_wp1)
 
 #set npc_s3_vehicle2's waypoint2
 npc1_s3_way1 = npc1_s3_start + 1000 * right
 npc1_s3_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s3_way1.x, npc1_s3_way1.y, npc1_s3_way1.z),
-                                  speed=npc_speed, angle=npc_s3_angle, idle=0, trigger_distance=0, trigger=None)
+                                  speed=npc_speed, angle=npc_s3_angle, idle=100, trigger_distance=0, trigger=None)
 npc1_s3_waypoints.append(npc1_s3_wp2)
+
+#set npc_s3_vehicle2's waypoint3
+npc1_s3_dump = npc1_s3_way1 - 2000 * forward - 5000 * right
+npc1_s3_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s3_dump.x, npc1_s3_dump.y, npc1_s3_dump.z),
+                                  speed=1, angle=npc_s3_angle, idle=10, trigger_distance=0, trigger=None)
+npc1_s3_waypoints.append(npc1_s3_wp3)
 
 #set npc_s3_vehicle1
 npc_s3_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc1_s3_state)
@@ -479,89 +546,40 @@ npc2_s3_waypoints = []
 
 #set npc_s3_vehicle2's waypoint1
 npc2_s3_start = npc2_s3_state.transform.position + 2 * right
-npc2_s3_hit1 = sim.raycast(npc2_s3_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s3_wp1 = lgsvl.DriveWaypoint(position=npc2_s3_hit1.point, speed=npc_speed, angle=npc_s3_angle, idle=0,
-                              trigger_distance=100, trigger=None)
+npc2_s3_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s3_start.x, npc2_s3_start.y, npc2_s3_start.z),
+                                  speed=npc_speed, angle=npc_s3_angle, idle=0, trigger_distance=100, trigger=None)
 npc2_s3_waypoints.append(npc2_s3_wp1)
 
 #set npc_s3_vehicle2's waypoint2
 npc2_s3_way1 = npc2_s3_start + 88 * right
-npc2_s3_hit2 = sim.raycast(npc2_s3_way1, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s3_wp2 = lgsvl.DriveWaypoint(position=npc2_s3_hit2.point, speed=npc_speed, angle=npc_s3_angle, idle=5,
-                              trigger_distance=0, trigger=None)
+npc2_s3_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s3_way1.x, npc2_s3_way1.y, npc2_s3_way1.z),
+                                  speed=npc_speed, angle=npc_s3_angle, idle=5, trigger_distance=0, trigger=None)
 npc2_s3_waypoints.append(npc2_s3_wp2)
 
 npc_s3_angle1 = lgsvl.Vector(0, -180, 0)
 
 #set npc_s3_vehicle2's waypoint3
 npc2_s3_way2 = npc2_s3_way1 - 2 * forward
-npc2_s3_hit3 = sim.raycast(npc2_s3_way2, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s3_wp3 = lgsvl.DriveWaypoint(position=npc2_s3_hit3.point, speed=npc_speed, angle=npc_s3_angle1, idle=0,
-                              trigger_distance=0, trigger=None)
+npc2_s3_wp3 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s3_way2.x, npc2_s3_way2.y, npc2_s3_way2.z),
+                                  speed=npc_speed, angle=npc_s3_angle1, idle=0, trigger_distance=0, trigger=None)
 npc2_s3_waypoints.append(npc2_s3_wp3)
 
 #set npc_s3_vehicle2's waypoint4
 npc2_s3_way3 = npc2_s3_way2 - 1000 * forward
 npc2_s3_wp4 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s3_way3.x, npc2_s3_way3.y, npc2_s3_way3.z),
-                                  speed=npc_speed, angle=npc_s3_angle1, idle=0, trigger_distance=0, trigger=None)
+                                  speed=npc_speed, angle=npc_s3_angle1, idle=100, trigger_distance=0, trigger=None)
 npc2_s3_waypoints.append(npc2_s3_wp4)
+
+#set npc_s3_vehicle2's waypoint5
+npc2_s3_dump = npc2_s3_way3 - 5000 * right
+npc2_s3_wp5 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s3_dump.x, npc2_s3_dump.y, npc2_s3_dump.z),
+                                  speed=npc_speed, angle=npc_s3_angle1, idle=0, trigger_distance=0, trigger=None)
+npc2_s3_waypoints.append(npc2_s3_wp5)
 
 #set npc_s3_vehicle2
 npc_s3_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc2_s3_state)
 npc_s3_vehicle2.follow(npc2_s3_waypoints)
 
-
-#------- NPC car scene 4 -------#
-
-### scene4 npc 1 ###
-npc1_s4_state = lgsvl.AgentState()
-npc1_s4_state.transform.position = spawns[0].position + 475 * forward - 500 * right
-npc1_s4_state.transform.rotation = lgsvl.Vector(0, 90, 0)
-npc_s4_angle = npc1_s4_state.transform.rotation
-
-npc1_s4_waypoints = []
-
-#set npc_s3_vehicle2's waypoint1
-npc1_s4_start = npc1_s4_state.transform.position + 2 * right
-npc1_s4_hit1 = sim.raycast(npc1_s4_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc1_s4_wp1 = lgsvl.DriveWaypoint(position=npc1_s3_hit1.point, speed=npc_speed, angle=npc_s4_angle, idle=0,
-                              trigger_distance=100, trigger=None)
-npc1_s4_waypoints.append(npc1_s4_wp1)
-
-#set npc_s3_vehicle2's waypoint2
-npc1_s4_way1 = npc1_s4_start + 1000 * right
-npc1_s4_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc1_s4_way1.x, npc1_s4_way1.y, npc1_s4_way1.z),
-                                  speed=npc_speed, angle=npc_s3_angle, idle=0, trigger_distance=0, trigger=None)
-npc1_s4_waypoints.append(npc1_s4_wp2)
-
-#set npc_s3_vehicle1
-npc_s4_vehicle1 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc1_s4_state)
-npc_s4_vehicle1.follow(npc1_s4_waypoints)
-
-### scene4 npc 2 ###
-npc2_s4_state = lgsvl.AgentState()
-npc2_s4_state.transform.position = spawns[0].position + 470 * forward - 550 * right
-npc2_s4_state.transform.rotation = lgsvl.Vector(0, 90, 0)
-npc_s4_angle = npc2_s4_state.transform.rotation
-
-npc2_s4_waypoints = []
-
-#set npc_s3_vehicle2's waypoint1
-npc2_s4_start = npc2_s4_state.transform.position + 2 * right
-npc2_s4_hit1 = sim.raycast(npc2_s4_start, lgsvl.Vector(0, -1, 0), layer_mask)
-npc2_s4_wp1 = lgsvl.DriveWaypoint(position=npc2_s3_hit1.point, speed=npc_speed, angle=npc_s4_angle, idle=0,
-                              trigger_distance=100, trigger=None)
-npc2_s4_waypoints.append(npc2_s4_wp1)
-
-#set npc_s3_vehicle2's waypoint2
-npc2_s4_way1 = npc2_s4_start + 1000 * right
-npc2_s4_wp2 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s4_way1.x, npc2_s4_way1.y, npc2_s4_way1.z),
-                                  speed=npc_speed, angle=npc_s4_angle, idle=0, trigger_distance=0, trigger=None)
-npc2_s4_waypoints.append(npc2_s4_wp2)
-
-#set npc_s3_vehicle1
-npc_s4_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, npc2_s4_state)
-npc_s4_vehicle2.follow(npc2_s4_waypoints)
 
 
 sim.run()

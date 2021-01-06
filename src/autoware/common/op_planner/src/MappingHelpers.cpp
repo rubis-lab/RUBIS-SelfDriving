@@ -950,7 +950,7 @@ WayPoint* MappingHelpers::GetClosestBackWaypointFromMap(const WayPoint& pos, Roa
 {
   double distance_to_nearest_lane = 1;
   Lane* pLane = 0;
-  while(distance_to_nearest_lane < 100 && pLane == 0)
+  while(distance_to_nearest_lane < 300 && pLane == 0)
   {
     pLane = GetClosestLaneFromMap(pos, map, distance_to_nearest_lane);
     distance_to_nearest_lane += 1;
@@ -2538,6 +2538,7 @@ void MappingHelpers::CreateLanes(UtilityHNS::AisanLanesFileReader* pLaneData,
   out_lanes.clear();
   std::vector<int> start_lines;
   GetLanesStartPoints(pLaneData, start_lines);
+  std::cout<<"Start line size: "<<start_lines.size()<<std::endl;
   for(unsigned int l =0; l < start_lines.size(); l++)
   {
     Lane _lane;
@@ -2570,11 +2571,12 @@ void MappingHelpers::GetLanePoints(UtilityHNS::AisanLanesFileReader* pLaneData,
     }
 
     next_lnid = pL->FLID;
-    if(next_lnid == 0)
+    if(next_lnid == 0){
       bStart = true;
-    else
+    }
+    else{
       bStart = IsStartLanePoint(pLaneData, pLaneData->GetDataRowById(next_lnid));
-
+    }
 //    if(_lnid == 1267 ) //|| _lnid == 1268 || _lnid == 1269 || _lnid == 958)
 //      out_lane.id = lnID;
 

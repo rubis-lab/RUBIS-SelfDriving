@@ -11,9 +11,11 @@ import json
 import time
 import subprocess
 import rospy
+import copy
 from pathlib import Path
 from autoware_msgs.msg import RUBISTrafficSignalArray, RUBISTrafficSignal
 from visualization_msgs.msg import Marker, MarkerArray
+
 
 ## main ##
 pub = rospy.Publisher('v2x_traffic_signal', RUBISTrafficSignalArray, queue_size=50)
@@ -21,10 +23,12 @@ stop_line_rviz_pub = rospy.Publisher('stop_line_marker', MarkerArray, queue_size
 rospy.init_node('traffic_signal_pub', anonymous=True)
 rate = rospy.Rate(10)
 spin_rate = float(10)
+test = 1
 
-dict_path = os.path.join(str(Path.home()), "RUBIS-SelfDriving/autoware_files/lgsvl/scripts/traffic_signal")
+
+dict_path = os.path.join(str(Path.home()), "autoware.ai/autoware_files/lgsvl/scripts/testbed_scenario")
 file_path = os.path.join(dict_path, "traffic_signal_policy.json")
-subprocess.Popen(["./test_light.py"],cwd=dict_path)
+subprocess.Popen(["./testbed_scenario.py"],cwd=dict_path)
 with open(file_path, "r") as read_json:
   light_list = json.load(read_json)
 
@@ -68,9 +72,9 @@ for sl in stop_line_param:
   marker.pose.position.z = sl["pose"]["z"]
   marker.pose.orientation.w = 1
 
-  marker.scale.x = 1
-  marker.scale.y = 1
-  marker.scale.z = 1
+  marker.scale.x = 3
+  marker.scale.y = 3
+  marker.scale.z = 3
 
   marker.color.r = 0.0
   marker.color.g = 1.0
@@ -85,7 +89,8 @@ for sl in stop_line_param:
   text_marker.ns = "text"
   text_marker.id = -sl['id']
   text_marker.text = "StopLine " + str(sl['id'])
-  text_marker.pose = marker.pose
+  text_marker.pose = copy.deepcopy(marker.pose)
+  text_marker.pose.position.z += 5
   text_marker.scale.z = 2
   
   text_marker.color.r = 1.0
@@ -101,8 +106,6 @@ for sl in stop_line_param:
 # 0 : Red
 # 1 : Yellow
 # 2 : Green
-
-print(topic_typelist)
 
 while not rospy.is_shutdown():
   for (i, topic) in enumerate(topic_list):

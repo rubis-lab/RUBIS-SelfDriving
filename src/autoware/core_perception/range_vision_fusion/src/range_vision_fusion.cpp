@@ -351,7 +351,7 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
     int vision_rect_area = vision_rect.area();
     long closest_index = -1;
     double closest_distance = std::numeric_limits<double>::max();
-
+    
     for (size_t j = 0; j < range_in_cv.objects.size(); j++)
     {
       double current_distance = GetDistanceToObject(range_in_cv.objects[j]);
@@ -366,6 +366,7 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
       }
 
       cv::Rect overlap = range_rect & vision_rect;
+
       if ((overlap.area() > range_rect_area * overlap_threshold_)
           || (overlap.area() > vision_rect_area * overlap_threshold_)
         )
@@ -409,13 +410,13 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
       fused_objects.objects.push_back(range_in_cv.objects[vision_range_closest[i]]);
     }
   }
-  // for (size_t i = 0; i < used_vision_detections.size(); i++)
-  // {
-  //   if (!used_vision_detections[i])
-  //   {
-  //     fused_objects.objects.push_back(in_vision_detections->objects[i]);
-  //   }
-  // }
+  for (size_t i = 0; i < used_vision_detections.size(); i++)
+  {
+    if (!used_vision_detections[i])
+    {
+      fused_objects.objects.push_back(in_vision_detections->objects[i]);
+    }
+  }
   //add also objects outside the image
   for (auto &object: range_out_cv.objects)
   {
