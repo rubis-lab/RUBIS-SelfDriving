@@ -38,10 +38,6 @@ include_directories(
 # ${catkin_INCLUDE_DIRS}
 )
 
-catkin_install_python(PROGRAMS src/lgsvl_traffic_signal_test.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
 add_executable(fake_object_generator
   src/fake_object_generator.cpp
 )
@@ -96,4 +92,8 @@ add_executable(twist_cmd_publisher
 add_dependencies(twist_cmd_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(twist_cmd_publisher
   ${catkin_LIBRARIES}
+)
+
+catkin_install_python(PROGRAMS src/lgsvl_traffic_signal_test.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

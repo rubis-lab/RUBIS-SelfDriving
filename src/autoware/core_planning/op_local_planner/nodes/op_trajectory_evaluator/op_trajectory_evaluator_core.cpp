@@ -242,10 +242,9 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     if(msg->objects.at(i).pose.position.z < -2)
       continue;
 
+    autoware_msgs::DetectedObject msg_obj = msg->objects.at(i);      
     if(msg->objects.at(i).id > 0)
     {
-      autoware_msgs::DetectedObject msg_obj = msg->objects.at(i);
-      
       // calculate distance to person first
       if(msg_obj.label == "person"){
         geometry_msgs::PoseStamped pose;
@@ -255,18 +254,19 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           m_vtob_listener.transformPose("/base_link", pose, pose);
           double temp_x_distance = pose.pose.position.x;
           double temp_y_distance = pose.pose.position.y;
-          // y-axis: Left + / Right -
+          // y-axis: Left + / Right -          
           if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ) continue;
-          if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+          if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;          
         }
         catch(tf::TransformException& ex){
           ROS_ERROR("Cannot transform person pose: %s", ex.what());
 
         }
+
       }
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
-    
-    
+
+
       // transform center pose into map frame
       geometry_msgs::PoseStamped pose_in_map;
       pose_in_map.header = msg_obj.header;
@@ -312,6 +312,13 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
 
       m_PredictedObjects.push_back(obj);
     }
+    else if(msg->objects.at(i).id == 0 && msg_obj.label == "person"){
+      double temp_x_distance = 1000;
+      if(msg_obj.height>=178) temp_x_distance = 10.0;
+      else if(msg_obj.height>=112) temp_x_distance = 15.0;
+      else if(msg_obj.height>=95) temp_x_distance = 20.0;      
+      if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+    }                    
   }
 
   // ROS_INFO("object # : %d", m_PredictedObjects.size());

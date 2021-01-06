@@ -1586,6 +1586,9 @@ void ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(co
   obj.bVelocity = det_obj.velocity_reliable;
   obj.bDirection = det_obj.pose_reliable;
 
+  obj.image_width = det_obj.width;
+  obj.image_height = det_obj.height;
+
   if(det_obj.indicator_state == 0)
     obj.indicator_state = PlannerHNS::INDICATOR_LEFT;
   else if(det_obj.indicator_state == 1)
@@ -1644,6 +1647,9 @@ void ROSHelpers::ConvertFromOpenPlannerDetectedObjectToAutowareDetectedObject(co
   obj.velocity.linear.z = det_obj.acceleration_desc;
   obj.velocity_reliable = det_obj.bVelocity;
   obj.pose_reliable = det_obj.bDirection;
+
+  obj.width = det_obj.image_width;
+  obj.height = det_obj.image_height;
 
   geometry_msgs::Point32 p;
   obj.convex_hull.polygon.points.clear();

@@ -8,9 +8,11 @@ Panels:
         - /Grids1/Grid51
         - /Map1
         - /Map1/Points Map1/Status1
+        - /Sensing1
         - /Sensing1/Points No Ground Right1/Status1
+        - /Sensing1/Points Raw Left1
+        - /Sensing1/Points Raw Right1
         - /Perception1
-        - /Perception1/Right Objects1/Status1
         - /Perception1/Predicted Objects1/Status1
         - /Planning1/Local Waypoints1
         - /Planning1/OP Planner1
@@ -37,11 +39,11 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Points Map
+    SyncSource: Points Raw Left
   - Class: autoware_rviz_debug/DecisionMakerPanel
     Name: DecisionMakerPanel
   - Class: integrated_viewer/ImageViewerPlugin
-    Image topic: /image_raw
+    Image topic: -----
     Lane topic: -----
     Name: ImageViewerPlugin
     Point size: 3
@@ -110,7 +112,7 @@ Visualization Manager:
             All Enabled: true
             base_link:
               Value: true
-            camera:
+            gps:
               Value: true
             map:
               Value: true
@@ -130,16 +132,15 @@ Visualization Manager:
           Show Axes: true
           Show Names: true
           Tree:
+            gps:
+              base_link:
+                velodyne:
+                  velodyne_left:
+                    {}
+                  velodyne_right:
+                    {}
             world:
               map:
-                base_link:
-                  velodyne:
-                    camera:
-                      {}
-                    velodyne_left:
-                      {}
-                    velodyne_right:
-                      {}
                 mobility:
                   {}
           Update Interval: 0
@@ -476,7 +477,7 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 2
+          Size (Pixels): 4
           Size (m): 0.009999999776482582
           Style: Points
           Topic: /points_raw_left
@@ -506,7 +507,7 @@ Visualization Manager:
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 2
+          Size (Pixels): 4
           Size (m): 0.009999999776482582
           Style: Points
           Topic: /points_raw_right
@@ -658,10 +659,7 @@ Visualization Manager:
           Marker Topic: /objects_markers_total
           Name: Predicted Objects
           Namespaces:
-            //arrow_markers: true
-            //centroid_markers: true
-            //hull_markers: true
-            //label_markers: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -715,7 +713,7 @@ Visualization Manager:
               Marker Topic: /safety_border
               Name: Safety Box
               Namespaces:
-                global_lane_array_marker: true
+                {}
               Queue Size: 100
               Value: true
             - Class: jsk_rviz_plugin/BoundingBoxArray
@@ -751,7 +749,7 @@ Visualization Manager:
               Marker Topic: /behavior_state
               Name: Behavior State
               Namespaces:
-                beh_state: true
+                {}
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -767,9 +765,7 @@ Visualization Manager:
               Marker Topic: /global_waypoints_rviz
               Name: Global Path
               Namespaces:
-                global_lane_array_marker: true
-                global_lane_waypoint_orientation_marker: true
-                global_velocity_lane_1: true
+                {}
               Queue Size: 100
               Value: true
             - Class: rviz/MarkerArray
@@ -777,7 +773,7 @@ Visualization Manager:
               Marker Topic: /local_trajectories_eval_rviz
               Name: Local Trajectory Eval
               Namespaces:
-                local_lane_array_marker_colored: true
+                {}
               Queue Size: 100
               Value: true
           Enabled: true
@@ -791,7 +787,7 @@ Visualization Manager:
           Marker Topic: /trajectory_circle_mark
           Name: Pure Pursuit Trajectory
           Namespaces:
-            trajectory_circle_marker: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -799,7 +795,7 @@ Visualization Manager:
           Marker Topic: /next_target_mark
           Name: Pure Pursuit Target
           Namespaces:
-            next_target_marker: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -854,7 +850,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: world
+    Fixed Frame: base_link
     Frame Rate: 5
   Name: root
   Tools:
@@ -877,7 +873,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -3.4850096702575684
+      Angle: -1.5500001907348633
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -887,11 +883,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 15.427462577819824
-      Target Frame: <Fixed Frame>
+      Scale: 8.800000190734863
+      Target Frame: base_link
       Value: TopDownOrtho (rviz)
-      X: -45.60076904296875
-      Y: -0.4953387379646301
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   DecisionMakerPanel:

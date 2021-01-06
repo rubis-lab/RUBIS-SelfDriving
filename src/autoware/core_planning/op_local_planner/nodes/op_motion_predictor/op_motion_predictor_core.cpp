@@ -350,8 +350,6 @@ void MotionPrediction::callbackGetTrackedObjects(const autoware_msgs::DetectedOb
     }
 
 
-    autoware_msgs::DetectedObjectArray obj_ary;
-
     object_msg_list_[obj_idx].objects.clear();
     autoware_msgs::DetectedObject pred_obj;
     for(unsigned int i = 0 ; i <m_PredictBeh.m_ParticleInfo_II.size(); i++)
