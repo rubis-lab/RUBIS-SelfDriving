@@ -6,7 +6,7 @@
     <arg name="maxLocalPlanDistance"            default="80" />       <!-- Plan Distance-->
     <arg name="pathDensity"                     default="0.5" />      <!-- Path Density-->
     <arg name="rollOutDensity"                  default="3" />      <!-- Horizontal Density -->
-    <arg name="rollOutsNumber"                  default="2"    />     <!-- Rollouts Number -->
+    <arg name="rollOutsNumber"                  default="1"    />     <!-- Rollouts Number -->
     <arg name="maxVelocity"                     default="10.0" />     <!-- Max Velocity -->
     <arg name="maxAcceleration"                 default="5.0" />      <!-- Acceleration -->
     <arg name="maxDeceleration"                 default="-15.0" />    <!-- Deceleration -->
@@ -69,7 +69,7 @@
     <arg name="horizontalSafetyDistance"        default="1.2" />
     <arg name="verticalSafetyDistance"          default="0.8" />
     <arg name="weightPriority"                  default="0" />
-    <arg name="weightTransition"                default="10" />
+    <arg name="weightTransition"                default="5" />
     <arg name="weightLong"                      default="4" />
     <arg name="weightLat"                       default="10" />
     <arg name="LateralSkipDistance"             default="5.0" />
