@@ -634,6 +634,7 @@ public:
   std::vector<Lane*> pLanes;
   int linkID;
   double remainTime;
+  std::vector<double> routine;
 
   TrafficLight()
   {

@@ -378,6 +378,7 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
       if(m_Map.trafficLights.at(k).id == tl.id)
       {
         tl.pos = m_Map.trafficLights.at(k).pos;
+        tl.routine = m_Map.trafficLights.at(k).routine;
         break;
       }
     }
@@ -385,6 +386,10 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
     if(msg.signals.at(i).type == 0)
     {
       tl.lightState = PlannerHNS::RED_LIGHT;
+    }
+    else if(msg.signals.at(i).type == 1)
+    {
+      tl.lightState = PlannerHNS::YELLOW_LIGHT;
     }
     else
     {
