@@ -3451,6 +3451,10 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
     tl.pos.y = tl_list[i]["pose"]["y"];
     tl.pos.z = tl_list[i]["pose"]["z"];
 
+    tl.routine.push_back(double(tl_list[i]["routine"]["red"]));
+    tl.routine.push_back(double(tl_list[i]["routine"]["green"]));
+    tl.routine.push_back(double(tl_list[i]["routine"]["yellow"]));
+
     map.trafficLights.push_back(tl);
   }
 
@@ -3469,41 +3473,6 @@ void MappingHelpers::ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRp
 
     map.stopLines.push_back(sl);
   }
-
-  // Link StopLine and Traffic Light
-  /*
-  for(unsigned int rs = 0; rs < map.roadSegments.size(); rs++)
-  {
-    for(unsigned int i = 0; i < map.roadSegments.at(rs).Lanes.size(); i++)
-    {
-      for(unsigned int p = 0; p < map.roadSegments.at(rs).Lanes.at(i).points.size(); p++){
-        WayPoint* pWP = &map.roadSegments.at(rs).Lanes.at(i).points.at(p);
-        RelativeInfo waypoint_info;
-        PlannerHNS::PlanningHelpers::GetRelativeInfo(map.roadSegments.at(rs).Lanes.at(i).points, *pWP, waypoint_info);
-
-        pWP->closestStopLineDistance = DBL_MAX;
-
-        for(int sl_idx = 0; sl_idx < map.stopLines.size(); sl_idx++){
-          map.roadSegments.at(rs).Lanes.at(i).stopLines.push_back(map.stopLines.at(sl_idx));
-
-          WayPoint stopLineWP;
-          RelativeInfo stopline_info;
-          stopLineWP.pos = map.stopLines.at(sl_idx).points.at(0);
-          PlannerHNS::PlanningHelpers::GetRelativeInfo(map.roadSegments.at(rs).Lanes.at(i).points, stopLineWP, stopline_info);
-
-          double localDistance = PlannerHNS::PlanningHelpers::GetExactDistanceOnTrajectory(map.roadSegments.at(rs).Lanes.at(i).points, waypoint_info, stopline_info);
-
-          // std::cout << "localDistance " << sl_idx << " " << localDistance << std::endl;
-
-          if(pWP->closestStopLineDistance > localDistance){
-            pWP->stopLineID = map.stopLines.at(sl_idx).id;
-            pWP->closestStopLineDistance = localDistance;
-          }
-        }
-      }
-    }
-  }
-  */
 
 }
 

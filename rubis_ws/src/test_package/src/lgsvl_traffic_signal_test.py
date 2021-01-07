@@ -125,8 +125,12 @@ while not rospy.is_shutdown():
     signal_array_msg.signals[i].time = topic['time']
   
   for i in range(len(stop_line_param)):
-    tl_id = stop_line_param[i]['tl_id']
-    signal_type = topic_list[tl_id]['type']
+    tl_idx = 0
+    for (idx, tl) in enumerate(topic_list):
+      if tl['id'] == stop_line_param[i]['tl_id']:
+        tl_idx = idx
+        
+    signal_type = topic_list[tl_idx]['type']
     
     if(signal_type == 0): # Red
       stop_line_marker_array.markers[2*i].color.r = 1.0

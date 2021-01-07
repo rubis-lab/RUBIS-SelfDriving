@@ -42,9 +42,12 @@ ego.connect_bridge(os.environ.get("BRIDGE_HOST", "127.0.0.1"), 9090)
 
 light_list = []
 ## Get a list of controllable objects
-set_control = "green=7;red=7;yellow=3;loop"
+set_control = "red=15;green=5;yellow=2;loop"
 signal = sim.get_controllables("signal")
+signal[0].control(set_control)
 signal[1].control(set_control)
+signal[2].control(set_control)
+signal[3].control(set_control)
 controllables = sim.get_controllables("signal")
 
 # print("\n# List of controllable objects in {} scene:".format(scene_name))
@@ -81,55 +84,55 @@ for idx, c in enumerate(controllables):
   light_list.append(light)
 
 
-dict_path = os.path.join(str(Path.home()), "autoware.ai/autoware_files/lgsvl/scripts/traffic_signal")
+dict_path = os.getcwd()
 file_path = os.path.join(dict_path, "traffic_signal_policy.json")
 config_file = open(file_path, 'w')
 json.dump(light_list, config_file, indent=4)
 config_file.close()
 
 
-#------- Fast Pedestrian -------#
-fp_waypoints = []
-speed = 7
+# #------- Fast Pedestrian -------#
+# fp_waypoints = []
+# speed = 7
 
-#set start waypoint
-start = spawns[0].position + 81 * forward + 44 * right
+# #set start waypoint
+# start = spawns[0].position + 81 * forward + 44 * right
 
-#you can change trigger_distance what you want
-fp_wp1 = lgsvl.WalkWaypoint(position=lgsvl.Vector(start.x, start.y, start.z), speed=speed, idle=5.0,
-                            trigger_distance=60, trigger=None)
-fp_waypoints.append(fp_wp1)
+# #you can change trigger_distance what you want
+# fp_wp1 = lgsvl.WalkWaypoint(position=lgsvl.Vector(start.x, start.y, start.z), speed=speed, idle=5.0,
+#                             trigger_distance=60, trigger=None)
+# fp_waypoints.append(fp_wp1)
 
 
-second = spawns[0].position + 81 * forward + 20 * right
+# second = spawns[0].position + 81 * forward + 20 * right
 
-fp_wp2 = lgsvl.WalkWaypoint(position=lgsvl.Vector(second.x, second.y, second.z), speed=speed, idle=8.0,
-                            trigger_distance=0, trigger=None)
-fp_waypoints.append(fp_wp2)
+# fp_wp2 = lgsvl.WalkWaypoint(position=lgsvl.Vector(second.x, second.y, second.z), speed=speed, idle=8.0,
+#                             trigger_distance=0, trigger=None)
+# fp_waypoints.append(fp_wp2)
 
-third = spawns[0].position + 110 * forward + 8 * right
-fp_wp3 = lgsvl.WalkWaypoint(position=lgsvl.Vector(third.x, third.y, third.z), speed=speed, idle=0,
-                            trigger_distance=0, trigger=None)
-fp_waypoints.append(fp_wp3)
+# third = spawns[0].position + 110 * forward + 8 * right
+# fp_wp3 = lgsvl.WalkWaypoint(position=lgsvl.Vector(third.x, third.y, third.z), speed=speed, idle=0,
+#                             trigger_distance=0, trigger=None)
+# fp_waypoints.append(fp_wp3)
 
-end = spawns[0].position + 110 * forward - 3 * right
-fp_wp4 = lgsvl.WalkWaypoint(position=lgsvl.Vector(end.x, end.y, end.z), speed=speed, idle=0,
-                            trigger_distance=0, trigger=None)
-fp_waypoints.append(fp_wp4)
+# end = spawns[0].position + 110 * forward - 3 * right
+# fp_wp4 = lgsvl.WalkWaypoint(position=lgsvl.Vector(end.x, end.y, end.z), speed=speed, idle=0,
+#                             trigger_distance=0, trigger=None)
+# fp_waypoints.append(fp_wp4)
 
-#set position of fast pedestrian
-fp_state = lgsvl.AgentState()
-fp_state.transform.position = spawns[0].position + 81 * forward + 45 * right
-fp_state.transform.rotation = spawns[0].rotation
+# #set position of fast pedestrian
+# fp_state = lgsvl.AgentState()
+# fp_state.transform.position = spawns[0].position + 81 * forward + 45 * right
+# fp_state.transform.rotation = spawns[0].rotation
 
-fast_pedestrian = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN, fp_state)
-fast_pedestrian.follow(fp_waypoints, False)
+# fast_pedestrian = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN, fp_state)
+# fast_pedestrian.follow(fp_waypoints, False)
 
 
 #------- Stand vehicle -------#
 #set stand vehicle's initial position
 sv_state = lgsvl.AgentState()
-sv_state.transform.position = spawns[0].position + 80 * forward
+sv_state.transform.position = spawns[0].position + 60 * forward
 sv_state.transform.rotation = spawns[0].rotation
 
 stand_vehicle = sim.add_agent("Sedan", lgsvl.AgentType.NPC, sv_state)
@@ -246,7 +249,7 @@ cs_vehicle1.follow(cs1_waypoints)
 
 #set cs_vehicle2's initial position
 cs2_state = lgsvl.AgentState()
-cs2_state.transform.position = spawns[0].position + 481 * forward - 60 * right
+cs2_state.transform.position = spawns[0].position + 481 * forward - 65 * right
 cs2_state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 cs2_waypoints = []
@@ -254,7 +257,7 @@ cs2_waypoints = []
 #set cs_vehicle2's start waypoint of congestion section
 cs2_start = cs2_state.transform.position - 2 * right
 cs2_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(cs2_start.x, cs2_start.y, cs2_start.z),
-                              speed=cs_speed, angle=cs_angle, idle=0, trigger_distance=50, trigger=None)
+                              speed=cs_speed, angle=cs_angle, idle=0, trigger_distance=55, trigger=None)
 cs2_waypoints.append(cs2_wp1)
 
 #set cs_vehicle2's end waypoint of congestion section

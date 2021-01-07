@@ -224,6 +224,11 @@ void DecisionMaker::InitBehaviorStates()
     for(unsigned int i=0; i< detectedLights.size(); i++)
     {
       if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < m_params.stopLineDetectionDistance){
+        double remain_time = detectedLights.at(i).remainTime;
+        if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
+          remain_time += detectedLights.at(i).routine.at(2); // For yellow light
+        }
+
         double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
         bool bGreenTrafficLight = (detectedLights.at(i).lightState == GREEN_LIGHT);
 
