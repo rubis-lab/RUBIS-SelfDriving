@@ -1,0 +1,73 @@
+<launch>
+  <!-- ROS-Bridge node for Simulator connection -->
+  <node name="websocket_bridge" pkg="rosbridge_server" type="rosbridge_websocket" output="screen" clear_params="true" required="true" />
+
+  <!-- Re-publishing simulator/camera_node/image/compressed topic to /image_raw as expected by Autoware -->
+  <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/simulator/camera_node/image raw out:=/image_raw_origin"  />
+
+  <!-- LiDAR Republisher -->
+  <include file="$(find test_package)/launch/lidar_republisher.launch">
+    <arg name="node_name" value="lidar_republisher_left" />
+    <arg name="input_topic" value="/points_raw_l_all_direction" />
+    <arg name="output_topic" value="/points_raw_l_republished" />
+  </include>
+
+  <include file="$(find test_package)/launch/lidar_republisher.launch">
+    <arg name="node_name" value="lidar_republisher_right" />
+    <arg name="input_topic" value="/points_raw_r_all_direction" />
+    <arg name="output_topic" value="/points_raw_r_republished" />
+  </include>
+
+  <include file="$(find test_package)/launch/lidar_republisher.launch">
+    <arg name="node_name" value="lidar_republisher_back" />
+    <arg name="input_topic" value="/points_raw_b_all_direction" />
+    <arg name="output_topic" value="/points_raw_b_republished" />
+  </include>
+
+  <include file="$(find test_package)/launch/camera_republisher.launch"/>
+  <include file="$(find test_package)/launch/gnss_republisher.launch"/>
+
+  <!-- static tf publisher between base_link and velodyne -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0 0 0 0 0 0 gps base_link 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="0 0 0 0 0 0 base_link velodyne 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_left" args="2.3 0.7 0.7 0 0 0 velodyne velodyne_left 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_right" args="2.3 -0.7 0.7 0 0 0 velodyne velodyne_right 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_back" args="-2.5 0.0 0.7 3.14 0 0 velodyne velodyne_back 10"/>
+
+  <include file="$(find rubis_pkg)/launch/pcd_clipper.launch">
+    <arg name="node_name" value="pcd_clipper_left"/>
+    <arg name="enableLocalize" value="false"/>
+    <arg name="input_topic" value="/points_raw_l_republished"/>
+    <arg name="clipped_point_output_topic" value="/points_raw_left"/>
+    <arg name="input_frame_id" value="velodyne_left" />
+    <arg name="clipped_center_angle" value="315"/>
+    <arg name="clipped_viewing_angle" value="210"/>
+  </include>
+
+  <include file="$(find rubis_pkg)/launch/pcd_clipper.launch">
+    <arg name="node_name" value="pcd_clipper_right"/>
+    <arg name="enableLocalize" value="true"/>
+    <arg name="input_topic" value="/points_raw_r_republished"/>        
+    <arg name="input_frame_id" value="velodyne_right" />
+    <arg name="clipped_center_angle" value="90"/>
+    <arg name="clipped_viewing_angle" value="120"/>    
+    <arg name="clipped_point_output_topic" value="/points_raw_right"/>
+    <arg name="localization_point_output_topic" value="/points_raw"/>
+    <arg name="localization_center_angle" value="45"/>
+    <arg name="localization_viewing_angle" value="210"/>
+  </include>
+
+    <include file="$(find rubis_pkg)/launch/pcd_clipper.launch">
+    <arg name="node_name" value="pcd_clipper_back"/>
+    <arg name="enableLocalize" value="true"/>
+    <arg name="input_topic" value="/points_raw_b_republished"/>        
+    <arg name="input_frame_id" value="velodyne_back" />
+    <arg name="clipped_center_angle" value="0"/>
+    <arg name="clipped_viewing_angle" value="180"/>    
+    <arg name="clipped_point_output_topic" value="/points_raw_back"/>
+    <arg name="localization_center_angle" value="45"/>
+    <arg name="localization_viewing_angle" value="210"/>
+  </include>
+
+</launch>
+
