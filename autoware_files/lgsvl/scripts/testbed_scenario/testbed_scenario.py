@@ -157,21 +157,21 @@ np_vehicle2 = sim.add_agent("Sedan", lgsvl.AgentType.NPC, np2_state)
 
 #set traffic cone1
 cone1_state = lgsvl.ObjectState()
-cone1_state.transform.position = spawns[0].position + 383 * forward - right
+cone1_state.transform.position = spawns[0].position + 384 * forward - right
 cone1_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone1 = sim.controllable_add("TrafficCone", cone1_state)
 
 #set traffic cone2
 cone2_state = lgsvl.ObjectState()
-cone2_state.transform.position = spawns[0].position + 383 * forward
+cone2_state.transform.position = spawns[0].position + 384 * forward
 cone2_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone2 = sim.controllable_add("TrafficCone", cone2_state)
 
 #set traffic cone3
 cone3_state = lgsvl.ObjectState()
-cone3_state.transform.position = spawns[0].position + 383 * forward + right
+cone3_state.transform.position = spawns[0].position + 384 * forward + right
 cone3_state.transform.rotation = lgsvl.Vector(0, 0, 0)
 
 cone3 = sim.controllable_add("TrafficCone", cone3_state)
@@ -224,7 +224,7 @@ cs1_state.transform.position = spawns[0].position + 485 * forward - 40 * right
 cs1_state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 cs_angle = cs1_state.transform.rotation
-cs_speed = 5
+cs_speed = 7
 
 #set cs_vehicle1's start waypoint of congestion section
 cs1_waypoints = []

@@ -17,6 +17,7 @@
 #ifndef OP_BEHAVIOR_SELECTOR_CORE
 #define OP_BEHAVIOR_SELECTOR_CORE
 
+#include <unistd.h>
 #include <ros/ros.h>
 
 #include "vector_map_msgs/PointArray.h"
