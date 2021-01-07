@@ -424,9 +424,10 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
-        if(longitudinalDist < 0 ||
+        if(longitudinalDist < -3 ||
           longitudinalDist > 30 ||
-          obj_info.perp_distance > rollOuts.size() * params.rollOutDensity / 2 + critical_lateral_distance)
+          obj_info.perp_distance < ((rollOuts.size() / 2) * params.rollOutDensity + critical_lateral_distance) * (-1) ||
+          obj_info.perp_distance > (rollOuts.size() / 2 + 1) * params.rollOutDensity + critical_lateral_distance)
         {
           continue;
         }
@@ -672,7 +673,7 @@ void TrajectoryDynamicCosts::NormalizeCosts(vector<TrajectoryCost>& trajectoryCo
   //          << ", Change: " << trajectoryCosts.at(ic).lane_change_cost
   //          << ", Avg: " << trajectoryCosts.at(ic).cost
   //          << ", Blocked : " << trajectoryCosts.at(ic).bBlocked
-          //  << std::endl;
+  //          << std::endl;
   }
 
   // std::cout << "------------------------ " << std::endl;
