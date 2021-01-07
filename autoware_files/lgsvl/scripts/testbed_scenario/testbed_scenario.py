@@ -224,7 +224,7 @@ cs1_state.transform.position = spawns[0].position + 485 * forward - 40 * right
 cs1_state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 cs_angle = cs1_state.transform.rotation
-cs_speed = 7
+cs_speed = 5
 
 #set cs_vehicle1's start waypoint of congestion section
 cs1_waypoints = []
@@ -278,7 +278,7 @@ cs2_waypoints.append(cs2_wp3)
 
 #set vehicle 1 in Cut in scenario
 ci1_state = lgsvl.AgentState()
-ci1_state.transform.position = spawns[0].position + 483 * forward - 250 * right
+ci1_state.transform.position = spawns[0].position + 483 * forward - 350 * right
 ci1_state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 ci_speed = 6
@@ -317,7 +317,7 @@ ci_vehicle1.follow(ci1_waypoints)
 
 #set vehicle 2 in Cut in scenario
 ci2_state = lgsvl.AgentState()
-ci2_state.transform.position = spawns[0].position + 486 * forward - 350 * right
+ci2_state.transform.position = spawns[0].position + 486 * forward - 450 * right
 ci2_state.transform.rotation = lgsvl.Vector(0, -180, 0)
 
 
