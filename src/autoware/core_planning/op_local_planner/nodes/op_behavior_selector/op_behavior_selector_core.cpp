@@ -23,6 +23,7 @@ namespace BehaviorGeneratorNS
 
 BehaviorGen::BehaviorGen()
 {
+  sleep(2);
   bNewCurrentPos = false;
   bVehicleStatus = false;
   bWayGlobalPath = false;
