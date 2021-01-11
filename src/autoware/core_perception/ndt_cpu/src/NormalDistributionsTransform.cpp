@@ -6,6 +6,8 @@
 
 #define V2_ 1
 
+// #define DEBUG_ENABLE
+
 // #define EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT
 
 namespace cpu {
@@ -143,7 +145,9 @@ void NormalDistributionsTransform<PointSourceType, PointTargetType>::computeTran
 
   int points_number = source_cloud_->points.size();
 
-  FILE * fp = fopen("/home/han/Documents/ndt_matching_test.txt", "a");
+  #ifdef DEBUG_ENABLE
+    FILE * fp = fopen("/home/jwhan/Documents/ndt_matching_test.txt", "a");
+  #endif
 
   while (!converged_) {
     previous_transformation_ = transformation_;
@@ -179,13 +183,17 @@ void NormalDistributionsTransform<PointSourceType, PointTargetType>::computeTran
 
     double score = getFitnessScore();
 
-    fprintf(fp, "%lf ", score);
+    #ifdef DEBUG_ENABLE
+      fprintf(fp, "%lf ", score);
+    #endif
 
     nr_iterations_++;
   }
 
-  fprintf(fp, "\n");
-  fclose(fp);
+  #ifdef DEBUG_ENABLE
+    fprintf(fp, "\n");
+    fclose(fp);
+  #endif
 
   if (source_cloud_->points.size() > 0) {
     trans_probability_ = score / static_cast<double>(source_cloud_->points.size());
