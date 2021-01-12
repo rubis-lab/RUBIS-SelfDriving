@@ -1,23 +1,30 @@
 <launch>
-  <!-- op_global_planning -->
-  <include file="$(find op_global_planner)/launch/op_global_planner.launch">
-    <arg name="pathDensity"           value="1" /> <!-- distance between each two waypoints-->
-    <arg name="enableSmoothing"       value="false" /> <!-- 1 or 0 -->
-    <arg name="enableLaneChange"      value="false" /> <!-- 1 or 0 -->
-    <arg name="enableRvizInput"       value="true" /> <!-- 1 or 0 -->
-    <arg name="enableReplan"          value="false" /> <!-- 1 or 0 -->  
-    <arg name="velocitySource"        value="1" /> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
-    <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
-    <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
-    <!-- Static Goal -->
-    <arg name="use_static_goal"       value="true" />
-    <arg name="goal_pose_x"           value="-59.64" />
-    <arg name="goal_pose_y"           value="-153.71" />
-    <arg name="goal_pose_z"           value="0.0" />
-    <arg name="goal_ori_x"            value="0.0" />
-    <arg name="goal_ori_y"            value="0.0" />
-    <arg name="goal_ori_z"            value="-0.81" />
-    <arg name="goal_ori_w"            value="0.58" />
+  <!-- setting of this launch file -->
+  <arg name="car_detection" default="true" />
+  <arg name="pedestrian_detection" default="false" />
+  <arg name="use_gpu" default="false" />
+  <arg name="is_register_lidar2camera_tf" default="true" />
+  <arg name="is_publish_projection_matrix" default="true" />
+  <arg name="is_publish_camera_info" default="true" />
+  <arg name="left_calib" default="$(env HOME)/autoware.ai/autoware_files/lgsvl/data/calibration/double_lidar/left_calibration.yaml"/>
+  <arg name="right_calib" default="$(env HOME)/autoware.ai/autoware_files/lgsvl/data/calibration/double_lidar/right_calibration.yaml"/>
+
+  <!-- ray_ground_filter BACK-->
+  <include file="$(find points_preprocessor)/launch/ray_ground_filter.launch">
+    <arg name="label" value="back" />
+    <arg name="input_point_topic" value="/points_raw_back" />  <!-- input_point_topic, ground filtering will be performed over the pointcloud in this topic. -->
+    <arg name="base_frame" value="base_link" />  <!-- Coordinate system to perform transform (default base_link) -->
+    <arg name="max_clipping_height" value="5.0" />  <!-- Remove Points above this height value (default 2.0 meters) -->
+    <arg name="min_clipping_height" value="-0.5" />
+    <arg name="min_point_distance" value="2.9" />  <!-- Removes Points closer than this distance from the sensor origin (default 1.85 meters) -->
+    <arg name="radial_divider_angle" value="0.08" />  <!-- Angle of each Radial division on the XY Plane (default 0.08 degrees)-->
+    <arg name="concentric_divider_distance" value="0.71" />  <!-- Distance of each concentric division on the XY Plane (default 0.0 meters) -->
+    <arg name="local_max_slope" value="3" />  <!-- Max Slope of the ground between Points (default 8 degrees) -->
+    <arg name="general_max_slope" value="9" />  <!-- Max Slope of the ground in the entire PointCloud, used when reclassification occurs (default 5 degrees)-->
+    <arg name="min_height_threshold" value="0.4" />  <!-- Minimum height threshold between points (default 0.05 meters)-->
+    <arg name="reclass_distance_threshold" value="0.01" />  <!-- Distance between points at which re classification will occur (default 0.2 meters)-->
   </include>
 
-  </launch>
+
+
+</launch>

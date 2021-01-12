@@ -1,4 +1,5 @@
 <launch>
+  <!-- op_global_planning -->
   <include file="$(find op_global_planner)/launch/op_global_planner.launch">
     <arg name="pathDensity"           value="1" /> <!-- distance between each two waypoints-->
     <arg name="enableSmoothing"       value="false" /> <!-- 1 or 0 -->
@@ -27,7 +28,7 @@
     <arg name="goal_ori_z"            value="0.74" />
     <arg name="goal_ori_w"            value="0.67" />
   </include>
-  
+
   <!-- op_common_params  -->
   <include file="$(find op_local_planner)/launch/op_common_params.launch">
     <!-- Included in app window -->
@@ -79,7 +80,7 @@
 
   <!-- op_motion_predictor -->
   <include file="$(find op_local_planner)/launch/op_motion_predictor.launch">
-    <arg name="input_object_list"               default="[/detection/fusion_tools/objects_left,/detection/fusion_tools/objects_right,/detection/object_tracker/objects_markers_back]" />
+    <arg name="input_object_list"               default="[/detection/fusion_tools/objects_left,/detection/fusion_tools/objects_right,/detection/object_tracker/objects_back]" />
     <arg name="object_tf_list"                  default="[velodyne_left,velodyne_right,velodyne_back]" />
     <arg name="enableCurbObstacles"             default="false" />    <!-- Detect curbs from map-->
     <arg name="enableGenrateBranches"           default="false"/>     <!-- Enable Branching -->
@@ -110,5 +111,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="25.0" />
+    <arg name="trafficLightFile"                default="testbed_traffic_light.yaml" />
+    <arg name="stopLineFile"                    default="testbed_stop_line.yaml" />
   </include>
 </launch>
