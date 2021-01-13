@@ -533,13 +533,15 @@ class Crossing
 public:
   int id;
   int roadId;
+  GPSPoint pos;
+  std::vector<std::vector<GPSPoint>> risky_area;
   std::vector<GPSPoint> points;
   RoadSegment* pSegment;
 
   Crossing()
   {
     id    = 0;
-    roadId =0;
+    roadId = 0;
     pSegment = nullptr;
   }
 };

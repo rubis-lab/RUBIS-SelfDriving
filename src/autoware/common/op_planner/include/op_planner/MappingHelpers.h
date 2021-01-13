@@ -213,7 +213,7 @@ public:
 
   static void GetMapMaxIds(PlannerHNS::RoadNetwork& map);
 
-  static void ConstructStopLine_RUBIS(PlannerHNS::RoadNetwork& map, XmlRpc::XmlRpcValue tl_list, XmlRpc::XmlRpcValue sl_list);
+  static void ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, XmlRpc::XmlRpcValue tl_list, XmlRpc::XmlRpcValue sl_list, XmlRpc::XmlRpcValue is_list);
 
   static double m_USING_VER_ZERO;
 

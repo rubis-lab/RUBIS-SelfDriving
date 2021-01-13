@@ -12,12 +12,12 @@
     {
         "id": 1,
         "type_list": {
-            "red": 15.0,
-            "yellow": 2.0,
-            "green": 5.0
+            "red": 7.0,
+            "yellow": 3.0,
+            "green": 7.0
         },
         "type": 0,
-        "time": 15
+        "time": 7
     },
     {
         "id": 2,
