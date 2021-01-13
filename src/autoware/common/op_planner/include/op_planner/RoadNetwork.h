@@ -914,6 +914,8 @@ public:
 
   // Added by PHY
   bool pedestrianAppearence;
+  bool turnLeft;
+  bool turnRight;
 
   double stopSignStopTime;
 
@@ -980,6 +982,9 @@ public:
     enabTrajectoryVelocities     = false;
     minIndicationDistance      = 15;
     pedestrianAppearence       = false;
+
+    turnRight                  = false;
+    turnLeft                   = false;
   }
 };
 
