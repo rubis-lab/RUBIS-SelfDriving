@@ -524,6 +524,7 @@ void DecisionMaker::InitBehaviorStates()
   CalculateImportantParameterForDecisionMaking(vehicleState, goalID, bEmergencyStop, trafficLight, tc);
 
   CheckTurn();
+  // PrintTurn();
   beh = GenerateBehaviorState(vehicleState);
 
   beh.bNewPlan = SelectSafeTrajectory();
