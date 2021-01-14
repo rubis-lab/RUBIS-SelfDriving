@@ -363,6 +363,10 @@ void DecisionMaker::InitBehaviorStates()
     }
   }
 
+  // Check turn
+  // Detects whether or not to turning 50m ahead
+  m_turnWaypoint = m_RollOuts.at(currentBehavior.currTrajectory).at(std::min(100, int(m_RollOuts.at(currentBehavior.currTrajectory).size()))-1);
+  
   currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 
   return currentBehavior;
@@ -519,6 +523,8 @@ void DecisionMaker::InitBehaviorStates()
 
   CalculateImportantParameterForDecisionMaking(vehicleState, goalID, bEmergencyStop, trafficLight, tc);
 
+  CheckTurn();
+  // PrintTurn();
   beh = GenerateBehaviorState(vehicleState);
 
   beh.bNewPlan = SelectSafeTrajectory();
@@ -532,18 +538,39 @@ void DecisionMaker::InitBehaviorStates()
  }
 
  // Added by PHY
- void DecisionMaker::UpdatePedestrianAppearence(const bool pedestrianAppearence){
-   m_params.pedestrianAppearence = pedestrianAppearence;
- }
+  void DecisionMaker::UpdatePedestrianAppearence(const bool pedestrianAppearence){
+    m_params.pedestrianAppearence = pedestrianAppearence;
+  }
 
- void DecisionMaker::printPedestrianAppearence(){
-   if(m_params.pedestrianAppearence == true){
-    std::cout<<"Pedestrian Appearence: True"<<std::endl;  
-   }
-   else{
-     std::cout<<"Pedestrian Appearence: False"<<std::endl;  
-   }
-   
- }
+  void DecisionMaker::printPedestrianAppearence(){
+    if(m_params.pedestrianAppearence == true){
+      std::cout<<"Pedestrian Appearence: True"<<std::endl;  
+    }
+    else{
+        std::cout<<"Pedestrian Appearence: False"<<std::endl;  
+    }
 
+  }
+
+  void DecisionMaker::CheckTurn(){
+    if(abs(m_turnAngle) > m_turnThreshold){
+      if(m_turnAngle > 0){
+        m_params.turnLeft = true;
+        m_params.turnRight = false;
+      }
+      else{
+        m_params.turnLeft = false;
+        m_params.turnRight = true;
+      }
+    }
+    else{
+      m_params.turnLeft = false;
+      m_params.turnRight = false;
+    }
+  }
+
+  void DecisionMaker::PrintTurn(){
+    std::cout<<"LEFT:"<<m_params.turnLeft<<std::endl;
+    std::cout<<"RIGHT:"<<m_params.turnRight<<std::endl;
+  }
 } /* namespace PlannerHNS */

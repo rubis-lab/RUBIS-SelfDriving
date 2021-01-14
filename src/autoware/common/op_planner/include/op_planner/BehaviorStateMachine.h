@@ -29,6 +29,8 @@ public:
   double decisionMakingTime;
   int decisionMakingCount;
   double m_zero_velocity;
+  bool m_turn_left = false;
+  bool m_turn_right = false;
 
   PreCalculatedConditions* GetCalcParams()
   {
