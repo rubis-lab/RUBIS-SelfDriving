@@ -111,6 +111,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="25.0" />
+    <arg name="turnThreshold"                   default="20.0" />
     <arg name="trafficLightFile"                default="testbed_traffic_light.yaml" />
     <arg name="stopLineFile"                    default="testbed_stop_line.yaml" />
   </include>
