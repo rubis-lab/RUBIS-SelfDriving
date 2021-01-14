@@ -39,6 +39,7 @@
 #include <nav_msgs/Odometry.h>
 #include <autoware_msgs/LaneArray.h>
 #include <std_msgs/Int32.h>
+#include <std_msgs/Float64.h>
 #include <geometry_msgs/TwistWithCovarianceStamped.h>
 #include <autoware_can_msgs/CANInfo.h>
 #include <autoware_msgs/DetectedObjectArray.h>
@@ -56,6 +57,9 @@
 #include "op_planner/DecisionMaker.h"
 #include "op_utility/DataRW.h"
 
+#include <visualization_msgs/Marker.h>
+#include <tf/transform_listener.h>
+
 
 namespace BehaviorGeneratorNS
 {
@@ -63,6 +67,7 @@ namespace BehaviorGeneratorNS
 class BehaviorGen
 {
 protected: //Planning Related variables
+  double PI = 3.14159265;
 
   geometry_msgs::Pose m_OriginPos;
   PlannerHNS::WayPoint m_CurrentPos;
@@ -91,17 +96,17 @@ protected: //Planning Related variables
   PlannerHNS::DecisionMaker m_BehaviorGenerator;
   PlannerHNS::BehaviorState m_CurrentBehavior;
 
-    std::vector<std::string>    m_LogData;
-
-    PlannerHNS::PlanningParams m_PlanningParams;
-    PlannerHNS::CAR_BASIC_INFO m_CarInfo;
-
-    autoware_msgs::Lane m_CurrentTrajectoryToSend;
-    bool bNewLightStatus;
+  std::vector<std::string>    m_LogData;
+  PlannerHNS::PlanningParams m_PlanningParams;
+  PlannerHNS::CAR_BASIC_INFO m_CarInfo;
+  autoware_msgs::Lane m_CurrentTrajectoryToSend;
+  bool bNewLightStatus;
   bool bNewLightSignal;
   PlannerHNS::TrafficLightState  m_CurrLightStatus;
   std::vector<PlannerHNS::TrafficLight> m_CurrTrafficLight;
   std::vector<PlannerHNS::TrafficLight> m_PrevTrafficLight;
+  tf::TransformListener m_map_base_listener;
+  tf::StampedTransform m_map_base_transform;
 
   geometry_msgs::TwistStamped m_Twist_raw;
   geometry_msgs::TwistStamped m_Twist_cmd;
@@ -109,6 +114,8 @@ protected: //Planning Related variables
 
   //Added by PHY
   double m_distanceToPedestrianThreshold;
+  double m_turnAngle;
+  double m_turnThreshold;
 
   //ROS messages (topics)
   ros::NodeHandle nh;
@@ -124,6 +131,9 @@ protected: //Planning Related variables
 
   // Added by PHY
   ros::Publisher pub_EmergencyStop;
+  ros::Publisher pub_turnMarker;
+  ros::Publisher pub_turnAngle;
+
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
@@ -164,6 +174,9 @@ protected: //Planning Related variables
   void SendLocalPlanningTopics();
   void VisualizeLocalPlanner();
   void LogLocalPlanningInfo(double dt);
+  bool GetBaseMapTF();  
+  void TransformPose(const geometry_msgs::PoseStamped &in_pose, geometry_msgs::PoseStamped& out_pose, const tf::StampedTransform &in_transform);
+  void CalculateTurnAngle(PlannerHNS::WayPoint turn_point);
 
 public:
   BehaviorGen();

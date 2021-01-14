@@ -46,6 +46,9 @@ public:
 
   //Added by PHY
   PedestrianState*  m_pPedestrianState;
+  PlannerHNS::WayPoint m_turnWaypoint;
+  double m_turnThreshold;
+  double m_turnAngle;
 
   void InitBehaviorStates();
 
@@ -67,6 +70,8 @@ public:
   // Added by PHY
   void UpdatePedestrianAppearence(const bool pedestrianAppearence);
   void printPedestrianAppearence();
+  void CheckTurn();
+  void PrintTurn();
 
   BehaviorState DoOneStep(
       const double& dt,
@@ -92,10 +97,12 @@ protected:
   std::vector<PlannerHNS::WayPoint> t_centerTrajectorySmoothed;
   std::vector<std::vector<WayPoint> > m_TotalOriginalPath;
   std::vector<std::vector<WayPoint> > m_TotalPath;
-  PlannerHNS::PlanningParams m_params;
+  PlannerHNS::PlanningParams m_params;  
 
 };
 
 } /* namespace PlannerHNS */
 
 #endif /* BEHAVIOR_DECISION_MAKER */
+
+

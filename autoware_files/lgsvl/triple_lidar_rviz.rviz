@@ -7,20 +7,16 @@ Panels:
         - /Global Options1
         - /Grids1/Grid51
         - /Map1/Points Map1/Status1
-        - /Sensing1
         - /Sensing1/Points No Ground Left1
-        - /Sensing1/Points No Ground Left1/Status1
-        - /Sensing1/Points No Ground Right1/Status1
         - /Sensing1/Points Raw Back1
         - /Perception1/Back Objects1
         - /Perception1/Predicted Objects1/Status1
         - /Planning1/Local Waypoints1
         - /Planning1/OP Planner1
         - /Planning1/OP Planner1/Local Trajectory Eval1
-        - /TEST1/FakeObjects1
-        - /TEST1/FakePerson1
-      Splitter Ratio: 0.4437499940395355
-    Tree Height: 1056
+        - /TEST1
+      Splitter Ratio: 0.7222222089767456
+    Tree Height: 1732
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -48,7 +44,7 @@ Panels:
     Name: ImageViewerPlugin
     Point size: 3
     Point topic: -----
-    Rect topic: /detection/fusion_tools/objects_left
+    Rect topic: -----
   - Class: integrated_viewer/ImageViewerPlugin
     Image topic: /image_raw
     Lane topic: -----
@@ -112,8 +108,6 @@ Visualization Manager:
             All Enabled: true
             base_link:
               Value: true
-            camera:
-              Value: true
             gps:
               Value: true
             map:
@@ -141,8 +135,6 @@ Visualization Manager:
                 gps:
                   base_link:
                     velodyne:
-                      camera:
-                        {}
                       velodyne_back:
                         {}
                       velodyne_left:
@@ -445,7 +437,7 @@ Visualization Manager:
           Color: 245; 121; 0
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 0
@@ -462,7 +454,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Alpha: 0.5
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -505,7 +497,7 @@ Visualization Manager:
           Color: 239; 41; 41
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 0
@@ -522,7 +514,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Alpha: 0.5
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -535,7 +527,7 @@ Visualization Manager:
           Color: 239; 41; 41
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 0
@@ -552,7 +544,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Alpha: 0.5
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -565,7 +557,7 @@ Visualization Manager:
           Color: 239; 41; 41
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: false
+          Enabled: true
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 0
@@ -578,11 +570,11 @@ Visualization Manager:
           Size (Pixels): 4
           Size (m): 0.009999999776482582
           Style: Points
-          Topic: /points_raw_b_republished
+          Topic: /points_raw_back
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: false
+          Value: true
         - Alpha: 0.5
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -735,10 +727,7 @@ Visualization Manager:
           Marker Topic: /objects_markers_total
           Name: Predicted Objects
           Namespaces:
-            //arrow_markers: true
-            //centroid_markers: true
-            //hull_markers: true
-            //label_markers: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/MarkerArray
@@ -868,7 +857,7 @@ Visualization Manager:
           Marker Topic: /trajectory_circle_mark
           Name: Pure Pursuit Trajectory
           Namespaces:
-            trajectory_circle_marker: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -876,7 +865,7 @@ Visualization Manager:
           Marker Topic: /next_target_mark
           Name: Pure Pursuit Target
           Namespaces:
-            next_target_marker: true
+            {}
           Queue Size: 100
           Value: true
         - Class: rviz/Marker
@@ -902,11 +891,11 @@ Visualization Manager:
         - Alpha: 1
           Class: jsk_rviz_plugin/PolygonArray
           Color: 25; 255; 0
-          Enabled: true
+          Enabled: false
           Name: FakeObjects
           Topic: /fake_object_polygons
           Unreliable: false
-          Value: true
+          Value: false
           coloring: Flat color
           enable lighting: false
           normal length: 0.10000000149011612
@@ -915,16 +904,24 @@ Visualization Manager:
         - Alpha: 1
           Class: jsk_rviz_plugin/PolygonArray
           Color: 204; 0; 0
-          Enabled: true
+          Enabled: false
           Name: FakePerson
           Topic: /fake_person_polygons
           Unreliable: false
-          Value: true
+          Value: false
           coloring: Flat color
           enable lighting: true
           normal length: 0.10000000149011612
           only border: false
           show normal: true
+        - Class: rviz/MarkerArray
+          Enabled: true
+          Marker Topic: /turn_marker
+          Name: TurnMarker
+          Namespaces:
+            "": true
+          Queue Size: 100
+          Value: true
       Enabled: true
       Name: TEST
   Enabled: true
@@ -954,7 +951,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -1.490000605583191
+      Angle: -1.480000615119934
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -964,11 +961,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 8.319926261901855
+      Scale: 12.892887115478516
       Target Frame: base_link
       Value: TopDownOrtho (rviz)
-      X: -1.2372994422912598
-      Y: -0.02460416406393051
+      X: 4.629480361938477
+      Y: 7.531054973602295
     Saved: ~
 Window Geometry:
   DecisionMakerPanel:
@@ -980,7 +977,7 @@ Window Geometry:
   Hide Right Dock: false
   ImageViewerPlugin:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd00000004000000000000049d00000732fc0200000011fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000006e0000048e0000018200fffffffa000000020100000003fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000c00430061006d0065007200610000000000ffffffff0000000000000000fb000000100044006900730070006c006100790073010000000000000136000001f700fffffffb000000220049006d0061006700650056006900650077006500720050006c007500670069006e010000050800000298000000f400fffffffb0000000a0049006d006100670065010000028e000000d20000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000120049006d006100670065005f0072006100770000000000ffffffff0000000000000000fb0000000c00430061006d006500720061000000024e000001710000000000000000fb000000120049006d00610067006500200052006100770100000421000000160000000000000000fb0000000a0049006d00610067006501000002f4000000cb0000000000000000fb0000000a0049006d006100670065010000056c0000026c0000000000000000fb00000024004400650063006900730069006f006e004d0061006b0065007200500061006e0065006c00000002110000018f000002f500fffffffb000000220049006d0061006700650056006900650077006500720050006c007500670069006e000000058700000219000000f400ffffff000000010000015f00000732fc0200000003fb0000000a00560069006500770073010000006e000007320000013200fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073f000000a8fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000f000000005afc0100000002fb0000000800540069006d0065010000000000000f000000057100fffffffb0000000800540069006d00650100000000000004500000000000000000000008ec0000073200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000004000000000000020c00000732fc0200000011fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b000fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afc0000006e000007320000018200fffffffa000000020100000003fb0000000a0049006d0061006700650000000000ffffffff0000000000000000fb0000000c00430061006d0065007200610000000000ffffffff0000000000000000fb000000100044006900730070006c006100790073010000000000000136000001f700fffffffb000000220049006d0061006700650056006900650077006500720050006c007500670069006e00000002d6000004ca000000f400fffffffb0000000a0049006d006100670065010000028e000000d20000000000000000fb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000120049006d006100670065005f0072006100770000000000ffffffff0000000000000000fb0000000c00430061006d006500720061000000024e000001710000000000000000fb000000120049006d00610067006500200052006100770100000421000000160000000000000000fb0000000a0049006d00610067006501000002f4000000cb0000000000000000fb0000000a0049006d006100670065010000056c0000026c0000000000000000fb00000024004400650063006900730069006f006e004d0061006b0065007200500061006e0065006c00000002110000018f000002f500fffffffb000000220049006d0061006700650056006900650077006500720050006c007500670069006e000000058700000219000000f400ffffff000000010000015f00000732fc0200000003fb0000000a00560069006500770073010000006e000007320000013200fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000073f000000a8fc0100000001fb0000000a00560069006500770073030000004e00000080000002e1000001970000000300000f000000005afc0100000002fb0000000800540069006d0065010000000000000f000000057100fffffffb0000000800540069006d0065010000000000000450000000000000000000000b7d0000073200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:

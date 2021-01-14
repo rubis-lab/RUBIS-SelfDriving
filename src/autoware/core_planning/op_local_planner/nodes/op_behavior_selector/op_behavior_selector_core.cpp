@@ -51,6 +51,9 @@ BehaviorGen::BehaviorGen()
   pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
   pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
   pub_EmergencyStop = nh.advertise<std_msgs::Bool>("emergency_stop", 1);
+  pub_turnAngle = nh.advertise<std_msgs::Float64>("turn_angle", 1);
+  pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
+  
 
   sub_current_pose = nh.subscribe("/current_pose", 10,  &BehaviorGen::callbackGetCurrentPose, this);
 
@@ -172,9 +175,11 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
   //std::cout << "nReliableCount: " << m_PlanningParams.nReliableCount << std::endl;
 
   _nh.getParam("/op_behavior_selector/distanceToPedestrianThreshold", m_distanceToPedestrianThreshold);
+  _nh.param("/op_behavior_selector/turnThreshold", m_turnThreshold, 20.0);
 
   m_BehaviorGenerator.Init(controlParams, m_PlanningParams, m_CarInfo);
   m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior = PlannerHNS::INITIAL_STATE;
+  m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
 }
 
 void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
@@ -525,6 +530,34 @@ void BehaviorGen::LogLocalPlanningInfo(double dt)
   }
 }
 
+void BehaviorGen::CalculateTurnAngle(PlannerHNS::WayPoint turn_point){
+  geometry_msgs::PoseStamped turn_pose;
+
+  if(GetBaseMapTF()){
+    std::cout<<"BEFORE:"<<turn_point.pos.x<<" "<<turn_point.pos.y<<" "<<turn_point.rot.x<<" "<<turn_point.rot.y<<" "<<turn_point.rot.z<<std::endl;
+    turn_pose.pose.position.x = turn_point.pos.x;
+    turn_pose.pose.position.y = turn_point.pos.y;
+    turn_pose.pose.position.z = turn_point.pos.z;
+    turn_pose.pose.orientation.x = turn_point.rot.x;
+    turn_pose.pose.orientation.y = turn_point.rot.y;
+    turn_pose.pose.orientation.z = turn_point.rot.z;
+    turn_pose.pose.orientation.w = turn_point.rot.w;
+    TransformPose(turn_pose, turn_pose, m_map_base_transform);
+    std::cout<<"AFTER:"<<turn_pose.pose.position.x<<" "<<turn_pose.pose.position.y<<" "<<turn_pose.pose.orientation.x<<" "<<turn_pose.pose.orientation.y<<" "<<turn_pose.pose.orientation.z<<std::endl;
+
+    double hypot_length = hypot(turn_pose.pose.position.x, turn_pose.pose.position.y);
+
+    if(hypot_length <= 0)
+      m_turnAngle = 0;
+    else
+      m_turnAngle = acos(abs(turn_pose.pose.position.x)/hypot_length)*180.0/PI;
+    if(turn_pose.pose.position.y < 0)
+      m_turnAngle = -1 * m_turnAngle;
+  }
+
+  return;
+}
+
 void BehaviorGen::MainLoop()
 {
   ros::Rate loop_rate(100);
@@ -625,6 +658,14 @@ void BehaviorGen::MainLoop()
           m_PrevTrafficLight.at(itls).lightState = m_CurrLightStatus;
       }      
       m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
+
+      CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);
+      m_BehaviorGenerator.m_turnAngle = m_turnAngle;
+
+      std_msgs::Float64 turn_angle_msg;
+      turn_angle_msg.data = m_turnAngle;
+      pub_turnAngle.publish(turn_angle_msg);
+
       emergency_stop_msg.data = false;
       if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
         emergency_stop_msg.data = true;
@@ -633,12 +674,72 @@ void BehaviorGen::MainLoop()
       SendLocalPlanningTopics();
       VisualizeLocalPlanner();
       LogLocalPlanningInfo(dt);
+
+      // Publish turn_marker
+      visualization_msgs::MarkerArray turn_marker;
+      visualization_msgs::Marker marker;
+      marker.header.frame_id = "map";
+      marker.type = 2;
+      marker.pose.position.x = m_BehaviorGenerator.m_turnWaypoint.pos.x;
+      marker.pose.position.y = m_BehaviorGenerator.m_turnWaypoint.pos.y;
+      marker.pose.position.z = m_BehaviorGenerator.m_turnWaypoint.pos.z;
+      marker.scale.x = 3;
+      marker.scale.y = 3;
+      marker.scale.z = 3;
+      marker.color.r = 0.0f;
+      marker.color.g = 1.0f;
+      marker.color.b = 0.0f;
+      marker.color.a = 1.0f;
+      marker.header.stamp = ros::Time::now();
+      marker.header.frame_id = "map";
+      turn_marker.markers.push_back(marker);
+
+      pub_turnMarker.publish(turn_marker);
     }
     else
       sub_GlobalPlannerPaths = nh.subscribe("/lane_waypoints_array",   1,    &BehaviorGen::callbackGetGlobalPlannerPath,   this);
 
     loop_rate.sleep();
   }
+}
+
+bool BehaviorGen::GetBaseMapTF(){
+  
+  try{
+    m_map_base_listener.waitForTransform("base_link", "map", ros::Time(0), ros::Duration(0.001));
+    m_map_base_listener.lookupTransform("base_link", "map", ros::Time(0), m_map_base_transform);
+    return true;
+  }
+  catch(tf::TransformException& ex)
+  {
+    return false;
+  }
+  
+}
+
+void BehaviorGen::TransformPose(const geometry_msgs::PoseStamped &in_pose, geometry_msgs::PoseStamped& out_pose, const tf::StampedTransform &in_transform)
+{
+
+  tf::Vector3 in_pos(in_pose.pose.position.x,
+                     in_pose.pose.position.y,
+                     in_pose.pose.position.z);
+  tf::Quaternion in_quat(in_pose.pose.orientation.x,
+                         in_pose.pose.orientation.y,
+                         in_pose.pose.orientation.w,
+                         in_pose.pose.orientation.z);
+
+  tf::Vector3 in_pos_t = in_transform * in_pos;
+  tf::Quaternion in_quat_t = in_transform * in_quat;
+  
+  out_pose.header = in_pose.header;
+  out_pose.pose.position.x = in_pos_t.x();
+  out_pose.pose.position.y = in_pos_t.y();
+  out_pose.pose.position.z = in_pos_t.z();
+  out_pose.pose.orientation.x = in_quat_t.x();
+  out_pose.pose.orientation.y = in_quat_t.y();
+  out_pose.pose.orientation.z = in_quat_t.z();
+
+  return;
 }
 
 //Mapping Section
