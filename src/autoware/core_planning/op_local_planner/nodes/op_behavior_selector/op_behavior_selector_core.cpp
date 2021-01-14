@@ -579,7 +579,7 @@ void BehaviorGen::MainLoop()
           XmlRpc::XmlRpcValue intersection_list;
           nh.getParam("/op_behavior_selector/intersection_list", intersection_list);
 
-          // PlannerHNS::MappingHelpers::ConstructRoadNetwork_RUBIS(m_Map, traffic_light_list, stop_line_list, intersection_list);
+          PlannerHNS::MappingHelpers::ConstructRoadNetwork_RUBIS(m_Map, traffic_light_list, stop_line_list, intersection_list);
         }
         catch(XmlRpc::XmlRpcException& e){
           ROS_ERROR("[XmlRpc Error] %s", e.getMessage().c_str());

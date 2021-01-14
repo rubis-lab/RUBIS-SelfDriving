@@ -3474,6 +3474,7 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
     map.stopLines.push_back(sl);
   }
 
+  // Parsing Intersection
   for(int i=0; i<is_list.size(); i++){
     Crossing cs;
     cs.id = is_list[i]["id"];
@@ -3502,16 +3503,16 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
 
     for(int j=0; j<4; j++){
       std::vector<GPSPoint> area;
-      int prev_idx = (j+1)%4;
+      int prev_idx = (j+3)%4;
       area.push_back(middle.at(prev_idx));
       area.push_back(cs.pos);
       
       GPSPoint c2, c3;
-      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 2;
-      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 2;
+      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 3;
+      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 3;
 
-      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 2;
-      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 2;
+      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 3;
+      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 3;
 
       area.push_back(c2);
       area.push_back(c3);
