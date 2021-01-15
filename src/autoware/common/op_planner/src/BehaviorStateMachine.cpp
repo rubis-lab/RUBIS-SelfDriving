@@ -119,7 +119,7 @@ BehaviorStateMachine::~BehaviorStateMachine()
 
 BehaviorStateMachine* ForwardState::GetNextState()
 {
-  std::cout<<m_pParams->pedestrianAppearence<<std::endl;
+  //  std::cout<<m_pParams->pedestrianAppearence<<std::endl;
   if(UtilityH::GetTimeDiffNow(m_StateTimer) < decisionMakingTime)
     return this; //return this behavior only , without reset
 
@@ -347,10 +347,15 @@ BehaviorStateMachine* GoalState::GetNextState()
 BehaviorStateMachine* ForwardStateII::GetNextState()
 {
   PreCalculatedConditions* pCParams = GetCalcParams();
+
   if(pCParams->currentGoalID != pCParams->prevGoalID)
     return FindBehaviorState(GOAL_STATE);
   else if(m_pParams->pedestrianAppearence){
     return FindBehaviorState(PEDESTRIAN_STATE);
+  }
+  // hjw added
+  else if(m_pParams->isInsideIntersection && (m_pParams->turnLeft || m_pParams->turnRight)){
+    return FindBehaviorState(INTERSECTION_STATE);
   }
   else if(m_pParams->enableTrafficLightBehavior
         && pCParams->currentTrafficLightID > 0
@@ -531,6 +536,15 @@ BehaviorStateMachine* TrafficLightWaitStateII::GetNextState()
 BehaviorStateMachine* PedestrianState::GetNextState()
 {
   if(m_pParams->pedestrianAppearence){
+    return FindBehaviorState(this->m_Behavior);
+  }
+  else
+    return FindBehaviorState(FORWARD_STATE);
+}
+
+BehaviorStateMachine* IntersectionState::GetNextState()
+{
+  if(m_pParams->isInsideIntersection && (m_pParams->turnLeft || m_pParams->turnRight)){
     return FindBehaviorState(this->m_Behavior);
   }
   else

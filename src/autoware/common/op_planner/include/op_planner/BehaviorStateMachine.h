@@ -283,6 +283,15 @@ public:
   virtual BehaviorStateMachine* GetNextState();
 };
 
+class IntersectionState : public BehaviorStateMachine
+{
+public:
+  IntersectionState(PlanningParams* pParams, PreCalculatedConditions* pPreCalcVal, BehaviorStateMachine* pNextState)
+  : BehaviorStateMachine(pParams, pPreCalcVal, pNextState){m_Behavior = INTERSECTION_STATE;}
+  virtual ~IntersectionState(){}
+  virtual BehaviorStateMachine* GetNextState();
+};
+
 } /* namespace PlannerHNS */
 
 #endif /* BEHAVIORSTATEMACHINE_H_ */

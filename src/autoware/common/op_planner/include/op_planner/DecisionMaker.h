@@ -44,11 +44,13 @@ public:
   StopSignStopStateII*       m_pStopSignStopState;
   StopSignWaitStateII*       m_pStopSignWaitState;
 
-  //Added by PHY
+  //Added by PHY, HJW
   PedestrianState*  m_pPedestrianState;
   PlannerHNS::WayPoint m_turnWaypoint;
   double m_turnThreshold;
   double m_turnAngle;
+
+  IntersectionState*  m_pIntersectionState;
 
   void InitBehaviorStates();
 

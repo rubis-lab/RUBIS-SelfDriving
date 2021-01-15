@@ -1020,6 +1020,35 @@ double PlanningHelpers::CalculateStopLineDistance_RUBIS(const std::vector<WayPoi
   return closestStopLineDistance;
 }
 
+bool PlanningHelpers::GetClosestIntersection(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<Crossing> crossings, int& intersectionID, int& risky_area_idx){
+  // RelativeInfo waypoint_info;
+  // GetRelativeInfo(path, p, waypoint_info);
+
+  double closestCrossingDistance = DBL_MAX;
+  int closest_idx = -1;
+
+  for(int is_idx = 0; is_idx < crossings.size(); is_idx++){
+    double localDistance = hypot(p.pos.y - crossings.at(is_idx).pos.y, p.pos.x - crossings.at(is_idx).pos.x);
+
+    if(closestCrossingDistance > localDistance){
+      closestCrossingDistance = localDistance;
+      intersectionID = crossings.at(is_idx).id;
+      closest_idx = is_idx;
+    }
+  }
+
+  if(closestCrossingDistance > 50) return false;
+
+  for(int i=0; i<4; i++){
+    if(crossings.at(closest_idx).risky_area.at(i).PointInsidePolygon(crossings.at(closest_idx).risky_area.at(i), p.pos) == true){
+      risky_area_idx = i;
+      return true;
+    }
+  }
+
+  return false;
+}
+
 double PlanningHelpers::GetDistanceToClosestStopLineAndCheck(const std::vector<WayPoint>& path, const WayPoint& p, const double& giveUpDistance, int& stopLineID, int& stopSignID, int& trafficLightID, const int& prevIndex)
 {
   trafficLightID = stopSignID = stopLineID = -1;
