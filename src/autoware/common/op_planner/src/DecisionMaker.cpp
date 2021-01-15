@@ -100,11 +100,14 @@ void DecisionMaker::InitBehaviorStates()
   // Added by PHY
   m_pPedestrianState         = new PedestrianState(m_pStopState->m_pParams, m_pStopState->GetCalcParams(), m_pGoToGoalState);
 
+  m_pIntersectionState         = new IntersectionState(m_pStopState->m_pParams, m_pStopState->GetCalcParams(), m_pGoToGoalState);
+
   m_pGoToGoalState->InsertNextState(m_pAvoidObstacleState);
   m_pGoToGoalState->InsertNextState(m_pStopSignStopState);
   m_pGoToGoalState->InsertNextState(m_pTrafficLightStopState);
   m_pGoToGoalState->InsertNextState(m_pFollowState);
   m_pGoToGoalState->InsertNextState(m_pPedestrianState);
+  m_pGoToGoalState->InsertNextState(m_pIntersectionState);
   m_pGoToGoalState->decisionMakingCount = 0;//m_params.nReliableCount;
 
   m_pGoalState->InsertNextState(m_pGoToGoalState);
@@ -207,6 +210,21 @@ void DecisionMaker::InitBehaviorStates()
     pValues->currentGoalID = goalID;
 
   m_iCurrentTotalPathId = pValues->iCurrSafeLane;
+
+  // For Intersection
+  int intersectionID = -1;
+  int risky_area_idx = -1;
+
+  bool bInsideIntersection = PlanningHelpers::GetClosestIntersection(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.crossings, intersectionID, risky_area_idx);
+  
+  // std::cout << bInsideIntersection << " " << intersectionID << " " << risky_area_idx << std::endl;
+
+  // Can cover for false case
+  m_pCurrentBehaviorState->m_pParams->isInsideIntersection = bInsideIntersection;
+  m_pCurrentBehaviorState->m_pParams->closestIntersectionID = intersectionID;
+  m_pCurrentBehaviorState->m_pParams->riskyAreaIdx = risky_area_idx;
+
+  // For Traffic Signal
 
   int stopLineID = -1;
   int stopSignID = -1;

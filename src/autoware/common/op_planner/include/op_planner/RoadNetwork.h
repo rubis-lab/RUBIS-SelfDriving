@@ -32,7 +32,7 @@ enum GLOBAL_STATE_TYPE {G_WAITING_STATE, G_PLANING_STATE, G_FORWARD_STATE, G_BRA
 enum STATE_TYPE {INITIAL_STATE, WAITING_STATE, FORWARD_STATE, STOPPING_STATE, EMERGENCY_STATE,
   TRAFFIC_LIGHT_STOP_STATE,TRAFFIC_LIGHT_WAIT_STATE, STOP_SIGN_STOP_STATE, STOP_SIGN_WAIT_STATE,
   FOLLOW_STATE, LANE_CHANGE_STATE, OBSTACLE_AVOIDANCE_STATE, GOAL_STATE, FINISH_STATE, YIELDING_STATE, 
-  BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE, PEDESTRIAN_STATE};
+  BRANCH_LEFT_STATE, BRANCH_RIGHT_STATE, PEDESTRIAN_STATE, INTERSECTION_STATE};
 
 enum LIGHT_INDICATOR {INDICATOR_LEFT, INDICATOR_RIGHT, INDICATOR_BOTH , INDICATOR_NONE};
 
@@ -534,7 +534,8 @@ public:
   int id;
   int roadId;
   GPSPoint pos;
-  std::vector<std::vector<GPSPoint>> risky_area;
+  PolygonShape intersection_area;
+  std::vector<PolygonShape> risky_area;
   std::vector<GPSPoint> points;
   RoadSegment* pSegment;
 
@@ -914,6 +915,12 @@ public:
   double stopLineMargin;
   double stopLineDetectionDistance;
 
+  // Added by HJW for handle intersection
+  bool isInsideIntersection;
+  int closestIntersectionID;
+  int riskyAreaIdx;
+  bool obstacleinRiskyArea;
+
   // Added by PHY
   bool pedestrianAppearence;
   bool turnLeft;
@@ -987,6 +994,11 @@ public:
 
     turnRight                  = false;
     turnLeft                   = false;
+
+    isInsideIntersection       = false;
+    closestIntersectionID      = -1;
+    riskyAreaIdx               = -1;
+    obstacleinRiskyArea        = false;
   }
 };
 

@@ -534,7 +534,7 @@ void BehaviorGen::CalculateTurnAngle(PlannerHNS::WayPoint turn_point){
   geometry_msgs::PoseStamped turn_pose;
 
   if(GetBaseMapTF()){
-    std::cout<<"BEFORE:"<<turn_point.pos.x<<" "<<turn_point.pos.y<<" "<<turn_point.rot.x<<" "<<turn_point.rot.y<<" "<<turn_point.rot.z<<std::endl;
+    // std::cout<<"BEFORE:"<<turn_point.pos.x<<" "<<turn_point.pos.y<<" "<<turn_point.rot.x<<" "<<turn_point.rot.y<<" "<<turn_point.rot.z<<std::endl;
     turn_pose.pose.position.x = turn_point.pos.x;
     turn_pose.pose.position.y = turn_point.pos.y;
     turn_pose.pose.position.z = turn_point.pos.z;
@@ -543,7 +543,7 @@ void BehaviorGen::CalculateTurnAngle(PlannerHNS::WayPoint turn_point){
     turn_pose.pose.orientation.z = turn_point.rot.z;
     turn_pose.pose.orientation.w = turn_point.rot.w;
     TransformPose(turn_pose, turn_pose, m_map_base_transform);
-    std::cout<<"AFTER:"<<turn_pose.pose.position.x<<" "<<turn_pose.pose.position.y<<" "<<turn_pose.pose.orientation.x<<" "<<turn_pose.pose.orientation.y<<" "<<turn_pose.pose.orientation.z<<std::endl;
+    // std::cout<<"AFTER:"<<turn_pose.pose.position.x<<" "<<turn_pose.pose.position.y<<" "<<turn_pose.pose.orientation.x<<" "<<turn_pose.pose.orientation.y<<" "<<turn_pose.pose.orientation.z<<std::endl;
 
     double hypot_length = hypot(turn_pose.pose.position.x, turn_pose.pose.position.y);
 
@@ -656,7 +656,7 @@ void BehaviorGen::MainLoop()
         bNewLightStatus = false;
         for(unsigned int itls = 0 ; itls < m_PrevTrafficLight.size() ; itls++)
           m_PrevTrafficLight.at(itls).lightState = m_CurrLightStatus;
-      }      
+      }
       m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);

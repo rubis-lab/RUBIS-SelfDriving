@@ -1068,6 +1068,9 @@ std::string ROSHelpers::GetBehaviorNameFromCode(const PlannerHNS::STATE_TYPE& be
   case PlannerHNS::PEDESTRIAN_STATE:
     str = "Pedestrian";
     break;
+  case PlannerHNS::INTERSECTION_STATE:
+    str = "Intersection";
+    break;
   default:
     str = "Unknown";
     break;
