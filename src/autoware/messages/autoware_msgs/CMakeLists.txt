@@ -67,6 +67,7 @@ add_message_files(
     
     RUBISTrafficSignal.msg
     RUBISTrafficSignalArray.msg
+    IntersectionCondition.msg
 )
 
 add_service_files(

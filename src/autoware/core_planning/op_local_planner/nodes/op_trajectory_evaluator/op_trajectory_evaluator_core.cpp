@@ -16,6 +16,7 @@
 
 #include "op_trajectory_evaluator_core.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
+#include "op_planner/MappingHelpers.h"
 
 
 namespace TrajectoryEvaluatorNS
@@ -44,6 +45,7 @@ TrajectoryEval::TrajectoryEval()
   pub_TrajectoryCost = nh.advertise<autoware_msgs::Lane>("local_trajectory_cost", 1);
   pub_SafetyBorderRviz = nh.advertise<visualization_msgs::Marker>("safety_border", 1);
   pub_DistanceToPedestrian = nh.advertise<std_msgs::Float64>("distance_to_pedestrian", 1);
+  pub_IntersectionCondition = nh.advertise<autoware_msgs::IntersectionCondition>("intersection_condition", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10, &TrajectoryEval::callbackGetCurrentPose, this);
 
@@ -366,6 +368,12 @@ void TrajectoryEval::MainLoop()
 
   PlannerHNS::WayPoint prevState, state_change;
 
+  // Add Crossing Info from yaml file
+  XmlRpc::XmlRpcValue intersection_xml;
+  std::vector<PlannerHNS::Crossing> intersection_list;
+  nh.getParam("/op_trajectory_evaluator/intersection_list", intersection_xml);
+  PlannerHNS::MappingHelpers::ConstructIntersection_RUBIS(intersection_list, intersection_xml);
+
   while (ros::ok())
   {
     UpdateMyParams();
@@ -400,6 +408,23 @@ void TrajectoryEval::MainLoop()
         l.is_blocked = tc.bBlocked;
         l.lane_index = tc.index;
         pub_TrajectoryCost.publish(l);
+
+        // hjw added : Check if ego is on intersection and obstacles are in risky area 
+        int intersectionID = -1;
+        bool isInsideIntersection = false;
+        bool riskyLeftTurn = false;
+        bool riskyRightTurn = false;
+
+        PlannerHNS::PlanningHelpers::GetIntersectionCondition(m_CurrentPos, intersection_list, m_PredictedObjects, intersectionID, isInsideIntersection, riskyLeftTurn, riskyRightTurn);
+
+        autoware_msgs::IntersectionCondition ic_msg;
+        ic_msg.intersectionID = intersectionID;
+        ic_msg.isIntersection = isInsideIntersection;
+        ic_msg.riskyLeftTurn = riskyLeftTurn;
+        ic_msg.riskyRightTurn = riskyRightTurn;
+        
+        pub_IntersectionCondition.publish(ic_msg);
+
       }
 
       if(m_TrajectoryCostsCalculator.m_TrajectoryCosts.size() == m_GeneratedRollOuts.size())

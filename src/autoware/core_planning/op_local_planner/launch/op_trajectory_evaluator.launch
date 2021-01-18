@@ -13,8 +13,11 @@
 
   <arg name="PedestrianRightThreshold" default="7.0" />
   <arg name="PedestrianLeftThreshold" default="2.0" />
+
+  <arg name="intersectionFile" default="crossing_test/crossing_intersection.yaml" />
       
   <node pkg="op_local_planner" type="op_trajectory_evaluator" name="op_trajectory_evaluator" output="screen">
+    <rosparam command="load" file="$(find test_package)/cfg/$(arg intersectionFile)"/>
   
     <param name="enablePrediction"       value="$(arg enablePrediction)" />            
     <param name="horizontalSafetyDistance"   value="$(arg horizontalSafetyDistance)" />

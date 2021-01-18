@@ -2,12 +2,12 @@
     {
         "id": 0,
         "type_list": {
-            "red": 22.0,
+            "red": 2.0,
             "yellow": 3.0,
             "green": 15.0
         },
         "type": 0,
-        "time": 22
+        "time": 2
     },
     {
         "id": 1,
@@ -31,6 +31,36 @@
     },
     {
         "id": 3,
+        "type_list": {
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
+        },
+        "type": 0,
+        "time": 22
+    },
+    {
+        "id": 4,
+        "type_list": {
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
+        },
+        "type": 0,
+        "time": 22
+    },
+    {
+        "id": 5,
+        "type_list": {
+            "red": 22.0,
+            "yellow": 3.0,
+            "green": 15.0
+        },
+        "type": 0,
+        "time": 22
+    },
+    {
+        "id": 6,
         "type_list": {
             "red": 22.0,
             "yellow": 3.0,

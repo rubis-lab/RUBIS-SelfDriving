@@ -3441,7 +3441,7 @@ void MappingHelpers::GetMapMaxIds(PlannerHNS::RoadNetwork& map)
   }
 }
 
-void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, XmlRpc::XmlRpcValue tl_list, XmlRpc::XmlRpcValue sl_list, XmlRpc::XmlRpcValue is_list){
+void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, XmlRpc::XmlRpcValue tl_list, XmlRpc::XmlRpcValue sl_list){
 
   // Parsing Traffic Light
   for(int i=0; i<tl_list.size(); i++){
@@ -3475,6 +3475,7 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
   }
 
   // Parsing Intersection
+  /*
   for(int i=0; i<is_list.size(); i++){
     Crossing cs;
     cs.id = is_list[i]["id"];
@@ -3510,11 +3511,11 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
       area.points.push_back(cs.pos);
       
       GPSPoint c2, c3;
-      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 3;
-      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 3;
+      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 4;
+      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 4;
 
-      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 3;
-      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 3;
+      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 4;
+      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 4;
 
       area.points.push_back(c2);
       area.points.push_back(c3);
@@ -3524,7 +3525,60 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
 
     map.crossings.push_back(cs);
   }
+  */
 
+}
+
+void MappingHelpers::ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossing>& crossing, XmlRpc::XmlRpcValue is_list){
+  for(int i=0; i<is_list.size(); i++){
+    Crossing cs;
+    cs.id = is_list[i]["id"];
+    cs.pos.x = is_list[i]["pose"]["x"];
+    cs.pos.y = is_list[i]["pose"]["y"];
+    cs.pos.z = is_list[i]["pose"]["z"];
+
+    std::vector<GPSPoint> contour;
+    std::vector<GPSPoint> middle;
+    GPSPoint m01, m12, m23, m30;
+
+    for(int j=0; j<4; j++){
+      GPSPoint point;
+      point.x = is_list[i]["contour"][j]["x"];
+      point.y = is_list[i]["contour"][j]["y"];
+      point.z = is_list[i]["contour"][j]["z"];
+
+      cs.intersection_area.points.push_back(point);
+      contour.push_back(point);
+    }
+
+    for(int j=0; j<4; j++){
+      GPSPoint point;
+      point.x = (contour.at(j).x + contour.at((j+1)%4).x) / 2;
+      point.y = (contour.at(j).y + contour.at((j+1)%4).y) / 2;
+      middle.push_back(point);
+    }
+
+    for(int j=0; j<4; j++){
+      PolygonShape area;
+      int prev_idx = (j+3)%4;
+      area.points.push_back(middle.at(prev_idx));
+      area.points.push_back(cs.pos);
+      
+      GPSPoint c2, c3;
+      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 4;
+      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 4;
+
+      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 4;
+      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 4;
+
+      area.points.push_back(c2);
+      area.points.push_back(c3);
+
+      cs.risky_area.push_back(area);
+    }
+
+    crossing.push_back(cs);
+  }
 }
 
 

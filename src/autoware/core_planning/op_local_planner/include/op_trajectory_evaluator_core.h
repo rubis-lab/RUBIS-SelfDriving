@@ -29,6 +29,7 @@
 #include <autoware_can_msgs/CANInfo.h>
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <autoware_msgs/DetectedObject.h>
+#include <autoware_msgs/IntersectionCondition.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <tf/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>
@@ -92,6 +93,7 @@ protected:
   ros::Publisher pub_TrajectoryCost;
   ros::Publisher pub_SafetyBorderRviz;
   ros::Publisher pub_DistanceToPedestrian;
+  ros::Publisher pub_IntersectionCondition;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;

@@ -6,13 +6,13 @@
   <arg name="turnThreshold" default="20.0" />
   <arg name="trafficLightFile" default="fake_traffic_light.yaml" />
   <arg name="stopLineFile" default="fake_stop_line.yaml" />
-  <arg name="intersectionFile" default="crossing_test/crossing_intersection.yaml" />
+  <!-- <arg name="intersectionFile" default="crossing_test/crossing_intersection.yaml" /> -->
   
       
   <node pkg="op_local_planner" type="op_behavior_selector" name="op_behavior_selector" output="screen">
     <rosparam command="load" file="$(find test_package)/cfg/$(arg trafficLightFile)"/>
     <rosparam command="load" file="$(find test_package)/cfg/$(arg stopLineFile)"/>
-    <rosparam command="load" file="$(find test_package)/cfg/$(arg intersectionFile)"/>
+    <!-- <rosparam command="load" file="$(find test_package)/cfg/$(arg intersectionFile)"/> -->
 
     <param name="evidence_tust_number"   value="$(arg evidence_tust_number)"/>        
     <param name="distanceToPedestrianThreshold" value="$(arg distanceToPedestrianThreshold)" />
