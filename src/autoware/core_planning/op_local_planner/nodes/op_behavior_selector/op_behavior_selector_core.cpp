@@ -78,6 +78,7 @@ BehaviorGen::BehaviorGen()
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
   //sub_ctrl_cmd = nh.subscribe("/ctrl_cmd", 1, &BehaviorGen::callbackGetCommandCMD, this);
   sub_DistanceToPedestrian = nh.subscribe("/distance_to_pedestrian", 1, &BehaviorGen::callbackDistanceToPedestrian, this);
+  sub_IntersectionCondition = nh.subscribe("/intersection_condition", 1, &BehaviorGen::callbackIntersectionCondition, this);
 
   //Mapping Section
   sub_lanes = nh.subscribe("/vector_map_info/lane", 1, &BehaviorGen::callbackGetVMLanes,  this);
@@ -193,6 +194,18 @@ void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
   }
   m_BehaviorGenerator.UpdatePedestrianAppearence(m_PlanningParams.pedestrianAppearence);
   // m_BehaviorGenerator.printPedestrianAppearence();
+}
+
+void BehaviorGen::callbackIntersectionCondition(const autoware_msgs::IntersectionCondition& msg){
+  m_BehaviorGenerator.m_isInsideIntersection = msg.isIntersection;
+  m_BehaviorGenerator.m_riskyLeft = msg.riskyLeftTurn;
+  m_BehaviorGenerator.m_riskyRight = msg.riskyRightTurn;
+
+  // m_PlanningParams.isInsideIntersection = msg.isIntersection;
+  // m_PlanningParams.obstacleinRiskyArea = (msg.riskyLeftTurn || msg.riskyRightTurn);
+
+  // ROS_INFO("hi %d %d %d %d", msg.intersectionID, msg.isIntersection, msg.riskyLeftTurn, msg.riskyRightTurn);
+  // ROS_INFO("hi %d %d", m_PlanningParams.isInsideIntersection, m_PlanningParams.turnLeft);
 }
 
 void BehaviorGen::callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg)
@@ -609,10 +622,10 @@ void BehaviorGen::MainLoop()
           nh.getParam("/op_behavior_selector/stop_line_list", stop_line_list);
 
           // Add Crossing Info from yaml file
-          XmlRpc::XmlRpcValue intersection_list;
-          nh.getParam("/op_behavior_selector/intersection_list", intersection_list);
+          // XmlRpc::XmlRpcValue intersection_list;
+          // nh.getParam("/op_behavior_selector/intersection_list", intersection_list);
 
-          PlannerHNS::MappingHelpers::ConstructRoadNetwork_RUBIS(m_Map, traffic_light_list, stop_line_list, intersection_list);
+          PlannerHNS::MappingHelpers::ConstructRoadNetwork_RUBIS(m_Map, traffic_light_list, stop_line_list);
         }
         catch(XmlRpc::XmlRpcException& e){
           ROS_ERROR("[XmlRpc Error] %s", e.getMessage().c_str());

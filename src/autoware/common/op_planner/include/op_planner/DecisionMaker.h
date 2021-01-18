@@ -51,6 +51,9 @@ public:
   double m_turnAngle;
 
   IntersectionState*  m_pIntersectionState;
+  bool m_isInsideIntersection;
+  bool m_riskyLeft;
+  bool m_riskyRight;
 
   void InitBehaviorStates();
 

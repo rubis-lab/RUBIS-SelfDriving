@@ -212,17 +212,8 @@ void DecisionMaker::InitBehaviorStates()
   m_iCurrentTotalPathId = pValues->iCurrSafeLane;
 
   // For Intersection
-  int intersectionID = -1;
-  int risky_area_idx = -1;
-
-  bool bInsideIntersection = PlanningHelpers::GetClosestIntersection(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.crossings, intersectionID, risky_area_idx);
-  
-  // std::cout << bInsideIntersection << " " << intersectionID << " " << risky_area_idx << std::endl;
-
-  // Can cover for false case
-  m_pCurrentBehaviorState->m_pParams->isInsideIntersection = bInsideIntersection;
-  m_pCurrentBehaviorState->m_pParams->closestIntersectionID = intersectionID;
-  m_pCurrentBehaviorState->m_pParams->riskyAreaIdx = risky_area_idx;
+  m_params.isInsideIntersection = m_isInsideIntersection;
+  m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
 
   // For Traffic Signal
 

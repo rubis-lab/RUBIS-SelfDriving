@@ -43,6 +43,7 @@
 #include <geometry_msgs/TwistWithCovarianceStamped.h>
 #include <autoware_can_msgs/CANInfo.h>
 #include <autoware_msgs/DetectedObjectArray.h>
+#include <autoware_msgs/IntersectionCondition.h>
 // #include <autoware_msgs/TrafficLight.h>
 // #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/RUBISTrafficSignalArray.h>
@@ -150,8 +151,9 @@ protected: //Planning Related variables
   ros::Subscriber sub_twist_raw;
   ros::Subscriber sub_ctrl_cmd;
 
-  //Added by PHY
+  //Added by PHY & HJW
   ros::Subscriber sub_DistanceToPedestrian;
+  ros::Subscriber sub_IntersectionCondition;
 
   // Callback function for subscriber.
   void callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg);
@@ -162,6 +164,7 @@ protected: //Planning Related variables
   void callbackGetLocalPlannerPath(const autoware_msgs::LaneArrayConstPtr& msg);
   void callbackGetLocalTrajectoryCost(const autoware_msgs::LaneConstPtr& msg);
   void callbackDistanceToPedestrian(const std_msgs::Float64& msg);
+  void callbackIntersectionCondition(const autoware_msgs::IntersectionCondition& msg);
 
   void callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTrafficSignalArray& msg);
 
