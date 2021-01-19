@@ -40,6 +40,7 @@ DecisionMaker::DecisionMaker()
   m_pFollowState = 0;
   m_pAvoidObstacleState = 0;
   m_pPedestrianState = 0;
+  m_safeMaxSpeed = -1;
 }
 
 DecisionMaker::~DecisionMaker()
@@ -394,6 +395,11 @@ void DecisionMaker::InitBehaviorStates()
   unsigned int point_index = 0;
   double critical_long_front_distance = m_CarInfo.length/2.0;
 
+
+  std::cout<<"Safe Max Speed!:"<<m_safeMaxSpeed<<std::endl;
+
+
+
   if(beh.state == PEDESTRIAN_STATE){
     double desiredVelocity = -1;
     return desiredVelocity;
@@ -467,7 +473,41 @@ void DecisionMaker::InitBehaviorStates()
     return desiredVelocity;
 
   }
-  else if(beh.state == FORWARD_STATE || beh.state == OBSTACLE_AVOIDANCE_STATE )
+  else if(beh.state == FORWARD_STATE)
+  {
+    double target_velocity = max_velocity;
+    bool bSlowBecauseChange=false;
+
+
+    // std::cout << "curr Traj : " << beh.currTrajectory << ", curr Safe Traj : " << m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << std::endl;
+    // if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
+    if(beh.currTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory)
+    {
+      // target_velocity /= fabs(beh.currTrajectory - m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory);
+      target_velocity *= 0.5;
+      bSlowBecauseChange = true;
+    }
+
+    double e = target_velocity - CurrStatus.speed;
+    double desiredVelocity = m_pidVelocity.getPID(e);
+    
+    if(m_safeMaxSpeedSwitch == true){
+      std::cout<<"No Vehicle!"<<std::endl;
+      desiredVelocity = m_safeMaxSpeed;
+    }
+    else if(desiredVelocity>max_velocity)
+      desiredVelocity = max_velocity;
+    else if(desiredVelocity < m_params.minSpeed)
+      desiredVelocity = 0;
+
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = desiredVelocity;
+
+    //std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
+
+    return desiredVelocity;
+  }
+  else if(beh.state == OBSTACLE_AVOIDANCE_STATE )
   {
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
@@ -516,6 +556,8 @@ void DecisionMaker::InitBehaviorStates()
     const TrajectoryCost& tc,
     const bool& bEmergencyStop)
 {
+
+  std::cout<<"One step safe max:"<<m_safeMaxSpeed<<std::endl;
    PlannerHNS::BehaviorState beh;
    state = currPose;
    m_TotalPath.clear();
@@ -539,8 +581,7 @@ void DecisionMaker::InitBehaviorStates()
   beh.bNewPlan = SelectSafeTrajectory();
 
   beh.maxVelocity = UpdateVelocityDirectlyToTrajectory(beh, vehicleState, dt);
- 
-
+  
   //std::cout << "Eval_i: " << tc.index << ", Curr_i: " <<  m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << ", Prev_i: " << m_pCurrentBehaviorState->GetCalcParams()->iPrevSafeTrajectory << std::endl;
 
   return beh;

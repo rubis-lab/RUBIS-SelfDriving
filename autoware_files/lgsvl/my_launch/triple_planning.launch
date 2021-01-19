@@ -19,23 +19,23 @@
     <arg name="goal_ori_z"            value="-0.81" />
     <arg name="goal_ori_w"            value="0.58" /> -->
     <!-- TestBed Avenue -->
-    <!-- <arg name="use_static_goal"       value="true" />
+    <arg name="use_static_goal"       value="true" />
     <arg name="goal_pose_x"           value="651.96" />
     <arg name="goal_pose_y"           value="-610.03" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="0.74" />
-    <arg name="goal_ori_w"            value="0.67" /> -->
+    <arg name="goal_ori_w"            value="0.67" />
     <!-- TestBed LeftTurn Scenario -->
-    <arg name="use_static_goal"       value="true" />
+    <!-- <arg name="use_static_goal"       value="true" />
     <arg name="goal_pose_x"           value="560.744" />
     <arg name="goal_pose_y"           value="-1122.939" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="-0.99" />
-    <arg name="goal_ori_w"            value="0.024" />
+    <arg name="goal_ori_w"            value="0.024" /> -->
   </include>
 
   <!-- op_common_params  -->
@@ -112,8 +112,14 @@
     <arg name="weightLong"                      default="4" />
     <arg name="weightLat"                       default="10" />
     <arg name="LateralSkipDistance"             default="5.0" />
-    <arg name="PedestrianRightThreshold"        default="7.0" />
-    <arg name="PedestrianLeftThreshold"         default="2.0" />
+    
+    <arg name="ImageWidth" default="1920" />
+    <arg name="ImageHeight" default="1080" />
+    <arg name="PedestrianRightThreshold" default="7.0" />
+    <arg name="PedestrianLeftThreshold" default="2.0" />
+    <arg name="PedestrianImageDetectionRange" default="0.7" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
+    <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
+    <arg name="VehicleImageWidthThreshold" default="0.025" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
 
     <arg name="intersectionFile"                default="crossing_test/crossing_intersection.yaml" />
   </include>
@@ -122,6 +128,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="25.0" />
+    <arg name="safeMaxSpeed"                    default="13.5" />
     <arg name="turnThreshold"                   default="20.0" />
     <arg name="trafficLightFile"                default="crossing_test/crossing_traffic_light.yaml" />
     <arg name="stopLineFile"                    default="crossing_test/crossing_stop_line.yaml" />

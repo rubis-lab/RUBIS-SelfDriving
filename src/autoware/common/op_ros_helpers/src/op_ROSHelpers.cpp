@@ -1589,6 +1589,8 @@ void ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(co
   obj.bVelocity = det_obj.velocity_reliable;
   obj.bDirection = det_obj.pose_reliable;
 
+  obj.image_x = det_obj.x;
+  obj.image_y = det_obj.y;
   obj.image_width = det_obj.width;
   obj.image_height = det_obj.height;
 
@@ -1651,6 +1653,8 @@ void ROSHelpers::ConvertFromOpenPlannerDetectedObjectToAutowareDetectedObject(co
   obj.velocity_reliable = det_obj.bVelocity;
   obj.pose_reliable = det_obj.bDirection;
 
+  obj.x = det_obj.image_x;
+  obj.y = det_obj.image_y;
   obj.width = det_obj.image_width;
   obj.height = det_obj.image_height;
 
