@@ -354,15 +354,15 @@ BehaviorStateMachine* ForwardStateII::GetNextState()
     return FindBehaviorState(PEDESTRIAN_STATE);
   }
   // hjw added
-  else if(m_pParams->isInsideIntersection && (m_pParams->turnLeft || m_pParams->turnRight)){
-    return FindBehaviorState(INTERSECTION_STATE);
-  }
   else if(m_pParams->enableTrafficLightBehavior
         && pCParams->currentTrafficLightID > 0
         && pCParams->bTrafficIsRed)
         // && pCParams->currentTrafficLightID != pCParams->prevTrafficLightID)
       return FindBehaviorState(TRAFFIC_LIGHT_STOP_STATE);
-
+  else if(m_pParams->isInsideIntersection
+    && (m_pParams->turnLeft || m_pParams->turnRight)){
+    return FindBehaviorState(INTERSECTION_STATE);
+  }
   else if(m_pParams->enableStopSignBehavior
       && pCParams->currentStopSignID > 0
       && pCParams->currentStopSignID != pCParams->prevStopSignID)
@@ -544,7 +544,7 @@ BehaviorStateMachine* PedestrianState::GetNextState()
 
 BehaviorStateMachine* IntersectionState::GetNextState()
 {
-  if(m_pParams->isInsideIntersection && (m_pParams->turnLeft || m_pParams->turnRight)){
+  if(m_pParams->closestIntersectionDistance < 35){
     return FindBehaviorState(this->m_Behavior);
   }
   else

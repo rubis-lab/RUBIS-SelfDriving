@@ -184,8 +184,8 @@
   </include>
 
   <!-- Traffic Signal -->
-  <include file="$(find test_package)/launch/lgsvl_traffic_signal_test.launch">
+  <!-- <include file="$(find test_package)/launch/lgsvl_traffic_signal_test.launch">
     <arg name="stopline_data" value="$(env HOME)/autoware.ai/rubis_ws/src/test_package/cfg/testbed_stop_line.yaml"/>
-  </include>
+  </include> -->
 
 </launch>

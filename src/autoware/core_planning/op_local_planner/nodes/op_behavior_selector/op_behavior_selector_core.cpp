@@ -202,14 +202,9 @@ void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
 
 void BehaviorGen::callbackIntersectionCondition(const autoware_msgs::IntersectionCondition& msg){
   m_BehaviorGenerator.m_isInsideIntersection = msg.isIntersection;
+  m_BehaviorGenerator.m_closestIntersectionDistance = msg.intersectionDistance;
   m_BehaviorGenerator.m_riskyLeft = msg.riskyLeftTurn;
   m_BehaviorGenerator.m_riskyRight = msg.riskyRightTurn;
-
-  // m_PlanningParams.isInsideIntersection = msg.isIntersection;
-  // m_PlanningParams.obstacleinRiskyArea = (msg.riskyLeftTurn || msg.riskyRightTurn);
-
-  // ROS_INFO("hi %d %d %d %d", msg.intersectionID, msg.isIntersection, msg.riskyLeftTurn, msg.riskyRightTurn);
-  // ROS_INFO("hi %d %d", m_PlanningParams.isInsideIntersection, m_PlanningParams.turnLeft);
 }
 
 void BehaviorGen::callbackSafeMaxSpeedSwitch(const std_msgs::Bool& msg){
@@ -343,6 +338,12 @@ void BehaviorGen::callbackGetGlobalPlannerPath(const autoware_msgs::LaneArrayCon
 
 void BehaviorGen::callbackGetLocalTrajectoryCost(const autoware_msgs::LaneConstPtr& msg)
 {
+  if(m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior == PlannerHNS::INTERSECTION_STATE){
+    bBestCost = true;
+    m_TrajectoryBestCost.closest_obj_distance = msg->closest_object_distance;
+    m_TrajectoryBestCost.closest_obj_velocity = msg->closest_object_velocity;
+    return;
+  }
   bBestCost = true;
   m_TrajectoryBestCost.bBlocked = msg->is_blocked;
   m_TrajectoryBestCost.index = msg->lane_index;
