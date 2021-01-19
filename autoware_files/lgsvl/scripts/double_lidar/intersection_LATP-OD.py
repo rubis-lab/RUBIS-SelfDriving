@@ -33,7 +33,7 @@ spawns = sim.get_spawn()
 state = lgsvl.AgentState()
 
 ### Initial Poistion ###
-# state.transform.position = spawns[0].position
+# state.transform.position = spawns[0].position + 400 * forward
 # state.transform.rotation = spawns[0].rotation
 
 ### Intersection Position ###
@@ -41,8 +41,8 @@ state.transform.position = spawns[0].position + 481 * forward - 550 * right
 state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 #ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
-#ego = sim.add_agent("DoubleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
-ego = sim.add_agent("TripleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
+ego = sim.add_agent("DoubleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
+# ego = sim.add_agent("TripleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)
 ego.connect_bridge(os.environ.get("BRIDGE_HOST", "127.0.0.1"), 9090)
 
 
@@ -95,7 +95,7 @@ npc2_s1_angle = npc2_s1_state.transform.rotation
 #set npc_s1_vehicle2's waypoint1
 npc2_s1_start = npc2_s1_state.transform.position + 2 * right
 npc2_s1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s1_start.x, npc2_s1_start.y, npc2_s1_start.z),
-                                  speed=npc_speed, angle=npc2_s1_angle, idle=4, trigger_distance=75, trigger=None)
+                                  speed=npc_speed, angle=npc2_s1_angle, idle=4, trigger_distance=80, trigger=None)
 npc2_s1_waypoints.append(npc2_s1_wp1)
 
 #set npc_s1_vehicle2's waypoint2
