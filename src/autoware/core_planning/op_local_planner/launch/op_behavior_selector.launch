@@ -2,8 +2,10 @@
   <!-- Behavior selector specific parameters -->
   
   <arg name="evidence_tust_number"   default="25"/>
-  <arg name="distanceToPedestrianThreshold" default="20.0" />
+  <arg name="distanceToPedestrianThreshold" default="20.0" />  
   <arg name="turnThreshold" default="20.0" />
+  <arg name="safeMaxSpeed" default="13.5" />
+
   <arg name="trafficLightFile" default="fake_traffic_light.yaml" />
   <arg name="stopLineFile" default="fake_stop_line.yaml" />
   <!-- <arg name="intersectionFile" default="crossing_test/crossing_intersection.yaml" /> -->
@@ -13,7 +15,8 @@
     <rosparam command="load" file="$(find test_package)/cfg/$(arg trafficLightFile)"/>
     <rosparam command="load" file="$(find test_package)/cfg/$(arg stopLineFile)"/>
     <!-- <rosparam command="load" file="$(find test_package)/cfg/$(arg intersectionFile)"/> -->
-
+    
+    <param name="safeMaxSpeed" value="$(arg safeMaxSpeed)" />
     <param name="evidence_tust_number"   value="$(arg evidence_tust_number)"/>        
     <param name="distanceToPedestrianThreshold" value="$(arg distanceToPedestrianThreshold)" />
     <param name="turnThreshold" value="$(arg turnThreshold)" />

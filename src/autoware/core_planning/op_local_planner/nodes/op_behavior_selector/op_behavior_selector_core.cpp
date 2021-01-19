@@ -37,6 +37,11 @@ BehaviorGen::BehaviorGen()
   ros::NodeHandle _nh;
   UpdatePlanningParams(_nh);
 
+  // RUBIS driving parameter
+  nh.getParam("/op_behavior_selector/distanceToPedestrianThreshold", m_distanceToPedestrianThreshold);
+  nh.param("/op_behavior_selector/turnThreshold", m_turnThreshold, 20.0);
+  nh.param("/op_behavior_selector/safeMaxSpeed", m_safeMaxSpeed, 13.5);
+
   tf::StampedTransform transform;
   PlannerHNS::ROSHelpers::GetTransformFromTF("map", "world", transform);
   m_OriginPos.position.x  = transform.getOrigin().x();
@@ -79,6 +84,7 @@ BehaviorGen::BehaviorGen()
   //sub_ctrl_cmd = nh.subscribe("/ctrl_cmd", 1, &BehaviorGen::callbackGetCommandCMD, this);
   sub_DistanceToPedestrian = nh.subscribe("/distance_to_pedestrian", 1, &BehaviorGen::callbackDistanceToPedestrian, this);
   sub_IntersectionCondition = nh.subscribe("/intersection_condition", 1, &BehaviorGen::callbackIntersectionCondition, this);
+  sub_SafeMaxSpeedSwitch = nh.subscribe("/safe_max_speed_switch", 1, &BehaviorGen::callbackSafeMaxSpeedSwitch, this);
 
   //Mapping Section
   sub_lanes = nh.subscribe("/vector_map_info/lane", 1, &BehaviorGen::callbackGetVMLanes,  this);
@@ -174,13 +180,11 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
   _nh.getParam("/op_behavior_selector/evidence_tust_number", m_PlanningParams.nReliableCount);
 
   //std::cout << "nReliableCount: " << m_PlanningParams.nReliableCount << std::endl;
-
-  _nh.getParam("/op_behavior_selector/distanceToPedestrianThreshold", m_distanceToPedestrianThreshold);
-  _nh.param("/op_behavior_selector/turnThreshold", m_turnThreshold, 20.0);
-
+  
   m_BehaviorGenerator.Init(controlParams, m_PlanningParams, m_CarInfo);
   m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior = PlannerHNS::INITIAL_STATE;
   m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
+  
 }
 
 void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
@@ -206,6 +210,10 @@ void BehaviorGen::callbackIntersectionCondition(const autoware_msgs::Intersectio
 
   // ROS_INFO("hi %d %d %d %d", msg.intersectionID, msg.isIntersection, msg.riskyLeftTurn, msg.riskyRightTurn);
   // ROS_INFO("hi %d %d", m_PlanningParams.isInsideIntersection, m_PlanningParams.turnLeft);
+}
+
+void BehaviorGen::callbackSafeMaxSpeedSwitch(const std_msgs::Bool& msg){
+  m_safeMaxSpeedSwitch = msg.data;
 }
 
 void BehaviorGen::callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg)
@@ -580,6 +588,8 @@ void BehaviorGen::MainLoop()
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
   std_msgs::Bool emergency_stop_msg;
 
+  m_BehaviorGenerator.m_safeMaxSpeed = m_safeMaxSpeed;
+
   while (ros::ok())
   {
     ros::spinOnce();
@@ -670,6 +680,8 @@ void BehaviorGen::MainLoop()
         for(unsigned int itls = 0 ; itls < m_PrevTrafficLight.size() ; itls++)
           m_PrevTrafficLight.at(itls).lightState = m_CurrLightStatus;
       }
+      
+      m_BehaviorGenerator.m_safeMaxSpeedSwitch = m_safeMaxSpeedSwitch;
       m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);

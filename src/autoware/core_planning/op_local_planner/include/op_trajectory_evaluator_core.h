@@ -35,6 +35,7 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Bool.h>
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/TrajectoryDynamicCosts.h"
@@ -80,8 +81,14 @@ protected:
   PlannerHNS::BehaviorState   m_CurrentBehavior;
   visualization_msgs::MarkerArray m_CollisionsDummy;
   visualization_msgs::MarkerArray m_CollisionsActual;
+  int m_ImageWidth;
+  int m_ImageHeight;
   double m_PedestrianRightThreshold;
   double m_PedestrianLeftThreshold;
+  double m_PedestrianImageDetectionRange;  
+  double m_VehicleImageDetectionRange;
+  double m_VehicleImageWidthThreshold;
+  int m_noVehicleCnt;
 
   //ROS messages (topics)
   ros::NodeHandle nh;
@@ -94,6 +101,7 @@ protected:
   ros::Publisher pub_SafetyBorderRviz;
   ros::Publisher pub_DistanceToPedestrian;
   ros::Publisher pub_IntersectionCondition;
+  ros::Publisher pub_SafeMaxSpeedSwitch;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
