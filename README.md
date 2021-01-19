@@ -15,11 +15,27 @@ sudo apt install -y python3-pip python3-colcon-common-extensions python3-setupto
 pip3 install -U setuptools
 ```
 
+* Eigen build
+```
+wget https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz
+mkdir eigen
+tar --strip-components=1 -xzvf eigen-3.3.7.tar.gz -C eigen
+cd eigen
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+
+Older versions may already be installed. If `/usr/lib/cmake/eigen3/Eigen3Config.cmake` is older than 3.3.7 version, copy files in `/usr/local/share/eigen3/cmake` to `/usr/lib/cmake/eigen3`.
+
+
 * Autoware Build
 ```
-# Move the rubis_ws to safe location
+# Move the rubis_ws and autoware_files to safe location
 cd {$WORKSPACE_DIR}
-mv rubis_ws ..
+mv rubis_ws autoware_files ..
 
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
@@ -30,8 +46,8 @@ AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Releas
 # If you don't have CUDA
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# Restore the rubis_ws location
-mv ../rubis_ws .
+# Restore the rubis_ws and autoware_files location
+mv ../rubis_ws ../autoware_files .
 
 ```
 
