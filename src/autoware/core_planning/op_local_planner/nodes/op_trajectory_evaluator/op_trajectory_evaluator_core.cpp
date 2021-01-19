@@ -239,7 +239,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
-    if(msg->objects.at(i).pose.position.y < -10 || msg->objects.at(i).pose.position.y > 10)
+    if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
       continue;
     if(msg->objects.at(i).pose.position.z < -0.5)
       continue;
@@ -411,14 +411,16 @@ void TrajectoryEval::MainLoop()
 
         // hjw added : Check if ego is on intersection and obstacles are in risky area 
         int intersectionID = -1;
+        double closestIntersectionDistance = -1;
         bool isInsideIntersection = false;
         bool riskyLeftTurn = false;
         bool riskyRightTurn = false;
 
-        PlannerHNS::PlanningHelpers::GetIntersectionCondition(m_CurrentPos, intersection_list, m_PredictedObjects, intersectionID, isInsideIntersection, riskyLeftTurn, riskyRightTurn);
+        PlannerHNS::PlanningHelpers::GetIntersectionCondition(m_CurrentPos, intersection_list, m_PredictedObjects, intersectionID, closestIntersectionDistance, isInsideIntersection, riskyLeftTurn, riskyRightTurn);
 
         autoware_msgs::IntersectionCondition ic_msg;
         ic_msg.intersectionID = intersectionID;
+        ic_msg.intersectionDistance = closestIntersectionDistance;
         ic_msg.isIntersection = isInsideIntersection;
         ic_msg.riskyLeftTurn = riskyLeftTurn;
         ic_msg.riskyRightTurn = riskyRightTurn;
