@@ -918,6 +918,7 @@ public:
   // Added by HJW for handle intersection
   bool isInsideIntersection;
   int closestIntersectionID;
+  double closestIntersectionDistance;
   int riskyAreaIdx;
   bool obstacleinRiskyArea;
 

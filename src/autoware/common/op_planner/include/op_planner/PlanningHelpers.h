@@ -191,7 +191,7 @@ public:
   // RUBIS added
   static double CalculateStopLineDistance_RUBIS(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<StopLine> stopLines, int& stopLineID, int& trafficLightID);
 
-  static void GetIntersectionCondition(const WayPoint& p, std::vector<Crossing>& crossings, std::vector<PlannerHNS::DetectedObject>& obj_list, int& intersectionID, bool& isIntersection, bool& riskyLeftTurn, bool& riskyRightTurn);
+  static void GetIntersectionCondition(const WayPoint& p, std::vector<Crossing>& crossings, std::vector<PlannerHNS::DetectedObject>& obj_list, int& intersectionID, double& distance, bool& isIntersection, bool& riskyLeftTurn, bool& riskyRightTurn);
 
 //   static bool GetClosestIntersection(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<Crossing> crossings, int& intersectionID, int& risky_area_idx);
 

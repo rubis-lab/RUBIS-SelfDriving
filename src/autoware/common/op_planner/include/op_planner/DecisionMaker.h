@@ -54,6 +54,7 @@ public:
   bool m_isInsideIntersection;
   bool m_riskyLeft;
   bool m_riskyRight;
+  double m_closestIntersectionDistance;
 
   void InitBehaviorStates();
 

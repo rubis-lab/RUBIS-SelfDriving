@@ -73,7 +73,6 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepDynamic(const vector<vector<WayP
   //cout << "Trajectory Costs Log : CurrIndex: " << currIndex << " --------------------- " << endl;
   for(unsigned int ic = 0; ic < m_TrajectoryCosts.size(); ic++)
   {
-    //cout << m_TrajectoryCosts.at(ic).ToString();
     if(!m_TrajectoryCosts.at(ic).bBlocked && m_TrajectoryCosts.at(ic).cost < smallestCost)
     {
       smallestCost = m_TrajectoryCosts.at(ic).cost;
@@ -89,7 +88,6 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepDynamic(const vector<vector<WayP
     if(m_TrajectoryCosts.at(ic).bBlocked)
       bAllFree = false;
   }
-  //cout << "Smallest Distance: " <<  smallestDistance << "------------------------------------------------------------- " << endl;
 
   if(bAllFree && smallestIndex >=0)
     smallestIndex = params.rollOutNumber/2;
@@ -201,6 +199,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   double smallestDistance = DBL_MAX;
   double velo_of_next = 0;
 
+  bool bAllFree = true;
+
   for(unsigned int ic = 0; ic < m_TrajectoryCosts.size(); ic++)
   {
     if(!m_TrajectoryCosts.at(ic).bBlocked && m_TrajectoryCosts.at(ic).cost < smallestCost)
@@ -214,11 +214,20 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
       smallestDistance = m_TrajectoryCosts.at(ic).closest_obj_distance;
       velo_of_next = m_TrajectoryCosts.at(ic).closest_obj_velocity;
     }
+
+    if(m_TrajectoryCosts.at(ic).lateral_cost > 0){
+      bAllFree = false;
+    }
   }
 
   #ifdef DEBUG_ENABLE
     std::cout << "Index : " << smallestIndex << std::endl;
   #endif
+
+  // Enable when needed
+  if(bAllFree && smallestIndex >= 0){
+    smallestIndex = params.rollOutNumber/2;
+  }
 
   if(smallestIndex == -1)
   {
@@ -475,7 +484,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         if(longitudinalDist != 0)
           trajectoryCosts.at(iCostIndex).longitudinal_cost += 1.0/fabs(longitudinalDist);
 
-        if(longitudinalDist >= -critical_long_front_distance && longitudinalDist < trajectoryCosts.at(iCostIndex).closest_obj_distance)
+        if(longitudinalDist > 0 && longitudinalDist < trajectoryCosts.at(iCostIndex).closest_obj_distance)
         {
           trajectoryCosts.at(iCostIndex).closest_obj_distance = longitudinalDist;
           trajectoryCosts.at(iCostIndex).closest_obj_velocity = contourPoints.at(icon).v;

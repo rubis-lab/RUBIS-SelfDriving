@@ -214,6 +214,7 @@ void DecisionMaker::InitBehaviorStates()
   // For Intersection
   m_params.isInsideIntersection = m_isInsideIntersection;
   m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
+  m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
   // For Traffic Signal
 
@@ -398,6 +399,33 @@ void DecisionMaker::InitBehaviorStates()
     double desiredVelocity = -1;
     return desiredVelocity;
   }
+  else if(beh.state == INTERSECTION_STATE){
+    
+    double target_velocity = 5;
+
+    double e = target_velocity - CurrStatus.speed;
+    double desiredVelocity = m_pidVelocity.getPID(e);
+    
+    if(desiredVelocity > 5)
+      desiredVelocity = 5;
+    else if(desiredVelocity < m_params.minSpeed)
+      desiredVelocity = 0;
+
+    if(m_params.obstacleinRiskyArea){
+      double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+      double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+      if(desiredVelocity < 0.5)
+        desiredVelocity = 0;
+      // desiredVelocity = 0;
+    }
+
+    if(beh.followDistance < 30){
+      desiredVelocity = 0;
+    }
+
+    for(unsigned int i = 0; i < m_Path.size(); i++)
+      m_Path.at(i).v = desiredVelocity;
+  }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
     double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
@@ -491,7 +519,7 @@ void DecisionMaker::InitBehaviorStates()
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
 
-    //std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
+    // std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
 
     return desiredVelocity;
   }
