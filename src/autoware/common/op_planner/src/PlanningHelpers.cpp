@@ -994,7 +994,7 @@ bool PlanningHelpers::CompareTrajectories(const std::vector<WayPoint>& path1, co
   return true;
 }
 
-double PlanningHelpers::CalculateStopLineDistance_RUBIS(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<StopLine> stopLines, int& stopLineID, int& trafficLightID){
+double PlanningHelpers::CalculateStopLineDistance_RUBIS(const std::vector<WayPoint>& path, const WayPoint& p, std::vector<StopLine> stopLines, int& stopLineID, double& stopLineLength, int& trafficLightID){
   RelativeInfo waypoint_info;
   GetRelativeInfo(path, p, waypoint_info);
 
@@ -1012,6 +1012,7 @@ double PlanningHelpers::CalculateStopLineDistance_RUBIS(const std::vector<WayPoi
 
     if(localDistance > 0 && closestStopLineDistance > localDistance){
       stopLineID = stopLines.at(sl_idx).id;
+      stopLineLength = stopLines.at(sl_idx).length;
       trafficLightID = stopLines.at(sl_idx).trafficLightID;
       closestStopLineDistance = localDistance;
     }

@@ -217,17 +217,18 @@ void DecisionMaker::InitBehaviorStates()
   m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
-  std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
+  // std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
 
   int stopLineID = -1;
   int stopSignID = -1;
+  double stopLineLength = -1;
   int trafficLightID = -1;
   double distanceToClosestStopLine = 0;
   bool bShouldForward = false;
 
-  distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, trafficLightID) - critical_long_front_distance;
+  distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, stopLineLength, trafficLightID) - critical_long_front_distance;
 
   // std::cout << "StopLineID : " << stopLineID << ", TrafficLightID : " << trafficLightID << ", Distance: " << distanceToClosestStopLine << ", MinStopDistance: " << pValues->minStoppingDistance << std::endl;
   // std::cout << "detected Lights # : " << detectedLights.size() << std::endl;
@@ -245,7 +246,7 @@ void DecisionMaker::InitBehaviorStates()
         double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
         bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
 
-        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
+        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine + stopLineLength) ||
                       (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
         pValues->currentTrafficLightID = trafficLightID;
@@ -414,7 +415,7 @@ void DecisionMaker::InitBehaviorStates()
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
 
-    std::cout << "o_a : " << m_params.obstacleinRiskyArea << "f_d : " << beh.followDistance << std::endl;
+    // std::cout << "o_a : " << m_params.obstacleinRiskyArea << "f_d : " << beh.followDistance << std::endl;
 
     if(m_params.obstacleinRiskyArea){
       double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
@@ -629,7 +630,6 @@ void DecisionMaker::InitBehaviorStates()
   }
 
   void DecisionMaker::CheckTurn(){
-    std::cout<<"turn angle:"<<m_turnAngle<<" / turn threshold : "<<m_turnThreshold<<std::endl;
     if(abs(m_turnAngle) > m_turnThreshold){
       if(m_turnAngle > 0){
         m_params.turnLeft = true;

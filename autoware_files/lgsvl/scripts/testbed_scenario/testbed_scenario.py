@@ -31,7 +31,7 @@ sz = spawns[0].position.z
 spawns = sim.get_spawn()
 
 state = lgsvl.AgentState()
-state.transform.position = spawns[0].position
+state.transform.position = spawns[0].position + 300 * forward
 state.transform.rotation = spawns[0].rotation
 
 #ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
@@ -43,7 +43,7 @@ ego.connect_bridge(os.environ.get("BRIDGE_HOST", "127.0.0.1"), 9090)
 
 light_list = []
 ## Get a list of controllable objects
-set_control = "red=15;green=5;yellow=2;loop"
+set_control = "red=10;green=10;yellow=2;loop"
 signal = sim.get_controllables("signal")
 signal[0].control(set_control)
 signal[1].control(set_control)

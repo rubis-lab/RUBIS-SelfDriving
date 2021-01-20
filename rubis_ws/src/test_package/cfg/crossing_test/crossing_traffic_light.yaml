@@ -6,8 +6,8 @@ traffic_light_list:
       y : 241.34
       z : -0.288
     routine :
-      red : 15.0
-      green : 5.0
+      red : 10.0
+      green : 10.0
       yellow : 2.0
   -
     id : 2
@@ -16,8 +16,8 @@ traffic_light_list:
       y : 626.34
       z : -0.288
     routine :
-      red : 15.0
-      green : 5.0
+      red : 10.0
+      green : 10.0
       yellow : 2.0
   -
     id : 3
@@ -26,16 +26,6 @@ traffic_light_list:
       y : 651.93
       z : -0.288
     routine :
-      red : 15.0
-      green : 5.0
-      yellow : 2.0
-  -
-    id : 4
-    pose :
-      x : 1121.421
-      y : 280.849
-      z : -0.288
-    routine :
-      red : 15.0
-      green : 5.0
+      red : 10.0
+      green : 10.0
       yellow : 2.0

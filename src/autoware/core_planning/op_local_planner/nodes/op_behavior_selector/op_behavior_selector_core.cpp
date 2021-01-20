@@ -58,7 +58,7 @@ BehaviorGen::BehaviorGen()
   pub_EmergencyStop = nh.advertise<std_msgs::Bool>("emergency_stop", 1);
   pub_turnAngle = nh.advertise<std_msgs::Float64>("turn_angle", 1);
   pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
-  
+  pub_currentState = nh.advertise<std_msgs::Int32>("current_state", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10,  &BehaviorGen::callbackGetCurrentPose, this);
 
@@ -684,6 +684,11 @@ void BehaviorGen::MainLoop()
       
       m_BehaviorGenerator.m_sprintSwitch = m_sprintSwitch;
       m_CurrentBehavior = m_BehaviorGenerator.DoOneStep(dt, m_CurrentPos, m_VehicleStatus, 1, m_CurrTrafficLight, m_TrajectoryBestCost, 0);
+
+      std_msgs::Int32 curr_state_msg;
+      curr_state_msg.data = m_CurrentBehavior.state;
+
+      pub_currentState.publish(curr_state_msg);
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);
       m_BehaviorGenerator.m_turnAngle = m_turnAngle;

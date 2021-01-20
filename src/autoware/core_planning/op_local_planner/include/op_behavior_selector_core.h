@@ -132,11 +132,11 @@ protected: //Planning Related variables
   ros::Publisher pub_SelectedPathRviz;
   ros::Publisher pub_BehaviorStateRviz;
 
-  // Added by PHY
+  // Added by PHY & HJW
   ros::Publisher pub_EmergencyStop;
   ros::Publisher pub_turnMarker;
   ros::Publisher pub_turnAngle;
-
+  ros::Publisher pub_currentState;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
