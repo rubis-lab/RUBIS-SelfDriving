@@ -62,11 +62,11 @@ DecisionMaker::~DecisionMaker()
 
 void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::PlanningParams& params,const CAR_BASIC_INFO& carInfo)
    {
-     m_CarInfo = carInfo;
-     m_ControlParams = ctrlParams;
-     m_params = params;
+    m_CarInfo = carInfo;
+    m_ControlParams = ctrlParams;
+    m_params = params;
 
-     m_pidVelocity.Init(0.01, 0.004, 0.01);
+    m_pidVelocity.Init(0.01, 0.004, 0.01);
     m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
 
     m_pidStopping.Init(0.05, 0.05, 0.1);
@@ -503,9 +503,16 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FORWARD_STATE)
   {
+    if(m_sprintSwitch == true){
+      max_velocity = m_sprintSpeed;
+      m_pidVelocity.Setlimit(m_sprintSpeed, 0);
+    }
+    else{
+      m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
+    }
+
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
-
 
     // std::cout << "curr Traj : " << beh.currTrajectory << ", curr Safe Traj : " << m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << std::endl;
     // if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
@@ -516,17 +523,18 @@ void DecisionMaker::InitBehaviorStates()
       bSlowBecauseChange = true;
     }
 
+    std::cout<<"sprint:"<<m_sprintSwitch<<"/ max velocity:"<<max_velocity<<" / target velocity:"<<target_velocity<<std::endl;
+
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
-    
-    if(m_sprintSwitch == true){
-      max_velocity = m_sprintSpeed;
-    }
+
 
     if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
+    
+    std::cout<<"desired velocity:"<<desiredVelocity<<std::endl;
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
