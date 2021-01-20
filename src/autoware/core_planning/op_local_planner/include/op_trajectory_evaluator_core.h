@@ -35,6 +35,7 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Int32.h>
 #include <std_msgs/Bool.h>
 
 #include "op_planner/PlannerCommonDef.h"
@@ -102,6 +103,7 @@ protected:
   ros::Publisher pub_DistanceToPedestrian;
   ros::Publisher pub_IntersectionCondition;
   ros::Publisher pub_SprintSwitch;
+  ros::Publisher pub_currentTraj;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
@@ -112,6 +114,9 @@ protected:
   ros::Subscriber sub_LocalPlannerPaths;
   ros::Subscriber sub_predicted_objects;
   ros::Subscriber sub_current_behavior;
+
+  // HJW added
+  ros::Subscriber sub_current_state;
 
   // TF
   tf::TransformListener m_vtob_listener;
@@ -129,6 +134,7 @@ protected:
   void callbackGetLocalPlannerPath(const autoware_msgs::LaneArrayConstPtr& msg);
   void callbackGetPredictedObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg);
   void callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr & msg);
+  void callbackGetCurrentState(const std_msgs::Int32 & msg);
 
   //Helper Functions
   void UpdatePlanningParams(ros::NodeHandle& _nh);

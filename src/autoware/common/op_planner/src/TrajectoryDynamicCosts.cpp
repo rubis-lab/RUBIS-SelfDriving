@@ -115,7 +115,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepDynamic(const vector<vector<WayP
 TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPoint> >& rollOuts,
     const vector<WayPoint>& totalPaths, const WayPoint& currState,
     const PlanningParams& params, const CAR_BASIC_INFO& carInfo, const VehicleState& vehicleState,
-    const std::vector<PlannerHNS::DetectedObject>& obj_list, const int& iCurrentIndex)
+    const std::vector<PlannerHNS::DetectedObject>& obj_list, const PlannerHNS::STATE_TYPE& state, const int& iCurrentIndex)
 {
   TrajectoryCost bestTrajectory;
   bestTrajectory.bBlocked = true;
@@ -225,8 +225,30 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   #endif
 
   // Enable when needed
-  if(bAllFree && smallestIndex >= 0){
-    smallestIndex = params.rollOutNumber/2;
+  // if(bAllFree && smallestIndex >= 0){
+  //   smallestIndex = params.rollOutNumber/2;
+  // }
+
+  ////// Change Lane when turn left / right
+  // Calculate Turn Angle
+  double turn_angle = 0;
+
+  if(m_PrevSelectedIndex != -1)
+    turn_angle = CalculateTurnAngle(rollOuts.at(m_PrevSelectedIndex), currState);
+
+  // std::cout << "b_all_free : " << bAllFree << " , t_a : " << turn_angle << std::endl;
+
+  // Keep state when Intersection state
+  if(state == PlannerHNS::INTERSECTION_STATE){
+    smallestIndex = m_PrevSelectedIndex;
+  }
+  // For Left Turn
+  else if(bAllFree && turn_angle > 45){
+    smallestIndex = 0;
+  }
+  // For Right Turn
+  else if(bAllFree && turn_angle < -45){
+    smallestIndex = params.rollOutNumber - 1;
   }
 
   if(smallestIndex == -1)
@@ -443,7 +465,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
-        if(longitudinalDist < -5 ||
+        if(longitudinalDist < -3 ||
           longitudinalDist > 20 ||
           obj_info.perp_distance < (((rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
           obj_info.perp_distance > ((rollOuts.size() - 1) / 2 + 1) * params.rollOutDensity + critical_lateral_distance / 2)
@@ -983,6 +1005,29 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsDynamic(const s
 
     }
   }
+}
+
+double TrajectoryDynamicCosts::CalculateTurnAngle(const std::vector<WayPoint>& path, const WayPoint& currState)
+{
+  RelativeInfo car_info;
+  PlanningHelpers::GetRelativeInfo(path, currState, car_info);
+  GPSPoint rollout_start_pose = path.at(std::min(car_info.iFront + 5, int(path.size())-1)).pos;
+  GPSPoint turn_pose = path.at(std::min(car_info.iFront + 200, int(path.size())-1)).pos;
+
+  // std::cout << "ego x: " << rollout_start_pose.x << ", y: " << rollout_start_pose.y << std::endl;
+  // std::cout << "turn x: " << turn_pose.x << ", y: " << turn_pose.y << std::endl;
+
+  double m_turnAngle = 0;
+  double hypot_length = hypot((rollout_start_pose.x - turn_pose.x), (rollout_start_pose.y - turn_pose.y));
+
+  if(hypot_length <= 0.1)
+    m_turnAngle = 0;
+  else
+    m_turnAngle = acos(abs(turn_pose.x - rollout_start_pose.x)/hypot_length)*180.0/3.14;
+  if((turn_pose.y - rollout_start_pose.y) < 0)
+    m_turnAngle = -1 * m_turnAngle;
+
+    return m_turnAngle;
 }
 
 }

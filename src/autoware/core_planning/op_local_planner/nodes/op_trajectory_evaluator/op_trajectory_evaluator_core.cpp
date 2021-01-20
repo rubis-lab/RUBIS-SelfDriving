@@ -50,6 +50,7 @@ TrajectoryEval::TrajectoryEval()
   pub_SprintSwitch = nh.advertise<std_msgs::Bool>("sprint_switch", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10, &TrajectoryEval::callbackGetCurrentPose, this);
+  sub_current_state = nh.subscribe("/current_state", 10, &TrajectoryEval::callbackGetCurrentState, this);
 
   int bVelSource = 1;
   _nh.getParam("/op_trajectory_evaluator/velocitySource", bVelSource);
@@ -387,6 +388,11 @@ void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedC
   m_CurrentBehavior.iTrajectory = msg->twist.angular.z;
 }
 
+void TrajectoryEval::callbackGetCurrentState(const std_msgs::Int32 & msg)
+{
+  m_CurrentBehavior.state = static_cast<PlannerHNS::STATE_TYPE>(msg.data);
+}
+
 void TrajectoryEval::UpdateMyParams()
 {
   ros::NodeHandle _nh;
@@ -451,7 +457,7 @@ void TrajectoryEval::MainLoop()
         if(m_bUseMoveingObjectsPrediction)
           tc = m_TrajectoryCostsCalculator.DoOneStepDynamic(m_GeneratedRollOuts, m_GlobalPathSections.at(0), m_CurrentPos,m_PlanningParams,  m_CarInfo,m_VehicleStatus, m_PredictedObjects, m_CurrentBehavior.iTrajectory);
         else
-          tc = m_TrajectoryCostsCalculator.DoOneStepStatic(m_GeneratedRollOuts, m_GlobalPathSections.at(0), m_CurrentPos,  m_PlanningParams,  m_CarInfo,m_VehicleStatus, m_PredictedObjects);
+          tc = m_TrajectoryCostsCalculator.DoOneStepStatic(m_GeneratedRollOuts, m_GlobalPathSections.at(0), m_CurrentPos,  m_PlanningParams,  m_CarInfo,m_VehicleStatus, m_PredictedObjects, m_CurrentBehavior.state);
 
         autoware_msgs::Lane l;
         l.closest_object_distance = tc.closest_obj_distance;

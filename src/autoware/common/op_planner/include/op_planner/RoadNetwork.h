@@ -555,6 +555,7 @@ public:
   int roadId;
   int trafficLightID;
   int stopSignID;
+  int length;
   std::vector<GPSPoint> points;
   Lane* pLane;
   int linkID;
@@ -568,6 +569,7 @@ public:
     trafficLightID = -1;
     stopSignID = -1;
     linkID = 0;
+    length = 0;
   }
 };
 
