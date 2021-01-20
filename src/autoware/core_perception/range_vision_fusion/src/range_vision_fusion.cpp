@@ -383,12 +383,14 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
         range_in_cv.objects[j].angle = vision_object.angle;
         //range_in_cv.objects[j].id = vision_object.id;
         CheckMinimumDimensions(range_in_cv.objects[j]);
+
         if (vision_object.pose.orientation.x > 0
             || vision_object.pose.orientation.y > 0
             || vision_object.pose.orientation.z > 0)
         {
           range_in_cv.objects[i].pose.orientation = vision_object.pose.orientation;
         }
+
         if (current_distance < closest_distance)
         {
           closest_index = j;
@@ -413,7 +415,7 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
   for (size_t i = 0; i < used_vision_detections.size(); i++)
   {
     if (!used_vision_detections[i])
-    {
+    { 
       fused_objects.objects.push_back(in_vision_detections->objects[i]);
     }
   }
@@ -426,6 +428,10 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
   for (auto &object : fused_objects.objects)
   {
     object.valid = true;
+    object.pose.orientation.x = 0;
+    object.pose.orientation.y = 0;
+    object.pose.orientation.z = 0;
+    object.pose.orientation.w = 1;
   }
 
   return fused_objects;
