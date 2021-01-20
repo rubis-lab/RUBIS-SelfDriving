@@ -502,9 +502,12 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FORWARD_STATE)
   {
+    if(m_sprintSwitch == true){
+      max_velocity = m_sprintSpeed;
+    }
+
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
-
 
     // std::cout << "curr Traj : " << beh.currTrajectory << ", curr Safe Traj : " << m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << std::endl;
     // if(m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory != m_pCurrentBehaviorState->GetCalcParams()->iCentralTrajectory)
@@ -517,15 +520,16 @@ void DecisionMaker::InitBehaviorStates()
 
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
+    std::cout<<"sprint:"<<m_sprintSwitch<<"/ max velocity:"<<max_velocity<<std::endl;
     
-    if(m_sprintSwitch == true){
-      max_velocity = m_sprintSpeed;
-    }
+
 
     if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
+    
+    std::cout<<"desired velocity:"<<desiredVelocity<<std::endl;
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
