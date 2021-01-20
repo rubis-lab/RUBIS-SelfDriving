@@ -428,10 +428,6 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
   for (auto &object : fused_objects.objects)
   {
     object.valid = true;
-    object.pose.orientation.x = 0;
-    object.pose.orientation.y = 0;
-    object.pose.orientation.z = 0;
-    object.pose.orientation.w = 1;
   }
 
   return fused_objects;

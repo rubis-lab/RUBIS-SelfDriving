@@ -267,6 +267,7 @@ autoware_msgs::DetectedObject MotionPrediction::TransformObjToVeldoyne(const aut
   pose.pose.orientation.y = out_obj.pose.orientation.y;
   pose.pose.orientation.z = out_obj.pose.orientation.z;
   pose.pose.orientation.w = out_obj.pose.orientation.w;
+
   TransformPose(pose, pose, transform);                        
   out_obj.pose = pose.pose;
 
@@ -621,6 +622,8 @@ void MotionPrediction::TransformPose(const geometry_msgs::PoseStamped &in_pose, 
   out_pose.pose.orientation.x = in_quat_t.x();
   out_pose.pose.orientation.y = in_quat_t.y();
   out_pose.pose.orientation.z = in_quat_t.z();
+  out_pose.pose.orientation.w = in_quat_t.w();
+
 
   return;
 }

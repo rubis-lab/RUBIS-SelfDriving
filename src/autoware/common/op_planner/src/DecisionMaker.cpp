@@ -62,11 +62,11 @@ DecisionMaker::~DecisionMaker()
 
 void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::PlanningParams& params,const CAR_BASIC_INFO& carInfo)
    {
-     m_CarInfo = carInfo;
-     m_ControlParams = ctrlParams;
-     m_params = params;
+    m_CarInfo = carInfo;
+    m_ControlParams = ctrlParams;
+    m_params = params;
 
-     m_pidVelocity.Init(0.01, 0.004, 0.01);
+    m_pidVelocity.Init(0.01, 0.004, 0.01);
     m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
 
     m_pidStopping.Init(0.05, 0.05, 0.1);
@@ -504,6 +504,10 @@ void DecisionMaker::InitBehaviorStates()
   {
     if(m_sprintSwitch == true){
       max_velocity = m_sprintSpeed;
+      m_pidVelocity.Setlimit(m_sprintSpeed, 0);
+    }
+    else{
+      m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
     }
 
     double target_velocity = max_velocity;
@@ -518,10 +522,10 @@ void DecisionMaker::InitBehaviorStates()
       bSlowBecauseChange = true;
     }
 
+    std::cout<<"sprint:"<<m_sprintSwitch<<"/ max velocity:"<<max_velocity<<" / target velocity:"<<target_velocity<<std::endl;
+
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
-    std::cout<<"sprint:"<<m_sprintSwitch<<"/ max velocity:"<<max_velocity<<std::endl;
-    
 
 
     if(desiredVelocity>max_velocity)
