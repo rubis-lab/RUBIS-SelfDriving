@@ -60,9 +60,9 @@ MotionPrediction::MotionPrediction()
   _nh.param<std::string>("/op_motion_predictor/input_object_list", input_object_list_str, "[/tracked_objects]");
   std::vector<std::string> input_object_list = ParseInputStr(input_object_list_str);
 
+
   for(auto it = input_object_list.begin(); it != input_object_list.end(); ++it){
     std::string topic = *it;
-    std::cout<<topic<<std::endl;
     objects_subs_.push_back(nh.subscribe(topic.c_str(), 1, &MotionPrediction::callbackGetTrackedObjects, this));
     autoware_msgs::DetectedObjectArray msg;
     object_msg_list_.push_back(msg);

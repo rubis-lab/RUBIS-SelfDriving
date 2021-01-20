@@ -117,8 +117,8 @@ protected: //Planning Related variables
   double m_distanceToPedestrianThreshold;
   double m_turnAngle;
   double m_turnThreshold;
-  double m_safeMaxSpeed;
-  bool m_safeMaxSpeedSwitch;
+  double m_sprintSpeed;
+  bool m_sprintSwitch;
 
   //ROS messages (topics)
   ros::NodeHandle nh;
@@ -155,7 +155,7 @@ protected: //Planning Related variables
 
   //Added by PHY & HJW
   ros::Subscriber sub_DistanceToPedestrian;
-  ros::Subscriber sub_SafeMaxSpeedSwitch;
+  ros::Subscriber sub_SprintSwitch;
   ros::Subscriber sub_IntersectionCondition;
 
   // Callback function for subscriber.
@@ -174,7 +174,7 @@ protected: //Planning Related variables
   void callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetCommandCMD(const autoware_msgs::ControlCommandConstPtr& msg);
-  void callbackSafeMaxSpeedSwitch(const std_msgs::Bool& msg);
+  void callbackSprintSwitch(const std_msgs::Bool& msg);
 
   //Helper Functions
   void UpdatePlanningParams(ros::NodeHandle& _nh);

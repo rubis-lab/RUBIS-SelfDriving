@@ -101,7 +101,7 @@ protected:
   ros::Publisher pub_SafetyBorderRviz;
   ros::Publisher pub_DistanceToPedestrian;
   ros::Publisher pub_IntersectionCondition;
-  ros::Publisher pub_SafeMaxSpeedSwitch;
+  ros::Publisher pub_SprintSwitch;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;

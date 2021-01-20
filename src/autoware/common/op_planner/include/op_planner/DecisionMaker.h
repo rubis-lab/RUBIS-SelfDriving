@@ -49,8 +49,8 @@ public:
   PlannerHNS::WayPoint m_turnWaypoint;
   double m_turnThreshold;
   double m_turnAngle;
-  double m_safeMaxSpeed;
-  bool m_safeMaxSpeedSwitch;
+  double m_sprintSpeed;
+  bool m_sprintSwitch;
 
   IntersectionState*  m_pIntersectionState;
   bool m_isInsideIntersection;

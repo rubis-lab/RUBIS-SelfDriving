@@ -40,7 +40,7 @@ DecisionMaker::DecisionMaker()
   m_pFollowState = 0;
   m_pAvoidObstacleState = 0;
   m_pPedestrianState = 0;
-  m_safeMaxSpeed = -1;
+  m_sprintSpeed = -1;
 }
 
 DecisionMaker::~DecisionMaker()
@@ -216,6 +216,8 @@ void DecisionMaker::InitBehaviorStates()
   m_params.isInsideIntersection = m_isInsideIntersection;
   m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
+
+  std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
 
@@ -396,11 +398,6 @@ void DecisionMaker::InitBehaviorStates()
   unsigned int point_index = 0;
   double critical_long_front_distance = m_CarInfo.length/2.0;
 
-
-  std::cout<<"Safe Max Speed!:"<<m_safeMaxSpeed<<std::endl;
-
-
-
   if(beh.state == PEDESTRIAN_STATE){
     double desiredVelocity = -1;
     return desiredVelocity;
@@ -416,6 +413,8 @@ void DecisionMaker::InitBehaviorStates()
       desiredVelocity = 5;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
+
+    std::cout << "o_a : " << m_params.obstacleinRiskyArea << "f_d : " << beh.followDistance << std::endl;
 
     if(m_params.obstacleinRiskyArea){
       double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
@@ -519,11 +518,11 @@ void DecisionMaker::InitBehaviorStates()
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
     
-    if(m_safeMaxSpeedSwitch == true){
-      std::cout<<"No Vehicle!"<<std::endl;
-      desiredVelocity = m_safeMaxSpeed;
+    if(m_sprintSwitch == true){
+      max_velocity = m_sprintSpeed;
     }
-    else if(desiredVelocity>max_velocity)
+
+    if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
@@ -585,7 +584,6 @@ void DecisionMaker::InitBehaviorStates()
     const bool& bEmergencyStop)
 {
 
-  std::cout<<"One step safe max:"<<m_safeMaxSpeed<<std::endl;
    PlannerHNS::BehaviorState beh;
    state = currPose;
    m_TotalPath.clear();
@@ -631,6 +629,7 @@ void DecisionMaker::InitBehaviorStates()
   }
 
   void DecisionMaker::CheckTurn(){
+    std::cout<<"turn angle:"<<m_turnAngle<<" / turn threshold : "<<m_turnThreshold<<std::endl;
     if(abs(m_turnAngle) > m_turnThreshold){
       if(m_turnAngle > 0){
         m_params.turnLeft = true;
