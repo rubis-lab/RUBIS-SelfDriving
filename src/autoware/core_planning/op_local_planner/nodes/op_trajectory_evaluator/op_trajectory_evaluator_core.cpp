@@ -47,7 +47,7 @@ TrajectoryEval::TrajectoryEval()
   pub_SafetyBorderRviz = nh.advertise<visualization_msgs::Marker>("safety_border", 1);
   pub_DistanceToPedestrian = nh.advertise<std_msgs::Float64>("distance_to_pedestrian", 1);
   pub_IntersectionCondition = nh.advertise<autoware_msgs::IntersectionCondition>("intersection_condition", 1);
-  pub_SafeMaxSpeedSwitch = nh.advertise<std_msgs::Bool>("safe_max_speed_switch", 1);
+  pub_SprintSwitch = nh.advertise<std_msgs::Bool>("sprint_switch", 1);
 
   sub_current_pose = nh.subscribe("/current_pose", 10, &TrajectoryEval::callbackGetCurrentPose, this);
 
@@ -359,21 +359,21 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     }
   }
 
-  // Publish Safe Max Switch
-  std_msgs::Bool safe_max_speed_switch_msg;
+  // Publish Sprint Switch
+  std_msgs::Bool sprint_switch_msg;
 
   if(vehicle_cnt != 0){
     m_noVehicleCnt = 0;
-    safe_max_speed_switch_msg.data = false;
+    sprint_switch_msg.data = false;
   }
   else{ // No vehicle is exist in front of the car
     if(m_noVehicleCnt < 15) {
       m_noVehicleCnt +=1;
-      safe_max_speed_switch_msg.data = false;
+      sprint_switch_msg.data = false;
     }
-    else if (m_noVehicleCnt >= 15) safe_max_speed_switch_msg.data = true;
+    else if (m_noVehicleCnt >= 15) sprint_switch_msg.data = true;
   }  
-  pub_SafeMaxSpeedSwitch.publish(safe_max_speed_switch_msg);
+  pub_SprintSwitch.publish(sprint_switch_msg);
 
   // ROS_INFO("object # : %d", m_PredictedObjects.size());
   
