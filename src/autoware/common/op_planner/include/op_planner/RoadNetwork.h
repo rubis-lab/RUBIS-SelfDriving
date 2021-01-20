@@ -839,6 +839,8 @@ public:
   double distance_to_center;
   double image_width;
   double image_height;
+  double image_x;
+  double image_y;
 
   double actual_speed;
   double actual_yaw;
