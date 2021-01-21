@@ -324,7 +324,7 @@ void PurePursuitNode::setLookaheadParamsByVel(){
     }
   }
 
-  std::cout<<"Waypoint Vel:"<<command_linear_velocity_<<"/ ratio"<<lookahead_distance_ratio_<<"/ disdtance"<<minimum_lookahead_distance_<<std::endl;
+  // std::cout<<"Waypoint Vel:"<<command_linear_velocity_<<"/ ratio"<<lookahead_distance_ratio_<<"/ disdtance"<<minimum_lookahead_distance_<<std::endl;
 }
 
 void PurePursuitNode::callbackFromWayPoints(
