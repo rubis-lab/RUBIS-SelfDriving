@@ -60,14 +60,21 @@ DecisionMaker::~DecisionMaker()
   delete m_pPedestrianState;
 }
 
-void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::PlanningParams& params,const CAR_BASIC_INFO& carInfo)
+void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::PlanningParams& params,const CAR_BASIC_INFO& carInfo, const double sprintSpeed)
    {
     m_CarInfo = carInfo;
     m_ControlParams = ctrlParams;
     m_params = params;
+    m_sprintSpeed = sprintSpeed;
 
     m_pidVelocity.Init(0.01, 0.004, 0.01);
     m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
+
+    m_pidSprintVelocity.Init(0.01, 0.004, 0.01);
+    m_pidSprintVelocity.Setlimit(sprintSpeed, 0);
+
+    m_pidIntersectionVelocity.Init(0.01, 0.004, 0.01);
+    m_pidIntersectionVelocity.Setlimit(m_params.maxSpeed*0.7, 0);
 
     m_pidStopping.Init(0.05, 0.05, 0.1);
     m_pidStopping.Setlimit(m_params.horizonDistance, 0);
@@ -405,13 +412,14 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == INTERSECTION_STATE){
     
-    double target_velocity = 5;
+    max_velocity = m_params.maxSpeed*0.7;
+    double target_velocity = max_velocity;
 
     double e = target_velocity - CurrStatus.speed;
-    double desiredVelocity = m_pidVelocity.getPID(e);
+    double desiredVelocity = m_pidIntersectionVelocity.getPID(e);
     
-    if(desiredVelocity > 5)
-      desiredVelocity = 5;
+    if(desiredVelocity > max_velocity)
+      desiredVelocity = max_velocity;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
 
@@ -442,7 +450,6 @@ void DecisionMaker::InitBehaviorStates()
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
-
     return desiredVelocity;
   }
   else if(beh.state == STOP_SIGN_STOP_STATE)
@@ -505,10 +512,6 @@ void DecisionMaker::InitBehaviorStates()
   {
     if(m_sprintSwitch == true){
       max_velocity = m_sprintSpeed;
-      m_pidVelocity.Setlimit(m_sprintSpeed, 0);
-    }
-    else{
-      m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
     }
 
     double target_velocity = max_velocity;
@@ -523,21 +526,26 @@ void DecisionMaker::InitBehaviorStates()
       bSlowBecauseChange = true;
     }
 
-    std::cout<<"sprint:"<<m_sprintSwitch<<"/ max velocity:"<<max_velocity<<" / target velocity:"<<target_velocity<<std::endl;
-
+    
     double e = target_velocity - CurrStatus.speed;
-    double desiredVelocity = m_pidVelocity.getPID(e);
+    double desiredVelocity = 0; 
+
+    if(m_sprintSwitch == true)
+      desiredVelocity = m_pidSprintVelocity.getPID(e);
+    else
+      desiredVelocity = m_pidVelocity.getPID(e);
 
 
     if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
     else if(desiredVelocity < m_params.minSpeed)
       desiredVelocity = 0;
-    
-    std::cout<<"desired velocity:"<<desiredVelocity<<std::endl;
 
-    for(unsigned int i = 0; i < m_Path.size(); i++)
-      m_Path.at(i).v = desiredVelocity;
+    // for(unsigned int i = 0; i < m_Path.size(); i++)
+    //   m_Path.at(i).v = desiredVelocity;
+    for(auto it = m_Path.begin(); it != m_Path.end(); ++it){
+      (*it).v = desiredVelocity;
+    }
 
     //std::cout << "Target Velocity: " << desiredVelocity << ", Change Slowdown: " << bSlowBecauseChange  << std::endl;
 

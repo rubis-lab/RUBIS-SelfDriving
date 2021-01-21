@@ -73,7 +73,8 @@ protected:
 
   std::vector<PlannerHNS::DetectedObject> m_PredictedObjects;
   bool bPredictedObjects;
-
+  // Added by PHY
+  double m_SprintDecisionTime;
 
   struct timespec m_PlanningTimer;
   std::vector<std::string>    m_LogData;
