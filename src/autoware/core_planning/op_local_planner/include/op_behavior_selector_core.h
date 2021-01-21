@@ -119,6 +119,7 @@ protected: //Planning Related variables
   double m_turnThreshold;
   double m_sprintSpeed;
   bool m_sprintSwitch;
+  double m_obstacleWaitingTimeinIntersection;
 
   //ROS messages (topics)
   ros::NodeHandle nh;
