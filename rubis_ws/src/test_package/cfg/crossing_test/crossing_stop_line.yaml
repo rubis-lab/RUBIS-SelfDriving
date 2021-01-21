@@ -15,11 +15,11 @@ stop_line_list:
       y : -1741.44
       z : -0.288
     length : 15
-  -
-    id : 3
-    tl_id : 3
-    pose :
-      x : 651.93
-      y : -1147.59
-      z : -0.288
-    length : 15
+  # -
+  #   id : 3
+  #   tl_id : 3
+  #   pose :
+  #     x : 651.93
+  #     y : -1147.59
+  #     z : -0.288
+  #   length : 15

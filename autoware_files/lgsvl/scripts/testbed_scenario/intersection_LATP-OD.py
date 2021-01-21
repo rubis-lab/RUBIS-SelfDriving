@@ -87,7 +87,7 @@ npc_speed = 6
 
 ### 정지 후 출발 ###
 npc2_s1_state = lgsvl.AgentState()
-npc2_s1_state.transform.position = spawns[0].position + 470 * forward - 640 * right
+npc2_s1_state.transform.position = spawns[0].position + 470 * forward - 660 * right
 npc2_s1_state.transform.rotation = lgsvl.Vector(0, -270, 0)
 
 npc2_s1_waypoints = []
@@ -95,7 +95,7 @@ npc2_s1_angle = npc2_s1_state.transform.rotation
 #set npc_s1_vehicle2's waypoint1
 npc2_s1_start = npc2_s1_state.transform.position + 2 * right
 npc2_s1_wp1 = lgsvl.DriveWaypoint(position=lgsvl.Vector(npc2_s1_start.x, npc2_s1_start.y, npc2_s1_start.z),
-                                  speed=npc_speed, angle=npc2_s1_angle, idle=4, trigger_distance=75, trigger=None)
+                                  speed=npc_speed, angle=npc2_s1_angle, idle=2, trigger_distance=95, trigger=None)
 npc2_s1_waypoints.append(npc2_s1_wp1)
 
 #set npc_s1_vehicle2's waypoint2
