@@ -233,7 +233,7 @@ void DecisionMaker::InitBehaviorStates()
   double stopLineLength = -1;
   int trafficLightID = -1;
   double distanceToClosestStopLine = 0;
-  bool bShouldForward = false;
+  bool bShouldForward = true;
 
   distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, stopLineLength, trafficLightID) - critical_long_front_distance;
 
