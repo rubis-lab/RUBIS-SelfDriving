@@ -253,7 +253,9 @@ void DecisionMaker::InitBehaviorStates()
         double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
         bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
 
-        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine + stopLineLength) ||
+        // bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine + stopLineLength) ||
+        //               (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
+        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
                       (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
         pValues->currentTrafficLightID = trafficLightID;
