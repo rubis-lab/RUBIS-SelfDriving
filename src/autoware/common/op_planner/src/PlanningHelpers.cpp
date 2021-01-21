@@ -1081,8 +1081,8 @@ void PlanningHelpers::GetIntersectionCondition(const WayPoint& p, std::vector<Cr
         // riskyLeftTurn = true;
         // riskyRightTurn = true;
       }
-      if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true){
-      // if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true && obj_list.at(io).center.v > 0){
+      // if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true){
+      if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true && obj_list.at(io).center.v > 0){
         riskyLeftTurn = true;
         riskyRightTurn = true;
       }
