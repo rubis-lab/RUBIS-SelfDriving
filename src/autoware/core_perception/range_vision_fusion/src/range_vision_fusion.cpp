@@ -419,8 +419,8 @@ ROSRangeVisionFusionApp::FuseRangeVisionDetections(
       fused_objects.objects.push_back(in_vision_detections->objects[i]);
     }
   }
-  //add also objects outside the image
-  for (auto &object: range_out_cv.objects)
+  //add also all objects created from lidar
+  for (auto &object: in_range_detections->objects)
   {
     fused_objects.objects.push_back(object);
   }

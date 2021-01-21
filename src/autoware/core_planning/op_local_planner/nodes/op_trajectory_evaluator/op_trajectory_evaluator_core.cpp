@@ -281,7 +281,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;          
         }
         catch(tf::TransformException& ex){
-          ROS_ERROR("Cannot transform person pose: %s", ex.what());
+          // ROS_ERROR("Cannot transform person pose: %s", ex.what());
 
         }
       }
@@ -302,7 +302,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       }
       catch(tf::TransformException& ex)
       {
-        ROS_ERROR("Cannot transform object pose: %s", ex.what());
+        // ROS_ERROR("Cannot transform object pose: %s", ex.what());
         continue;
       }
       // msg_obj.header.frame_id = "map";
@@ -325,7 +325,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           m_vtom_listener.transformPose("/map", contour_point_in_map, contour_point_in_map);
         }
         catch(tf::TransformException& ex){
-          ROS_ERROR("Cannot transform contour pose: %s", ex.what());
+          // ROS_ERROR("Cannot transform contour pose: %s", ex.what());
           continue;
         }
 

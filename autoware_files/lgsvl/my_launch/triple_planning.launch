@@ -90,6 +90,7 @@
   <!-- op_motion_predictor -->
   <include file="$(find op_local_planner)/launch/op_motion_predictor.launch">
     <arg name="input_object_list"               default="[/detection/fusion_tools/objects_left,/detection/fusion_tools/objects_right,/detection/object_tracker/objects_back]" />
+    <!-- <arg name="input_object_list"               default="[/detection/object_tracker/objects_left,/detection/object_tracker/objects_right,/detection/object_tracker/objects_back]" /> -->
     <arg name="object_tf_list"                  default="[velodyne_left,velodyne_right,velodyne_back]" />
     <arg name="enableCurbObstacles"             default="false" />    <!-- Detect curbs from map-->
     <arg name="enableGenrateBranches"           default="false"/>     <!-- Enable Branching -->
