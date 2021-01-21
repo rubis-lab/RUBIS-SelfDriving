@@ -119,7 +119,8 @@
     <arg name="PedestrianLeftThreshold" default="4.0" />
     <arg name="PedestrianImageDetectionRange" default="0.6" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
     <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
-    <arg name="VehicleImageWidthThreshold" default="0.025" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
+    <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
+    <arg name="SprintDecisionTime" default="5.0" /> <!-- Seconds -->
 
     <arg name="intersectionFile"                default="crossing_test/crossing_intersection.yaml" />
   </include>

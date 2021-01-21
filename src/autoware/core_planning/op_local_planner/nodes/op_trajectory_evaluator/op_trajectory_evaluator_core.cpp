@@ -132,6 +132,8 @@ void TrajectoryEval::UpdatePlanningParams(ros::NodeHandle& _nh)
   _nh.param("/op_trajectory_evaluator/ImageHeight", m_ImageHeight, 1080);
   _nh.param("/op_trajectory_evaluator/VehicleImageDetectionRange", m_VehicleImageDetectionRange, 0.3);
   _nh.param("/op_trajectory_evaluator/VehicleImageWidthThreshold", m_VehicleImageWidthThreshold, 0.05);
+  _nh.param("/op_trajectory_evaluator/SprintDecisionTime", m_SprintDecisionTime, 5.0);
+  
   
   m_VehicleImageWidthThreshold = m_VehicleImageWidthThreshold * m_ImageWidth;
   m_PedestrianRightThreshold *= -1;
@@ -368,11 +370,11 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     sprint_switch_msg.data = false;
   }
   else{ // No vehicle is exist in front of the car
-    if(m_noVehicleCnt < 15) {
+    if(m_noVehicleCnt < m_SprintDecisionTime*10) {
       m_noVehicleCnt +=1;
       sprint_switch_msg.data = false;
     }
-    else if (m_noVehicleCnt >= 15) sprint_switch_msg.data = true;
+    else if (m_noVehicleCnt >= 5) sprint_switch_msg.data = true;
   }  
   pub_SprintSwitch.publish(sprint_switch_msg);
 

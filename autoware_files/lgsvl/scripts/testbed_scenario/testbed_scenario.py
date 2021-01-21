@@ -31,7 +31,8 @@ sz = spawns[0].position.z
 spawns = sim.get_spawn()
 
 state = lgsvl.AgentState()
-state.transform.position = spawns[0].position + 300 * forward
+state.transform.position = spawns[0].position
+#state.transform.position = spawns[0].position + 300 * forward
 state.transform.rotation = spawns[0].rotation
 
 #ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)

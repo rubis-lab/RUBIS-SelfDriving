@@ -62,6 +62,8 @@ public:
 
   //For Simulation
   UtilityHNS::PIDController   m_pidVelocity;
+  UtilityHNS::PIDController   m_pidSprintVelocity;
+  UtilityHNS::PIDController   m_pidIntersectionVelocity;
   UtilityHNS::PIDController   m_pidStopping;
   UtilityHNS::PIDController   m_pidFollowing;
 
@@ -69,7 +71,7 @@ public:
 
   DecisionMaker();
   virtual ~DecisionMaker();
-  void Init(const ControllerParams& ctrlParams, const PlanningParams& params, const CAR_BASIC_INFO& carInfo);
+  void Init(const ControllerParams& ctrlParams, const PlanningParams& params, const CAR_BASIC_INFO& carInfo, const double sprintSpeed);
   void CalculateImportantParameterForDecisionMaking(const VehicleState& car_state,
       const int& goalID, const bool& bEmergencyStop, const std::vector<TrafficLight>& detectedLights,
       const TrajectoryCost& bestTrajectory);
