@@ -340,14 +340,14 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_msgs::DetectedObjectArra
         hull.points.push_back(tmp_point);
       }
 
-      if (object.color.a == 0)
-      {
-        hull.color = hull_color_;
-      }
-      else
-      {
-        hull.color = object.color;
-      }
+      // if (object.color.a == 0)
+      // {
+      hull.color = hull_color_;
+      // }
+      // else
+      // {
+      //   hull.color = object.color;
+      // }
       hull.pose.orientation.x = 0;
       hull.pose.orientation.y = 0;
       hull.pose.orientation.z = 0;

@@ -43,6 +43,7 @@
         output="screen" ns="$(arg namespace)">
     <param name="objects_src_topic" value="/objects_$(arg label)"/>
     <param name="label" value="$(arg label)" />
+    <param name="hull_color" value="[255.,0.,0.,0.8]" />
   </node>
   <!-- </group> -->
 </launch>
