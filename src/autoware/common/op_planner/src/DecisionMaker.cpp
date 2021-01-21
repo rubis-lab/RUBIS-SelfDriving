@@ -41,6 +41,7 @@ DecisionMaker::DecisionMaker()
   m_pAvoidObstacleState = 0;
   m_pPedestrianState = 0;
   m_sprintSpeed = -1;
+  m_remainObstacleWaitingTime = 0;
 }
 
 DecisionMaker::~DecisionMaker()
@@ -424,21 +425,30 @@ void DecisionMaker::InitBehaviorStates()
       desiredVelocity = 0;
 
     // std::cout << "o_a : " << m_params.obstacleinRiskyArea << "f_d : " << beh.followDistance << std::endl;
+    // std::cout << "remain_time : " << m_remainObstacleWaitingTime << std::endl;
 
-    if(m_params.obstacleinRiskyArea){
+    // Wait for predetermined time
+    if(m_remainObstacleWaitingTime > 0){
+      m_remainObstacleWaitingTime--;
+      desiredVelocity = 0;
+    }
+    else if(m_params.obstacleinRiskyArea){
       // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
       // double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
       // if(desiredVelocity < 0.5)
       //   desiredVelocity = 0;
       desiredVelocity = 0;
+      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }
-
-    if(beh.followDistance < 30){
+    else if(beh.followDistance < 30){
       desiredVelocity = 0;
+      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
+
+    return desiredVelocity;
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {

@@ -51,6 +51,8 @@ public:
   double m_turnAngle;
   double m_sprintSpeed;
   bool m_sprintSwitch;
+  double m_obstacleWaitingTimeinIntersection;
+  int m_remainObstacleWaitingTime;
 
   IntersectionState*  m_pIntersectionState;
   bool m_isInsideIntersection;

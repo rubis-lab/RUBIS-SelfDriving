@@ -182,10 +182,13 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
   //std::cout << "nReliableCount: " << m_PlanningParams.nReliableCount << std::endl;
   
   _nh.param("/op_behavior_selector/sprintSpeed", m_sprintSpeed, 13.5);
+  _nh.param("/op_behavior_selector/obstacleWaitingTimeinIntersection", m_obstacleWaitingTimeinIntersection, 1.0);
+
   m_BehaviorGenerator.Init(controlParams, m_PlanningParams, m_CarInfo, m_sprintSpeed);  
 
   m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior = PlannerHNS::INITIAL_STATE;
   
+  m_BehaviorGenerator.m_obstacleWaitingTimeinIntersection = m_obstacleWaitingTimeinIntersection;
 }
 
 void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
