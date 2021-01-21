@@ -33,12 +33,12 @@ spawns = sim.get_spawn()
 state = lgsvl.AgentState()
 
 ### Initial Poistion ###
-# state.transform.position = spawns[0].position
-# state.transform.rotation = spawns[0].rotation
+state.transform.position = spawns[0].position + 300 * forward
+state.transform.rotation = spawns[0].rotation
 
 ### Intersection Position ###
-state.transform.position = spawns[0].position + 481 * forward - 550 * right
-state.transform.rotation = lgsvl.Vector(0, -90, 0)
+#state.transform.position = spawns[0].position + 481 * forward - 550 * right
+#state.transform.rotation = lgsvl.Vector(0, -90, 0)
 
 #ego = sim.add_agent("Lexus2016RXHybrid (Autoware)", lgsvl.AgentType.EGO, state)
 #ego = sim.add_agent("DoubleLiDAR (Autoware)", lgsvl.AgentType.EGO, state)

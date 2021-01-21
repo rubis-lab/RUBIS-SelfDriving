@@ -419,6 +419,10 @@ void DecisionMaker::InitBehaviorStates()
     double target_velocity = max_velocity;
 
     double e = target_velocity - CurrStatus.speed;
+
+
+    m_pidSprintVelocity.getPID(e);
+    m_pidVelocity.getPID(e);
     double desiredVelocity = m_pidIntersectionVelocity.getPID(e);
     
     if(desiredVelocity > max_velocity)
@@ -442,10 +446,10 @@ void DecisionMaker::InitBehaviorStates()
       desiredVelocity = 0;
       m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }
-    else if(beh.followDistance < 30){
-      desiredVelocity = 0;
-      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
-    }
+    // else if(beh.followDistance < 30){
+    //   desiredVelocity = 0;
+    //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
+    // }
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
@@ -456,6 +460,13 @@ void DecisionMaker::InitBehaviorStates()
   {
     double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
     double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+    
+    double e = max_velocity - CurrStatus.speed;
+    m_pidSprintVelocity.getPID(e);
+    m_pidVelocity.getPID(e);
+    m_pidIntersectionVelocity.getPID(e);
+    
+
 
     if(desiredVelocity < 0.5)
       desiredVelocity = 0;
@@ -470,6 +481,11 @@ void DecisionMaker::InitBehaviorStates()
 
     double e = -beh.stopDistance;
     double desiredVelocity = m_pidStopping.getPID(e);
+
+    double e2 = max_velocity - CurrStatus.speed;
+    m_pidSprintVelocity.getPID(e2);
+    m_pidVelocity.getPID(e2);
+    m_pidIntersectionVelocity.getPID(e2);
 
 //    std::cout << "Stopping : e=" << e << ", desiredPID=" << desiredVelocity << ", PID: " << m_pidStopping.ToString() << std::endl;
 
@@ -542,10 +558,15 @@ void DecisionMaker::InitBehaviorStates()
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = 0; 
 
+    double sprint_pid_vel, forward_pid_vel;
+    sprint_pid_vel = m_pidSprintVelocity.getPID(e);
+    forward_pid_vel = m_pidVelocity.getPID(e);
+    m_pidIntersectionVelocity.getPID(e);
+
     if(m_sprintSwitch == true)
-      desiredVelocity = m_pidSprintVelocity.getPID(e);
+      desiredVelocity = sprint_pid_vel;
     else
-      desiredVelocity = m_pidVelocity.getPID(e);
+      desiredVelocity = forward_pid_vel;
 
 
     if(desiredVelocity>max_velocity)
@@ -578,6 +599,8 @@ void DecisionMaker::InitBehaviorStates()
 
     double e = target_velocity - CurrStatus.speed;
     double desiredVelocity = m_pidVelocity.getPID(e);
+    m_pidSprintVelocity.getPID(e);    
+    m_pidIntersectionVelocity.getPID(e);
     
     if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
@@ -677,5 +700,54 @@ void DecisionMaker::InitBehaviorStates()
   void DecisionMaker::PrintTurn(){
     std::cout<<"LEFT:"<<m_params.turnLeft<<std::endl;
     std::cout<<"RIGHT:"<<m_params.turnRight<<std::endl;
+  }
+
+  std::string DecisionMaker::ToString(STATE_TYPE beh)
+  {
+    std::string str = "Unknown";
+    switch(beh)
+    {
+    case PlannerHNS::INITIAL_STATE:
+      str = "Init";
+      break;
+    case PlannerHNS::EMERGENCY_STATE:
+      str = "Emergency";
+      break;
+    case PlannerHNS::FORWARD_STATE:
+      str = "Forward";
+      break;
+    case PlannerHNS::STOPPING_STATE:
+      str = "Stop";
+      break;
+    case PlannerHNS::FINISH_STATE:
+      str = "End";
+      break;
+    case PlannerHNS::FOLLOW_STATE:
+      str = "Follow";
+      break;
+    case PlannerHNS::OBSTACLE_AVOIDANCE_STATE:
+      str = "Swerving";
+      break;
+    case PlannerHNS::TRAFFIC_LIGHT_STOP_STATE:
+      str = "Light Stop";
+      break;
+    case PlannerHNS::TRAFFIC_LIGHT_WAIT_STATE:
+      str = "Light Wait";
+      break;
+    case PlannerHNS::STOP_SIGN_STOP_STATE:
+      str = "Sign Stop";
+      break;
+    case PlannerHNS::STOP_SIGN_WAIT_STATE:
+      str = "Sign Wait";
+      break;
+    case PlannerHNS::INTERSECTION_STATE:
+      str = "Intersection";
+      break;
+    default:
+      str = "Unknown";
+      break;
+    }
+
+    return str;
   }
 } /* namespace PlannerHNS */

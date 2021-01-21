@@ -93,8 +93,8 @@ public:
       const std::vector<TrafficLight>& trafficLight,
       const TrajectoryCost& tc,
       const bool& bEmergencyStop);
-
-  
+  std::string ToString(STATE_TYPE beh);
+    
 
 protected:
   bool GetNextTrafficLight(const int& prevTrafficLightId, const std::vector<TrafficLight>& trafficLights, TrafficLight& trafficL);

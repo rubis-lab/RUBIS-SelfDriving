@@ -348,6 +348,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           if(msg_obj.height>=178) temp_x_distance = 10.0;
           else if(msg_obj.height>=112) temp_x_distance = 15.0;
           else if(msg_obj.height>=95) temp_x_distance = 20.0;      
+          else if(msg_obj.height>=70) temp_x_distance = 25.0;   
           if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
         }
       }                    
