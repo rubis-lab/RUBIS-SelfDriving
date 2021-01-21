@@ -426,11 +426,11 @@ void DecisionMaker::InitBehaviorStates()
     // std::cout << "o_a : " << m_params.obstacleinRiskyArea << "f_d : " << beh.followDistance << std::endl;
 
     if(m_params.obstacleinRiskyArea){
-      double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
-      double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
-      if(desiredVelocity < 0.5)
-        desiredVelocity = 0;
-      // desiredVelocity = 0;
+      // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+      // double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+      // if(desiredVelocity < 0.5)
+      //   desiredVelocity = 0;
+      desiredVelocity = 0;
     }
 
     if(beh.followDistance < 30){
