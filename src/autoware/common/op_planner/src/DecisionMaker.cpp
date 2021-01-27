@@ -83,6 +83,10 @@ void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::P
     m_pidFollowing.Init(0.05, 0.05, 0.01);
     m_pidFollowing.Setlimit(m_params.minFollowingDistance, 0);
 
+    m_prevTrafficLightID = -1;
+    m_prevTrafficLightSignal = UNKNOWN_LIGHT;
+    m_remainTrafficLightWaitingTime = 0;
+
     InitBehaviorStates();
 
     if(m_pCurrentBehaviorState)
@@ -235,6 +239,8 @@ void DecisionMaker::InitBehaviorStates()
   int trafficLightID = -1;
   double distanceToClosestStopLine = 0;
   bool bShouldForward = true;
+  bool traffic_detected = false;
+  double remain_time = 0;
 
   distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, stopLineLength, trafficLightID) - critical_long_front_distance;
 
@@ -245,24 +251,80 @@ void DecisionMaker::InitBehaviorStates()
 
     for(unsigned int i=0; i< detectedLights.size(); i++)
     {
-      if(detectedLights.at(i).id == trafficLightID && distanceToClosestStopLine < m_params.stopLineDetectionDistance){
-        double remain_time = detectedLights.at(i).remainTime;
-        if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
-          remain_time += detectedLights.at(i).routine.at(2); // Add yellow light
+      if(detectedLights.at(i).id == trafficLightID){
+        traffic_detected = true;
+
+        ////// V2X without remain time
+        remain_time = m_remainTrafficLightWaitingTime;
+        // new light case
+        if(detectedLights.at(i).id != m_prevTrafficLightID){
+          if(detectedLights.at(i).lightState == GREEN_LIGHT){
+            remain_time = detectedLights.at(i).routine.at(1); // Add yellow light
+          }
+          else{ // For yellow, red case
+            remain_time = 0;
+          }
+        }
+        else if(detectedLights.at(i).lightState != m_prevTrafficLightSignal){
+          if(detectedLights.at(i).lightState == GREEN_LIGHT){ // R -> G
+            // G Time + Y Time
+            remain_time = detectedLights.at(i).routine.at(0) + detectedLights.at(i).routine.at(1);
+          }
+          else if(detectedLights.at(i).lightState == YELLOW_LIGHT){ // G -> Y
+            remain_time = detectedLights.at(i).routine.at(1);
+          }
+          else{ // Y -> R
+            remain_time = detectedLights.at(i).routine.at(2);
+          }
+        }
+        else{
+          remain_time -= 0.01; // spin period;
+          if(remain_time < 0) remain_time = 0.0;
         }
 
-        double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
-        bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
+        std::cout << distanceToClosestStopLine << std::endl;
 
+        if(distanceToClosestStopLine < m_params.stopLineDetectionDistance){
+          bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
+          double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
+                        (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
+                        
+          pValues->currentTrafficLightID = trafficLightID;
+          pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+        }
+
+        m_prevTrafficLightID = trafficLightID;
+        m_prevTrafficLightSignal = detectedLights.at(i).lightState;
+
+        ////// V2X with remain time and stop line length
+        // double remain_time = detectedLights.at(i).remainTime;
+        // if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
+        //   remain_time += detectedLights.at(i).routine.at(1); // Add yellow light
+        // }
+        // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        // bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
         // bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine + stopLineLength) ||
         //               (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
-        bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
-                      (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
-        pValues->currentTrafficLightID = trafficLightID;
-        pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+        ////// V2X with remain time without stop line length
+        // double remain_time = detectedLights.at(i).remainTime;
+        // if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
+        //   remain_time += detectedLights.at(i).routine.at(1); // Add yellow light
+        // }
+        // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        // bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
+        // bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
+        //               (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
       }
     }
+
+    if(!traffic_detected){
+      m_prevTrafficLightID = -1;
+      m_prevTrafficLightSignal = UNKNOWN_LIGHT;
+    }
+
+    m_remainTrafficLightWaitingTime = remain_time;
   }
 
    pValues->bTrafficIsRed = !bShouldForward;

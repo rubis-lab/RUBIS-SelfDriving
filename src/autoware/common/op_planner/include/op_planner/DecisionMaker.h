@@ -54,6 +54,10 @@ public:
   double m_obstacleWaitingTimeinIntersection;
   int m_remainObstacleWaitingTime;
 
+  int m_prevTrafficLightID;
+  PlannerHNS::TrafficLightState m_prevTrafficLightSignal;
+  double m_remainTrafficLightWaitingTime;
+
   IntersectionState*  m_pIntersectionState;
   bool m_isInsideIntersection;
   bool m_riskyLeft;

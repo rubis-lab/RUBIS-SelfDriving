@@ -3451,9 +3451,10 @@ void MappingHelpers::ConstructRoadNetwork_RUBIS(PlannerHNS::RoadNetwork& map, Xm
     tl.pos.y = tl_list[i]["pose"]["y"];
     tl.pos.z = tl_list[i]["pose"]["z"];
 
-    tl.routine.push_back(double(tl_list[i]["routine"]["red"]));
+    // 0 : Green, 1 : Yellow, 2 : Red (Sync with HD Carmaker)
     tl.routine.push_back(double(tl_list[i]["routine"]["green"]));
     tl.routine.push_back(double(tl_list[i]["routine"]["yellow"]));
+    tl.routine.push_back(double(tl_list[i]["routine"]["red"]));
 
     map.trafficLights.push_back(tl);
   }
