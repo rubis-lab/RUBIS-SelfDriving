@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = No parking
+
+Info.en = 219
+
+TexFile = ts219.png
+
+# Traffic Sign Class
+Class = Regulatory
+
+# Traffic Sign Shape
+Shape = Circular
+
+Sizes = M
+
+Size.M = 0.6 0.6

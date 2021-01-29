@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = Cyclists crossing
+
+Info.en = 134
+
+TexFile = ts134.png
+
+# Traffic Sign Class
+Class = Warning
+
+# Traffic Sign Shape
+Shape = TriangularUp
+
+Sizes = M
+
+Size.M = 0.9 0.779

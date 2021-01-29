@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = Follow direction 3lanes
+
+Info.en = 315
+
+TexFile = ts315.png
+
+# Traffic Sign Class
+Class = Advisory
+
+# Traffic Sign Shape
+Shape = Rectangular
+
+Sizes = M
+
+Size.M = 0.6 0.6

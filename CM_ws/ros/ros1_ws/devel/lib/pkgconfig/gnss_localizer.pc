@@ -1,0 +1,8 @@
+prefix=/home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/devel
+
+Name: gnss_localizer
+Description: Description of gnss_localizer
+Version: 0.2.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: message_runtime cmrosutils hellocm_msgs

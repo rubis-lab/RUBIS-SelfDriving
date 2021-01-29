@@ -1,0 +1,3058 @@
+#INFOFILE1.1 - Do not remove this line!
+
+# !!! Automatically generated file, do not edit !!!
+
+FileIdent = CarMaker-PlugInterfaces 1
+FileCreator = CarMaker 2020-08-05 17:14:25
+FileVersion = 90002
+
+Modelclasses:
+	Aero
+	AirBrakeControl
+	AirBrakeSystem
+	Brake
+	Environment
+	Generic
+	HydBrakeControl
+	HydBrakeSystem
+	MCycleSuspFrcEl
+	MCycleSuspFront
+	MCycleSuspRear
+	PTBattery
+	PTBatteryCU
+	PTClutch
+	PTControl
+	PTControlOSM
+	PTCruiseIF
+	PTDriveLine
+	PTDriveLineXWD
+	PTEngine
+	PTEngineCU
+	PTGearBox
+	PTGenCoupling
+	PTMotor
+	PTMotorCU
+	PTPowerSupply
+	PTTransmCU
+	PowerTrain
+	PowerTrainXWD
+	Steering
+	SuspEF_Buffer
+	SuspEF_Damper
+	SuspEF_Spring
+	SuspEF_Stabi
+	SuspExtFrcs
+	SuspKnC
+	SuspKnC_Com
+	SuspKnC_Kin
+	Tire
+	TireCPMod
+	TrfFollow
+	UserDriver
+	Vehicle
+	VehicleControl
+	VhclOperator
+
+Modelclass.Environment.FromCM:
+	AeroMarker_0.x "m"
+	AeroMarker_0.y "m"
+	AeroMarker_0.z "m"
+	AirDensity "kg/m^3"
+	AirHumidity ""
+	AirPressure "bar"
+	PoI_GCS.Elev "m"
+	PoI_GCS.Lat "rad"
+	PoI_GCS.Long "rad"
+	SolarRadiation "W/m^2"
+	Temperature "K"
+	Time "hours"
+	WindVel_0.x "m/s"
+	WindVel_0.y "m/s"
+	WindVel_0.z "m/s"
+	YearDay "days"
+	sRoad "m"
+
+Modelclass.Environment.ToCM:
+	AirDensity "kg/m^3"
+	AirHumidity ""
+	AirPressure "bar"
+	SolarRadiation "W/m^2"
+	Temperature "K"
+	WindVel_0.x "m/s"
+	WindVel_0.y "m/s"
+	WindVel_0.z "m/s"
+
+Modelclass.PTEngineCU.FromCM:
+	CfgIF.rotv_idle "rad/s"
+	CfgIF.rotv_max "rad/s"
+	CfgIF.rotv_off "rad/s"
+	CfgIF.rotv_opt "rad/s"
+	FuelCutOff ""
+	FuelFlow "l/s"
+	Ignition ""
+	Load ""
+	Trq "Nm"
+	Trq_trg "Nm"
+	rot "rad"
+	rotv "rad/s"
+	rotv_trg "rad/s"
+	set_ISC ""
+
+Modelclass.PTEngineCU.ToCM:
+	Engine_on ""
+	FuelCutOff ""
+	Load ""
+	Status ""
+	TrqDrag "Nm"
+	TrqFull "Nm"
+	TrqOpt "Nm"
+
+Modelclass.PTEngine.FromCM:
+	CfgIF.FuelDensity "kg/m^3"
+	CfgIF.rotv_idle "rad/s"
+	CfgIF.rotv_max "rad/s"
+	CfgIF.rotv_off "rad/s"
+	CfgIF.rotv_opt "rad/s"
+	FuelCutOff ""
+	FuelLevel "%"
+	Ignition ""
+	Load ""
+	rot "rad"
+	rotv "rad/s"
+
+Modelclass.PTEngine.ToCM:
+	FuelFlow "l/s"
+	Inert "kgm2"
+	Trq "Nm"
+
+Modelclass.PTEngine.Param.0.Name = PowerTrain.Engine.rotv_idle
+Modelclass.PTEngine.Param.0.Kind = string
+Modelclass.PTEngine.Param.0.Doc:
+	Specifies the engine idle speed.
+	Default is 800rpm
+
+Modelclass.PTEngine.Param.1.Name = PowerTrain.Engine.rotv_off
+Modelclass.PTEngine.Param.1.Kind = string
+Modelclass.PTEngine.Param.1.Doc:
+	Specifies the engine off speed.
+	Default is 500rpm
+
+Modelclass.PTEngine.Param.2.Name = PowerTrain.Engine.rotv_max
+Modelclass.PTEngine.Param.2.Kind = string
+Modelclass.PTEngine.Param.2.Doc:
+	Specifies the engine maximum speed.
+	Default is 8000rpm
+
+Modelclass.PTEngine.Param.3.Name = PowerTrain.Engine.rotv_opt
+Modelclass.PTEngine.Param.3.Kind = string
+Modelclass.PTEngine.Param.3.Doc:
+	Specifies the engine speed with optimal
+	fuel consumption.
+	Default is 2300rpm
+
+Modelclass.PTEngine.Param.4.Name = PowerTrain.Engine.TrqFull
+Modelclass.PTEngine.Param.4.Kind = text
+Modelclass.PTEngine.Param.4.Doc:
+	One dimensional characteristic mapping
+	for the maximum engine full torque.
+
+Modelclass.PTEngine.Param.5.Name = PowerTrain.Engine.TrqDrag
+Modelclass.PTEngine.Param.5.Kind = text
+Modelclass.PTEngine.Param.5.Doc:
+	One dimensional characteristic mapping
+	for the maximum engine drag torque.
+
+Modelclass.PTEngine.Param.6.Name = PowerTrain.Engine.TrqOpt
+Modelclass.PTEngine.Param.6.Kind = text
+Modelclass.PTEngine.Param.6.Doc:
+	One dimensional characteristic mapping
+	for the engine torque with optimal
+	consumption (minimal specific fuel consumption
+	as function of engine speed).
+
+Modelclass.PTEngine.Param.7.Name = PowerTrain.Engine.Crankshaft.Orientation
+Modelclass.PTEngine.Param.7.Kind = string
+Modelclass.PTEngine.Param.7.Doc:
+	Specifies the engine crankshaft orientation.
+	Possible values are: x-axis, y-axis
+
+Modelclass.PTEngine.Param.8.Name = PowerTrain.Engine.Bdy.mass
+Modelclass.PTEngine.Param.8.Kind = string
+Modelclass.PTEngine.Param.8.Doc:
+	Specifies the engine body mass.
+
+Modelclass.PTEngine.Param.9.Name = PowerTrain.Engine.Bdy.I
+Modelclass.PTEngine.Param.9.Kind = string
+Modelclass.PTEngine.Param.9.Doc:
+	Specifies the engine body inertia tensor.
+
+Modelclass.PTMotorCU.FromCM:
+	CfgIF.ISG.Ratio ""
+	CfgIF.ISG.rotv_Gen_max "rad/s"
+	CfgIF.ISG.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m0.Ratio ""
+	CfgIF.Motor.m0.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m0.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m1.Ratio ""
+	CfgIF.Motor.m1.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m1.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m2.Ratio ""
+	CfgIF.Motor.m2.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m2.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m3.Ratio ""
+	CfgIF.Motor.m3.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m3.rotv_Mot_max "rad/s"
+	CfgIF.nMotor ""
+	ISGIn.PwrElec "W"
+	ISGIn.Trq "Nm"
+	ISGIn.Trq_trg "Nm"
+	ISGIn.rotv "rad/s"
+	ISGIn.rotv_trg "rad/s"
+	ISGOut.Load ""
+	Ignition ""
+	MotorIn.m0.PwrElec "W"
+	MotorIn.m0.Trq "Nm"
+	MotorIn.m0.Trq_trg "Nm"
+	MotorIn.m0.rotv "rad/s"
+	MotorIn.m0.rotv_trg "rad/s"
+	MotorIn.m1.PwrElec "W"
+	MotorIn.m1.Trq "Nm"
+	MotorIn.m1.Trq_trg "Nm"
+	MotorIn.m1.rotv "rad/s"
+	MotorIn.m1.rotv_trg "rad/s"
+	MotorIn.m2.PwrElec "W"
+	MotorIn.m2.Trq "Nm"
+	MotorIn.m2.Trq_trg "Nm"
+	MotorIn.m2.rotv "rad/s"
+	MotorIn.m2.rotv_trg "rad/s"
+	MotorIn.m3.PwrElec "W"
+	MotorIn.m3.Trq "Nm"
+	MotorIn.m3.Trq_trg "Nm"
+	MotorIn.m3.rotv "rad/s"
+	MotorIn.m3.rotv_trg "rad/s"
+	MotorOut.m0.Load ""
+	MotorOut.m1.Load ""
+	MotorOut.m2.Load ""
+	MotorOut.m3.Load ""
+
+Modelclass.PTMotorCU.ToCM:
+	ISGOut.Load ""
+	ISGOut.TrqGen_max "Nm"
+	ISGOut.TrqMot_max "Nm"
+	MotorOut.m0.Load ""
+	MotorOut.m0.TrqGen_max "Nm"
+	MotorOut.m0.TrqMot_max "Nm"
+	MotorOut.m1.Load ""
+	MotorOut.m1.TrqGen_max "Nm"
+	MotorOut.m1.TrqMot_max "Nm"
+	MotorOut.m2.Load ""
+	MotorOut.m2.TrqGen_max "Nm"
+	MotorOut.m2.TrqMot_max "Nm"
+	MotorOut.m3.Load ""
+	MotorOut.m3.TrqGen_max "Nm"
+	MotorOut.m3.TrqMot_max "Nm"
+	Status ""
+
+Modelclass.PTMotor.FromCM:
+	CfgIF.Level ""
+	CfgIF.Ratio ""
+	CfgIF.rotv_Gen_max "rad/s"
+	CfgIF.rotv_Mot_max "rad/s"
+	Load ""
+	Voltage "V"
+	rot "rad"
+	rotv "rad/s"
+
+Modelclass.PTMotor.ToCM:
+	Inert "kgm2"
+	PwrElec "W"
+	Trq "Nm"
+
+Modelclass.PTMotor.Param.0.Name = PowerTrain.Motor.VoltageLevel
+Modelclass.PTMotor.Param.0.Kind = string
+Modelclass.PTMotor.Param.0.Doc:
+	Specifies the voltage level (LV, HV1 or HV2)
+	of the power supply model to which the electric
+	motor is connected.
+
+Modelclass.PTMotor.Param.1.Name = PowerTrain.Motor.Ratio
+Modelclass.PTMotor.Param.1.Kind = string
+Modelclass.PTMotor.Param.1.Doc:
+	Ratio between electric motor shaft and driven shaft.
+	Default is 1.0
+
+Modelclass.PTMotor.Param.2.Name = PowerTrain.Motor.Mot.rotv_max
+Modelclass.PTMotor.Param.2.Kind = string
+Modelclass.PTMotor.Param.2.Doc:
+	Maximum electric motor rotation speed.
+	Default is 8000rpm
+
+Modelclass.PTMotor.Param.3.Name = PowerTrain.Motor.Mot.TrqMap
+Modelclass.PTMotor.Param.3.Kind = text
+Modelclass.PTMotor.Param.3.Doc:
+	One dimensional characteristic mapping for
+	the maximum motor torque.
+
+Modelclass.PTMotor.Param.4.Name = PowerTrain.Motor.Gen.rotv_max
+Modelclass.PTMotor.Param.4.Kind = string
+Modelclass.PTMotor.Param.4.Doc:
+	Maximum electric generator rotation speed.
+	Default is 8000rpm
+
+Modelclass.PTMotor.Param.5.Name = PowerTrain.Motor.Gen.TrqMap
+Modelclass.PTMotor.Param.5.Kind = text
+Modelclass.PTMotor.Param.5.Doc:
+	One dimensional characteristic mapping for
+	the maximum generator torque.
+
+Modelclass.PTMotor.Param.6.Name = PowerTrain.Motor.Bdy.mass
+Modelclass.PTMotor.Param.6.Kind = string
+Modelclass.PTMotor.Param.6.Doc:
+	Specifies the motor body mass.
+
+Modelclass.PTMotor.Param.7.Name = PowerTrain.Motor.Bdy.I
+Modelclass.PTMotor.Param.7.Kind = string
+Modelclass.PTMotor.Param.7.Doc:
+	Specifies the motor body inertia tensor.
+
+Modelclass.PTTransmCU.FromCM:
+	CfgIF.AutoWithMan ""
+	CfgIF.ClKind ""
+	CfgIF.GearBox.ClKind ""
+	CfgIF.GearBox.GBKind ""
+	CfgIF.GearBox.nBGears ""
+	CfgIF.GearBox.nFGears ""
+	CfgIF.GearBoxM.GB_m0.ClKind ""
+	CfgIF.GearBoxM.GB_m0.GBKind ""
+	CfgIF.GearBoxM.GB_m0.nBGears ""
+	CfgIF.GearBoxM.GB_m0.nFGears ""
+	CfgIF.GearBoxM.GB_m1.ClKind ""
+	CfgIF.GearBoxM.GB_m1.GBKind ""
+	CfgIF.GearBoxM.GB_m1.nBGears ""
+	CfgIF.GearBoxM.GB_m1.nFGears ""
+	CfgIF.GearBoxM.GB_m2.ClKind ""
+	CfgIF.GearBoxM.GB_m2.GBKind ""
+	CfgIF.GearBoxM.GB_m2.nBGears ""
+	CfgIF.GearBoxM.GB_m2.nFGears ""
+	CfgIF.GearBoxM.GB_m3.ClKind ""
+	CfgIF.GearBoxM.GB_m3.GBKind ""
+	CfgIF.GearBoxM.GB_m3.nBGears ""
+	CfgIF.GearBoxM.GB_m3.nFGears ""
+	CfgIF.nGearBoxM ""
+	ClutchIn.Trq_in "Nm"
+	ClutchIn.Trq_out "Nm"
+	ClutchIn.Trq_out_trg "Nm"
+	ClutchIn.i_TrqIn2Out ""
+	ClutchIn.rotv_in "rad/s"
+	ClutchIn.rotv_out "rad/s"
+	ClutchIn.rotv_out_trg "rad/s"
+	ClutchOut.Pos ""
+	GearBoxIn.Clutch.Trq_in "Nm"
+	GearBoxIn.Clutch.Trq_out "Nm"
+	GearBoxIn.Clutch.Trq_out_trg "Nm"
+	GearBoxIn.Clutch.i_TrqIn2Out ""
+	GearBoxIn.Clutch.rotv_in "rad/s"
+	GearBoxIn.Clutch.rotv_out "rad/s"
+	GearBoxIn.Clutch.rotv_out_trg "rad/s"
+	GearBoxIn.Clutch_dis.Trq_in "Nm"
+	GearBoxIn.Clutch_dis.Trq_out "Nm"
+	GearBoxIn.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxIn.Clutch_dis.i_TrqIn2Out ""
+	GearBoxIn.Clutch_dis.rotv_in "rad/s"
+	GearBoxIn.Clutch_dis.rotv_out "rad/s"
+	GearBoxIn.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxIn.GearNo ""
+	GearBoxIn.GearNo_dis ""
+	GearBoxIn.Trq_in "Nm"
+	GearBoxIn.Trq_out "Nm"
+	GearBoxIn.Trq_out_trg "Nm"
+	GearBoxIn.i ""
+	GearBoxIn.rotv_in "rad/s"
+	GearBoxIn.rotv_in_trg "rad/s"
+	GearBoxIn.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m0.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m0.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m0.GearNo ""
+	GearBoxM_In.GB_m0.GearNo_dis ""
+	GearBoxM_In.GB_m0.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Trq_out "Nm"
+	GearBoxM_In.GB_m0.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.i ""
+	GearBoxM_In.GB_m0.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m0.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m1.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m1.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m1.GearNo ""
+	GearBoxM_In.GB_m1.GearNo_dis ""
+	GearBoxM_In.GB_m1.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Trq_out "Nm"
+	GearBoxM_In.GB_m1.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.i ""
+	GearBoxM_In.GB_m1.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m1.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m2.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m2.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m2.GearNo ""
+	GearBoxM_In.GB_m2.GearNo_dis ""
+	GearBoxM_In.GB_m2.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Trq_out "Nm"
+	GearBoxM_In.GB_m2.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.i ""
+	GearBoxM_In.GB_m2.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m2.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m3.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m3.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m3.GearNo ""
+	GearBoxM_In.GB_m3.GearNo_dis ""
+	GearBoxM_In.GB_m3.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Trq_out "Nm"
+	GearBoxM_In.GB_m3.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.i ""
+	GearBoxM_In.GB_m3.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m3.rotv_out "rad/s"
+	GearBoxM_Out.GB_m0.Clutch.Pos ""
+	GearBoxM_Out.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m0.GearNoTrg ""
+	GearBoxM_Out.GB_m0.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m0.i_trg ""
+	GearBoxM_Out.GB_m0.set_ParkBrake ""
+	GearBoxM_Out.GB_m1.Clutch.Pos ""
+	GearBoxM_Out.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m1.GearNoTrg ""
+	GearBoxM_Out.GB_m1.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m1.i_trg ""
+	GearBoxM_Out.GB_m1.set_ParkBrake ""
+	GearBoxM_Out.GB_m2.Clutch.Pos ""
+	GearBoxM_Out.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m2.GearNoTrg ""
+	GearBoxM_Out.GB_m2.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m2.i_trg ""
+	GearBoxM_Out.GB_m2.set_ParkBrake ""
+	GearBoxM_Out.GB_m3.Clutch.Pos ""
+	GearBoxM_Out.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m3.GearNoTrg ""
+	GearBoxM_Out.GB_m3.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m3.i_trg ""
+	GearBoxM_Out.GB_m3.set_ParkBrake ""
+	GearBoxOut.Clutch.Pos ""
+	GearBoxOut.Clutch_dis.Pos ""
+	GearBoxOut.GearNoTrg ""
+	GearBoxOut.GearNoTrg_dis ""
+	GearBoxOut.i_trg ""
+	GearBoxOut.set_ParkBrake ""
+	Ignition ""
+	Load ""
+	SelectorCtrl ""
+
+Modelclass.PTTransmCU.ToCM:
+	ClutchOut.Pos ""
+	GearBoxM_Out.GB_m0.Clutch.Pos ""
+	GearBoxM_Out.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m0.GearNoTrg ""
+	GearBoxM_Out.GB_m0.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m0.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m0.i_trg ""
+	GearBoxM_Out.GB_m0.set_ParkBrake ""
+	GearBoxM_Out.GB_m1.Clutch.Pos ""
+	GearBoxM_Out.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m1.GearNoTrg ""
+	GearBoxM_Out.GB_m1.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m1.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m1.i_trg ""
+	GearBoxM_Out.GB_m1.set_ParkBrake ""
+	GearBoxM_Out.GB_m2.Clutch.Pos ""
+	GearBoxM_Out.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m2.GearNoTrg ""
+	GearBoxM_Out.GB_m2.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m2.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m2.i_trg ""
+	GearBoxM_Out.GB_m2.set_ParkBrake ""
+	GearBoxM_Out.GB_m3.Clutch.Pos ""
+	GearBoxM_Out.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m3.GearNoTrg ""
+	GearBoxM_Out.GB_m3.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m3.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m3.i_trg ""
+	GearBoxM_Out.GB_m3.set_ParkBrake ""
+	GearBoxOut.Clutch.Pos ""
+	GearBoxOut.Clutch_dis.Pos ""
+	GearBoxOut.GearNoTrg ""
+	GearBoxOut.GearNoTrg_dis ""
+	GearBoxOut.Trq_DriveSrc_trg "Nm"
+	GearBoxOut.i_trg ""
+	GearBoxOut.set_ParkBrake ""
+	Status ""
+
+Modelclass.PTTransmCU.Param.0.Name = PowerTrain.TCU.AutoWithMan
+Modelclass.PTTransmCU.Param.0.Kind = string
+Modelclass.PTTransmCU.Param.0.Doc:
+	Specifies if the TCU supports manual gear
+	selection (Manumatic); only for main gearbox
+	(gearbox in combination with combustion engine).
+	Default is 1
+
+Modelclass.PTClutch.FromCM:
+	CfgIF.ClKind ""
+	Inert_in "kgm2"
+	Pos ""
+	Trq_in "Nm"
+	rot_out "rad"
+	rotv_out "rad/s"
+
+Modelclass.PTClutch.ToCM:
+	Inert_out "kgm2"
+	Trq_SuppInert "Nm"
+	Trq_out "Nm"
+	i_TrqIn2Out ""
+	rot_in "rad"
+	rotv_in "rad/s"
+
+Modelclass.PTClutch.Param.0.Name = PowerTrain.Clutch.ClKind
+Modelclass.PTClutch.Param.0.Kind = string
+Modelclass.PTClutch.Param.0.Doc:
+	Specifies the clutch kind of the user model.
+	Possible values are: Closed, Open, Friction,
+	Converter
+
+Modelclass.PTGearBox.FromCM:
+	CfgIF.ClKind ""
+	CfgIF.GBKind ""
+	CfgIF.nBGears ""
+	CfgIF.nFGears ""
+	ClutchIn.Pos ""
+	Clutch_dis_In.Pos ""
+	GearNoTrg ""
+	GearNoTrg_dis ""
+	Inert_in "kgm2"
+	Trq_in "Nm"
+	i_trg ""
+	rot_out "rad"
+	rotv_out "rad/s"
+	set_parkBrake ""
+
+Modelclass.PTGearBox.ToCM:
+	ClutchOut.Trq_in "Nm"
+	ClutchOut.Trq_out "Nm"
+	ClutchOut.i_TrqIn2Out ""
+	ClutchOut.rot_in "rad"
+	ClutchOut.rot_out "rad"
+	ClutchOut.rotv_in "rad/s"
+	ClutchOut.rotv_out "rad/s"
+	Clutch_dis_Out.Trq_in "Nm"
+	Clutch_dis_Out.Trq_out "Nm"
+	Clutch_dis_Out.i_TrqIn2Out ""
+	Clutch_dis_Out.rot_in "rad"
+	Clutch_dis_Out.rot_out "rad"
+	Clutch_dis_Out.rotv_in "rad/s"
+	Clutch_dis_Out.rotv_out "rad/s"
+	GearNo ""
+	GearNo_dis ""
+	Inert_out "kgm2"
+	Trq_SuppInert "Nm"
+	Trq_out "Nm"
+	i ""
+	i_TrqIn2Out ""
+	rot_in "rad"
+	rotv_in "rad/s"
+
+Modelclass.PTGearBox.Param.0.Name = PowerTrain.GearBox.GBKind
+Modelclass.PTGearBox.Param.0.Kind = string
+Modelclass.PTGearBox.Param.0.Doc:
+	Specifies the gearbox kind.
+	Following kinds are supported: NoGearBox,
+	Manual, AutoWithManual, AutoNoManual.
+
+Modelclass.PTGearBox.Param.1.Name = PowerTrain.GearBox.ClKind
+Modelclass.PTGearBox.Param.1.Kind = string
+Modelclass.PTGearBox.Param.1.Doc:
+	Specifies the clutch kind.
+	Following kinds are supported: Closed,
+	Open, Friction, Converter.
+
+Modelclass.PTGearBox.Param.2.Name = PowerTrain.GearBox.iForwardGears
+Modelclass.PTGearBox.Param.2.Kind = string
+Modelclass.PTGearBox.Param.2.Doc:
+	Transmission ratio for every single forward gear.
+
+Modelclass.PTGearBox.Param.3.Name = PowerTrain.GearBox.iBackwardGears
+Modelclass.PTGearBox.Param.3.Kind = string
+Modelclass.PTGearBox.Param.3.Doc:
+	Transmission ratio for every single backward gear.
+
+Modelclass.PTGearBox.Param.4.Name = PowerTrain.GearBox.Bdy.mass
+Modelclass.PTGearBox.Param.4.Kind = string
+Modelclass.PTGearBox.Param.4.Doc:
+	Specifies the gearbox body mass.
+
+Modelclass.PTGearBox.Param.5.Name = PowerTrain.GearBox.Bdy.I
+Modelclass.PTGearBox.Param.5.Kind = string
+Modelclass.PTGearBox.Param.5.Doc:
+	Specifies the gearbox body inertia tensor.
+
+Modelclass.PTDriveLine.FromCM:
+	CfgIF.Wheel_Iyy_FL "kgm2"
+	CfgIF.Wheel_Iyy_FR "kgm2"
+	CfgIF.Wheel_Iyy_RL "kgm2"
+	CfgIF.Wheel_Iyy_RR "kgm2"
+	CfgIF.ds0.Pos ""
+	CfgIF.ds1.Pos ""
+	CfgIF.ds2.Pos ""
+	CfgIF.ds3.Pos ""
+	CfgIF.ds4.Pos ""
+	CfgIF.ds5.Pos ""
+	CfgIF.ds6.Pos ""
+	CfgIF.ds7.Pos ""
+	CfgIF.iDiff_mean ""
+	CfgIF.nWheels ""
+	DriveIn.d0.Inert_in "kgm2"
+	DriveIn.d0.Trq_in "Nm"
+	DriveIn.d1.Inert_in "kgm2"
+	DriveIn.d1.Trq_in "Nm"
+	DriveIn.d2.Inert_in "kgm2"
+	DriveIn.d2.Trq_in "Nm"
+	DriveIn.d3.Inert_in "kgm2"
+	DriveIn.d3.Trq_in "Nm"
+	WheelIn.FL.Trq_Brake "Nm"
+	WheelIn.FL.Trq_T2W "Nm"
+	WheelIn.FL.Trq_WhlBearing "Nm"
+	WheelIn.FR.Trq_Brake "Nm"
+	WheelIn.FR.Trq_T2W "Nm"
+	WheelIn.FR.Trq_WhlBearing "Nm"
+	WheelIn.RL.Trq_Brake "Nm"
+	WheelIn.RL.Trq_T2W "Nm"
+	WheelIn.RL.Trq_WhlBearing "Nm"
+	WheelIn.RR.Trq_Brake "Nm"
+	WheelIn.RR.Trq_T2W "Nm"
+	WheelIn.RR.Trq_WhlBearing "Nm"
+
+Modelclass.PTDriveLine.ToCM:
+	DriveOut.d0.i_D2W.FL ""
+	DriveOut.d0.i_D2W.FR ""
+	DriveOut.d0.i_D2W.RL ""
+	DriveOut.d0.i_D2W.RR ""
+	DriveOut.d0.rot_in "rad"
+	DriveOut.d0.rotv_in "rad/s"
+	DriveOut.d1.i_D2W.FL ""
+	DriveOut.d1.i_D2W.FR ""
+	DriveOut.d1.i_D2W.RL ""
+	DriveOut.d1.i_D2W.RR ""
+	DriveOut.d1.rot_in "rad"
+	DriveOut.d1.rotv_in "rad/s"
+	DriveOut.d2.i_D2W.FL ""
+	DriveOut.d2.i_D2W.FR ""
+	DriveOut.d2.i_D2W.RL ""
+	DriveOut.d2.i_D2W.RR ""
+	DriveOut.d2.rot_in "rad"
+	DriveOut.d2.rotv_in "rad/s"
+	DriveOut.d3.i_D2W.FL ""
+	DriveOut.d3.i_D2W.FR ""
+	DriveOut.d3.i_D2W.RL ""
+	DriveOut.d3.i_D2W.RR ""
+	DriveOut.d3.rot_in "rad"
+	DriveOut.d3.rotv_in "rad/s"
+	Trq_Supp2Bdy1.rx "Nm"
+	Trq_Supp2Bdy1.ry "Nm"
+	Trq_Supp2Bdy1.rz "Nm"
+	Trq_Supp2Bdy1B.rx "Nm"
+	Trq_Supp2Bdy1B.ry "Nm"
+	Trq_Supp2Bdy1B.rz "Nm"
+	Trq_Supp2BdyEng.rx "Nm"
+	Trq_Supp2BdyEng.ry "Nm"
+	WheelOut.FL.Trq_B2W "Nm"
+	WheelOut.FL.Trq_Drive "Nm"
+	WheelOut.FL.Trq_Supp2WC "Nm"
+	WheelOut.FL.rot "rad"
+	WheelOut.FL.rotv "rad/s"
+	WheelOut.FR.Trq_B2W "Nm"
+	WheelOut.FR.Trq_Drive "Nm"
+	WheelOut.FR.Trq_Supp2WC "Nm"
+	WheelOut.FR.rot "rad"
+	WheelOut.FR.rotv "rad/s"
+	WheelOut.RL.Trq_B2W "Nm"
+	WheelOut.RL.Trq_Drive "Nm"
+	WheelOut.RL.Trq_Supp2WC "Nm"
+	WheelOut.RL.rot "rad"
+	WheelOut.RL.rotv "rad/s"
+	WheelOut.RR.Trq_B2W "Nm"
+	WheelOut.RR.Trq_Drive "Nm"
+	WheelOut.RR.Trq_Supp2WC "Nm"
+	WheelOut.RR.rot "rad"
+	WheelOut.RR.rotv "rad/s"
+	iDiff_mean ""
+
+Modelclass.PTDriveLine.Param.0.Name = PowerTrain.DL.iDiff_mean
+Modelclass.PTDriveLine.Param.0.Kind = string
+Modelclass.PTDriveLine.Param.0.Doc:
+	Specifies the driveline mean differential ratio.
+	Default is 3.0
+
+Modelclass.PTDriveLine.Param.1.Name = PowerTrain.DL.nDriveSource
+Modelclass.PTDriveLine.Param.1.Kind = string
+Modelclass.PTDriveLine.Param.1.Doc:
+	Specifies the number of possible drive sources
+	to the driveline.
+	Default is 1
+
+Modelclass.PTDriveLine.Param.2.Name = PowerTrain.DL.DriveSourcePos
+Modelclass.PTDriveLine.Param.2.Kind = string
+Modelclass.PTDriveLine.Param.2.Doc:
+	Specifies on which position the drive source ds
+	is applied.
+	Following kinds are supported: NoPosition, Center, Front, Rear, FL, FR, RL, RR
+
+Modelclass.PTDriveLine.Param.3.Name = PowerTrain.DL.DriveSourcePos1
+Modelclass.PTDriveLine.Param.3.Kind = string
+Modelclass.PTDriveLine.Param.3.Doc:
+
+Modelclass.PTDriveLine.Param.4.Name = PowerTrain.DL.DriveSourcePos2
+Modelclass.PTDriveLine.Param.4.Kind = string
+Modelclass.PTDriveLine.Param.4.Doc:
+
+Modelclass.PTDriveLine.Param.5.Name = PowerTrain.DL.DriveSourcePos3
+Modelclass.PTDriveLine.Param.5.Kind = string
+Modelclass.PTDriveLine.Param.5.Doc:
+
+Modelclass.PTDriveLine.Param.6.Name = PowerTrain.DL.DriveSourcePos4
+Modelclass.PTDriveLine.Param.6.Kind = string
+Modelclass.PTDriveLine.Param.6.Doc:
+
+Modelclass.PTDriveLine.Param.7.Name = PowerTrain.DL.DriveSourcePos5
+Modelclass.PTDriveLine.Param.7.Kind = string
+Modelclass.PTDriveLine.Param.7.Doc:
+
+Modelclass.PTDriveLine.Param.8.Name = PowerTrain.DL.DriveSourcePos6
+Modelclass.PTDriveLine.Param.8.Kind = string
+Modelclass.PTDriveLine.Param.8.Doc:
+
+Modelclass.PTDriveLine.Param.9.Name = PowerTrain.DL.DriveSourcePos7
+Modelclass.PTDriveLine.Param.9.Kind = string
+Modelclass.PTDriveLine.Param.9.Doc:
+
+Modelclass.PTDriveLineXWD.FromCM:
+	CfgIF.ds0.Pos ""
+	CfgIF.iDiff_mean ""
+	CfgIF.nWheels ""
+	DriveIn.Inert_in "kgm2"
+	DriveIn.Trq_in "Nm"
+	WheelIn.FL.rot "rad"
+	WheelIn.FL.rotv "rad/s"
+	WheelIn.FR.rot "rad"
+	WheelIn.FR.rotv "rad/s"
+	WheelIn.RL.rot "rad"
+	WheelIn.RL.rotv "rad/s"
+	WheelIn.RR.rot "rad"
+	WheelIn.RR.rotv "rad/s"
+
+Modelclass.PTDriveLineXWD.ToCM:
+	DriveOut.rot_in "rad"
+	DriveOut.rotv_in "rad/s"
+	PowerDelta.Diffs "W"
+	PowerDelta.Inert_DL "W"
+	PowerDelta.PlanetGear "W"
+	PowerDelta.Shafts "W"
+	PowerDelta.Spring_DL "W"
+	Trq_Supp2Bdy1.rx "Nm"
+	Trq_Supp2Bdy1.ry "Nm"
+	Trq_Supp2Bdy1.rz "Nm"
+	Trq_Supp2Bdy1B.rx "Nm"
+	Trq_Supp2Bdy1B.ry "Nm"
+	Trq_Supp2Bdy1B.rz "Nm"
+	Trq_Supp2BdyEng.rx "Nm"
+	Trq_Supp2BdyEng.ry "Nm"
+	WheelOut.FL.Inert_in "kgm2"
+	WheelOut.FL.Trq_Drive "Nm"
+	WheelOut.FL.Trq_Supp2WC "Nm"
+	WheelOut.FR.Inert_in "kgm2"
+	WheelOut.FR.Trq_Drive "Nm"
+	WheelOut.FR.Trq_Supp2WC "Nm"
+	WheelOut.RL.Inert_in "kgm2"
+	WheelOut.RL.Trq_Drive "Nm"
+	WheelOut.RL.Trq_Supp2WC "Nm"
+	WheelOut.RR.Inert_in "kgm2"
+	WheelOut.RR.Trq_Drive "Nm"
+	WheelOut.RR.Trq_Supp2WC "Nm"
+	iDiff_mean ""
+
+Modelclass.PTDriveLineXWD.Param.0.Name = PowerTrain.DL.iDiff_mean
+Modelclass.PTDriveLineXWD.Param.0.Kind = string
+Modelclass.PTDriveLineXWD.Param.0.Doc:
+	Specifies the driveline mean differential ratio.
+	Default is 3.0
+
+Modelclass.PTDriveLineXWD.Param.1.Name = PowerTrain.DL.DriveSourcePos
+Modelclass.PTDriveLineXWD.Param.1.Kind = string
+Modelclass.PTDriveLineXWD.Param.1.Doc:
+	Specifies on which position the drive source ds
+	is applied.
+	Following kinds are supported: NoPosition,Center, Front, Rear, FL, FR, RL, RR
+
+Modelclass.PowerTrain.FromCM:
+	Brake ""
+	CfgIF.Aero_Frcx "N"
+	CfgIF.DL_iDiff_mean ""
+	CfgIF.Engine_rotv_idle "rad/s"
+	CfgIF.Engine_rotv_max "rad/s"
+	CfgIF.FL.Iyy "kgm2"
+	CfgIF.FR.Iyy "kgm2"
+	CfgIF.GBKind ""
+	CfgIF.PTKind ""
+	CfgIF.RL.Iyy "kgm2"
+	CfgIF.RR.Iyy "kgm2"
+	CfgIF.StartEngineWithSST ""
+	CfgIF.Velocity_max "m/s"
+	CfgIF.WheelRadius "m"
+	CfgIF.nBGears ""
+	CfgIF.nFGears ""
+	CfgIF.nWheels ""
+	Clutch ""
+	DriveSrcIn.d0.Trq_trg "Nm"
+	DriveSrcIn.d1.Trq_trg "Nm"
+	DriveSrcIn.d2.Trq_trg "Nm"
+	DriveSrcIn.d3.Trq_trg "Nm"
+	Gas ""
+	GearNoTrg ""
+	Key ""
+	SST ""
+	SelectorCtrl ""
+	UserSignal.s0 ""
+	UserSignal.s1 ""
+	UserSignal.s2 ""
+	UserSignal.s3 ""
+	UserSignal.s4 ""
+	Velocity "m/s"
+	WheelIn.FL.Trq_Brake "Nm"
+	WheelIn.FL.Trq_BrakeReg_trg "Nm"
+	WheelIn.FL.Trq_T2W "Nm"
+	WheelIn.FL.Trq_WhlBearing "Nm"
+	WheelIn.FR.Trq_Brake "Nm"
+	WheelIn.FR.Trq_BrakeReg_trg "Nm"
+	WheelIn.FR.Trq_T2W "Nm"
+	WheelIn.FR.Trq_WhlBearing "Nm"
+	WheelIn.RL.Trq_Brake "Nm"
+	WheelIn.RL.Trq_BrakeReg_trg "Nm"
+	WheelIn.RL.Trq_T2W "Nm"
+	WheelIn.RL.Trq_WhlBearing "Nm"
+	WheelIn.RR.Trq_Brake "Nm"
+	WheelIn.RR.Trq_BrakeReg_trg "Nm"
+	WheelIn.RR.Trq_T2W "Nm"
+	WheelIn.RR.Trq_WhlBearing "Nm"
+
+Modelclass.PowerTrain.ToCM:
+	DL_iDiff_mean ""
+	Engine_rotv "rad/s"
+	GearNo ""
+	Ignition ""
+	OperationError ""
+	OperationState ""
+	Trq_Supp2Bdy1.rx "Nm"
+	Trq_Supp2Bdy1.ry "Nm"
+	Trq_Supp2Bdy1.rz "Nm"
+	Trq_Supp2Bdy1B.rx "Nm"
+	Trq_Supp2Bdy1B.ry "Nm"
+	Trq_Supp2Bdy1B.rz "Nm"
+	Trq_Supp2BdyEng.rx "Nm"
+	Trq_Supp2BdyEng.ry "Nm"
+	WheelOut.FL.Trq_B2W "Nm"
+	WheelOut.FL.Trq_BrakeReg "Nm"
+	WheelOut.FL.Trq_BrakeReg_max "Nm"
+	WheelOut.FL.Trq_Drive "Nm"
+	WheelOut.FL.Trq_Supp2WC "Nm"
+	WheelOut.FL.rot "rad"
+	WheelOut.FL.rotv "rad/s"
+	WheelOut.FR.Trq_B2W "Nm"
+	WheelOut.FR.Trq_BrakeReg "Nm"
+	WheelOut.FR.Trq_BrakeReg_max "Nm"
+	WheelOut.FR.Trq_Drive "Nm"
+	WheelOut.FR.Trq_Supp2WC "Nm"
+	WheelOut.FR.rot "rad"
+	WheelOut.FR.rotv "rad/s"
+	WheelOut.RL.Trq_B2W "Nm"
+	WheelOut.RL.Trq_BrakeReg "Nm"
+	WheelOut.RL.Trq_BrakeReg_max "Nm"
+	WheelOut.RL.Trq_Drive "Nm"
+	WheelOut.RL.Trq_Supp2WC "Nm"
+	WheelOut.RL.rot "rad"
+	WheelOut.RL.rotv "rad/s"
+	WheelOut.RR.Trq_B2W "Nm"
+	WheelOut.RR.Trq_BrakeReg "Nm"
+	WheelOut.RR.Trq_BrakeReg_max "Nm"
+	WheelOut.RR.Trq_Drive "Nm"
+	WheelOut.RR.Trq_Supp2WC "Nm"
+	WheelOut.RR.rot "rad"
+	WheelOut.RR.rotv "rad/s"
+
+Modelclass.PowerTrain.Param.0.Name = PowerTrain.PTKind
+Modelclass.PowerTrain.Param.0.Kind = string
+Modelclass.PowerTrain.Param.0.Doc:
+	Specifies the kind of the powertrain model.
+	Following kinds are supported: Generic,
+	HEV_Parallel_P1, HEV_Parallel_P2, HEV_AxleSplit,
+	HEV_PowerSplit, HEV_Serial, HEV_Any, BEV.
+
+Modelclass.PowerTrain.Param.1.Name = PowerTrain.Control.StartEngineWithSST
+Modelclass.PowerTrain.Param.1.Kind = string
+Modelclass.PowerTrain.Param.1.Doc:
+	Control element for switching operation states:
+	1 = switch operation states with start button
+	0 = switch operation states with key only
+	Default is 1
+
+Modelclass.PowerTrain.Param.2.Name = PowerTrain.Control.Velocity_max
+Modelclass.PowerTrain.Param.2.Kind = string
+Modelclass.PowerTrain.Param.2.Doc:
+	Specifies the vehicle maximum possible velocity
+	for instruments.
+	Default is 260km/h
+
+Modelclass.PowerTrain.Param.3.Name = PowerTrain.Engine.rotv_idle
+Modelclass.PowerTrain.Param.3.Kind = string
+Modelclass.PowerTrain.Param.3.Doc:
+	Specifies the engine idle speed of the engine.
+	Default is 800rpm
+
+Modelclass.PowerTrain.Param.4.Name = PowerTrain.Engine.rotv_max
+Modelclass.PowerTrain.Param.4.Kind = string
+Modelclass.PowerTrain.Param.4.Doc:
+	Specifies the engine maximum speed of the engine.
+	Default is 8000rpm
+
+Modelclass.PowerTrain.Param.5.Name = PowerTrain.GearBox.GBKind
+Modelclass.PowerTrain.Param.5.Kind = string
+Modelclass.PowerTrain.Param.5.Doc:
+	Specifies the kind of the gearbox.
+	Following kinds are supported: NoGearBox,
+	Manual, AutoWithManual, AutoNoManual.
+
+Modelclass.PowerTrain.Param.6.Name = PowerTrain.GearBox.iForwardGears
+Modelclass.PowerTrain.Param.6.Kind = string
+Modelclass.PowerTrain.Param.6.Doc:
+	State the transmission ratio for every single
+	forward gear of the gearbox. Only required if
+	manual gearbox or automatic gearbox with manual
+	gear target are used.
+
+Modelclass.PowerTrain.Param.7.Name = PowerTrain.GearBox.iBackwardGears
+Modelclass.PowerTrain.Param.7.Kind = string
+Modelclass.PowerTrain.Param.7.Doc:
+	State the transmission ratio for every single
+	backward gear of the gearbox. Only required if
+	manual gearbox or automatic gearbox with manual
+	gear target are used.
+
+Modelclass.PowerTrain.Param.8.Name = PowerTrain.DL.iDiff_mean
+Modelclass.PowerTrain.Param.8.Kind = string
+Modelclass.PowerTrain.Param.8.Doc:
+	Specifies the driveline mean differential ratio.
+	Default is 3.0
+
+Modelclass.PowerTrainXWD.FromCM:
+	CfgIF.BattHV.Capacity "Ah"
+	CfgIF.BattHV.SOC_max "%"
+	CfgIF.BattHV.SOC_min "%"
+	CfgIF.BattHV.Voltage "V"
+	CfgIF.BattLV.Capacity "Ah"
+	CfgIF.BattLV.SOC_max "%"
+	CfgIF.BattLV.SOC_min "%"
+	CfgIF.BattLV.Voltage "V"
+	CfgIF.ClKind ""
+	CfgIF.DriveLine.ds0.Pos ""
+	CfgIF.DriveLine.ds1.Pos ""
+	CfgIF.DriveLine.ds2.Pos ""
+	CfgIF.DriveLine.ds3.Pos ""
+	CfgIF.DriveLine.ds4.Pos ""
+	CfgIF.DriveLine.ds5.Pos ""
+	CfgIF.DriveLine.ds6.Pos ""
+	CfgIF.DriveLine.ds7.Pos ""
+	CfgIF.DriveLine.iDiff_mean ""
+	CfgIF.Engine.Fuel_l2kWh "kWh/l"
+	CfgIF.Engine.rotv_idle "rad/s"
+	CfgIF.Engine.rotv_max "rad/s"
+	CfgIF.Engine.rotv_off "rad/s"
+	CfgIF.Engine.rotv_opt "rad/s"
+	CfgIF.GearBox.ClKind ""
+	CfgIF.GearBox.GBKind ""
+	CfgIF.GearBox.nBGears ""
+	CfgIF.GearBox.nFGears ""
+	CfgIF.GearBoxM.GB_m0.ClKind ""
+	CfgIF.GearBoxM.GB_m0.GBKind ""
+	CfgIF.GearBoxM.GB_m0.nBGears ""
+	CfgIF.GearBoxM.GB_m0.nFGears ""
+	CfgIF.GearBoxM.GB_m1.ClKind ""
+	CfgIF.GearBoxM.GB_m1.GBKind ""
+	CfgIF.GearBoxM.GB_m1.nBGears ""
+	CfgIF.GearBoxM.GB_m1.nFGears ""
+	CfgIF.GearBoxM.GB_m2.ClKind ""
+	CfgIF.GearBoxM.GB_m2.GBKind ""
+	CfgIF.GearBoxM.GB_m2.nBGears ""
+	CfgIF.GearBoxM.GB_m2.nFGears ""
+	CfgIF.GearBoxM.GB_m3.ClKind ""
+	CfgIF.GearBoxM.GB_m3.GBKind ""
+	CfgIF.GearBoxM.GB_m3.nBGears ""
+	CfgIF.GearBoxM.GB_m3.nFGears ""
+	CfgIF.ISG.Level ""
+	CfgIF.ISG.Ratio ""
+	CfgIF.ISG.rotv_Gen_max "rad/s"
+	CfgIF.ISG.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m0.Level ""
+	CfgIF.Motor.m0.Ratio ""
+	CfgIF.Motor.m0.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m0.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m1.Level ""
+	CfgIF.Motor.m1.Ratio ""
+	CfgIF.Motor.m1.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m1.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m2.Level ""
+	CfgIF.Motor.m2.Ratio ""
+	CfgIF.Motor.m2.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m2.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m3.Level ""
+	CfgIF.Motor.m3.Ratio ""
+	CfgIF.Motor.m3.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m3.rotv_Mot_max "rad/s"
+	CfgIF.PTKind ""
+	CfgIF.PlanetGear.Ratio ""
+	CfgIF.nGearBoxM ""
+	CfgIF.nMotor ""
+	CfgIF.nPlanetGear ""
+	CfgIF.nWheels ""
+	ClutchIn.Pos ""
+	ClutchIn.Trq_out_trg "Nm"
+	ClutchIn.rotv_out_trg "rad/s"
+	EngineIn.FuelCutOff ""
+	EngineIn.Load ""
+	EngineIn.Trq_trg "Nm"
+	EngineIn.rotv_trg "rad/s"
+	EngineIn.set_ISC ""
+	Gas ""
+	GearBoxIn.Clutch.Pos ""
+	GearBoxIn.Clutch.Trq_out_trg "Nm"
+	GearBoxIn.Clutch.rotv_out_trg "rad/s"
+	GearBoxIn.Clutch_dis.Pos ""
+	GearBoxIn.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxIn.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxIn.GearNoTrg ""
+	GearBoxIn.GearNoTrg_dis ""
+	GearBoxIn.Trq_out_trg "Nm"
+	GearBoxIn.i_trg ""
+	GearBoxIn.rotv_in_trg "rad/s"
+	GearBoxIn.set_ParkBrake ""
+	GearBoxM_In.GB_m0.Clutch.Pos ""
+	GearBoxM_In.GB_m0.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m0.GearNoTrg ""
+	GearBoxM_In.GB_m0.GearNoTrg_dis ""
+	GearBoxM_In.GB_m0.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m0.i_trg ""
+	GearBoxM_In.GB_m0.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m0.set_ParkBrake ""
+	GearBoxM_In.GB_m1.Clutch.Pos ""
+	GearBoxM_In.GB_m1.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m1.GearNoTrg ""
+	GearBoxM_In.GB_m1.GearNoTrg_dis ""
+	GearBoxM_In.GB_m1.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m1.i_trg ""
+	GearBoxM_In.GB_m1.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m1.set_ParkBrake ""
+	GearBoxM_In.GB_m2.Clutch.Pos ""
+	GearBoxM_In.GB_m2.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m2.GearNoTrg ""
+	GearBoxM_In.GB_m2.GearNoTrg_dis ""
+	GearBoxM_In.GB_m2.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m2.i_trg ""
+	GearBoxM_In.GB_m2.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m2.set_ParkBrake ""
+	GearBoxM_In.GB_m3.Clutch.Pos ""
+	GearBoxM_In.GB_m3.Clutch.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_In.GB_m3.GearNoTrg ""
+	GearBoxM_In.GB_m3.GearNoTrg_dis ""
+	GearBoxM_In.GB_m3.Trq_out_trg "Nm"
+	GearBoxM_In.GB_m3.i_trg ""
+	GearBoxM_In.GB_m3.rotv_in_trg "rad/s"
+	GearBoxM_In.GB_m3.set_ParkBrake ""
+	ISGIn.Load ""
+	ISGIn.Trq_trg "Nm"
+	ISGIn.rotv_trg "rad/s"
+	Ignition ""
+	MotorIn.m0.Load ""
+	MotorIn.m0.Trq_trg "Nm"
+	MotorIn.m0.rotv_trg "rad/s"
+	MotorIn.m1.Load ""
+	MotorIn.m1.Trq_trg "Nm"
+	MotorIn.m1.rotv_trg "rad/s"
+	MotorIn.m2.Load ""
+	MotorIn.m2.Trq_trg "Nm"
+	MotorIn.m2.rotv_trg "rad/s"
+	MotorIn.m3.Load ""
+	MotorIn.m3.Trq_trg "Nm"
+	MotorIn.m3.rotv_trg "rad/s"
+	PwrSupplyIn.Pwr_HV1toLV_trg "W"
+	SelectorCtrl ""
+	Velocity "m/s"
+	WheelIn.FL.rot "rad"
+	WheelIn.FL.rotv "rad/s"
+	WheelIn.FR.rot "rad"
+	WheelIn.FR.rotv "rad/s"
+	WheelIn.RL.rot "rad"
+	WheelIn.RL.rotv "rad/s"
+	WheelIn.RR.rot "rad"
+	WheelIn.RR.rotv "rad/s"
+
+Modelclass.PowerTrainXWD.ToCM:
+	BCU_Status ""
+	BattHVOut.AOC "Ah"
+	BattHVOut.Current "A"
+	BattHVOut.Energy "kWh"
+	BattHVOut.Pwr_max "W"
+	BattHVOut.SOC "%"
+	BattHVOut.SOH "%"
+	BattHVOut.Temp "K"
+	BattLVOut.AOC "Ah"
+	BattLVOut.Current "A"
+	BattLVOut.Energy "kWh"
+	BattLVOut.Pwr_max "W"
+	BattLVOut.SOC "%"
+	BattLVOut.SOH "%"
+	BattLVOut.Temp "K"
+	ClutchOut.Pos ""
+	ClutchOut.Trq_in "Nm"
+	ClutchOut.Trq_out "Nm"
+	ClutchOut.i_TrqIn2Out ""
+	ClutchOut.rotv_in "rad/s"
+	ClutchOut.rotv_out "rad/s"
+	DL_iDiff_mean ""
+	ECU_Status ""
+	EngineOut.EngineOn ""
+	EngineOut.FuelFlow "l/s"
+	EngineOut.Trq "Nm"
+	EngineOut.TrqDrag "Nm"
+	EngineOut.TrqFull "Nm"
+	EngineOut.TrqOpt "Nm"
+	EngineOut.rotv "rad/s"
+	GearBoxM_Out.GB_m0.Clutch.Pos ""
+	GearBoxM_Out.GB_m0.Clutch.Trq_in "Nm"
+	GearBoxM_Out.GB_m0.Clutch.Trq_out "Nm"
+	GearBoxM_Out.GB_m0.Clutch.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m0.Clutch.rotv_in "rad/s"
+	GearBoxM_Out.GB_m0.Clutch.rotv_out "rad/s"
+	GearBoxM_Out.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m0.Clutch_dis.Trq_in "Nm"
+	GearBoxM_Out.GB_m0.Clutch_dis.Trq_out "Nm"
+	GearBoxM_Out.GB_m0.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m0.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_Out.GB_m0.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_Out.GB_m0.GearNo ""
+	GearBoxM_Out.GB_m0.GearNo_dis ""
+	GearBoxM_Out.GB_m0.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m0.Trq_in "Nm"
+	GearBoxM_Out.GB_m0.Trq_out "Nm"
+	GearBoxM_Out.GB_m0.i ""
+	GearBoxM_Out.GB_m0.rotv_in "rad/s"
+	GearBoxM_Out.GB_m0.rotv_out "rad/s"
+	GearBoxM_Out.GB_m1.Clutch.Pos ""
+	GearBoxM_Out.GB_m1.Clutch.Trq_in "Nm"
+	GearBoxM_Out.GB_m1.Clutch.Trq_out "Nm"
+	GearBoxM_Out.GB_m1.Clutch.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m1.Clutch.rotv_in "rad/s"
+	GearBoxM_Out.GB_m1.Clutch.rotv_out "rad/s"
+	GearBoxM_Out.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m1.Clutch_dis.Trq_in "Nm"
+	GearBoxM_Out.GB_m1.Clutch_dis.Trq_out "Nm"
+	GearBoxM_Out.GB_m1.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m1.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_Out.GB_m1.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_Out.GB_m1.GearNo ""
+	GearBoxM_Out.GB_m1.GearNo_dis ""
+	GearBoxM_Out.GB_m1.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m1.Trq_in "Nm"
+	GearBoxM_Out.GB_m1.Trq_out "Nm"
+	GearBoxM_Out.GB_m1.i ""
+	GearBoxM_Out.GB_m1.rotv_in "rad/s"
+	GearBoxM_Out.GB_m1.rotv_out "rad/s"
+	GearBoxM_Out.GB_m2.Clutch.Pos ""
+	GearBoxM_Out.GB_m2.Clutch.Trq_in "Nm"
+	GearBoxM_Out.GB_m2.Clutch.Trq_out "Nm"
+	GearBoxM_Out.GB_m2.Clutch.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m2.Clutch.rotv_in "rad/s"
+	GearBoxM_Out.GB_m2.Clutch.rotv_out "rad/s"
+	GearBoxM_Out.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m2.Clutch_dis.Trq_in "Nm"
+	GearBoxM_Out.GB_m2.Clutch_dis.Trq_out "Nm"
+	GearBoxM_Out.GB_m2.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m2.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_Out.GB_m2.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_Out.GB_m2.GearNo ""
+	GearBoxM_Out.GB_m2.GearNo_dis ""
+	GearBoxM_Out.GB_m2.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m2.Trq_in "Nm"
+	GearBoxM_Out.GB_m2.Trq_out "Nm"
+	GearBoxM_Out.GB_m2.i ""
+	GearBoxM_Out.GB_m2.rotv_in "rad/s"
+	GearBoxM_Out.GB_m2.rotv_out "rad/s"
+	GearBoxM_Out.GB_m3.Clutch.Pos ""
+	GearBoxM_Out.GB_m3.Clutch.Trq_in "Nm"
+	GearBoxM_Out.GB_m3.Clutch.Trq_out "Nm"
+	GearBoxM_Out.GB_m3.Clutch.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m3.Clutch.rotv_in "rad/s"
+	GearBoxM_Out.GB_m3.Clutch.rotv_out "rad/s"
+	GearBoxM_Out.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m3.Clutch_dis.Trq_in "Nm"
+	GearBoxM_Out.GB_m3.Clutch_dis.Trq_out "Nm"
+	GearBoxM_Out.GB_m3.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_Out.GB_m3.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_Out.GB_m3.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_Out.GB_m3.GearNo ""
+	GearBoxM_Out.GB_m3.GearNo_dis ""
+	GearBoxM_Out.GB_m3.Trq_DriveSrc_trg "Nm"
+	GearBoxM_Out.GB_m3.Trq_in "Nm"
+	GearBoxM_Out.GB_m3.Trq_out "Nm"
+	GearBoxM_Out.GB_m3.i ""
+	GearBoxM_Out.GB_m3.rotv_in "rad/s"
+	GearBoxM_Out.GB_m3.rotv_out "rad/s"
+	GearBoxOut.Clutch.Pos ""
+	GearBoxOut.Clutch.Trq_in "Nm"
+	GearBoxOut.Clutch.Trq_out "Nm"
+	GearBoxOut.Clutch.i_TrqIn2Out ""
+	GearBoxOut.Clutch.rotv_in "rad/s"
+	GearBoxOut.Clutch.rotv_out "rad/s"
+	GearBoxOut.Clutch_dis.Pos ""
+	GearBoxOut.Clutch_dis.Trq_in "Nm"
+	GearBoxOut.Clutch_dis.Trq_out "Nm"
+	GearBoxOut.Clutch_dis.i_TrqIn2Out ""
+	GearBoxOut.Clutch_dis.rotv_in "rad/s"
+	GearBoxOut.Clutch_dis.rotv_out "rad/s"
+	GearBoxOut.GearNo ""
+	GearBoxOut.GearNo_dis ""
+	GearBoxOut.Trq_DriveSrc_trg "Nm"
+	GearBoxOut.Trq_in "Nm"
+	GearBoxOut.Trq_out "Nm"
+	GearBoxOut.i ""
+	GearBoxOut.rotv_in "rad/s"
+	GearBoxOut.rotv_out "rad/s"
+	ISGOut.PwrElec "W"
+	ISGOut.Trq "Nm"
+	ISGOut.TrqGen_max "Nm"
+	ISGOut.TrqMot_max "Nm"
+	ISGOut.i_M2W.FL ""
+	ISGOut.i_M2W.FR ""
+	ISGOut.i_M2W.RL ""
+	ISGOut.i_M2W.RR ""
+	ISGOut.rotv "rad/s"
+	MCU_Status ""
+	MotorOut.m0.PwrElec "W"
+	MotorOut.m0.Trq "Nm"
+	MotorOut.m0.TrqGen_max "Nm"
+	MotorOut.m0.TrqMot_max "Nm"
+	MotorOut.m0.i_M2W.FL ""
+	MotorOut.m0.i_M2W.FR ""
+	MotorOut.m0.i_M2W.RL ""
+	MotorOut.m0.i_M2W.RR ""
+	MotorOut.m0.rotv "rad/s"
+	MotorOut.m1.PwrElec "W"
+	MotorOut.m1.Trq "Nm"
+	MotorOut.m1.TrqGen_max "Nm"
+	MotorOut.m1.TrqMot_max "Nm"
+	MotorOut.m1.i_M2W.FL ""
+	MotorOut.m1.i_M2W.FR ""
+	MotorOut.m1.i_M2W.RL ""
+	MotorOut.m1.i_M2W.RR ""
+	MotorOut.m1.rotv "rad/s"
+	MotorOut.m2.PwrElec "W"
+	MotorOut.m2.Trq "Nm"
+	MotorOut.m2.TrqGen_max "Nm"
+	MotorOut.m2.TrqMot_max "Nm"
+	MotorOut.m2.i_M2W.FL ""
+	MotorOut.m2.i_M2W.FR ""
+	MotorOut.m2.i_M2W.RL ""
+	MotorOut.m2.i_M2W.RR ""
+	MotorOut.m2.rotv "rad/s"
+	MotorOut.m3.PwrElec "W"
+	MotorOut.m3.Trq "Nm"
+	MotorOut.m3.TrqGen_max "Nm"
+	MotorOut.m3.TrqMot_max "Nm"
+	MotorOut.m3.i_M2W.FL ""
+	MotorOut.m3.i_M2W.FR ""
+	MotorOut.m3.i_M2W.RL ""
+	MotorOut.m3.i_M2W.RR ""
+	MotorOut.m3.rotv "rad/s"
+	PowerDelta.Diffs "W"
+	PowerDelta.Inert "W"
+	PowerDelta.Inert_DL "W"
+	PowerDelta.PlanetGear "W"
+	PowerDelta.PowerSupply "W"
+	PowerDelta.Shafts "W"
+	PowerDelta.Spring_DL "W"
+	PwrSupplyOut.Eta_HV1toHV2 ""
+	PwrSupplyOut.Eta_HV1toLV ""
+	PwrSupplyOut.Pwr_HV1 "W"
+	PwrSupplyOut.Pwr_HV1toHV2 "W"
+	PwrSupplyOut.Pwr_HV1toHV2_max "W"
+	PwrSupplyOut.Pwr_HV1toLV "W"
+	PwrSupplyOut.Pwr_HV1toLV_max "W"
+	PwrSupplyOut.Pwr_HV2 "W"
+	PwrSupplyOut.Pwr_LV "W"
+	PwrSupplyOut.Voltage_HV1 "V"
+	PwrSupplyOut.Voltage_HV2 "V"
+	PwrSupplyOut.Voltage_LV "V"
+	TCU_Status ""
+	Trq_Supp2Bdy1.rx "Nm"
+	Trq_Supp2Bdy1.ry "Nm"
+	Trq_Supp2Bdy1.rz "Nm"
+	Trq_Supp2Bdy1B.rx "Nm"
+	Trq_Supp2Bdy1B.ry "Nm"
+	Trq_Supp2Bdy1B.rz "Nm"
+	Trq_Supp2BdyEng.rx "Nm"
+	Trq_Supp2BdyEng.ry "Nm"
+	WheelOut.FL.Inert_in "kgm2"
+	WheelOut.FL.Trq_Drive "Nm"
+	WheelOut.FL.Trq_Supp2WC "Nm"
+	WheelOut.FR.Inert_in "kgm2"
+	WheelOut.FR.Trq_Drive "Nm"
+	WheelOut.FR.Trq_Supp2WC "Nm"
+	WheelOut.RL.Inert_in "kgm2"
+	WheelOut.RL.Trq_Drive "Nm"
+	WheelOut.RL.Trq_Supp2WC "Nm"
+	WheelOut.RR.Inert_in "kgm2"
+	WheelOut.RR.Trq_Drive "Nm"
+	WheelOut.RR.Trq_Supp2WC "Nm"
+
+Modelclass.PowerTrainXWD.Param.0.Name = PowerTrain.PTKind
+Modelclass.PowerTrainXWD.Param.0.Kind = string
+Modelclass.PowerTrainXWD.Param.0.Doc:
+	Specifies the kind of the OpenXWD powertrain model.
+	Following kinds are supported: Generic,
+	HEV_Parallel_P1,HEV_Parallel_P2, HEV_AxleSplit,
+	HEV_PowerSplit, HEV_Serial, HEV_Any, BEV.
+
+Modelclass.PowerTrainXWD.Param.1.Name = PowerTrain.Engine.Fuel_l2kWh
+Modelclass.PowerTrainXWD.Param.1.Kind = string
+Modelclass.PowerTrainXWD.Param.1.Doc:
+	Specifies the conversion factor for fuel
+	from liter to kWh.
+	Default is 8.48 kWh/l
+
+Modelclass.PowerTrainXWD.Param.2.Name = PowerTrain.Engine.rotv_idle
+Modelclass.PowerTrainXWD.Param.2.Kind = string
+Modelclass.PowerTrainXWD.Param.2.Doc:
+	Specifies the engine idle speed.
+	Default is 800rpm
+
+Modelclass.PowerTrainXWD.Param.3.Name = PowerTrain.Engine.rotv_off
+Modelclass.PowerTrainXWD.Param.3.Kind = string
+Modelclass.PowerTrainXWD.Param.3.Doc:
+	Specifies the engine off speed.
+	Default is 500rpm
+
+Modelclass.PowerTrainXWD.Param.4.Name = PowerTrain.Engine.rotv_max
+Modelclass.PowerTrainXWD.Param.4.Kind = string
+Modelclass.PowerTrainXWD.Param.4.Doc:
+	Specifies the engine maximum speed.
+	Default is 8000rpm
+
+Modelclass.PowerTrainXWD.Param.5.Name = PowerTrain.Engine.rotv_opt
+Modelclass.PowerTrainXWD.Param.5.Kind = string
+Modelclass.PowerTrainXWD.Param.5.Doc:
+	Specifies the engine speed with optimal
+	fuel consumption.
+	Default is 2300rpm
+
+Modelclass.PowerTrainXWD.Param.6.Name = PowerTrain.Engine.TrqFull
+Modelclass.PowerTrainXWD.Param.6.Kind = text
+Modelclass.PowerTrainXWD.Param.6.Doc:
+	One dimensional characteristic mapping
+	for the maximum engine full torque.
+
+Modelclass.PowerTrainXWD.Param.7.Name = PowerTrain.Engine.TrqDrag
+Modelclass.PowerTrainXWD.Param.7.Kind = text
+Modelclass.PowerTrainXWD.Param.7.Doc:
+	One dimensional characteristic mapping
+	for the maximum engine drag torque.
+
+Modelclass.PowerTrainXWD.Param.8.Name = PowerTrain.Engine.TrqOpt
+Modelclass.PowerTrainXWD.Param.8.Kind = text
+Modelclass.PowerTrainXWD.Param.8.Doc:
+	Optional. One dimensional characteristic mapping
+	for engine torque with optimal consumption
+	(minimal specific fuel consumptionn as function of
+	engine speed).
+
+Modelclass.PowerTrainXWD.Param.9.Name = PowerTrain.Clutch.ClKind
+Modelclass.PowerTrainXWD.Param.9.Kind = string
+Modelclass.PowerTrainXWD.Param.9.Doc:
+	Specifies the clutch kind used.
+	Following kinds are supported: Closed,
+	Open, Friction, Converter.
+
+Modelclass.PowerTrainXWD.Param.10.Name = PowerTrain.nPlanetGear
+Modelclass.PowerTrainXWD.Param.10.Kind = string
+Modelclass.PowerTrainXWD.Param.10.Doc:
+	Specifies the number of planetary gears for
+	powersplit hybrid.
+	Default is 0
+
+Modelclass.PowerTrainXWD.Param.11.Name = PowerTrain.PlanetGear.Ratio
+Modelclass.PowerTrainXWD.Param.11.Kind = string
+Modelclass.PowerTrainXWD.Param.11.Doc:
+	Specifies the ratio of the planetary gearbox
+	between the ring and sun gear.
+	Default is 2.6
+
+Modelclass.PowerTrainXWD.Param.12.Name = PowerTrain.nGearBoxM
+Modelclass.PowerTrainXWD.Param.12.Kind = string
+Modelclass.PowerTrainXWD.Param.12.Doc:
+	Specifies the number of gearboxes for electric
+	motors (without integration starter motor).
+	Default is 0
+
+Modelclass.PowerTrainXWD.Param.13.Name = PowerTrain.GearBox.GBKind
+Modelclass.PowerTrainXWD.Param.13.Kind = string
+Modelclass.PowerTrainXWD.Param.13.Doc:
+	Specifies the kind of the gearbox used.
+	Following kinds are supported: NoGearBox,
+	Manual, AutoWithManual, AutoNoManual.
+
+Modelclass.PowerTrainXWD.Param.14.Name = PowerTrain.GearBoxM.GBKind
+Modelclass.PowerTrainXWD.Param.14.Kind = string
+Modelclass.PowerTrainXWD.Param.14.Doc:
+
+Modelclass.PowerTrainXWD.Param.15.Name = PowerTrain.GearBoxM1.GBKind
+Modelclass.PowerTrainXWD.Param.15.Kind = string
+Modelclass.PowerTrainXWD.Param.15.Doc:
+
+Modelclass.PowerTrainXWD.Param.16.Name = PowerTrain.GearBoxM2.GBKind
+Modelclass.PowerTrainXWD.Param.16.Kind = string
+Modelclass.PowerTrainXWD.Param.16.Doc:
+
+Modelclass.PowerTrainXWD.Param.17.Name = PowerTrain.GearBoxM3.GBKind
+Modelclass.PowerTrainXWD.Param.17.Kind = string
+Modelclass.PowerTrainXWD.Param.17.Doc:
+
+Modelclass.PowerTrainXWD.Param.18.Name = PowerTrain.GearBox.ClKind
+Modelclass.PowerTrainXWD.Param.18.Kind = string
+Modelclass.PowerTrainXWD.Param.18.Doc:
+	Specifies the internal clutch kind in the gearbox.
+	Following kinds are supported: Closed, Open,Friction, Converter.
+
+Modelclass.PowerTrainXWD.Param.19.Name = PowerTrain.GearBoxM.ClKind
+Modelclass.PowerTrainXWD.Param.19.Kind = string
+Modelclass.PowerTrainXWD.Param.19.Doc:
+
+Modelclass.PowerTrainXWD.Param.20.Name = PowerTrain.GearBoxM1.ClKind
+Modelclass.PowerTrainXWD.Param.20.Kind = string
+Modelclass.PowerTrainXWD.Param.20.Doc:
+
+Modelclass.PowerTrainXWD.Param.21.Name = PowerTrain.GearBoxM2.ClKind
+Modelclass.PowerTrainXWD.Param.21.Kind = string
+Modelclass.PowerTrainXWD.Param.21.Doc:
+
+Modelclass.PowerTrainXWD.Param.22.Name = PowerTrain.GearBoxM3.ClKind
+Modelclass.PowerTrainXWD.Param.22.Kind = string
+Modelclass.PowerTrainXWD.Param.22.Doc:
+
+Modelclass.PowerTrainXWD.Param.23.Name = PowerTrain.GearBox.iForwardGears
+Modelclass.PowerTrainXWD.Param.23.Kind = string
+Modelclass.PowerTrainXWD.Param.23.Doc:
+	State the gearbox transmission ratio for
+	every single forward gear.
+
+Modelclass.PowerTrainXWD.Param.24.Name = PowerTrain.GearBoxM.iForwardGears
+Modelclass.PowerTrainXWD.Param.24.Kind = string
+Modelclass.PowerTrainXWD.Param.24.Doc:
+
+Modelclass.PowerTrainXWD.Param.25.Name = PowerTrain.GearBoxM1.iForwardGears
+Modelclass.PowerTrainXWD.Param.25.Kind = string
+Modelclass.PowerTrainXWD.Param.25.Doc:
+
+Modelclass.PowerTrainXWD.Param.26.Name = PowerTrain.GearBoxM2.iForwardGears
+Modelclass.PowerTrainXWD.Param.26.Kind = string
+Modelclass.PowerTrainXWD.Param.26.Doc:
+
+Modelclass.PowerTrainXWD.Param.27.Name = PowerTrain.GearBoxM3.iForwardGears
+Modelclass.PowerTrainXWD.Param.27.Kind = string
+Modelclass.PowerTrainXWD.Param.27.Doc:
+
+Modelclass.PowerTrainXWD.Param.28.Name = PowerTrain.GearBox.iBackwardGears
+Modelclass.PowerTrainXWD.Param.28.Kind = string
+Modelclass.PowerTrainXWD.Param.28.Doc:
+	State the gearbox transmission ratio for
+	every single backward gear.
+
+Modelclass.PowerTrainXWD.Param.29.Name = PowerTrain.GearBoxM.iBackwardGears
+Modelclass.PowerTrainXWD.Param.29.Kind = string
+Modelclass.PowerTrainXWD.Param.29.Doc:
+
+Modelclass.PowerTrainXWD.Param.30.Name = PowerTrain.GearBoxM1.iBackwardGears
+Modelclass.PowerTrainXWD.Param.30.Kind = string
+Modelclass.PowerTrainXWD.Param.30.Doc:
+
+Modelclass.PowerTrainXWD.Param.31.Name = PowerTrain.GearBoxM2.iBackwardGears
+Modelclass.PowerTrainXWD.Param.31.Kind = string
+Modelclass.PowerTrainXWD.Param.31.Doc:
+
+Modelclass.PowerTrainXWD.Param.32.Name = PowerTrain.GearBoxM3.iBackwardGears
+Modelclass.PowerTrainXWD.Param.32.Kind = string
+Modelclass.PowerTrainXWD.Param.32.Doc:
+
+Modelclass.PowerTrainXWD.Param.33.Name = PowerTrain.nMotor
+Modelclass.PowerTrainXWD.Param.33.Kind = string
+Modelclass.PowerTrainXWD.Param.33.Doc:
+	Specifies the total number of electric motors
+	(without integrated starter generator motor).
+	Default is 0
+
+Modelclass.PowerTrainXWD.Param.34.Name = PowerTrain.ISG.VoltageLevel
+Modelclass.PowerTrainXWD.Param.34.Kind = string
+Modelclass.PowerTrainXWD.Param.34.Doc:
+	Specifies the voltage level of the power supply
+	model to which the electric motor is connected.
+	Following kinds are supported: LV, HV1, HV2
+
+Modelclass.PowerTrainXWD.Param.35.Name = PowerTrain.Motor.VoltageLevel
+Modelclass.PowerTrainXWD.Param.35.Kind = string
+Modelclass.PowerTrainXWD.Param.35.Doc:
+
+Modelclass.PowerTrainXWD.Param.36.Name = PowerTrain.Motor1.VoltageLevel
+Modelclass.PowerTrainXWD.Param.36.Kind = string
+Modelclass.PowerTrainXWD.Param.36.Doc:
+
+Modelclass.PowerTrainXWD.Param.37.Name = PowerTrain.Motor2.VoltageLevel
+Modelclass.PowerTrainXWD.Param.37.Kind = string
+Modelclass.PowerTrainXWD.Param.37.Doc:
+
+Modelclass.PowerTrainXWD.Param.38.Name = PowerTrain.Motor3.VoltageLevel
+Modelclass.PowerTrainXWD.Param.38.Kind = string
+Modelclass.PowerTrainXWD.Param.38.Doc:
+
+Modelclass.PowerTrainXWD.Param.39.Name = PowerTrain.ISG.Ratio
+Modelclass.PowerTrainXWD.Param.39.Kind = string
+Modelclass.PowerTrainXWD.Param.39.Doc:
+	Ratio between electric motor shaft and driven shaft.
+	Default is 1.0
+
+Modelclass.PowerTrainXWD.Param.40.Name = PowerTrain.Motor.Ratio
+Modelclass.PowerTrainXWD.Param.40.Kind = string
+Modelclass.PowerTrainXWD.Param.40.Doc:
+
+Modelclass.PowerTrainXWD.Param.41.Name = PowerTrain.Motor1.Ratio
+Modelclass.PowerTrainXWD.Param.41.Kind = string
+Modelclass.PowerTrainXWD.Param.41.Doc:
+
+Modelclass.PowerTrainXWD.Param.42.Name = PowerTrain.Motor2.Ratio
+Modelclass.PowerTrainXWD.Param.42.Kind = string
+Modelclass.PowerTrainXWD.Param.42.Doc:
+
+Modelclass.PowerTrainXWD.Param.43.Name = PowerTrain.Motor3.Ratio
+Modelclass.PowerTrainXWD.Param.43.Kind = string
+Modelclass.PowerTrainXWD.Param.43.Doc:
+
+Modelclass.PowerTrainXWD.Param.44.Name = PowerTrain.ISG.Mot.rotv_max
+Modelclass.PowerTrainXWD.Param.44.Kind = string
+Modelclass.PowerTrainXWD.Param.44.Doc:
+	Maximum electric motor rotation speed.
+	Default is 8000rpm
+
+Modelclass.PowerTrainXWD.Param.45.Name = PowerTrain.Motor.Mot.rotv_max
+Modelclass.PowerTrainXWD.Param.45.Kind = string
+Modelclass.PowerTrainXWD.Param.45.Doc:
+
+Modelclass.PowerTrainXWD.Param.46.Name = PowerTrain.Motor1.Mot.rotv_max
+Modelclass.PowerTrainXWD.Param.46.Kind = string
+Modelclass.PowerTrainXWD.Param.46.Doc:
+
+Modelclass.PowerTrainXWD.Param.47.Name = PowerTrain.Motor2.Mot.rotv_max
+Modelclass.PowerTrainXWD.Param.47.Kind = string
+Modelclass.PowerTrainXWD.Param.47.Doc:
+
+Modelclass.PowerTrainXWD.Param.48.Name = PowerTrain.Motor3.Mot.rotv_max
+Modelclass.PowerTrainXWD.Param.48.Kind = string
+Modelclass.PowerTrainXWD.Param.48.Doc:
+
+Modelclass.PowerTrainXWD.Param.49.Name = PowerTrain.ISG.Gen.rotv_max
+Modelclass.PowerTrainXWD.Param.49.Kind = string
+Modelclass.PowerTrainXWD.Param.49.Doc:
+	Maximum electric generator rotation speed.
+	Default is 8000rpm
+
+Modelclass.PowerTrainXWD.Param.50.Name = PowerTrain.Motor.Gen.rotv_max
+Modelclass.PowerTrainXWD.Param.50.Kind = string
+Modelclass.PowerTrainXWD.Param.50.Doc:
+
+Modelclass.PowerTrainXWD.Param.51.Name = PowerTrain.Motor1.Gen.rotv_max
+Modelclass.PowerTrainXWD.Param.51.Kind = string
+Modelclass.PowerTrainXWD.Param.51.Doc:
+
+Modelclass.PowerTrainXWD.Param.52.Name = PowerTrain.Motor2.Gen.rotv_max
+Modelclass.PowerTrainXWD.Param.52.Kind = string
+Modelclass.PowerTrainXWD.Param.52.Doc:
+
+Modelclass.PowerTrainXWD.Param.53.Name = PowerTrain.Motor3.Gen.rotv_max
+Modelclass.PowerTrainXWD.Param.53.Kind = string
+Modelclass.PowerTrainXWD.Param.53.Doc:
+
+Modelclass.PowerTrainXWD.Param.54.Name = PowerTrain.ISG.Mot.TrqMap
+Modelclass.PowerTrainXWD.Param.54.Kind = text
+Modelclass.PowerTrainXWD.Param.54.Doc:
+	One dimensional charcteristic mapping for
+	the maximum motor torque.
+
+Modelclass.PowerTrainXWD.Param.55.Name = PowerTrain.Motor.Mot.TrqMap
+Modelclass.PowerTrainXWD.Param.55.Kind = text
+Modelclass.PowerTrainXWD.Param.55.Doc:
+
+Modelclass.PowerTrainXWD.Param.56.Name = PowerTrain.Motor1.Mot.TrqMap
+Modelclass.PowerTrainXWD.Param.56.Kind = text
+Modelclass.PowerTrainXWD.Param.56.Doc:
+
+Modelclass.PowerTrainXWD.Param.57.Name = PowerTrain.Motor2.Mot.TrqMap
+Modelclass.PowerTrainXWD.Param.57.Kind = text
+Modelclass.PowerTrainXWD.Param.57.Doc:
+
+Modelclass.PowerTrainXWD.Param.58.Name = PowerTrain.Motor3.Mot.TrqMap
+Modelclass.PowerTrainXWD.Param.58.Kind = text
+Modelclass.PowerTrainXWD.Param.58.Doc:
+
+Modelclass.PowerTrainXWD.Param.59.Name = PowerTrain.ISG.Gen.TrqMap
+Modelclass.PowerTrainXWD.Param.59.Kind = text
+Modelclass.PowerTrainXWD.Param.59.Doc:
+	One dimensional charcteristic mapping for
+	the maximum generator torque.
+
+Modelclass.PowerTrainXWD.Param.60.Name = PowerTrain.Motor.Gen.TrqMap
+Modelclass.PowerTrainXWD.Param.60.Kind = text
+Modelclass.PowerTrainXWD.Param.60.Doc:
+
+Modelclass.PowerTrainXWD.Param.61.Name = PowerTrain.Motor1.Gen.TrqMap
+Modelclass.PowerTrainXWD.Param.61.Kind = text
+Modelclass.PowerTrainXWD.Param.61.Doc:
+
+Modelclass.PowerTrainXWD.Param.62.Name = PowerTrain.Motor2.Gen.TrqMap
+Modelclass.PowerTrainXWD.Param.62.Kind = text
+Modelclass.PowerTrainXWD.Param.62.Doc:
+
+Modelclass.PowerTrainXWD.Param.63.Name = PowerTrain.Motor3.Gen.TrqMap
+Modelclass.PowerTrainXWD.Param.63.Kind = text
+Modelclass.PowerTrainXWD.Param.63.Doc:
+
+Modelclass.PowerTrainXWD.Param.64.Name = PowerTrain.DL.iDiff_mean
+Modelclass.PowerTrainXWD.Param.64.Kind = string
+Modelclass.PowerTrainXWD.Param.64.Doc:
+	Specifies the driveline mean differential ratio.
+	Default is 3.0
+
+Modelclass.PowerTrainXWD.Param.65.Name = PowerTrain.DL.nDriveSource
+Modelclass.PowerTrainXWD.Param.65.Kind = string
+Modelclass.PowerTrainXWD.Param.65.Doc:
+	Specifies the number of possible drive sources
+	of the driveline.
+	Default is 1
+
+Modelclass.PowerTrainXWD.Param.66.Name = PowerTrain.DL.DriveSourcePos
+Modelclass.PowerTrainXWD.Param.66.Kind = string
+Modelclass.PowerTrainXWD.Param.66.Doc:
+	Specifies on which position the drive source ds
+	is applied.
+	Following kinds are supported: NoPosition,Center, Front, Rear, FL, FR, RL, RR
+
+Modelclass.PowerTrainXWD.Param.67.Name = PowerTrain.DL.DriveSourcePos1
+Modelclass.PowerTrainXWD.Param.67.Kind = string
+Modelclass.PowerTrainXWD.Param.67.Doc:
+
+Modelclass.PowerTrainXWD.Param.68.Name = PowerTrain.DL.DriveSourcePos2
+Modelclass.PowerTrainXWD.Param.68.Kind = string
+Modelclass.PowerTrainXWD.Param.68.Doc:
+
+Modelclass.PowerTrainXWD.Param.69.Name = PowerTrain.DL.DriveSourcePos3
+Modelclass.PowerTrainXWD.Param.69.Kind = string
+Modelclass.PowerTrainXWD.Param.69.Doc:
+
+Modelclass.PowerTrainXWD.Param.70.Name = PowerTrain.DL.DriveSourcePos4
+Modelclass.PowerTrainXWD.Param.70.Kind = string
+Modelclass.PowerTrainXWD.Param.70.Doc:
+
+Modelclass.PowerTrainXWD.Param.71.Name = PowerTrain.DL.DriveSourcePos5
+Modelclass.PowerTrainXWD.Param.71.Kind = string
+Modelclass.PowerTrainXWD.Param.71.Doc:
+
+Modelclass.PowerTrainXWD.Param.72.Name = PowerTrain.DL.DriveSourcePos6
+Modelclass.PowerTrainXWD.Param.72.Kind = string
+Modelclass.PowerTrainXWD.Param.72.Doc:
+
+Modelclass.PowerTrainXWD.Param.73.Name = PowerTrain.DL.DriveSourcePos7
+Modelclass.PowerTrainXWD.Param.73.Kind = string
+Modelclass.PowerTrainXWD.Param.73.Doc:
+
+Modelclass.PowerTrainXWD.Param.74.Name = PowerTrain.PowerSupply.BattLV.Active
+Modelclass.PowerTrainXWD.Param.74.Kind = string
+Modelclass.PowerTrainXWD.Param.74.Doc:
+	Specifies if the low and/or high voltage batteries
+	are implemented in the power supply model.
+	Default is 1
+
+Modelclass.PowerTrainXWD.Param.75.Name = PowerTrain.PowerSupply.BattHV.Active
+Modelclass.PowerTrainXWD.Param.75.Kind = string
+Modelclass.PowerTrainXWD.Param.75.Doc:
+
+Modelclass.PowerTrainXWD.Param.76.Name = PowerTrain.PowerSupply.BattLV.Capacity
+Modelclass.PowerTrainXWD.Param.76.Kind = string
+Modelclass.PowerTrainXWD.Param.76.Doc:
+	Total capacity of the voltage battery.
+	Default is 10Ah
+
+Modelclass.PowerTrainXWD.Param.77.Name = PowerTrain.PowerSupply.BattHV.Capacity
+Modelclass.PowerTrainXWD.Param.77.Kind = string
+Modelclass.PowerTrainXWD.Param.77.Doc:
+
+Modelclass.PowerTrainXWD.Param.78.Name = PowerTrain.PowerSupply.BattLV.Voltage_oc
+Modelclass.PowerTrainXWD.Param.78.Kind = string
+Modelclass.PowerTrainXWD.Param.78.Doc:
+	Battery open circuit (idle) voltage.
+	Default is 12V
+
+Modelclass.PowerTrainXWD.Param.79.Name = PowerTrain.PowerSupply.BattHV.Voltage_oc
+Modelclass.PowerTrainXWD.Param.79.Kind = string
+Modelclass.PowerTrainXWD.Param.79.Doc:
+
+Modelclass.PowerTrainXWD.Param.80.Name = PowerTrain.PowerSupply.BattLV.SOC_min
+Modelclass.PowerTrainXWD.Param.80.Kind = string
+Modelclass.PowerTrainXWD.Param.80.Doc:
+	Battery minimum admitted state of charge.
+	Battery should not be discharged below this value.
+	Default is 10%
+
+Modelclass.PowerTrainXWD.Param.81.Name = PowerTrain.PowerSupply.BattHV.SOC_min
+Modelclass.PowerTrainXWD.Param.81.Kind = string
+Modelclass.PowerTrainXWD.Param.81.Doc:
+
+Modelclass.PowerTrainXWD.Param.82.Name = PowerTrain.PowerSupply.BattLV.SOC_max
+Modelclass.PowerTrainXWD.Param.82.Kind = string
+Modelclass.PowerTrainXWD.Param.82.Doc:
+	Battery maximum admitted state of charge.
+	Battery should not be charged above this value.
+	Default is 90%
+
+Modelclass.PowerTrainXWD.Param.83.Name = PowerTrain.PowerSupply.BattHV.SOC_max
+Modelclass.PowerTrainXWD.Param.83.Kind = string
+Modelclass.PowerTrainXWD.Param.83.Doc:
+
+Modelclass.PTControl.FromCM:
+	BCU_Status ""
+	BattHVIn.AOC "Ah"
+	BattHVIn.Current "A"
+	BattHVIn.Energy "kWh"
+	BattHVIn.Pwr_max "W"
+	BattHVIn.SOC "%"
+	BattHVIn.SOH "%"
+	BattHVIn.Temp "K"
+	BattLVIn.AOC "Ah"
+	BattLVIn.Current "A"
+	BattLVIn.Energy "kWh"
+	BattLVIn.Pwr_max "W"
+	BattLVIn.SOC "%"
+	BattLVIn.SOH "%"
+	BattLVIn.Temp "K"
+	Brake ""
+	CfgIF.Aero_Frcx "N"
+	CfgIF.BattHV.Capacity "Ah"
+	CfgIF.BattHV.SOC_max "%"
+	CfgIF.BattHV.SOC_min "%"
+	CfgIF.BattHV.Voltage "V"
+	CfgIF.BattLV.Capacity "Ah"
+	CfgIF.BattLV.SOC_max "%"
+	CfgIF.BattLV.SOC_min "%"
+	CfgIF.BattLV.Voltage "V"
+	CfgIF.ClKind ""
+	CfgIF.DL_iDiff_mean ""
+	CfgIF.DriveSource.ds0.Pos ""
+	CfgIF.DriveSource.ds1.Pos ""
+	CfgIF.DriveSource.ds2.Pos ""
+	CfgIF.DriveSource.ds3.Pos ""
+	CfgIF.DriveSource.ds4.Pos ""
+	CfgIF.DriveSource.ds5.Pos ""
+	CfgIF.DriveSource.ds6.Pos ""
+	CfgIF.DriveSource.ds7.Pos ""
+	CfgIF.Engine.Fuel_l2kWh "kWh/l"
+	CfgIF.Engine.rotv_idle "rad/s"
+	CfgIF.Engine.rotv_max "rad/s"
+	CfgIF.Engine.rotv_opt "rad/s"
+	CfgIF.GearBox.ClKind ""
+	CfgIF.GearBox.GBKind ""
+	CfgIF.GearBox.nBGears ""
+	CfgIF.GearBox.nFGears ""
+	CfgIF.GearBoxM.GB_m0.ClKind ""
+	CfgIF.GearBoxM.GB_m0.GBKind ""
+	CfgIF.GearBoxM.GB_m0.nBGears ""
+	CfgIF.GearBoxM.GB_m0.nFGears ""
+	CfgIF.GearBoxM.GB_m1.ClKind ""
+	CfgIF.GearBoxM.GB_m1.GBKind ""
+	CfgIF.GearBoxM.GB_m1.nBGears ""
+	CfgIF.GearBoxM.GB_m1.nFGears ""
+	CfgIF.GearBoxM.GB_m2.ClKind ""
+	CfgIF.GearBoxM.GB_m2.GBKind ""
+	CfgIF.GearBoxM.GB_m2.nBGears ""
+	CfgIF.GearBoxM.GB_m2.nFGears ""
+	CfgIF.GearBoxM.GB_m3.ClKind ""
+	CfgIF.GearBoxM.GB_m3.GBKind ""
+	CfgIF.GearBoxM.GB_m3.nBGears ""
+	CfgIF.GearBoxM.GB_m3.nFGears ""
+	CfgIF.ISG.Level ""
+	CfgIF.ISG.Ratio ""
+	CfgIF.ISG.rotv_Gen_max "rad/s"
+	CfgIF.ISG.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m0.Level ""
+	CfgIF.Motor.m0.Ratio ""
+	CfgIF.Motor.m0.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m0.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m1.Level ""
+	CfgIF.Motor.m1.Ratio ""
+	CfgIF.Motor.m1.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m1.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m2.Level ""
+	CfgIF.Motor.m2.Ratio ""
+	CfgIF.Motor.m2.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m2.rotv_Mot_max "rad/s"
+	CfgIF.Motor.m3.Level ""
+	CfgIF.Motor.m3.Ratio ""
+	CfgIF.Motor.m3.rotv_Gen_max "rad/s"
+	CfgIF.Motor.m3.rotv_Mot_max "rad/s"
+	CfgIF.PTKind ""
+	CfgIF.PlanetGear.Ratio ""
+	CfgIF.StartEngineWithSST ""
+	CfgIF.Velocity_max "m/s"
+	CfgIF.WheelRadius "m"
+	CfgIF.nGearBoxM ""
+	CfgIF.nMotor ""
+	CfgIF.nPlanetGear ""
+	CfgIF.nWheels ""
+	Clutch ""
+	ClutchIn.Pos ""
+	ClutchIn.Trq_in "Nm"
+	ClutchIn.Trq_out "Nm"
+	ClutchIn.i_TrqIn2Out ""
+	ClutchIn.rotv_in "rad/s"
+	ClutchIn.rotv_out "rad/s"
+	DriveSrcIn.0.Trq_trg "Nm"
+	DriveSrcIn.1.Trq_trg "Nm"
+	DriveSrcIn.2.Trq_trg "Nm"
+	DriveSrcIn.3.Trq_trg "Nm"
+	DriveSrcIn.4.Trq_trg "Nm"
+	DriveSrcIn.5.Trq_trg "Nm"
+	DriveSrcIn.6.Trq_trg "Nm"
+	DriveSrcIn.7.Trq_trg "Nm"
+	ECU_Status ""
+	EngineIn.Engine_on ""
+	EngineIn.FuelFlow "l/s"
+	EngineIn.Trq "Nm"
+	EngineIn.TrqDrag "Nm"
+	EngineIn.TrqFull "Nm"
+	EngineIn.TrqOpt "Nm"
+	EngineIn.rotv "rad/s"
+	Gas ""
+	GearBoxIn.Clutch.Pos ""
+	GearBoxIn.Clutch.TrqIn2Out ""
+	GearBoxIn.Clutch.Trq_in "Nm"
+	GearBoxIn.Clutch.Trq_out "Nm"
+	GearBoxIn.Clutch.rotv_in "rad/s"
+	GearBoxIn.Clutch.rotv_out "rad/s"
+	GearBoxIn.Clutch_dis.Pos ""
+	GearBoxIn.Clutch_dis.TrqIn2Out ""
+	GearBoxIn.Clutch_dis.Trq_in "Nm"
+	GearBoxIn.Clutch_dis.Trq_out "Nm"
+	GearBoxIn.Clutch_dis.rotv_in "rad/s"
+	GearBoxIn.Clutch_dis.rotv_out "rad/s"
+	GearBoxIn.GearNo ""
+	GearBoxIn.GearNo_dis ""
+	GearBoxIn.Trq_DriveSrc_trg "Nm"
+	GearBoxIn.Trq_in "Nm"
+	GearBoxIn.Trq_out "Nm"
+	GearBoxIn.i ""
+	GearBoxIn.rotv_in "rad/s"
+	GearBoxIn.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.Clutch.Pos ""
+	GearBoxM_In.GB_m0.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m0.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m0.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m0.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m0.GearNo ""
+	GearBoxM_In.GB_m0.GearNo_dis ""
+	GearBoxM_In.GB_m0.Trq_DriveSrc_trg "Nm"
+	GearBoxM_In.GB_m0.Trq_in "Nm"
+	GearBoxM_In.GB_m0.Trq_out "Nm"
+	GearBoxM_In.GB_m0.i ""
+	GearBoxM_In.GB_m0.rotv_in "rad/s"
+	GearBoxM_In.GB_m0.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.Clutch.Pos ""
+	GearBoxM_In.GB_m1.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m1.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m1.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m1.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m1.GearNo ""
+	GearBoxM_In.GB_m1.GearNo_dis ""
+	GearBoxM_In.GB_m1.Trq_DriveSrc_trg "Nm"
+	GearBoxM_In.GB_m1.Trq_in "Nm"
+	GearBoxM_In.GB_m1.Trq_out "Nm"
+	GearBoxM_In.GB_m1.i ""
+	GearBoxM_In.GB_m1.rotv_in "rad/s"
+	GearBoxM_In.GB_m1.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.Clutch.Pos ""
+	GearBoxM_In.GB_m2.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m2.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m2.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m2.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m2.GearNo ""
+	GearBoxM_In.GB_m2.GearNo_dis ""
+	GearBoxM_In.GB_m2.Trq_DriveSrc_trg "Nm"
+	GearBoxM_In.GB_m2.Trq_in "Nm"
+	GearBoxM_In.GB_m2.Trq_out "Nm"
+	GearBoxM_In.GB_m2.i ""
+	GearBoxM_In.GB_m2.rotv_in "rad/s"
+	GearBoxM_In.GB_m2.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.Clutch.Pos ""
+	GearBoxM_In.GB_m3.Clutch.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Clutch.Trq_out "Nm"
+	GearBoxM_In.GB_m3.Clutch.i_TrqIn2Out ""
+	GearBoxM_In.GB_m3.Clutch.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.Clutch.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.Trq_out "Nm"
+	GearBoxM_In.GB_m3.Clutch_dis.i_TrqIn2Out ""
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.Clutch_dis.rotv_out "rad/s"
+	GearBoxM_In.GB_m3.GearNo ""
+	GearBoxM_In.GB_m3.GearNo_dis ""
+	GearBoxM_In.GB_m3.Trq_DriveSrc_trg "Nm"
+	GearBoxM_In.GB_m3.Trq_in "Nm"
+	GearBoxM_In.GB_m3.Trq_out "Nm"
+	GearBoxM_In.GB_m3.i ""
+	GearBoxM_In.GB_m3.rotv_in "rad/s"
+	GearBoxM_In.GB_m3.rotv_out "rad/s"
+	GearNoTrg ""
+	ISGIn.PwrElec "W"
+	ISGIn.Trq "Nm"
+	ISGIn.TrqGen_max "Nm"
+	ISGIn.TrqMot_max "Nm"
+	ISGIn.i_M2W.FL ""
+	ISGIn.i_M2W.FR ""
+	ISGIn.i_M2W.RL ""
+	ISGIn.i_M2W.RR ""
+	ISGIn.rotv "rad/s"
+	Key ""
+	MCU_Status ""
+	MotorIn.m0.PwrElec "W"
+	MotorIn.m0.Trq "Nm"
+	MotorIn.m0.TrqGen_max "Nm"
+	MotorIn.m0.TrqMot_max "Nm"
+	MotorIn.m0.i_M2W.FL ""
+	MotorIn.m0.i_M2W.FR ""
+	MotorIn.m0.i_M2W.RL ""
+	MotorIn.m0.i_M2W.RR ""
+	MotorIn.m0.rotv "rad/s"
+	MotorIn.m1.PwrElec "W"
+	MotorIn.m1.Trq "Nm"
+	MotorIn.m1.TrqGen_max "Nm"
+	MotorIn.m1.TrqMot_max "Nm"
+	MotorIn.m1.i_M2W.FL ""
+	MotorIn.m1.i_M2W.FR ""
+	MotorIn.m1.i_M2W.RL ""
+	MotorIn.m1.i_M2W.RR ""
+	MotorIn.m1.rotv "rad/s"
+	MotorIn.m2.PwrElec "W"
+	MotorIn.m2.Trq "Nm"
+	MotorIn.m2.TrqGen_max "Nm"
+	MotorIn.m2.TrqMot_max "Nm"
+	MotorIn.m2.i_M2W.FL ""
+	MotorIn.m2.i_M2W.FR ""
+	MotorIn.m2.i_M2W.RL ""
+	MotorIn.m2.i_M2W.RR ""
+	MotorIn.m2.rotv "rad/s"
+	MotorIn.m3.PwrElec "W"
+	MotorIn.m3.Trq "Nm"
+	MotorIn.m3.TrqGen_max "Nm"
+	MotorIn.m3.TrqMot_max "Nm"
+	MotorIn.m3.i_M2W.FL ""
+	MotorIn.m3.i_M2W.FR ""
+	MotorIn.m3.i_M2W.RL ""
+	MotorIn.m3.i_M2W.RR ""
+	MotorIn.m3.rotv "rad/s"
+	PwrSupplyIn.Eta_HV1toHV2 ""
+	PwrSupplyIn.Eta_HV1toLV ""
+	PwrSupplyIn.Pwr_HV1 "W"
+	PwrSupplyIn.Pwr_HV1toHV2 "W"
+	PwrSupplyIn.Pwr_HV1toHV2_max "W"
+	PwrSupplyIn.Pwr_HV1toLV "W"
+	PwrSupplyIn.Pwr_HV1toLV_max "W"
+	PwrSupplyIn.Pwr_HV2 "W"
+	PwrSupplyIn.Pwr_LV "W"
+	PwrSupplyIn.Voltage_HV1 "V"
+	PwrSupplyIn.Voltage_HV2 "V"
+	PwrSupplyIn.Voltage_LV "V"
+	SST ""
+	SelectorCtrl ""
+	TCU_Status ""
+	UserSignal.s0 ""
+	UserSignal.s1 ""
+	UserSignal.s2 ""
+	UserSignal.s3 ""
+	UserSignal.s4 ""
+	Velocity "m/s"
+	WheelIn.FL.Trq_BrakeReg_trg "Nm"
+	WheelIn.FR.Trq_BrakeReg_trg "Nm"
+	WheelIn.RL.Trq_BrakeReg_trg "Nm"
+	WheelIn.RR.Trq_BrakeReg_trg "Nm"
+
+Modelclass.PTControl.ToCM:
+	ClutchOut.Pos ""
+	ClutchOut.Trq_out_trg "Nm"
+	ClutchOut.rotv_out_trg "rad/s"
+	EngineOut.FuelCutOff ""
+	EngineOut.Load ""
+	EngineOut.Trq_trg "Nm"
+	EngineOut.rotv_trg "rad/s"
+	EngineOut.set_ISC ""
+	GearBoxM_Out.GB_m0.Clutch.Pos ""
+	GearBoxM_Out.GB_m0.Clutch.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m0.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m0.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m0.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m0.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m0.GearNoTrg ""
+	GearBoxM_Out.GB_m0.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m0.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m0.i_trg ""
+	GearBoxM_Out.GB_m0.rotv_in_trg "rad/s"
+	GearBoxM_Out.GB_m0.set_ParkBrake ""
+	GearBoxM_Out.GB_m1.Clutch.Pos ""
+	GearBoxM_Out.GB_m1.Clutch.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m1.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m1.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m1.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m1.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m1.GearNoTrg ""
+	GearBoxM_Out.GB_m1.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m1.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m1.i_trg ""
+	GearBoxM_Out.GB_m1.rotv_in_trg "rad/s"
+	GearBoxM_Out.GB_m1.set_ParkBrake ""
+	GearBoxM_Out.GB_m2.Clutch.Pos ""
+	GearBoxM_Out.GB_m2.Clutch.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m2.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m2.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m2.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m2.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m2.GearNoTrg ""
+	GearBoxM_Out.GB_m2.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m2.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m2.i_trg ""
+	GearBoxM_Out.GB_m2.rotv_in_trg "rad/s"
+	GearBoxM_Out.GB_m2.set_ParkBrake ""
+	GearBoxM_Out.GB_m3.Clutch.Pos ""
+	GearBoxM_Out.GB_m3.Clutch.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m3.Clutch.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m3.Clutch_dis.Pos ""
+	GearBoxM_Out.GB_m3.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m3.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxM_Out.GB_m3.GearNoTrg ""
+	GearBoxM_Out.GB_m3.GearNoTrg_dis ""
+	GearBoxM_Out.GB_m3.Trq_out_trg "Nm"
+	GearBoxM_Out.GB_m3.i_trg ""
+	GearBoxM_Out.GB_m3.rotv_in_trg "rad/s"
+	GearBoxM_Out.GB_m3.set_ParkBrake ""
+	GearBoxOut.Clutch.Pos ""
+	GearBoxOut.Clutch.Trq_out_trg "Nm"
+	GearBoxOut.Clutch.rotv_out_trg "rad/s"
+	GearBoxOut.Clutch_dis.Pos ""
+	GearBoxOut.Clutch_dis.Trq_out_trg "Nm"
+	GearBoxOut.Clutch_dis.rotv_out_trg "rad/s"
+	GearBoxOut.GearNoTrg ""
+	GearBoxOut.GearNoTrg_dis ""
+	GearBoxOut.Trq_out_trg "Nm"
+	GearBoxOut.i_trg ""
+	GearBoxOut.rotv_in_trg "rad/s"
+	GearBoxOut.set_ParkBrake ""
+	ISGOut.Load ""
+	ISGOut.Trq_trg "Nm"
+	ISGOut.rotv_trg "rad/s"
+	Ignition ""
+	MotorOut.m0.Load ""
+	MotorOut.m0.Trq_trg "Nm"
+	MotorOut.m0.rotv_trg "rad/s"
+	MotorOut.m1.Load ""
+	MotorOut.m1.Trq_trg "Nm"
+	MotorOut.m1.rotv_trg "rad/s"
+	MotorOut.m2.Load ""
+	MotorOut.m2.Trq_trg "Nm"
+	MotorOut.m2.rotv_trg "rad/s"
+	MotorOut.m3.Load ""
+	MotorOut.m3.Trq_trg "Nm"
+	MotorOut.m3.rotv_trg "rad/s"
+	OperationError ""
+	OperationState ""
+	PwrSupplyOut.Pwr_HV1toLV_trg "W"
+	StrategyMode ""
+	WheelOut.FL.Trq_BrakeReg "Nm"
+	WheelOut.FL.Trq_BrakeReg_max "Nm"
+	WheelOut.FR.Trq_BrakeReg "Nm"
+	WheelOut.FR.Trq_BrakeReg_max "Nm"
+	WheelOut.RL.Trq_BrakeReg "Nm"
+	WheelOut.RL.Trq_BrakeReg_max "Nm"
+	WheelOut.RR.Trq_BrakeReg "Nm"
+	WheelOut.RR.Trq_BrakeReg_max "Nm"
+
+Modelclass.PTControl.Param.0.Name = PowerTrain.Control.StartEngineWithSST
+Modelclass.PTControl.Param.0.Kind = string
+Modelclass.PTControl.Param.0.Doc:
+	Control element for switching operation states:
+	1 = switch operation states with start button
+	0 = switch operation states with key only
+	Default is 0
+
+Modelclass.PTControl.Param.1.Name = PowerTrain.Control.Velocity_max
+Modelclass.PTControl.Param.1.Kind = string
+Modelclass.PTControl.Param.1.Doc:
+	Specifies the vehicle maximum possible velocity
+	for instruments.
+	Default is 260km/h
+
+Modelclass.PTControlOSM.FromCM:
+	Brake ""
+	CfgIF.Func_used.OSMFunc_Absent ""
+	CfgIF.Func_used.OSMFunc_Drive ""
+	CfgIF.Func_used.OSMFunc_None ""
+	CfgIF.Func_used.OSMFunc_PowerAcc ""
+	CfgIF.Func_used.OSMFunc_PowerOff ""
+	CfgIF.Func_used.OSMFunc_PowerOn ""
+	CfgIF.Func_used.OSMFunc_SkipStart ""
+	CfgIF.Func_used.OSMFunc_Start ""
+	CfgIF.GBKind ""
+	CfgIF.StartEngineWithSST ""
+	Clutch ""
+	FuncReturn ""
+	Gas ""
+	GearNoTrg ""
+	Key ""
+	SST ""
+	SelectorCtrl ""
+	UserSignal.s0 ""
+	UserSignal.s1 ""
+	UserSignal.s2 ""
+	UserSignal.s3 ""
+	UserSignal.s4 ""
+	Velocity "m/s"
+
+Modelclass.PTControlOSM.ToCM:
+	OSMFunc ""
+	OperationError ""
+	OperationState ""
+
+Modelclass.PTGenCoupling.FromCM:
+	CfgIF.CplPos ""
+	CfgIF.CplType ""
+	Trq_Ext2Cage "Nm"
+	drotv_A2B "rad/s"
+
+Modelclass.PTGenCoupling.ToCM:
+	Trq_A2B "Nm"
+
+Modelclass.PTGenCoupling.Param.0.Name = PowerTrain.DL.Cpl.CplType
+Modelclass.PTGenCoupling.Param.0.Kind = string
+Modelclass.PTGenCoupling.Param.0.Doc:
+	Apecifies the coupling type.
+	Following coupling types are supported:
+	Unknown, NotLockable, Lockable, FullyActive
+
+Modelclass.PTBatteryCU.FromCM:
+	BattHV.AOC "Ah"
+	BattHV.Current "A"
+	BattHV.Energy "kWh"
+	BattHV.Pwr_max "W"
+	BattHV.Temp "K"
+	BattLV.AOC "Ah"
+	BattLV.Current "A"
+	BattLV.Energy "kWh"
+	BattLV.Pwr_max "W"
+	BattLV.Temp "K"
+	CfgIF.BattHV.Capacity "Ah"
+	CfgIF.BattHV.SOC_max "%"
+	CfgIF.BattHV.SOC_min "%"
+	CfgIF.BattHV.Voltage "V"
+	CfgIF.BattLV.Capacity "Ah"
+	CfgIF.BattLV.SOC_max "%"
+	CfgIF.BattLV.SOC_min "%"
+	CfgIF.BattLV.Voltage "V"
+	Eta_HV1toHV2 ""
+	Eta_HV1toLV ""
+	Ignition ""
+	Pwr_HV1 "W"
+	Pwr_HV1toHV2 "W"
+	Pwr_HV1toHV2_max "W"
+	Pwr_HV1toLV "W"
+	Pwr_HV1toLV_max "W"
+	Pwr_HV1toLV_trg "W"
+	Pwr_HV2 "W"
+	Pwr_LV "W"
+	Voltage_HV1 "V"
+	Voltage_HV2 "V"
+	Voltage_LV "V"
+
+Modelclass.PTBatteryCU.ToCM:
+	BattHV.AOC "Ah"
+	BattHV.Current "A"
+	BattHV.Energy "kWh"
+	BattHV.Pwr_max "W"
+	BattHV.Temp "K"
+	BattLV.AOC "Ah"
+	BattLV.Current "A"
+	BattLV.Energy "kWh"
+	BattLV.Pwr_max "W"
+	BattLV.Temp "K"
+	Pwr_HV1toLV_trg "W"
+	SOC_HV "%"
+	SOC_LV "%"
+	SOH_HV "%"
+	SOH_LV "%"
+	Status ""
+
+Modelclass.PTBattery.FromCM:
+	CfgIF.Capacity "Ah"
+	CfgIF.SOC_init "%"
+	CfgIF.SOC_max "%"
+	CfgIF.SOC_min "%"
+	CfgIF.Voltage "V"
+	Current "A"
+
+Modelclass.PTBattery.ToCM:
+	AOC "Ah"
+	Energy "kWh"
+	Pwr_max "W"
+	Temp "K"
+	Voltage "V"
+
+Modelclass.PTBattery.Param.0.Name = PowerTrain.PowerSupply.Batt.Capacity
+Modelclass.PTBattery.Param.0.Kind = string
+Modelclass.PTBattery.Param.0.Doc:
+	Total capacity of the voltage battery.
+	Default is 10Ah
+
+Modelclass.PTBattery.Param.1.Name = PowerTrain.PowerSupply.Batt.Voltage_oc
+Modelclass.PTBattery.Param.1.Kind = string
+Modelclass.PTBattery.Param.1.Doc:
+	Battery open circuit (idle) voltage.
+	Default is 12V
+
+Modelclass.PTBattery.Param.2.Name = PowerTrain.PowerSupply.Batt.SOC
+Modelclass.PTBattery.Param.2.Kind = string
+Modelclass.PTBattery.Param.2.Doc:
+	Battery initial state of charge.
+	Default is 70%
+
+Modelclass.PTBattery.Param.3.Name = PowerTrain.PowerSupply.Batt.SOC_min
+Modelclass.PTBattery.Param.3.Kind = string
+Modelclass.PTBattery.Param.3.Doc:
+	Battery minimum admitted state of charge.
+	Battery should no be discharged below this value.
+	Default is 10%
+
+Modelclass.PTBattery.Param.4.Name = PowerTrain.PowerSupply.Batt.SOC_max
+Modelclass.PTBattery.Param.4.Kind = string
+Modelclass.PTBattery.Param.4.Doc:
+	Battery maximum admitted state of charge.
+	Battery should no be charged above this value.
+	Default is 90%
+
+Modelclass.PTBattery.Param.5.Name = PowerTrain.PowerSupply.Batt.0.Bdy.mass
+Modelclass.PTBattery.Param.5.Kind = string
+Modelclass.PTBattery.Param.5.Doc:
+	Specifies the battery body mass.
+
+Modelclass.PTBattery.Param.6.Name = PowerTrain.PowerSupply.Batt.1.Bdy.mass
+Modelclass.PTBattery.Param.6.Kind = string
+Modelclass.PTBattery.Param.6.Doc:
+
+Modelclass.PTBattery.Param.7.Name = PowerTrain.PowerSupply.Batt.0.Bdy.I
+Modelclass.PTBattery.Param.7.Kind = string
+Modelclass.PTBattery.Param.7.Doc:
+	Specifies the battery body inertia tensor.
+
+Modelclass.PTBattery.Param.8.Name = PowerTrain.PowerSupply.Batt.1.Bdy.I
+Modelclass.PTBattery.Param.8.Kind = string
+Modelclass.PTBattery.Param.8.Doc:
+
+Modelclass.PTPowerSupply.FromCM:
+	CfgIF.BattHV.Capacity "Ah"
+	CfgIF.BattHV.SOC_max "%"
+	CfgIF.BattHV.SOC_min "%"
+	CfgIF.BattHV.Voltage "V"
+	CfgIF.BattLV.Capacity "Ah"
+	CfgIF.BattLV.SOC_max "%"
+	CfgIF.BattLV.SOC_min "%"
+	CfgIF.BattLV.Voltage "V"
+	Pwr_HV1 "W"
+	Pwr_HV1toLV_trg "W"
+	Pwr_HV2 "W"
+	Pwr_LV "W"
+
+Modelclass.PTPowerSupply.ToCM:
+	BattHV.AOC "Ah"
+	BattHV.Current "A"
+	BattHV.Energy "kWh"
+	BattHV.Pwr_max "W"
+	BattHV.Temp "K"
+	BattLV.AOC "Ah"
+	BattLV.Current "A"
+	BattLV.Energy "kWh"
+	BattLV.Pwr_max "W"
+	BattLV.Temp "K"
+	Eta_HV1toHV2 ""
+	Eta_HV1toLV ""
+	Pwr_HV1toHV2 "W"
+	Pwr_HV1toHV2_max "W"
+	Pwr_HV1toLV "W"
+	Pwr_HV1toLV_max "W"
+	Voltage_HV1 "V"
+	Voltage_HV2 "V"
+	Voltage_LV "V"
+
+Modelclass.PTPowerSupply.Param.0.Name = PowerTrain.PowerSupply.BattLV.Active
+Modelclass.PTPowerSupply.Param.0.Kind = string
+Modelclass.PTPowerSupply.Param.0.Doc:
+	Specifies if the low and high voltage batteries
+	are implemented.
+	Default is 1
+
+Modelclass.PTPowerSupply.Param.1.Name = PowerTrain.PowerSupply.BattHV.Active
+Modelclass.PTPowerSupply.Param.1.Kind = string
+Modelclass.PTPowerSupply.Param.1.Doc:
+
+Modelclass.PTPowerSupply.Param.2.Name = PowerTrain.PowerSupply.BattLV.Capacity
+Modelclass.PTPowerSupply.Param.2.Kind = string
+Modelclass.PTPowerSupply.Param.2.Doc:
+	Total capacity of the voltage battery.
+	Default is 10Ah
+
+Modelclass.PTPowerSupply.Param.3.Name = PowerTrain.PowerSupply.BattHV.Capacity
+Modelclass.PTPowerSupply.Param.3.Kind = string
+Modelclass.PTPowerSupply.Param.3.Doc:
+
+Modelclass.PTPowerSupply.Param.4.Name = PowerTrain.PowerSupply.BattLV.Voltage_oc
+Modelclass.PTPowerSupply.Param.4.Kind = string
+Modelclass.PTPowerSupply.Param.4.Doc:
+	Battery open circuit (idle) voltage.
+	Default is 12V
+
+Modelclass.PTPowerSupply.Param.5.Name = PowerTrain.PowerSupply.BattHV.Voltage_oc
+Modelclass.PTPowerSupply.Param.5.Kind = string
+Modelclass.PTPowerSupply.Param.5.Doc:
+
+Modelclass.PTPowerSupply.Param.6.Name = PowerTrain.PowerSupply.BattLV.SOC_min
+Modelclass.PTPowerSupply.Param.6.Kind = string
+Modelclass.PTPowerSupply.Param.6.Doc:
+	Battery minimum admitted state of charge.
+	Battery should no be discharged below this value.
+	Default is 10%
+
+Modelclass.PTPowerSupply.Param.7.Name = PowerTrain.PowerSupply.BattHV.SOC_min
+Modelclass.PTPowerSupply.Param.7.Kind = string
+Modelclass.PTPowerSupply.Param.7.Doc:
+
+Modelclass.PTPowerSupply.Param.8.Name = PowerTrain.PowerSupply.BattLV.SOC_max
+Modelclass.PTPowerSupply.Param.8.Kind = string
+Modelclass.PTPowerSupply.Param.8.Doc:
+	Battery maximum admitted state of charge.
+	Battery should no be charged above this value.
+	Default is 90%
+
+Modelclass.PTPowerSupply.Param.9.Name = PowerTrain.PowerSupply.BattHV.SOC_max
+Modelclass.PTPowerSupply.Param.9.Kind = string
+Modelclass.PTPowerSupply.Param.9.Doc:
+
+Modelclass.Steering.FromCM:
+	AssistFrc "N"
+	AssistFrc_Ext "N"
+	AssistTrqCol "Nm"
+	AssistTrqCol_Ext "Nm"
+	AssistTrqPin "Nm"
+	AssistTrqPin_Ext "Nm"
+	CfgIF.Ang "rad"
+	CfgIF.PosSign ""
+	CfgIF.PrefByDriver ""
+	CfgIF.SInputKind ""
+	L.Frc "N"
+	L.Inert "kg"
+	R.Frc "N"
+	R.Inert "kg"
+	SteerBy ""
+	WhlAng "rad"
+	WhlAngAcc "rad/s^2"
+	WhlAngVel "rad/s"
+	WhlTrq "Nm"
+
+Modelclass.Steering.ToCM:
+	AssistFrc "N"
+	AssistTrqCol "Nm"
+	AssistTrqPin "Nm"
+	L.iSteer2q ""
+	L.q "m"
+	L.qp "m/s"
+	L.qpp "m/s^2"
+	R.iSteer2q ""
+	R.q "m"
+	R.qp "m/s"
+	R.qpp "m/s^2"
+	WhlAng "rad"
+	WhlAngAcc "rad/s^2"
+	WhlAngVel "rad/s"
+	WhlTrq "Nm"
+	WhlTrqStatic "Nm"
+
+Modelclass.Steering.Param.0.Name = Steering.SInputKind
+Modelclass.Steering.Param.0.Kind = string
+Modelclass.Steering.Param.0.Doc:
+	Optional. Specifies the supported input kind
+	by the user steering model.
+	Following kinds are supported: Angle, Torque,
+	AngleAndTorque
+
+Modelclass.Steering.Param.1.Name = Steering.PrefByDriver
+Modelclass.Steering.Param.1.Kind = string
+Modelclass.Steering.Param.1.Doc:
+	Optional. Specifies the preferred input kind
+	by the driver model.
+	Following kinds are supported: Angle, Torque
+
+Modelclass.Tire.FromCM:
+	CfgIF.Side ""
+	CfgIF.TireNo ""
+	CfgIF.Twin ""
+	Frc_W.x "N"
+	Frc_W.y "N"
+	Frc_W.z "N"
+	InclinAngle "rad"
+	P_v0_W.x "m/s"
+	P_v0_W.y "m/s"
+	P_v0_W.z "m/s"
+	Rim_rot "rad"
+	Rim_rotv "rad/s"
+	Rim_turnv "rad/s"
+	TireCalcMode ""
+	Trq_W.rx "Nm"
+	Trq_W.ry "Nm"
+	Trq_W.rz "Nm"
+	muRoad ""
+
+Modelclass.Tire.ToCM:
+	Alpha "rad"
+	Frc_W.x "N"
+	Frc_W.y "N"
+	Frc_W.z "N"
+	Slp ""
+	Trq_W.rx "Nm"
+	Trq_W.ry "Nm"
+	Trq_W.rz "Nm"
+	TurnSlp "1/m"
+	rBelt_eff "m"
+	vBelt "m/s"
+
+Modelclass.Tire.Param.0.Name = Tire.ConsidersCalcMode
+Modelclass.Tire.Param.0.Kind = string
+Modelclass.Tire.Param.0.Doc:
+	Determines, whether this model fully considers the tire calc mode
+	input signal. If not, for all calc modes except 6=TireCalcSim the
+	tire model will not be invoked and substitute values are provided.
+	Optional parameter, default is 0 (no)
+
+Modelclass.TireCPMod.FromCM:
+	CP_0.x "m"
+	CP_0.y "m"
+	CP_0.z "m"
+	CP_Vel_0.x "m/s"
+	CP_Vel_0.y "m/s"
+	CP_Vel_0.z "m/s"
+	CfgIF.Side ""
+	CfgIF.TireNo ""
+	CfgIF.Twin ""
+	Fric ""
+	Nev_0.x ""
+	Nev_0.y ""
+	Nev_0.z ""
+	onRoad ""
+
+Modelclass.TireCPMod.ToCM:
+	CP_0.x "m"
+	CP_0.y "m"
+	CP_0.z "m"
+	CP_Vel_0.x "m/s"
+	CP_Vel_0.y "m/s"
+	CP_Vel_0.z "m/s"
+	Fric ""
+	Nev_0.x ""
+	Nev_0.y ""
+	Nev_0.z ""
+	onRoad ""
+
+Modelclass.Aero.FromCM:
+	ApproachVel_1.x "m/s"
+	ApproachVel_1.y "m/s"
+	ApproachVel_1.z "m/s"
+	tau_1 "rad"
+
+Modelclass.Aero.ToCM:
+	Frc_1.x "N"
+	Frc_1.y "N"
+	Frc_1.z "N"
+	PoA_1.x "m"
+	PoA_1.y "m"
+	PoA_1.z "m"
+	Trq_1.x "Nm"
+	Trq_1.y "Nm"
+	Trq_1.z "Nm"
+
+Modelclass.SuspExtFrcs.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	lBuf_FL "m"
+	lBuf_FR "m"
+	lBuf_RL "m"
+	lBuf_RR "m"
+	lDamp_FL "m"
+	lDamp_FR "m"
+	lDamp_RL "m"
+	lDamp_RR "m"
+	lSpring_FL "m"
+	lSpring_FR "m"
+	lSpring_RL "m"
+	lSpring_RR "m"
+	lStabi_FL "m"
+	lStabi_FR "m"
+	lStabi_RL "m"
+	lStabi_RR "m"
+	vBuf_FL "m/s"
+	vBuf_FR "m/s"
+	vBuf_RL "m/s"
+	vBuf_RR "m/s"
+	vDamp_FL "m/s"
+	vDamp_FR "m/s"
+	vDamp_RL "m/s"
+	vDamp_RR "m/s"
+	vSpring_FL "m/s"
+	vSpring_FR "m/s"
+	vSpring_RL "m/s"
+	vSpring_RR "m/s"
+	vStabi_FL "m/s"
+	vStabi_FR "m/s"
+	vStabi_RL "m/s"
+	vStabi_RR "m/s"
+
+Modelclass.SuspExtFrcs.ToCM:
+	FrcBuf_FL "N"
+	FrcBuf_FR "N"
+	FrcBuf_RL "N"
+	FrcBuf_RR "N"
+	FrcDamp_FL "N"
+	FrcDamp_FR "N"
+	FrcDamp_RL "N"
+	FrcDamp_RR "N"
+	FrcSpring_FL "N"
+	FrcSpring_FR "N"
+	FrcSpring_RL "N"
+	FrcSpring_RR "N"
+	FrcStabi_FL "N"
+	FrcStabi_FR "N"
+	FrcStabi_RL "N"
+	FrcStabi_RR "N"
+
+Modelclass.SuspEF_Spring.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	lSpring_FL "m"
+	lSpring_FR "m"
+	lSpring_RL "m"
+	lSpring_RR "m"
+	vSpring_FL "m/s"
+	vSpring_FR "m/s"
+	vSpring_RL "m/s"
+	vSpring_RR "m/s"
+
+Modelclass.SuspEF_Spring.ToCM:
+	FrcSpring_FL "N"
+	FrcSpring_FR "N"
+	FrcSpring_RL "N"
+	FrcSpring_RR "N"
+
+Modelclass.SuspEF_Damper.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	lDamp_FL "m"
+	lDamp_FR "m"
+	lDamp_RL "m"
+	lDamp_RR "m"
+	vDamp_FL "m/s"
+	vDamp_FR "m/s"
+	vDamp_RL "m/s"
+	vDamp_RR "m/s"
+
+Modelclass.SuspEF_Damper.ToCM:
+	FrcDamp_FL "N"
+	FrcDamp_FR "N"
+	FrcDamp_RL "N"
+	FrcDamp_RR "N"
+
+Modelclass.SuspEF_Buffer.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	lBuf_FL "m"
+	lBuf_FR "m"
+	lBuf_RL "m"
+	lBuf_RR "m"
+	vBuf_FL "m/s"
+	vBuf_FR "m/s"
+	vBuf_RL "m/s"
+	vBuf_RR "m/s"
+
+Modelclass.SuspEF_Buffer.ToCM:
+	FrcBuf_FL "N"
+	FrcBuf_FR "N"
+	FrcBuf_RL "N"
+	FrcBuf_RR "N"
+
+Modelclass.SuspEF_Stabi.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	lStabi_FL "m"
+	lStabi_FR "m"
+	lStabi_RL "m"
+	lStabi_RR "m"
+	vStabi_FL "m/s"
+	vStabi_FR "m/s"
+	vStabi_RL "m/s"
+	vStabi_RR "m/s"
+
+Modelclass.SuspEF_Stabi.ToCM:
+	FrcStabi_FL "N"
+	FrcStabi_FR "N"
+	FrcStabi_RL "N"
+	FrcStabi_RR "N"
+
+Modelclass.UserDriver.FromCM:
+	Active ""
+	Brake ""
+	BrakeLever ""
+	BrakePark ""
+	Clutch ""
+	Gas ""
+	GearNo ""
+	Key ""
+	Rider_RollAng "rad"
+	Rider_RollAngVel "rad/s"
+	SST ""
+	SelectorCtrl ""
+
+Modelclass.UserDriver.ToCM:
+	BrakeLever_out ""
+	BrakePark_out ""
+	Brake_out ""
+	Clutch_out ""
+	Gas_out ""
+	GearNo_out ""
+	Key_out ""
+	Rider_RollAngVel_out "rad/s"
+	Rider_RollAng_out "rad"
+	SST_out ""
+	SelectorCtrl_out ""
+
+Modelclass.VehicleControl.FromCM:
+	Brake ""
+	BrakeLever ""
+	BrakePark ""
+	Clutch ""
+	Gas ""
+	GearNo ""
+	Key ""
+	Lights.Brake ""
+	Lights.Daytime ""
+	Lights.FogFrontL ""
+	Lights.FogFrontR ""
+	Lights.FogRear ""
+	Lights.HighBeam ""
+	Lights.IndL ""
+	Lights.IndR ""
+	Lights.LowBeam ""
+	Lights.ParkL ""
+	Lights.ParkR ""
+	Lights.Reverse ""
+	Rider.RollAng "rad"
+	Rider.RollAngVel "rad/s"
+	SST ""
+	SelectorCtrl ""
+	Steering.Ang "rad"
+	Steering.AngAcc "rad/s^2"
+	Steering.AngVel "rad/s"
+	Steering.Trq "Nm"
+	UserSignal_0 ""
+	UserSignal_1 ""
+	UserSignal_2 ""
+	UserSignal_3 ""
+	UserSignal_4 ""
+
+Modelclass.VehicleControl.ToCM:
+	Brake ""
+	BrakeLever ""
+	BrakePark ""
+	Clutch ""
+	Gas ""
+	GearNo ""
+	Key ""
+	Lights.Brake ""
+	Lights.Daytime ""
+	Lights.FogFrontL ""
+	Lights.FogFrontR ""
+	Lights.FogRear ""
+	Lights.HighBeam ""
+	Lights.IndL ""
+	Lights.IndR ""
+	Lights.LowBeam ""
+	Lights.ParkL ""
+	Lights.ParkR ""
+	Lights.Reverse ""
+	Rider.RollAng "rad"
+	Rider.RollAngVel "rad/s"
+	SST ""
+	SelectorCtrl ""
+	Steering.Ang "rad"
+	Steering.AngAcc "rad/s^2"
+	Steering.AngVel "rad/s"
+	Steering.Trq "Nm"
+	UserSignal_0 ""
+	UserSignal_1 ""
+	UserSignal_2 ""
+	UserSignal_3 ""
+	UserSignal_4 ""
+
+Modelclass.VhclOperator.FromCM:
+	Brake ""
+	BrakeLever ""
+	BrakePark ""
+	CfgIF.GearBoxKind ""
+	CfgIF.StartEngineWithSST ""
+	Clutch ""
+	Gas ""
+	GearNo ""
+	Key ""
+	OperationError ""
+	OperationState ""
+	OperationState_trg ""
+	SST ""
+	SelectorCtrl ""
+	Steering.Ang "rad"
+	Steering.AngAcc "rad/s^2"
+	Steering.AngVel "rad/s"
+	Steering.Trq "Nm"
+	UserSignal.s0 ""
+	UserSignal.s1 ""
+	UserSignal.s2 ""
+	UserSignal.s3 ""
+	UserSignal.s4 ""
+	Velocity "m/s"
+
+Modelclass.VhclOperator.ToCM:
+	Brake ""
+	BrakeLever ""
+	BrakePark ""
+	Clutch ""
+	Gas ""
+	GearNo ""
+	Key ""
+	OperatorFinished ""
+	SST ""
+	SelectorCtrl ""
+	Steering.Ang "rad"
+	Steering.AngAcc "rad/s^2"
+	Steering.AngVel "rad/s"
+	Steering.Trq "Nm"
+	UserSignal.s0 ""
+	UserSignal.s1 ""
+	UserSignal.s2 ""
+	UserSignal.s3 ""
+	UserSignal.s4 ""
+
+Modelclass.Brake.FromCM:
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	Park ""
+	Pedal ""
+	T_env "K"
+	Trq_Reg.FL "Nm"
+	Trq_Reg.FR "Nm"
+	Trq_Reg.RL "Nm"
+	Trq_Reg.RR "Nm"
+	Trq_Reg_max.FL "Nm"
+	Trq_Reg_max.FR "Nm"
+	Trq_Reg_max.RL "Nm"
+	Trq_Reg_max.RR "Nm"
+
+Modelclass.Brake.ToCM:
+	Trq_DriveSrc_trg.d0 "Nm"
+	Trq_DriveSrc_trg.d1 "Nm"
+	Trq_DriveSrc_trg.d2 "Nm"
+	Trq_DriveSrc_trg.d3 "Nm"
+	Trq_PB.FL "Nm"
+	Trq_PB.FR "Nm"
+	Trq_PB.RL "Nm"
+	Trq_PB.RR "Nm"
+	Trq_Reg_trg.FL "Nm"
+	Trq_Reg_trg.FR "Nm"
+	Trq_Reg_trg.RL "Nm"
+	Trq_Reg_trg.RR "Nm"
+	Trq_WB.FL "Nm"
+	Trq_WB.FR "Nm"
+	Trq_WB.RL "Nm"
+	Trq_WB.RR "Nm"
+
+Modelclass.HydBrakeSystem.FromCM:
+	BooSignal ""
+	CfgIF.BrakeKind ""
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	Park ""
+	Pedal ""
+	PumpCtrl ""
+	T_env "K"
+	Use_pMCInput ""
+	Valve.FL_Inlet ""
+	Valve.FL_Outlet ""
+	Valve.FR_Inlet ""
+	Valve.FR_Outlet ""
+	Valve.PV_1 ""
+	Valve.PV_2 ""
+	Valve.RL_Inlet ""
+	Valve.RL_Outlet ""
+	Valve.RR_Inlet ""
+	Valve.RR_Outlet ""
+	Valve.SV_1 ""
+	Valve.SV_2 ""
+	Valve.V_1 ""
+	Valve.V_2 ""
+	Valve.V_3 ""
+	Valve.V_4 ""
+	pMC_in "bar"
+
+Modelclass.HydBrakeSystem.ToCM:
+	DiaphTravel "m"
+	PedFrc "N"
+	PedTravel "m"
+	PistTravel "m"
+	PuRetVolt "V"
+	Rel_SW ""
+	Trq_PB.FL "Nm"
+	Trq_PB.FR "Nm"
+	Trq_PB.RL "Nm"
+	Trq_PB.RR "Nm"
+	Trq_WB.FL "Nm"
+	Trq_WB.FR "Nm"
+	Trq_WB.RL "Nm"
+	Trq_WB.RR "Nm"
+	pMC "bar"
+	pWB.FL "bar"
+	pWB.FR "bar"
+	pWB.RL "bar"
+	pWB.RR "bar"
+
+Modelclass.HydBrakeSystem.Param.0.Name = Brake.System.Wheel.0.Trq_stat
+Modelclass.HydBrakeSystem.Param.0.Kind = text
+Modelclass.HydBrakeSystem.Param.0.Doc:
+	One dimensional characteristic mapping for the
+	static brake torque at each wheel (absolute value)
+	depending on the brake pedal position (0...1).
+
+Modelclass.HydBrakeSystem.Param.1.Name = Brake.System.Wheel.1.Trq_stat
+Modelclass.HydBrakeSystem.Param.1.Kind = text
+Modelclass.HydBrakeSystem.Param.1.Doc:
+
+Modelclass.HydBrakeSystem.Param.2.Name = Brake.System.Wheel.2.Trq_stat
+Modelclass.HydBrakeSystem.Param.2.Kind = text
+Modelclass.HydBrakeSystem.Param.2.Doc:
+
+Modelclass.HydBrakeSystem.Param.3.Name = Brake.System.Wheel.3.Trq_stat
+Modelclass.HydBrakeSystem.Param.3.Kind = text
+Modelclass.HydBrakeSystem.Param.3.Doc:
+
+Modelclass.HydBrakeSystem.Param.4.Name = Brake.System.Ped2pMC
+Modelclass.HydBrakeSystem.Param.4.Kind = text
+Modelclass.HydBrakeSystem.Param.4.Doc:
+	One dimensional characteristic mapping for the
+	static master cylinder pressure depending on
+	the brake pedal position (0...1).
+
+Modelclass.HydBrakeControl.FromCM:
+	CfgIF.BrakeKind ""
+	CfgIF.VehicleClassId ""
+	CfgIF.nWheels ""
+	DiaphTravel "m"
+	Park ""
+	PedFrc "N"
+	PedTravel "m"
+	Pedal ""
+	PistTravel "m"
+	PuRetVolt "V"
+	Rel_SW ""
+	T_env "K"
+	Trq_PB.FL "Nm"
+	Trq_PB.FR "Nm"
+	Trq_PB.RL "Nm"
+	Trq_PB.RR "Nm"
+	Trq_Reg.FL "Nm"
+	Trq_Reg.FR "Nm"
+	Trq_Reg.RL "Nm"
+	Trq_Reg.RR "Nm"
+	Trq_Reg_max.FL "Nm"
+	Trq_Reg_max.FR "Nm"
+	Trq_Reg_max.RL "Nm"
+	Trq_Reg_max.RR "Nm"
+	Trq_WB.FL "Nm"
+	Trq_WB.FR "Nm"
+	Trq_WB.RL "Nm"
+	Trq_WB.RR "Nm"
+	pMC "bar"
+	pWB.FL "bar"
+	pWB.FR "bar"
+	pWB.RL "bar"
+	pWB.RR "bar"
+
+Modelclass.HydBrakeControl.ToCM:
+	BooSignal ""
+	Park ""
+	Pedal ""
+	PumpCtrl ""
+	Trq_DriveSrc_trg.d0 "Nm"
+	Trq_DriveSrc_trg.d1 "Nm"
+	Trq_DriveSrc_trg.d2 "Nm"
+	Trq_DriveSrc_trg.d3 "Nm"
+	Trq_Reg_trg.FL "Nm"
+	Trq_Reg_trg.FR "Nm"
+	Trq_Reg_trg.RL "Nm"
+	Trq_Reg_trg.RR "Nm"
+	Valve.FL_Inlet ""
+	Valve.FL_Outlet ""
+	Valve.FR_Inlet ""
+	Valve.FR_Outlet ""
+	Valve.PV_1 ""
+	Valve.PV_2 ""
+	Valve.RL_Inlet ""
+	Valve.RL_Outlet ""
+	Valve.RR_Inlet ""
+	Valve.RR_Outlet ""
+	Valve.SV_1 ""
+	Valve.SV_2 ""
+	Valve.V_1 ""
+	Valve.V_2 ""
+	Valve.V_3 ""
+	Valve.V_4 ""
+
+Modelclass.Generic.Param.0.Name = GenericPlugin.<Modelname>.AbsPlace
+Modelclass.Generic.Param.0.Kind = string
+Modelclass.Generic.Param.0.Doc:
+	Specifies the place of model invocation, a DVA access point.
+	Possible values: IO_In, DM, VC, PTC, IO_Out
+
+Modelclass.Generic.Param.1.Name = GenericPlugin.<Modelname>.LocalPos
+Modelclass.Generic.Param.1.Kind = string
+Modelclass.Generic.Param.1.Doc:
+	Optional. Specifies the position relative to AbsPlace and the
+	order of invocation in case of more than one model at that place.
+	If <=0, the model will be called BEFORE the access point,
+	If >0,  the model will be called AFTER  the access point,
+	Default is 0
+
+Modelclass.Generic.Param.2.Name = GenericPlugin.<Modelname>.Reload
+Modelclass.Generic.Param.2.Kind = string
+Modelclass.Generic.Param.2.Doc:
+	Optional. Specifies if the model is reloaded.
+	Possible values: Always, Skip, Auto
+	Default is Always.
+

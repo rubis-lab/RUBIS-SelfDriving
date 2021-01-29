@@ -1,0 +1,8 @@
+prefix=/home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/devel
+
+Name: carmaker_vds_client
+Description: Description of carmaker_vds_client
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

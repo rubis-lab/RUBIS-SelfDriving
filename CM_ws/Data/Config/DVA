@@ -1,0 +1,12 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = CarMaker-DVA 4.0
+nDialogQu = 10
+Qu.0.Name = PT.Motor.Trq
+Qu.0.Mode = - value
+Qu.0.Count = 1
+Qu.0.Unit = Nm
+Qu.1.Name = Sensor.RadarRSI.RARS00.nDetections
+Qu.1.Mode = - value
+Qu.1.Count = 1
+Qu.1.Unit =
+nQu = 2

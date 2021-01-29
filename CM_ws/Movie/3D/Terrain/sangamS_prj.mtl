@@ -1,0 +1,243 @@
+
+newmtl Terrain_Area_0
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_1
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_2
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_3
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_4
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_5
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_6
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_7
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_8
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_9
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_10
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_11
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_12
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_13
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_14
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_15
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_16
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_17
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_18
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_19
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_20
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_21
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_22
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_23
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_24
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_25
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+
+
+newmtl Terrain_Area_26
+Ka 0.4 0.5 0.3
+Kd 0.50 0.60 0.40
+Ks 0.1 0.1 0.1
+Ns 5
+d 1.0
+MatID dirt-earth
+

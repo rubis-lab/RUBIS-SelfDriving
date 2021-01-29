@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = One way street
+
+Info.en = 328
+
+TexFile = ts328.png
+
+# Traffic Sign Class
+Class = Advisory
+
+# Traffic Sign Shape
+Shape = Rectangular
+
+Sizes = M
+
+Size.M = 0.5 0.6

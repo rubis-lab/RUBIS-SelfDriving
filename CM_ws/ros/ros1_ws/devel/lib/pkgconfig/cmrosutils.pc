@@ -1,0 +1,8 @@
+prefix=/home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/devel
+
+Name: cmrosutils
+Description: Description of cmrosutils
+Version: 0.2.0
+Cflags: -I/home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/devel/include -I/home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/src/cmrosutils/include
+Libs: -L${prefix}/lib 
+Requires: std_msgs message_runtime

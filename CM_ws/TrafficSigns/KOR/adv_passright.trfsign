@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = Pass right
+
+Info.en = 313
+
+TexFile = ts313.png
+
+# Traffic Sign Class
+Class = Advisory
+
+# Traffic Sign Shape
+Shape = Circular
+
+Sizes = M
+
+Size.M = 0.6 0.6

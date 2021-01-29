@@ -1,0 +1,70 @@
+APPLICATION	Car_Generic <insert.your.version.no> #216 (linux64-9.0.2)
+COMPILED	peace@peace-system-product-name 2021-01-27 11:42:00
+ 
+		CMRosIF: Initialization (v0.6.8-CM7.1.2)
+		CMRosIF: Read parameters from 'Data/Config/CMRosIFParameters'
+		CMRosIF: Loaded library 'ros/ros1_ws/devel/lib/libCMNode_ROS1_HelloCM.so'
+		Initialize CarMaker ROS Node
+		  -> Node Version = 00800
+		  -> ROS Version  = 1062922
+		  -> CM Version   = 90002
+		  -> Provide simulation time!
+		    -> Publish '/clock' every 100ms
+		  -> Publish 'hellocm/cm2ext'
+		  -> Publish '/pointcloud/vlp'
+		  -> Publish '/pointcloud/os1'
+		  -> Publish '/gps_out'
+		  -> Publish '/pointcloud/vlp_pc2'
+		  -> Publish '/pointcloud/os1_pc2'
+		  -> Publish '/Lane/Left0'
+		  -> Publish '/Lane/Left1'
+		  -> Publish '/Lane/Right0'
+		  -> Publish '/Lane/Right1'
+		  -> Publish '/imu_out'
+		  -> Publish '/traffic_light'
+		  -> Subscribe 'hellocm/ext2cm'
+		  -> Service Client 'hellocm/init'
+		  -> Create Service 'CMRemote'
+		Initialization of ROS Node finished!
+		  -> Node Name = '/CMNode'
+		  -> Namespace = '/'
+		  -> Advertised Topics (16)
+		    -> /rosout
+		    -> /clock
+		    -> /hellocm/cm2ext
+		    -> /pointcloud/vlp
+		    -> /pointcloud/os1
+		    -> /gps_out
+		    -> /pointcloud/vlp_pc2
+		    -> /pointcloud/os1_pc2
+		    -> /Lane/Left0
+		    -> /Lane/Left1
+		    -> /Lane/Right0
+		    -> /Lane/Right1
+		    -> /imu_out
+		    -> /traffic_light
+		    -> /tf
+		    -> /tf_static
+		  -> Subscribed Topics (1)
+		    -> /hellocm/ext2cm
+		CMRosIF_CMNode_MyFunc: Here is my own function from the CarMaker ROS Node library!
+FIRST_INIT	(internal default used)	2021-01-27 13:51:59
+TIME	0.000
+		FName = (no associated file)
+		errCode = 0
+		CarMaker ROS Node is disabled!
+SIM_END			0s	0m
+IDLE	13:52:00
+SIM_START	unknown	2021-01-27 13:52:10
+TIME	0.008
+		FName = Data/Vehicle/DEEV_Based_AE_EV_SOP_Lidar_AVcontrol
+		errCode = 0
+		CarMaker ROS Node is enabled! Mode=1, SyncMode=0
+		  -> Node Name = /CMNode
+		  -> Publish /clock every 100ms
+ERROR		ROS Service is not ready! Please start external ROS Node providing Service '/hellocm/init'!
+SIM_ABORT	unknown	0s	0m
+TIME	4.567
+SHUTDOWN	CarMaker shutdown initiated
+
+		CMRosIF_CMNode_End: End
