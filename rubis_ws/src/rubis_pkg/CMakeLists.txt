@@ -10,6 +10,7 @@ project(rubis_pkg)
 find_package(catkin REQUIRED COMPONENTS
   autoware_msgs
   geometry_msgs
+  hellocm_msgs
   pcl_ros
   roscpp
   std_msgs
