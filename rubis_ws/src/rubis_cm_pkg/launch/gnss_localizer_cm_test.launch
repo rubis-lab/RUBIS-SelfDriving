@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0 0 0 0 0 0 gps base_link 10"/>
+    <node pkg="rubis_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm"/>
+</launch>

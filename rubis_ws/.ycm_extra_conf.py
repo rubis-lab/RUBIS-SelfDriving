@@ -21,6 +21,12 @@ flags = [
 '-isystem',
 '/home/hypark/git/RUBIS-SelfDriving/rubis_ws/devel/include',
 '-isystem',
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/hellocm_msgs/include',
+'-isystem',
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/robot_localization/include',
+'-isystem',
+'/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/rubis_cm_pkg/include',
+'-isystem',
 '/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/rubis_pkg/include',
 '-isystem',
 '/home/hypark/git/RUBIS-SelfDriving/rubis_ws/src/test_package/include'
