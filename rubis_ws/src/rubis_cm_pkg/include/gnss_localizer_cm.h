@@ -7,6 +7,9 @@
 #include <geographic_msgs/GeoPoint.h>
 #include <angles/angles.h>
 #include <tf/tf.h>
+#include <tf/transform_listener.h>
+#include <tf/transform_broadcaster.h>
+
 
 #define WGS84_A		6378137.0		// major axis
 #define WGS84_B		6356752.31424518	// minor axis
@@ -40,8 +43,6 @@ struct Pose
 ros::Subscriber gps_sub, imu_sub;
 ros::Publisher pose_pub, vel_pub;
 
-tf::TransformBroadcaster br_;
-
 double roll_, pitch_, yaw_;
 
 double current_time_, prev_time_;
@@ -53,3 +54,4 @@ void publishVelocity();
 
 void GPSCallback(const hellocm_msgs::GPS_Out& msg);
 void IMUCallback(const sensor_msgs::Imu& msg);
+void publishTF();
