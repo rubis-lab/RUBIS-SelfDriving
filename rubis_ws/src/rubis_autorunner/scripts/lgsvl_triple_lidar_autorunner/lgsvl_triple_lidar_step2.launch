@@ -89,14 +89,6 @@
     <arg name="reclass_distance_threshold" value="0.01" />  <!-- Distance between points at which re classification will occur (default 0.2 meters)-->
   </include>
 
-  <param name="tf_x" value="$(arg x)" />
-  <param name="tf_y" value="$(arg y)" />
-  <param name="tf_z" value="$(arg z)" />
-  <param name="tf_yaw" value="$(arg yaw)" />
-  <param name="tf_pitch" value="$(arg pitch)" />
-  <param name="tf_roll" value="$(arg roll)" />
-  <param name="localizer" value="velodyne" />
-
   <!-- vel/pose connect -->
   <arg name="topic_twist_stamped" default="/gnss_vel" />
   <arg name="topic_pose_stamped" default="/gnss_pose" />
