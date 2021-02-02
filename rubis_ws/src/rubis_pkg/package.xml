@@ -51,6 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>autoware_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>hellocm_msgs</build_depend>
   <build_depend>nmea_msgs</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>roscpp</build_depend>
@@ -59,6 +60,7 @@
   <build_depend>gnss</build_depend>
   <build_export_depend>autoware_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>hellocm_msgs</build_export_depend>
   <build_export_depend>nmea_msgs</build_export_depend>
   <build_export_depend>pcl_ros</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
@@ -67,6 +69,7 @@
   <build_export_depend>gnss</build_export_depend>
   <exec_depend>autoware_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>hellocm_msgs</exec_depend>
   <exec_depend>nmea_msgs</exec_depend>
   <exec_depend>pcl_ros</exec_depend>
   <exec_depend>roscpp</exec_depend>

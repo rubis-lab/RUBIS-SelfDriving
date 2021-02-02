@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = Slow down
+
+Info.en = 226
+
+TexFile = ts226.png
+
+# Traffic Sign Class
+Class = Regulatory
+
+# Traffic Sign Shape
+Shape = TriangularDown
+
+Sizes = M
+
+Size.M = 0.8 0.69

@@ -1,0 +1,48 @@
+APPLICATION	Car_Generic <insert.your.version.no> #152 (linux64-9.0.2)
+COMPILED	peace@peace-system-product-name 2021-01-22 12:20:17
+ 
+		CMRosIF: Initialization (v0.6.8-CM7.1.2)
+		CMRosIF: Read parameters from 'Data/Config/CMRosIFParameters'
+		CMRosIF: Loaded library 'ros/ros1_ws/devel/lib/libCMNode_ROS1_HelloCM.so'
+		Initialize CarMaker ROS Node
+		  -> Node Version = 00800
+		  -> ROS Version  = 1062922
+		  -> CM Version   = 90002
+		  -> Has param '/use_sim_time' with value '1'
+		  -> Provide simulation time!
+		    -> Publish '/clock' every 100ms
+		  -> Publish 'hellocm/cm2ext'
+		  -> Publish '/pointcloud/vlp'
+		  -> Publish '/pointcloud/os1'
+		  -> Publish '/gps_out'
+		  -> Subscribe 'hellocm/ext2cm'
+		  -> Service Client 'hellocm/init'
+		  -> Create Service 'CMRemote'
+		Initialization of ROS Node finished!
+		  -> Node Name = '/CMNode'
+		  -> Namespace = '/'
+		  -> Advertised Topics (8)
+		    -> /rosout
+		    -> /clock
+		    -> /hellocm/cm2ext
+		    -> /pointcloud/vlp
+		    -> /pointcloud/os1
+		    -> /gps_out
+		    -> /tf
+		    -> /tf_static
+		  -> Subscribed Topics (2)
+		    -> /clock
+		    -> /hellocm/ext2cm
+		CMRosIF_CMNode_MyFunc: Here is my own function from the CarMaker ROS Node library!
+FIRST_INIT	(internal default used)	2021-01-22 12:21:38
+TIME	0.000
+		FName = (no associated file)
+		errCode = 0
+		CarMaker ROS Node is disabled!
+SIM_END			0s	0m
+IDLE	12:21:39
+TIME	29.141
+		Connection to GUI lost, initiate shutdown
+SHUTDOWN	Automatic CarMaker shutdown initiated
+
+		CMRosIF_CMNode_End: End

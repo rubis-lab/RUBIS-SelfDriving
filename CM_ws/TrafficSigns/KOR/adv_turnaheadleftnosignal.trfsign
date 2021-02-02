@@ -1,0 +1,18 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = TrafficSign 1.0
+
+Name.en = Turn ahead left no signal
+
+Info.en = 329
+
+TexFile = ts329.png
+
+# Traffic Sign Class
+Class = Advisory
+
+# Traffic Sign Shape
+Shape = Rectangular
+
+Sizes = M
+
+Size.M = 0.5 0.6

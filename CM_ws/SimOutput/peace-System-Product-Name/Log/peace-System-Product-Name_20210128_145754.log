@@ -1,0 +1,408 @@
+APPLICATION	Car_Generic <insert.your.version.no> #258 (linux64-9.0.2)
+COMPILED	peace@peace-system-product-name 2021-01-28 14:57:41
+ 
+		CMRosIF: Initialization (v0.6.8-CM7.1.2)
+		CMRosIF: Read parameters from 'Data/Config/CMRosIFParameters'
+		CMRosIF: Loaded library 'ros/ros1_ws/devel/lib/libCMNode_ROS1_HelloCM.so'
+		Initialize CarMaker ROS Node
+		  -> Node Version = 00800
+		  -> ROS Version  = 1062922
+		  -> CM Version   = 90002
+		  -> Has param '/use_sim_time' with value '1'
+		  -> Provide simulation time!
+		    -> Publish '/clock' every 100ms
+		  -> Publish 'hellocm/cm2ext'
+		  -> Publish '/pointcloud/vlp'
+		  -> Publish '/pointcloud/vlp_1'
+		  -> Publish '/pointcloud/os1'
+		  -> Publish '/gps_out'
+		  -> Publish '/pointcloud/vlp_pc2'
+		  -> Publish '/pointcloud/os1_pc2'
+		  -> Publish '/Lane/Left0'
+		  -> Publish '/Lane/Left1'
+		  -> Publish '/Lane/Right0'
+		  -> Publish '/Lane/Right1'
+		  -> Publish '/imu_out'
+		  -> Publish '/traffic_light'
+		  -> Subscribe 'hellocm/ext2cm'
+		  -> Service Client 'hellocm/init'
+		  -> Create Service 'CMRemote'
+		Initialization of ROS Node finished!
+		  -> Node Name = '/CMNode'
+		  -> Namespace = '/'
+		  -> Advertised Topics (17)
+		    -> /rosout
+		    -> /clock
+		    -> /hellocm/cm2ext
+		    -> /pointcloud/vlp
+		    -> /pointcloud/vlp_1
+		    -> /pointcloud/os1
+		    -> /gps_out
+		    -> /pointcloud/vlp_pc2
+		    -> /pointcloud/os1_pc2
+		    -> /Lane/Left0
+		    -> /Lane/Left1
+		    -> /Lane/Right0
+		    -> /Lane/Right1
+		    -> /imu_out
+		    -> /traffic_light
+		    -> /tf
+		    -> /tf_static
+		  -> Subscribed Topics (2)
+		    -> /clock
+		    -> /hellocm/ext2cm
+		CMRosIF_CMNode_MyFunc: Here is my own function from the CarMaker ROS Node library!
+FIRST_INIT	(internal default used)	2021-01-28 14:57:55
+TIME	0.000
+		FName = (no associated file)
+		errCode = 0
+		CarMaker ROS Node is disabled!
+SIM_END			0s	0m
+IDLE	14:57:55
+SIM_START	Sample Test	2021-01-28 14:57:58
+TIME	0.012
+		FName = Data/Vehicle/DEEV_Based_AE_EV_SOP_Lidar_rev
+		errCode = 0
+		CarMaker ROS Node is enabled! Mode=1, SyncMode=0
+		  -> Node Name = /CMNode
+		  -> Publish /clock every 100ms
+		  -> Send Service Request
+		  -> Cycle time of external node changed from 15000ms to 10000ms
+		External ROS Node is ready to simulate
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_InG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'CtrlTL000_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inR' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		Traffic Light 'Ped_inG' works only in manual mode. For automatic mode at least two phase times should be non zero
+		
+Lidar module:
+		Amount of LidarRSI sensors: 3
+		Sensor Kind[0]: VLP_16
+		IP: 192.168.0.1
+		Port: 50010
+		BeamFile[0]: Data/Sensor/LidarRSI_VLP_16
+		Sensor Kind[1]: OS1_64
+		IP: 192.168.0.1
+		Port: 50011
+		BeamFile[1]: Data/Sensor/LidarRSI_OS1_64
+		Sensor Kind[2]: VLP_16
+		IP: 192.168.0.1
+		Port: 50012
+		BeamFile[2]: Data/Sensor/LidarRSI_VLP_16_1
+		
+Vehicle control module:
+		Port of UDP_InSocket of Vehicle control: 60001
+		Reverse Gain P/I: 0.500/0.100
+		
+LineSens module:
+		Amount of Line sensors: 1
+		IP: 192.168.0.1
+		Port: 50012
+		Noise: 0.050 [m]
+		
+Traffic Light UDP module:
+		IP: 192.168.0.1
+		Port: 50201
+		Cycle time: 100 [ms]
+		
+TrafficSign Sensor module:
+		Amount of TSign sensors: 1
+		IP: (null)
+		Port: 50041
+		
+Vehicle Info UDP module:
+		IP: 192.168.0.1
+		Port: 50301
+		Vehicle Info Cycle time: 1 [ms]
+		GNSS Cycle time: 100 [ms]
+		Current random seed value = 1611813478
+TIME	0.000
+SIMULATE	Sample Test
+
+ERROR		cycleTime: 100, cycleoffset: 0, cycle: 0
+ERROR		CMNode: Error on DoPrep for Job 'pointcloud/vlp'! rv=ErrInvalid
+SIM_ABORT	Sample Test	0.001s	0m
+TIME	90.889
+		Connection to GUI lost, initiate shutdown
+SHUTDOWN	Automatic CarMaker shutdown initiated
+
+		CMRosIF_CMNode_End: End

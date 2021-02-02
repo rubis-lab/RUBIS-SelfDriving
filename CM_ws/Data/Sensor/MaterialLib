@@ -1,0 +1,215 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = MaterialLib 9
+Description:
+	Material Definitions used by GPUSensor
+	
+Materials.N = 20
+
+Material.1.Name  = asphalt
+Material.1.Radar.Permittivity = 4.4
+Material.1.Radar.Scattering = 20.0
+Material.1.RadarLeg.Permittivity = 4.4
+Material.1.RadarLeg.Scattering = 20.0
+Material.1.USonic.Reflection = 0.95
+Material.1.USonic.Scattering = 18.0
+Material.1.Lidar.ReflectionType = diffuse
+Material.1.Lidar.Reflectance = 0.05 0.05
+
+Material.2.Name  = concrete-and-steel
+Material.2.Radar.Permittivity = 1000000000.0
+Material.2.Radar.Scattering = 0.5
+Material.2.RadarLeg.Permittivity = 1000000000.0
+Material.2.RadarLeg.Scattering = 0.5
+Material.2.USonic.Reflection = 1.0
+Material.2.USonic.Scattering = 0.0
+Material.2.Lidar.ReflectionType = diffuse
+Material.2.Lidar.Reflectance = 0.11 0.11
+
+Material.3.Name  = stone
+Material.3.Radar.Permittivity = 5.0
+Material.3.Radar.Scattering = 5.0
+Material.3.RadarLeg.Permittivity = 5.0
+Material.3.RadarLeg.Scattering = 5.0
+Material.3.USonic.Reflection = 0.9
+Material.3.USonic.Scattering = 0.0
+Material.3.Lidar.ReflectionType = diffuse
+Material.3.Lidar.Reflectance = 0.47 0.47
+
+Material.4.Name  = metal
+Material.4.Radar.Permittivity = 1000000000.0
+Material.4.Radar.Scattering = 0.01
+Material.4.RadarLeg.Permittivity = 1000000000.0
+Material.4.RadarLeg.Scattering = 0.01
+Material.4.USonic.Reflection = 1.0
+Material.4.USonic.Scattering = 0.0
+Material.4.Lidar.ReflectionType = diffuse
+Material.4.Lidar.Reflectance = 0.35 0.65
+
+Material.5.Name  = metal_retroreflective
+Material.5.Radar.Permittivity = 1000000000.0
+Material.5.Radar.Scattering = 0.01
+Material.5.RadarLeg.Permittivity = 1000000000.0
+Material.5.RadarLeg.Scattering = 0.01
+Material.5.USonic.Reflection = 1.0
+Material.5.USonic.Scattering = 0.0
+Material.5.Lidar.ReflectionType = retroreflective
+Material.5.Lidar.Reflectance = 0.35 0.65
+
+Material.6.Name  = metal_scatter
+Material.6.Radar.Permittivity = 1000000000.0
+Material.6.Radar.Scattering = 20.0
+Material.6.RadarLeg.Permittivity = 1000000000.0
+Material.6.RadarLeg.Scattering = 20.0
+Material.6.RadarLeg.Scatter = 1
+Material.6.USonic.Reflection = 1.0
+Material.6.USonic.Scattering = 0.0
+Material.6.Lidar.ReflectionType = specular
+Material.6.Lidar.Reflectance = 0.5 0.8
+
+Material.7.Name  = metal_painted
+Material.7.Radar.Permittivity = 1000000000.0
+Material.7.Radar.Scattering = 0.01
+Material.7.RadarLeg.Permittivity = 1000000000.0
+Material.7.RadarLeg.Scattering = 0.01
+Material.7.USonic.Reflection = 1.0
+Material.7.USonic.Scattering = 0.0
+Material.7.Lidar.ReflectionType = diffuse
+Material.7.Lidar.Reflectance = 0.2 0.7
+
+Material.8.Name  = plastic
+Material.8.Radar.Permittivity = 2.5
+Material.8.Radar.Scattering = 0.5
+Material.8.RadarLeg.Permittivity = 2.5
+Material.8.RadarLeg.Scattering = 0.5
+Material.8.USonic.Reflection = 1.0
+Material.8.USonic.Scattering = 0.0
+Material.8.Lidar.ReflectionType = diffuse
+Material.8.Lidar.Reflectance = 0.15 0.35
+
+Material.9.Name  = plastic_retroreflective
+Material.9.Radar.Permittivity = 2.5
+Material.9.Radar.Scattering = 0.5
+Material.9.RadarLeg.Permittivity = 2.5
+Material.9.RadarLeg.Scattering = 0.5
+Material.9.USonic.Reflection = 1.0
+Material.9.USonic.Scattering = 0.0
+Material.9.Lidar.ReflectionType = retroreflective
+Material.9.Lidar.Reflectance = 0.15 0.35
+
+Material.10.Name  = plastic_scatter
+Material.10.Radar.Permittivity = 2.5
+Material.10.Radar.Scattering = 20.0
+Material.10.RadarLeg.Permittivity = 2.5
+Material.10.RadarLeg.Scattering = 20.0
+Material.10.RadarLeg.Scatter = 1
+Material.10.USonic.Reflection = 1.0
+Material.10.USonic.Scattering = 0.0
+Material.10.Lidar.ReflectionType = transmissive
+Material.10.Lidar.Reflectance = 0.35 0.55
+Material.10.Lidar.CriticalAngle = 42.0
+
+Material.11.Name  = glass
+Material.11.Radar.Permittivity = 8.0
+Material.11.Radar.Scattering = 0.5
+Material.11.RadarLeg.Permittivity = 8.0
+Material.11.RadarLeg.Scattering = 0.5
+Material.11.USonic.Reflection = 1.0
+Material.11.USonic.Scattering = 0.0
+Material.11.Lidar.ReflectionType = transmissive
+Material.11.Lidar.Reflectance = 0.07 0.08
+Material.11.Lidar.CriticalAngle = 38.0
+
+Material.12.Name  = glass_scatter
+Material.12.Radar.Permittivity = 8.0
+Material.12.Radar.Scattering = 20.0
+Material.12.RadarLeg.Permittivity = 8.0
+Material.12.RadarLeg.Scattering = 20.0
+Material.12.RadarLeg.Scatter = 1
+Material.12.USonic.Reflection = 1.0
+Material.12.USonic.Scattering = 0.0
+Material.12.Lidar.ReflectionType = transmissive
+Material.12.Lidar.Reflectance = 0.07 0.08
+Material.12.Lidar.CriticalAngle = 41.0
+
+Material.13.Name  = rubber
+Material.13.Radar.Permittivity = 2.5
+Material.13.Radar.Scattering = 0.5
+Material.13.RadarLeg.Permittivity = 2.5
+Material.13.RadarLeg.Scattering = 0.5
+Material.13.USonic.Reflection = 0.7
+Material.13.USonic.Scattering = 0.0
+Material.13.Lidar.ReflectionType = diffuse
+Material.13.Lidar.Reflectance = 0.02 0.08
+
+Material.14.Name  = water
+Material.14.Radar.Permittivity = 17.0
+Material.14.Radar.Scattering = 0.5
+Material.14.RadarLeg.Permittivity = 17.0
+Material.14.RadarLeg.Scattering = 0.5
+Material.14.USonic.Reflection = 0.7
+Material.14.USonic.Scattering = 0.0
+Material.14.Lidar.ReflectionType = transmissive
+Material.14.Lidar.Reflectance = 0.03 0.03
+Material.14.Lidar.CriticalAngle = 48.0
+
+Material.15.Name = skin-hair
+Material.15.Radar.Permittivity = 4.0
+Material.15.Radar.Scattering = 0.5
+Material.15.RadarLeg.Permittivity = 4.0
+Material.15.RadarLeg.Scattering = 0.5
+Material.15.USonic.Reflection = 0.3
+Material.15.USonic.Scattering = 0.0
+Material.15.Lidar.ReflectionType = diffuse
+Material.15.Lidar.Reflectance = 0.3 0.3
+
+Material.16.Name = textile
+Material.16.Radar.Permittivity = 3.0
+Material.16.Radar.Scattering = 0.5
+Material.16.RadarLeg.Permittivity = 3.0
+Material.16.RadarLeg.Scattering = 0.5
+Material.16.USonic.Reflection = 0.4
+Material.16.USonic.Scattering = 0.0
+Material.16.Lidar.ReflectionType = diffuse
+Material.16.Lidar.Reflectance = 0.04 0.06
+
+Material.17.Name = wood
+Material.17.Radar.Permittivity = 2.5
+Material.17.Radar.Scattering = 0.5
+Material.17.RadarLeg.Permittivity = 2.5
+Material.17.RadarLeg.Scattering = 0.5
+Material.17.USonic.Reflection = 0.6
+Material.17.USonic.Scattering = 0.0
+Material.17.Lidar.ReflectionType = diffuse
+Material.17.Lidar.Reflectance = 0.6 0.8
+
+Material.18.Name = grass-leaf
+Material.18.Radar.Permittivity = 3.0
+Material.18.Radar.Scattering = 0.5
+Material.18.RadarLeg.Permittivity = 3.0
+Material.18.RadarLeg.Scattering = 0.5
+Material.18.USonic.Reflection = 0.6
+Material.18.USonic.Scattering = 0.0
+Material.18.Lidar.ReflectionType = diffuse
+Material.18.Lidar.Reflectance = 0.3 0.5
+
+Material.19.Name = road_paint
+Material.19.Radar.Permittivity = 4.4
+Material.19.Radar.Scattering = 0.5
+Material.19.RadarLeg.Permittivity = 4.4
+Material.19.RadarLeg.Scattering = 0.5
+Material.19.USonic.Reflection = 1.0
+Material.19.USonic.Scattering = 0.0
+Material.19.Lidar.ReflectionType = retroreflective
+Material.19.Lidar.Reflectance = 0.85 0.95
+
+Material.20.Name = dirt-earth
+Material.20.Radar.Permittivity = 3.0
+Material.20.Radar.Scattering = 0.5
+Material.20.RadarLeg.Permittivity = 3.0
+Material.20.RadarLeg.Scattering = 0.5
+Material.20.USonic.Reflection = 1.0
+Material.20.USonic.Scattering = 0.0
+Material.20.Lidar.ReflectionType = diffuse
+Material.20.Lidar.Reflectance = 0.02 0.02
+
+
