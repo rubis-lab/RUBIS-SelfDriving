@@ -121,7 +121,7 @@
     <arg name="PedestrianImageDetectionRange" default="0.75" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
     <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
     <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
-    <arg name="SprintDecisionTime" default="5.0" /> <!-- Seconds -->
+    <arg name="SprintDecisionTime" default="8.0" /> <!-- Seconds -->
 
     <arg name="intersectionFile"                default="crossing_test/crossing_intersection.yaml" />
   </include>
@@ -129,7 +129,7 @@
   <!-- op_behavior_selector -->
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
-    <arg name="distanceToPedestrianThreshold"   default="25.0" />
+    <arg name="distanceToPedestrianThreshold"   default="20.0" />
     <arg name="sprintSpeed"                    default="13.5" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
