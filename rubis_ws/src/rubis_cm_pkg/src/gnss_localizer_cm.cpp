@@ -18,6 +18,7 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     cur_pose_data_.yaw = yaw_;
 
     publishVelocity();
+    publishTF();
 
     prev_pose_data_.x = cur_pose_data_.x;
     prev_pose_data_.y = cur_pose_data_.y;
@@ -89,6 +90,16 @@ void LLH2UTM(double Lat, double Long, double H){
     //10000000 meter offset for southern hemisphere
     cur_pose_.pose.position.x += 10000000.0;
     }
+}
+
+void publishTF()
+{
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(cur_pose_.pose.position.x, cur_pose_.pose.position.y, cur_pose_.pose.position.z));
+  tf::Quaternion quaternion;
+  quaternion.setRPY(roll_, pitch_, yaw_);
+  transform.setRotation(quaternion);
+  br_.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, GPS_FRAME_));
 }
 
 void publishVelocity(){

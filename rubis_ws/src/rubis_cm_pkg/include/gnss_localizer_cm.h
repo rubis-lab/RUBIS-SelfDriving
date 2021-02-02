@@ -25,6 +25,7 @@
 #define UTM_EP2		(UTM_E2/(1-UTM_E2))	// e'^2
 
 #define MAP_FRAME_ "map"
+#define GPS_FRAME_ "gps"
 
 struct Pose
 {
@@ -38,6 +39,8 @@ struct Pose
 
 ros::Subscriber gps_sub, imu_sub;
 ros::Publisher pose_pub, vel_pub;
+
+tf::TransformBroadcaster br_;
 
 double roll_, pitch_, yaw_;
 
