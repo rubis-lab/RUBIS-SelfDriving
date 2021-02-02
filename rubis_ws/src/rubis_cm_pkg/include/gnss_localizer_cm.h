@@ -1,41 +1,31 @@
-/*
- * Copyright 2015-2019 Autoware Foundation. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-#ifndef NMEA2TFPOSE_CORE_H
-#define NMEA2TFPOSE_CORE_H
-
-// C++ includes
-#include <string>
-#include <memory>
-
-// ROS includes
 #include <ros/ros.h>
-#include <geometry_msgs/PoseStamped.h>
-#include <nmea_msgs/Sentence.h>
-#include <tf/transform_broadcaster.h>
-#include <sensor_msgs/Imu.h>
-#include <gnss/geo_pos_conv.hpp> 
-#include <geometry_msgs/TwistStamped.h>
-#include <tf/tf.h>
-#include <tf/transform_listener.h>
-
+#include <ros/time.h>
 #include <hellocm_msgs/GPS_Out.h>
+#include <sensor_msgs/Imu.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/TwistStamped.h>
+#include <geographic_msgs/GeoPoint.h>
+#include <angles/angles.h>
+#include <tf/tf.h>
 
-namespace gnss_localizer
-{
+#define WGS84_A		6378137.0		// major axis
+#define WGS84_B		6356752.31424518	// minor axis
+#define WGS84_F		0.0033528107		// ellipsoid flattening
+#define WGS84_E		0.0818191908		// first eccentricity
+#define WGS84_EP	0.0820944379		// second eccentricity
+
+// UTM Parameters
+#define UTM_K0		0.9996			// scale factor
+#define UTM_FE		500000.0		// false easting
+#define UTM_FN_N	0.0           // false northing, northern hemisphere
+#define UTM_FN_S	10000000.0    // false northing, southern hemisphere
+#define UTM_E2		(WGS84_E*WGS84_E)	// e^2
+#define UTM_E4		(UTM_E2*UTM_E2)		// e^4
+#define UTM_E6		(UTM_E4*UTM_E2)		// e^6
+#define UTM_EP2		(UTM_E2/(1-UTM_E2))	// e'^2
+
+#define MAP_FRAME_ "map"
+
 struct Pose
 {
     double x;
@@ -46,73 +36,17 @@ struct Pose
     double yaw;
 };
 
-class Nmea2TFPoseNode
-{
-public:
-  Nmea2TFPoseNode();
-  ~Nmea2TFPoseNode();
+ros::Subscriber gps_sub, imu_sub;
+ros::Publisher pose_pub, vel_pub;
 
-  void run();
+double roll_, pitch_, yaw_;
 
-private:
-  // handle
-  ros::NodeHandle nh_;
-  ros::NodeHandle private_nh_;
+double current_time_, prev_time_;
+geometry_msgs::PoseStamped cur_pose_;
+Pose cur_pose_data_, prev_pose_data_;
 
-  // publisher
-  ros::Publisher pub1_;
-  ros::Publisher vel_pub_;
+void LLH2UTM(double Lat, double Long, double H);
+void publishVelocity();
 
-  // subscriber
-  ros::Subscriber sub1_;
-  ros::Subscriber sub2_;
-
-  // constants
-  const std::string MAP_FRAME_;
-  const std::string GPS_FRAME_;
-
-  // variables
-  int32_t plane_number_;
-  geo_pos_conv geo_;
-  geo_pos_conv last_geo_;
-  double roll_, pitch_, yaw_;
-  double orientation_time_, position_time_, current_time_, prev_time_;
-  ros::Time orientation_stamp_;
-  tf::TransformBroadcaster br_;
-  bool orientation_ready_;  // true if position history is long enough to compute orientation
-  geometry_msgs::TwistStamped gnss_vel_;
-  geometry_msgs::PoseStamped cur_pose_;
-  Pose cur_pose_data_, prev_pose_data_;
-  tf::TransformListener listener_;
-  tf::StampedTransform transform_;
-  hellocm_msgs::GPS_Out cm_gps, cm_gps_global;
-
-  // Added by PHY
-  bool pos_x_init_flag_, pos_y_init_flag_;
-  double prev_x_, prev_y_, prev_z_;
-
-  // callbacks
-  /* CarMaker Callback */
-  void callbackFromNmeaSentence(const hellocm_msgs::GPS_Out &msg);
-  
-  /* Autoware Callback */
-  //void callbackFromNmeaSentence(const nmea_msgs::Sentence::ConstPtr &msg);
-  void callbackFromIMU(const sensor_msgs::Imu& msg);
-
-  // initializer
-  void initForROS();
-  void InitTF();
-
-  // functions
-  void publishPoseStamped();
-  void publishTF();
-  void publishVelocity();
-  void createOrientation();
-  void convert(std::vector<std::string> nmea, ros::Time current_stamp);
-  void TransformPose(const geometry_msgs::PoseStamped &in_pose, geometry_msgs::PoseStamped& out_pose, const tf::StampedTransform &in_transform);
-};
-
-std::vector<std::string> split(const std::string &string);
-
-}  // namespace gnss_localizer
-#endif  // NMEA2TFPOSE_CORE_H
+void GPSCallback(const hellocm_msgs::GPS_Out& msg);
+void IMUCallback(const sensor_msgs::Imu& msg);
