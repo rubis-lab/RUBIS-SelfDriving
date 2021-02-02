@@ -94,12 +94,13 @@ void LLH2UTM(double Lat, double Long, double H){
 
 void publishTF()
 {
+  static tf::TransformBroadcaster br;
   tf::Transform transform;
-  transform.setOrigin(tf::Vector3(cur_pose_.pose.position.x, cur_pose_.pose.position.y, cur_pose_.pose.position.z));
+  transform.setOrigin(tf::Vector3(cur_pose_.pose.position.x-0.9, cur_pose_.pose.position.y, cur_pose_.pose.position.z-1.5));
   tf::Quaternion quaternion;
   quaternion.setRPY(roll_, pitch_, yaw_);
   transform.setRotation(quaternion);
-  br_.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, GPS_FRAME_));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, "base_link"));
 }
 
 void publishVelocity(){
@@ -143,6 +144,7 @@ void publishVelocity(){
 int main(int argc, char** argv){
     ros::init(argc, argv, "gnss_cm_localizer");
     ros::NodeHandle nh;
+    
 
     gps_sub = nh.subscribe("/gps_out", 100, GPSCallback);
     imu_sub = nh.subscribe("/imu_out", 100, IMUCallback);
