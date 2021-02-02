@@ -11,7 +11,7 @@ static int seq;
 void cb(const hellocm_msgs::GPS_Out& msg){
     sensor_msgs::NavSatStatus status;    
     status.status = -1;
-    status.service = 1;
+    status.service = 2;
 
     sensor_msgs::NavSatFix out;
     out.header.stamp = ros::Time::now();
