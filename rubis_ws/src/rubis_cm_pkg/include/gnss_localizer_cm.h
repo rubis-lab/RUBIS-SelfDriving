@@ -9,6 +9,7 @@
 #include <tf/tf.h>
 #include <tf/transform_listener.h>
 #include <tf/transform_broadcaster.h>
+#include <nav_msgs/Odometry.h>
 
 
 #define WGS84_A		6378137.0		// major axis
@@ -41,13 +42,15 @@ struct Pose
 };
 
 ros::Subscriber gps_sub, imu_sub;
-ros::Publisher pose_pub, vel_pub;
+ros::Publisher pose_pub, odom_pub, vel_pub;
 
 double roll_, pitch_, yaw_;
 
 double current_time_, prev_time_;
 geometry_msgs::PoseStamped cur_pose_;
 Pose cur_pose_data_, prev_pose_data_;
+
+bool publish_tf_;
 
 void LLH2UTM(double Lat, double Long, double H);
 void publishVelocity();

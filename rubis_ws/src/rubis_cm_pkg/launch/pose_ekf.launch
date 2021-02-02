@@ -1,0 +1,23 @@
+<launch>
+
+  <!-- <param name="use_sim_time" value="true" /> -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/>
+
+  <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
+  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" output="screen">
+    <param name="publish_tf" value="true"/>
+  </node>
+  
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf" output="screen">
+    <param name="output_frame" value="map"/>
+    <param name="freq" value="30.0"/>
+    <param name="debug" value="false"/>
+    <param name="sensor_timeout" value="1.0"/>  
+    <param name="odom_used" value="false"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="gps_used" value="true"/>
+  </node>
+    
+</launch>

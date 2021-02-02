@@ -10,6 +10,17 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     LLH2UTM(msg.latitude, msg.longitude, msg.altitude);
     pose_pub.publish(cur_pose_);
 
+    nav_msgs::Odometry gps_odom_msg;
+    gps_odom_msg.header = cur_pose_.header;
+    gps_odom_msg.pose.pose = cur_pose_.pose;
+    gps_odom_msg.pose.covariance = {1, 0, 0, 0, 0, 0,
+                                    0, 1, 0, 0, 0, 0,
+                                    0, 0, 1, 0, 0, 0,
+                                    0, 0, 0, 1, 0, 0,
+                                    0, 0, 0, 0, 1, 0,
+                                    0, 0, 0, 0, 0, 1};
+    odom_pub.publish(gps_odom_msg);
+
     cur_pose_data_.x = cur_pose_.pose.position.x;
     cur_pose_data_.y = cur_pose_.pose.position.y;
     cur_pose_data_.z = cur_pose_.pose.position.z;
@@ -17,8 +28,10 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     cur_pose_data_.pitch = pitch_;
     cur_pose_data_.yaw = yaw_;
 
+
     publishVelocity();
-    publishTF();
+    if(publish_tf_)
+        publishTF();
 
     prev_pose_data_.x = cur_pose_data_.x;
     prev_pose_data_.y = cur_pose_data_.y;
@@ -31,7 +44,7 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
 void IMUCallback(const sensor_msgs::Imu& msg){
     roll_ = msg.orientation.x;
     pitch_ = msg.orientation.y;
-    yaw_ = msg.orientation.z;
+    yaw_ = msg.orientation.z * -1;
 }
 
 void LLH2UTM(double Lat, double Long, double H){
@@ -85,11 +98,10 @@ void LLH2UTM(double Lat, double Long, double H){
         *(A*A/2+(5-T+9*C+4*C*C)*A*A*A*A/24
         + (61-58*T+T*T+600*C-330*eccPrimeSquared)*A*A*A*A*A*A/720)));
 
-    if(Lat < 0)
-    {
-    //10000000 meter offset for southern hemisphere
-    cur_pose_.pose.position.x += 10000000.0;
-    }
+    // scale down x and y
+    cur_pose_.pose.position.x -= 4161000;
+    cur_pose_.pose.position.y -= 313000;
+
 }
 
 void publishTF()
@@ -151,6 +163,9 @@ int main(int argc, char** argv){
 
     pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 10);
     vel_pub = nh.advertise<geometry_msgs::TwistStamped>("gnss_vel", 10);    
+    odom_pub = nh.advertise<nav_msgs::Odometry>("/gps_odom", 10);
+
+    nh.param<bool>("/gnss_localizer_cm/publish_tf", publish_tf_, true);
 
     while(ros::ok())
         ros::spin();
