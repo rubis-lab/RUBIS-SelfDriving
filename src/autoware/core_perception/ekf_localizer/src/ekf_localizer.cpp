@@ -78,7 +78,7 @@ EKFLocalizer::EKFLocalizer() : nh_(""), pnh_("~"), dim_x_(6 /* x, y, yaw, yaw_bi
   pub_yaw_bias_ = pnh_.advertise<std_msgs::Float64>("estimated_yaw_bias", 1);
   sub_initialpose_ = nh_.subscribe("initialpose", 1, &EKFLocalizer::callbackInitialPose, this);
   sub_pose_with_cov_ = nh_.subscribe("in_pose_with_covariance", 1, &EKFLocalizer::callbackPoseWithCovariance, this);
-  sub_pose_ = nh_.subscribe("in_pose", 1, &EKFLocalizer::callbackPose, this);
+  sub_pose_ = nh_.subscribe("gnss_pose", 1, &EKFLocalizer::callbackPose, this);
   sub_twist_with_cov_ = nh_.subscribe("in_twist_with_covariance", 1, &EKFLocalizer::callbackTwistWithCovariance, this);
   sub_twist_ = nh_.subscribe("in_twist", 1, &EKFLocalizer::callbackTwist, this);
 
@@ -239,6 +239,35 @@ bool EKFLocalizer::getTransformFromTF(std::string parent_frame, std::string chil
 /*
  * callbackInitialPose
  */
+// void EKFLocalizer::callbackInitialPose(const geometry_msgs::PoseWithCovarianceStamped& initialpose)
+// {
+//   geometry_msgs::TransformStamped transform;
+//   if (!getTransformFromTF(pose_frame_id_, initialpose.header.frame_id, transform))
+//   {
+//     ROS_ERROR("[EKF] TF transform failed. parent = %s, child = %s", pose_frame_id_.c_str(),
+//               initialpose.header.frame_id.c_str());
+//   };
+
+//   Eigen::MatrixXd X(dim_x_, 1);
+//   Eigen::MatrixXd P = Eigen::MatrixXd::Zero(dim_x_, dim_x_);
+
+//   X(IDX::X) = initialpose.pose.pose.position.x + transform.transform.translation.x;
+//   X(IDX::Y) = initialpose.pose.pose.position.y + transform.transform.translation.y;
+//   X(IDX::YAW) = tf2::getYaw(initialpose.pose.pose.orientation) + tf2::getYaw(transform.transform.rotation);
+//   X(IDX::YAWB) = 0.0;
+//   X(IDX::VX) = 0.0;
+//   X(IDX::WZ) = 0.0;
+
+//   P(IDX::X, IDX::X) = initialpose.pose.covariance[0];
+//   P(IDX::Y, IDX::Y) = initialpose.pose.covariance[6 + 1];
+//   P(IDX::YAW, IDX::YAW) = initialpose.pose.covariance[6 * 5 + 5];
+//   P(IDX::YAWB, IDX::YAWB) = 0.0001;
+//   P(IDX::VX, IDX::VX) = 0.01;
+//   P(IDX::WZ, IDX::WZ) = 0.01;
+
+//   ekf_.init(X, P, extend_state_step_);
+// };
+
 void EKFLocalizer::callbackInitialPose(const geometry_msgs::PoseWithCovarianceStamped& initialpose)
 {
   geometry_msgs::TransformStamped transform;
@@ -267,6 +296,7 @@ void EKFLocalizer::callbackInitialPose(const geometry_msgs::PoseWithCovarianceSt
 
   ekf_.init(X, P, extend_state_step_);
 };
+
 
 /*
  * callbackPose

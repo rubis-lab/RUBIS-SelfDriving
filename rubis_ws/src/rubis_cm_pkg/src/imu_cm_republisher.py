@@ -14,6 +14,7 @@ def cb(msg):
     
     out = msg
     out.header.stamp = rospy.Time.now()
+    out.header.frame_id = 'imu'
     out.orientation.x = quat[0]
     out.orientation.y = quat[1]
     out.orientation.z = quat[2]
