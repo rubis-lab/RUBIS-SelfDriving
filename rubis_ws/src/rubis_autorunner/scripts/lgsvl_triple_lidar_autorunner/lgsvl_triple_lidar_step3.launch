@@ -4,6 +4,10 @@
     <arg name="plane" value="0" />
   </include>
 
+  <!-- vel/pose connect -->
+  <arg name="topic_twist_stamped" default="/gnss_vel" />
+  <arg name="topic_pose_stamped" default="/gnss_pose" />
+
   <!-- vel_pose_mux -->
   <include file="$(find autoware_connector)/launch/vel_pose_connect.launch">
     <arg name="topic_pose_stamped" value="$(arg topic_pose_stamped)" />
