@@ -872,6 +872,8 @@ void velodyne_callback(const sensor_msgs::PointCloud2ConstPtr& in_sensor_cloud)
 
     pcl::fromROSMsg(*in_sensor_cloud, *current_sensor_cloud_ptr);
 
+    if(current_sensor_cloud_ptr->size() == 0) return;
+
     _velodyne_header = in_sensor_cloud->header;
 
     if (_remove_points_upto > 0.0)
