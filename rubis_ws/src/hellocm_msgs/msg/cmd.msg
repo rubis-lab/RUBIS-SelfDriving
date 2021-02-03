@@ -1,3 +1,0 @@
-float64 linear_velocity
-float64 linear_acceleration
-float64 steering_angle
