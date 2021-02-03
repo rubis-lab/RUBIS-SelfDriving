@@ -16,9 +16,9 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     gps_odom_msg.pose.covariance = {1, 0, 0, 0, 0, 0,
                                     0, 1, 0, 0, 0, 0,
                                     0, 0, 1, 0, 0, 0,
-                                    0, 0, 0, 1, 0, 0,
-                                    0, 0, 0, 0, 1, 0,
-                                    0, 0, 0, 0, 0, 1};
+                                    0, 0, 0, 9999, 0, 0,
+                                    0, 0, 0, 0, 9999, 0,
+                                    0, 0, 0, 0, 0, 9999};
     odom_pub.publish(gps_odom_msg);
 
     cur_pose_data_.x = cur_pose_.pose.position.x;
