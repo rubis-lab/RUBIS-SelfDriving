@@ -282,14 +282,12 @@ void DecisionMaker::InitBehaviorStates()
           if(remain_time < 0) remain_time = 0.0;
         }
 
-        std::cout << distanceToClosestStopLine << std::endl;
-
-        if(distanceToClosestStopLine < m_params.stopLineDetectionDistance){
+        if(distanceToClosestStopLine < m_params.stopLineDetectionDistance && distanceToClosestStopLine > 0){
           bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
           double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
           bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
                         (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
-                        
+
           pValues->currentTrafficLightID = trafficLightID;
           pValues->stoppingDistances.push_back(distanceToClosestStopLine);
         }
@@ -482,7 +480,6 @@ void DecisionMaker::InitBehaviorStates()
 
     double e = target_velocity - CurrStatus.speed;
 
-
     m_pidSprintVelocity.getPID(e);
     m_pidVelocity.getPID(e);
     double desiredVelocity = m_pidIntersectionVelocity.getPID(e);
@@ -527,8 +524,6 @@ void DecisionMaker::InitBehaviorStates()
     m_pidSprintVelocity.getPID(e);
     m_pidVelocity.getPID(e);
     m_pidIntersectionVelocity.getPID(e);
-    
-
 
     if(desiredVelocity < 0.5)
       desiredVelocity = 0;
