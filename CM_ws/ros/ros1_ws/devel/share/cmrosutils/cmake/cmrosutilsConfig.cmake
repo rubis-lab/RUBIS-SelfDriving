@@ -67,14 +67,14 @@ set(cmrosutils_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(cmrosutils_SOURCE_PREFIX /home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/src/cmrosutils)
-  set(cmrosutils_DEVEL_PREFIX /home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel)
+  set(cmrosutils_SOURCE_PREFIX /home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/src/cmrosutils)
+  set(cmrosutils_DEVEL_PREFIX /home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel)
   set(cmrosutils_INSTALL_PREFIX "")
   set(cmrosutils_PREFIX ${cmrosutils_DEVEL_PREFIX})
 else()
   set(cmrosutils_SOURCE_PREFIX "")
   set(cmrosutils_DEVEL_PREFIX "")
-  set(cmrosutils_INSTALL_PREFIX /home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/install)
+  set(cmrosutils_INSTALL_PREFIX /home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/install)
   set(cmrosutils_PREFIX ${cmrosutils_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(cmrosutils_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/include;/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/src/cmrosutils/include " STREQUAL " ")
+if(NOT "/home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel/include;/home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/src/cmrosutils/include " STREQUAL " ")
   set(cmrosutils_INCLUDE_DIRS "")
-  set(_include_dirs "/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/include;/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/src/cmrosutils/include")
+  set(_include_dirs "/home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel/include;/home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/src/cmrosutils/include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -110,7 +110,7 @@ if(NOT "/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/include;/home/akyeast/
         message(FATAL_ERROR "Project 'cmrosutils' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'cmrosutils' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/src/cmrosutils/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'cmrosutils' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/src/cmrosutils/${idir}'.  ${_report}")
     endif()
     _list_append_unique(cmrosutils_INCLUDE_DIRS ${include})
   endforeach()
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/lib;/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/lib;/home/akyeast/Workspace/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/peace/Desktop/hyundai/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel/lib;/home/peace/CarMaker/ros_ws/RUBIS-SelfDriving/CM_ws/ros/ros1_ws/devel/lib;/home/peace/catkin_ws/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
