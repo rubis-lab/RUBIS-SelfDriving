@@ -1,8 +1,0 @@
-prefix=/home/rubis/autoware.ai/CM_ws/ros/ros1_ws/devel
-
-Name: hellocm_cmnode
-Description: Description of hellocm_cmnode
-Version: 0.8.0
-Cflags: 
-Libs: -L${prefix}/lib -lCMNode_ROS1_HelloCM
-Requires: message_runtime cmrosutils hellocm_msgs
