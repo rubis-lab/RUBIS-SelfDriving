@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/peace/CarMaker/ros_ws/RUBIS/ros/ros1_ws/devel/setup.sh
+    local-name: /home/rubis/autoware.ai/CM_ws/ros/ros1_ws/devel/setup.sh
