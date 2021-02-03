@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/rubis/autoware.ai/CM_ws/ros/ros1_ws/devel/setup.sh
+    local-name: /home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel/setup.sh

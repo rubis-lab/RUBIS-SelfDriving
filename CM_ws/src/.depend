@@ -149,7 +149,6 @@ IO.o: IO.c /opt/ipg/carmaker/linux64-9.0.2/include/Global.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/TrafficLight.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/mio.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/can_interface.h \
- /opt/ipg/carmaker/linux64-9.0.2/include/FailSafeTester.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/flex.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/rbs.h \
  /opt/ipg/carmaker/linux64-9.0.2/include/flex_rbs.h \

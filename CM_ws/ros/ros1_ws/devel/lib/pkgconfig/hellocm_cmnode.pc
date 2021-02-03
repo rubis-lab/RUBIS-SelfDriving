@@ -1,4 +1,4 @@
-prefix=/home/rubis/autoware.ai/CM_ws/ros/ros1_ws/devel
+prefix=/home/akyeast/autoware.ai/CM_ws/ros/ros1_ws/devel
 
 Name: hellocm_cmnode
 Description: Description of hellocm_cmnode
