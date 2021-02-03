@@ -6,3 +6,10 @@ autoware.ai.repos
 .vscode
 *.o
 extra_library
+CM_ws/ros/ros1_ws/build
+CM_ws/ros/ros1_ws/devel
+CM_ws/Movie/.road_cache
+CM_ws/Data/TestRun/.tmp*
+CM_ws/Data/Road/.tmp*
+CM_ws/Data/Vehicle/.tmp*
+*.log
