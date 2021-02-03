@@ -2,7 +2,7 @@
   <!-- op_global_planning -->
   <include file="$(find op_global_planner)/launch/op_global_planner.launch">
     <arg name="pathDensity"           value="1" /> <!-- distance between each two waypoints-->
-    <arg name="enableSmoothing"       value="false" /> <!-- 1 or 0 -->
+    <arg name="enableSmoothing"       value="true" /> <!-- 1 or 0 -->
     <arg name="enableLaneChange"      value="false" /> <!-- 1 or 0 -->
     <arg name="enableRvizInput"       value="true" /> <!-- 1 or 0 -->
     <arg name="enableReplan"          value="false" /> <!-- 1 or 0 -->  

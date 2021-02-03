@@ -10,7 +10,8 @@
 #include <autoware_msgs/Lane.h>
 #include <visualization_msgs/MarkerArray.h>
 
-#define TOTAL_STEP_NUM 3 // Need to change when total step number is changed
+#define TOTAL_STEP_NUM 9 // Need to change when total step number is changed
+#define SLEEP_PERIOD 1
 
 class LGSVLTripleLiDARAutorunner : public AutorunnerBase{
 private:    
@@ -19,10 +20,11 @@ private:
 private:
     virtual void register_subscribers();
 private:
-    void points_raw_l_republished_cb(const sensor_msgs::PointCloud2& msg);
+    void points_no_ground_left_cb(const sensor_msgs::PointCloud2& msg);
     void nmea_sentence_cb(const nmea_msgs::Sentence& msg);
     void current_pose_cb(const geometry_msgs::PoseStamped& msg);
     void detection_objects_cb(const autoware_msgs::DetectedObjectArray& msg);
+    void detection_objects_from_tracker_cb(const autoware_msgs::DetectedObjectArray& msg);
     void lane_waypoints_array_cb(const autoware_msgs::LaneArray& msg);
     void local_traj_cost_cb(const autoware_msgs::Lane& msg);
     void behavior_state_cb(const visualization_msgs::MarkerArray& msg);
