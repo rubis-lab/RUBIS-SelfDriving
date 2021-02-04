@@ -81,7 +81,10 @@ void PCDClipper::points_cb(const sensor_msgs::PointCloud2& msg){
     sensor_msgs::PointCloud2 localization_out;
     sensor_msgs::PointCloud2 clipped_out;
 
-    pcl::fromROSMsg(msg, *pcl_points);
+    sensor_msgs::PointCloud2 msg_with_intensity = msg;
+    msg_with_intensity.fields.at(3).datatype = 7;
+
+    pcl::fromROSMsg(msg_with_intensity, *pcl_points);
 
     for(int i=0; i<(*pcl_points).size(); i++){
         if(enableLocalize && isInside(pcl_points->points[i].x, pcl_points->points[i].y, localization_center_angle, localization_viewing_angle)){

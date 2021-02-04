@@ -20,3 +20,4 @@ CM_ws/bin/*
 !CM_ws/lib/win64/*
 !CM_ws/lib/linux64/*
 
+*.pyc
