@@ -15,10 +15,11 @@ endif()
 ###   CarMaker specific   ###
 # - Definitions see <CMInstir>/include/<Makedefs,Makedefs64>
 
+set(IPGHOME /opt/ipg)
 set(CARMAKER_VER 9.0.2)
 set(CARMAKER_NUMVER 90002)
 
-set(CARMAKER_DIR $ENV{IPGHOME}/carmaker/linux64-${CARMAKER_VER})
+set(CARMAKER_DIR ${IPGHOME}/carmaker/linux64-${CARMAKER_VER})
 set(CARMAKER_INC_DIR ${CARMAKER_DIR}/include)
 set(CMAKE_POSITION_INDEPENDENT_CODE_ON)
 
