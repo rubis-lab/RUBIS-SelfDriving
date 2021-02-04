@@ -94,6 +94,7 @@ int Lidar_CycleCount;
 #include <angles/angles.h>
 #include <hellocm_msgs/GPS_Out.h>
 #include <hellocm_msgs/TrafficLight.h>
+#include "geometry_msgs/TwistStamped.h"
 
 #include <hellocm_msgs/Ext2CM_Test.h>      //merged
 #include <hellocm_msgs/CM2Ext_Test.h>      //merged
@@ -191,7 +192,9 @@ static struct {
             tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_1;	
             tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_2;		            
             tRosIF_TpcPub<sensor_msgs::Imu> Imu_Out; /* IMU Topic Pub Initialization */
+            tRosIF_TpcPub<geometry_msgs::TwistStamped> Imu_Vel;
 			tRosIF_TpcPub<hellocm_msgs::GPS_Out> GPS_Out;
+            tRosIF_TpcPub<hellocm_msgs::GPS_Out> GPS_Out_Noise;
             tRosIF_TpcPub<hellocm_msgs::TrafficLight> TrafficLight;
 			tRosIF_TpcPub<nav_msgs::Path> LeftLane[2];
 			tRosIF_TpcPub<nav_msgs::Path> RightLane[2];
@@ -597,6 +600,12 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.GPS_Out.Pub           = node->advertise<hellocm_msgs::GPS_Out>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
 	CMNode.Topics.Pub.GPS_Out.Job           = CMCRJob_Create("gps_out");    
+
+     /* GPS Sensor ROS Topic */
+    strcpy(sbuf, "/gps_out_noise");
+    LOG("  -> Publish '%s'", sbuf);
+    CMNode.Topics.Pub.GPS_Out_Noise.Pub           = node->advertise<hellocm_msgs::GPS_Out>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
+	CMNode.Topics.Pub.GPS_Out_Noise.Job           = CMCRJob_Create("gps_out_noise");    
 	
 
     /* Lane Sensor ROS Topic */
@@ -628,6 +637,13 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     CMNode.Topics.Pub.Imu_Out.Job                  = CMCRJob_Create("imu_out"); 
     CMNode.Topics.Pub.Imu_Out.CycleTime            = 50;
     CMNode.Topics.Pub.Imu_Out.CycleOffset          = 0;    
+
+    strcpy(sbuf, "/imu_vel");
+    LOG("  -> Publish '%s'", sbuf);
+    CMNode.Topics.Pub.Imu_Vel.Pub                  = node->advertise<geometry_msgs::TwistStamped>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
+    CMNode.Topics.Pub.Imu_Vel.Job                  = CMCRJob_Create("imu_vel"); 
+    CMNode.Topics.Pub.Imu_Vel.CycleTime            = 50;
+    CMNode.Topics.Pub.Imu_Vel.CycleOffset          = 0;    
     
     /*Traffic Light*/
     strcpy(sbuf, "/traffic_light");
@@ -967,9 +983,18 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 		CMNode.Topics.Pub.GPS_Out.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Sensor.GNav.UpdRate", 10));
 		CMNode.Topics.Pub.GPS_Out.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Sensor.GNav.nCycleOffset", 0);
 
+        //GNSS w noise       
+		CMNode.Topics.Pub.GPS_Out_Noise.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Sensor.GNav.UpdRate", 10));
+		CMNode.Topics.Pub.GPS_Out_Noise.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Sensor.GNav.nCycleOffset", 0);
+
+
         //Imu
 		CMNode.Topics.Pub.Imu_Out.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Car.Car.UpdRate", 10));
 		CMNode.Topics.Pub.Imu_Out.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Car.Car.nCycleOffset", 0);
+
+        //Imu
+		CMNode.Topics.Pub.Imu_Vel.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Car.Car.UpdRate", 10));
+		CMNode.Topics.Pub.Imu_Vel.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Car.Car.nCycleOffset", 0);
 
         //Traffic Light
         CMNode.Topics.Pub.TrafficLight.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Car.Car.UpdRate", 10));
@@ -1151,6 +1176,12 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 	cycleoff  = CMNode.Topics.Pub.GPS_Out.CycleOffset;
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
+
+    job       = CMNode.Topics.Pub.GPS_Out_Noise.Job;
+	cycletime = CMNode.Topics.Pub.GPS_Out_Noise.CycleTime;
+	cycleoff  = CMNode.Topics.Pub.GPS_Out_Noise.CycleOffset;
+
+    CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
 	
 	//pointcloud2_example
 	job       = CMNode.Topics.Pub.Lidar_VLP_PC2.Job;
@@ -1214,7 +1245,13 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
      
     job       = CMNode.Topics.Pub.Imu_Out.Job;
     cycletime = CMNode.Topics.Pub.Imu_Out.CycleTime;
-    cycleoff  = CMNode.Topics.Pub.Imu_Out.CycleOffset;
+    cycleoff  = CMNode.Topics.Pub.Imu_Out.CycleOffset;    
+
+    CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
+
+    job       = CMNode.Topics.Pub.Imu_Vel.Job;
+    cycletime = CMNode.Topics.Pub.Imu_Vel.CycleTime;
+    cycleoff  = CMNode.Topics.Pub.Imu_Vel.CycleOffset;    
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
      
@@ -1822,6 +1859,29 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.GPS_Out.Msg.longitude         = GNavSensor.Receiver.UserPosLlhTsa[1] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
 			CMNode.Topics.Pub.GPS_Out.Msg.altitude          = GNavSensor.Receiver.UserPosLlhTsa[2];
 		
+
+		}
+
+        //GPS w noise
+		if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.GPS_Out_Noise.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
+			LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.GPS_Out.CycleTime, CMNode.Topics.Pub.GPS_Out_Noise.CycleOffset, CMNode.CycleNoRel);
+			LogErrF(EC_Sim, "CMNode: Error on DoPrep for Job '%s'! rv=%s", CMCRJob_GetName(CMNode.Topics.Pub.GPS_Out_Noise.Job), CMCRJob_RVStr(rv));
+		} else if (Lidar_CycleCount % (int)CMNode.Topics.Pub.GPS_Out_Noise.CycleTime == 0) {
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.cycleno      = CMNode.CycleNoRel;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.time         = ros::Time(SimCore.Time);
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.synthdelay   = CMNode.Sync.SynthDelay;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.header.frame_id = "gps";
+			ros::WallTime wtime = ros::WallTime::now();
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.header.stamp.sec  = wtime.sec;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.header.stamp.nsec = wtime.nsec;
+			
+			//unsigned int noise_deg = 0;
+            unsigned int noise_deg = 150;
+			double pi = 3.1415926536897932384626433832795028841971;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.latitude          = GNavSensor.Receiver.UserPosLlhTsa[0] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.longitude         = GNavSensor.Receiver.UserPosLlhTsa[1] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
+			CMNode.Topics.Pub.GPS_Out_Noise.Msg.altitude          = GNavSensor.Receiver.UserPosLlhTsa[2];
+		
 		}
 		
 		unsigned int lane_noise = 50;
@@ -2048,7 +2108,7 @@ CMRosIF_CMNode_Calc (double dt)
             double cr = cos(((Car.Roll/180)*pi)*0.5);
             double sr = sin(((Car.Roll/180)*pi)*0.5);////////
 
-            //CMNode.Topics.Pub.Imu_Out.Msg.child_frame_id = "Fr1";
+            CMNode.Topics.Pub.Imu_Out.Msg.header.frame_id = "imu";
             CMNode.Topics.Pub.Imu_Out.Msg.orientation.x = Car.Roll;
             CMNode.Topics.Pub.Imu_Out.Msg.orientation.y = Car.Pitch;
             CMNode.Topics.Pub.Imu_Out.Msg.orientation.z = Car.Yaw;
@@ -2070,6 +2130,33 @@ CMRosIF_CMNode_Calc (double dt)
             CMNode.Topics.Pub.Imu_Out.Msg.linear_acceleration.x = Car.Fr1.a_0[0];
             CMNode.Topics.Pub.Imu_Out.Msg.linear_acceleration.y = Car.Fr1.a_0[1];
             CMNode.Topics.Pub.Imu_Out.Msg.linear_acceleration.z = Car.Fr1.a_0[2];  
+            
+        }
+
+
+        //IMU Sensor
+        
+        if((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Imu_Vel.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
+            LogErrF(EC_Sim, "CMNode: Error on DoPrep for Job '%s'! rv=%s", CMCRJob_GetName(CMNode.Topics.Pub.Imu_Vel.Job), CMCRJob_RVStr(rv));
+        }else {
+            geometry_msgs::PoseStamped lines;
+            //tf::Quaternion rotation;
+            double pi = 3.1415926536897932384626433832795028841971;
+            //CMNode.Topics.Pub.Imu_Out.Msg.header.frame_id = "Fr0";
+            //CMNode.Topics.Pub.Imu_Out.Msg.header.stamp = ros::Time(SimCore.Time);
+
+            
+
+            CMNode.Topics.Pub.Imu_Vel.Msg.header.frame_id = "imu";
+
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.x = sqrt(Car.Fr1.v_0[1]*Car.Fr1.v_0[1] + Car.Fr1.v_0[2]*Car.Fr1.v_0[2]);           
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.y = 0;
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.z = 0;
+
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.x = 0;
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.y = 0;
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.z = Car.YawRate * 0.017453;
+              
             
         }
      
@@ -2307,6 +2394,23 @@ CMRosIF_CMNode_Out (void)
 	/* Remember cycle for debugging */
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
     }
+
+     //GPS
+	auto out_gps_out_noise = &CMNode.Topics.Pub.GPS_Out_Noise;
+	
+    /* Communicate to External ROS Node in this cycle?
+     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
+     */
+    if ((rv = CMCRJob_DoJob(out_gps_out_noise->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
+            && rv != CMCRJob_RV_DoSomething) {
+        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_gps_out_noise->Job), CMCRJob_RVStr(rv));
+    } else if (rv == CMCRJob_RV_DoSomething) {
+	
+	out_gps_out_noise->Pub.publish(out_gps_out_noise->Msg);
+	
+	/* Remember cycle for debugging */
+	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
+    }
 	
 	//Send out Left Lane Detections
     auto out_LeftLane_0 = &CMNode.Topics.Pub.LeftLane[0];
@@ -2375,6 +2479,22 @@ CMRosIF_CMNode_Out (void)
     } else if (rv == CMCRJob_RV_DoSomething) {
 	
 	out_imu_out->Pub.publish(out_imu_out->Msg);
+	
+	/* Remember cycle for debugging */
+	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
+    }
+
+    auto out_imu_vel = &CMNode.Topics.Pub.Imu_Vel;
+	
+    /* Communicate to External ROS Node in this cycle?
+     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
+     */
+    if ((rv = CMCRJob_DoJob(out_imu_vel->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
+            && rv != CMCRJob_RV_DoSomething) {
+        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_imu_vel->Job), CMCRJob_RVStr(rv));
+    } else if (rv == CMCRJob_RV_DoSomething) {
+	
+	out_imu_vel->Pub.publish(out_imu_vel->Msg);
 	
 	/* Remember cycle for debugging */
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
