@@ -110,3 +110,11 @@ Building src
 ## run Carmaker from scratch
     - pubdocs.md
 
+## Change from original CM_Project
+ros/ros1_ws/build.sh
+
+>cmd="source /opt/ros/ros1/setup.bash"; echo $cmd; $cmd
+>cmd="source /opt/ros/melodic/setup.bash"; echo $cmd; $cmd
+
+ros/ros1_ws/src/hellocm_cmnode/CMakeLists.txt
+>set(IPGHOME /opt/ipg)

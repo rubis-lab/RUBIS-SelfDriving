@@ -2,7 +2,7 @@
 
 echo "Run catkin build"
 
-cmd="source /opt/ros/ros1/setup.bash"; echo $cmd; $cmd
+cmd="source /opt/ros/melodic/setup.bash"; echo $cmd; $cmd
 cmd="catkin_make"; echo $cmd; $cmd
 #cmd="catkin_make install"; echo $cmd; $cmd
 

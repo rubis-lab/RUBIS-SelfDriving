@@ -1852,8 +1852,8 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.GPS_Out.Msg.header.stamp.sec  = wtime.sec;
 			CMNode.Topics.Pub.GPS_Out.Msg.header.stamp.nsec = wtime.nsec;
 			
-			// unsigned int noise_deg = 0;
-            unsigned int noise_deg = 150;
+			unsigned int noise_deg = 0;
+            // unsigned int noise_deg = 150;
 			double pi = 3.1415926536897932384626433832795028841971;
 			CMNode.Topics.Pub.GPS_Out.Msg.latitude          = GNavSensor.Receiver.UserPosLlhTsa[0] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
 			CMNode.Topics.Pub.GPS_Out.Msg.longitude         = GNavSensor.Receiver.UserPosLlhTsa[1] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
