@@ -17,4 +17,6 @@ CM_ws/Data/Road/.tmp*
 CM_ws/Data/Vehicle/.tmp*
 *.log
 CM_ws/bin/*
+!CM_ws/lib/win64/*
+!CM_ws/lib/linux64/*
 
