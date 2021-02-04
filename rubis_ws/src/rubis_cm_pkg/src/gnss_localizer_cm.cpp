@@ -12,22 +12,12 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     gps_odom_msg.header.frame_id = "odom";
     gps_odom_msg.child_frame_id = "gps";
     gps_odom_msg.pose.pose = cur_pose_.pose;
-<<<<<<< HEAD
     gps_odom_msg.pose.covariance = {0.958504205, 0, 0, 0, 0, 0,
                                     0, 0.586713415, 0, 0, 0, 0,
                                     0, 0, 0.000000000001, 0, 0, 0,
                                     0, 0, 0, 0.001, 0, 0,
                                     0, 0, 0, 0, 0.001, 0,
                                     0, 0, 0, 0, 0, 0.001};
-    
-=======
-    gps_odom_msg.pose.covariance = {1, 0, 0, 0, 0, 0,
-                                    0, 1, 0, 0, 0, 0,
-                                    0, 0, 1, 0, 0, 0,
-                                    0, 0, 0, 1, 0, 0,
-                                    0, 0, 0, 0, 1, 0,
-                                    0, 0, 0, 0, 0, 1};
->>>>>>> 0e4284ba7acf15e96e0ebf0e8bf74595ec182b62
     odom_pub.publish(gps_odom_msg);
     cur_pose_data_.x = cur_pose_.pose.position.x;
     cur_pose_data_.y = cur_pose_.pose.position.y;
@@ -36,8 +26,8 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     cur_pose_data_.pitch = pitch_;
     cur_pose_data_.yaw = yaw_;
     publishVelocity();
-    if(publish_tf_)
-        publishTF();
+    
+    publishTF();
     prev_pose_data_.x = cur_pose_data_.x;
     prev_pose_data_.y = cur_pose_data_.y;
     prev_pose_data_.z = cur_pose_data_.z;
