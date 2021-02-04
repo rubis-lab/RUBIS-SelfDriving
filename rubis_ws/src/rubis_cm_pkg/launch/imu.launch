@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 world map 10"/> -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/>
+
+  <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" output="screen" />
+    
+</launch>

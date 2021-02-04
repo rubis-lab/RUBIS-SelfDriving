@@ -1,6 +1,6 @@
 #INFOFILE1.1 - Do not remove this line!
-TestRig.StartTime1970Str = 2021-02-03 16:28:16
-TestRig.StartTime1970 = 1612337296
+TestRig.StartTime1970Str = 2021-02-04 19:35:19
+TestRig.StartTime1970 = 1612434919
 CarMaker.Library = linux64 9.0.2 #108
 CarMaker.Compiled = fh@obelix.ipg 2020-08-05 17:14:25
 CarMaker.CompileFlags:
@@ -217,8 +217,8 @@ TrfFollow.Models:
 	HDM                 	v1 (compat. v1)
 	Generic             	v1 (compat. v1)
 Application.Version = Car_Generic <insert.your.version.no>
-Application.BuildVersion = 272
-Application.CompileTime = 2021-02-03 14:33:18
+Application.BuildVersion = 16
+Application.CompileTime = 2021-02-04 16:23:59
 Application.CompileUser = rubis
 Application.CompileSystem = rubis-com
 Application.CompileFlags:
