@@ -13,3 +13,4 @@ CM_ws/Data/TestRun/.tmp*
 CM_ws/Data/Road/.tmp*
 CM_ws/Data/Vehicle/.tmp*
 *.log
+*.pyc
