@@ -9,33 +9,15 @@
     <arg name="velocitySource"        value="1" /> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
     <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
-    <!-- Borregas Avenue -->
-    <!-- <arg name="use_static_goal"       value="true" />
-    <arg name="goal_pose_x"           value="-59.64" />
-    <arg name="goal_pose_y"           value="-153.71" />
+    <!-- Carmaker -->
+    <arg name="use_static_goal"       value="true" />
+    <arg name="goal_pose_x"           value="43.3188" />
+    <arg name="goal_pose_y"           value="-672.585" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
-    <arg name="goal_ori_z"            value="-0.81" />
-    <arg name="goal_ori_w"            value="0.58" /> -->
-    <!-- TestBed Avenue -->
-    <!-- <arg name="use_static_goal"       value="true" />
-    <arg name="goal_pose_x"           value="651.96" />
-    <arg name="goal_pose_y"           value="-610.03" />
-    <arg name="goal_pose_z"           value="0.0" />
-    <arg name="goal_ori_x"            value="0.0" />
-    <arg name="goal_ori_y"            value="0.0" />
-    <arg name="goal_ori_z"            value="0.74" />
-    <arg name="goal_ori_w"            value="0.67" /> -->
-    <!-- TestBed LeftTurn Scenario -->
-    <arg name="use_static_goal"       value="false" />
-    <arg name="goal_pose_x"           value="560.744" />
-    <arg name="goal_pose_y"           value="-1122.939" />
-    <arg name="goal_pose_z"           value="0.0" />
-    <arg name="goal_ori_x"            value="0.0" />
-    <arg name="goal_ori_y"            value="0.0" />
-    <arg name="goal_ori_z"            value="-0.99" />
-    <arg name="goal_ori_w"            value="0.024" />
+    <arg name="goal_ori_z"            value="0.908" />
+    <arg name="goal_ori_w"            value="0.418" />
   </include>
 
   <!-- op_common_params  -->
@@ -44,10 +26,10 @@
     <arg name="horizonDistance"                 default="120"  />     <!-- Horizon -->
     <arg name="maxLocalPlanDistance"            default="80" />       <!-- Plan Distance-->
     <arg name="pathDensity"                     default="0.5" />      <!-- Path Density-->
-    <arg name="rollOutDensity"                  default="5" />      <!-- Horizontal Density -->
-    <arg name="rollOutsNumber"                  default="1"    />     <!-- Rollouts Number -->
-    <arg name="maxVelocity"                     default="10.0" />     <!-- Max Velocity -->
-    <arg name="maxAcceleration"                 default="5.0" />      <!-- Acceleration -->
+    <arg name="rollOutDensity"                  default="5" />        <!-- Rollout Density -->
+    <arg name="rollOutsNumber"                  default="0"    />     <!-- Rollouts Number -->
+    <arg name="maxVelocity"                     default="7.0" />     <!-- Max Velocity -->
+    <arg name="maxAcceleration"                 default="15.0" />      <!-- Acceleration -->
     <arg name="maxDeceleration"                 default="-15.0" />    <!-- Deceleration -->
     <arg name="enableFollowing"                 default="true" />     <!-- Enable Following -->
     <arg name="enableSwerving"                  default="true"  />    <!-- Enable Avoidance -->
@@ -121,7 +103,7 @@
     <arg name="PedestrianImageDetectionRange" default="0.75" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
     <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
     <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
-    <arg name="SprintDecisionTime" default="8.0" /> <!-- Seconds -->
+    <arg name="SprintDecisionTime" default="99999999999999999999.0" /> <!-- Seconds -->
 
     <arg name="intersectionFile"                default="crossing_test/crossing_intersection.yaml" />
   </include>
@@ -130,7 +112,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="20.0" />
-    <arg name="sprintSpeed"                    default="13.5" />
+    <arg name="sprintSpeed"                    default="7.0" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
     <arg name="trafficLightFile"                default="crossing_test/crossing_traffic_light.yaml" />

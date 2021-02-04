@@ -98,6 +98,8 @@ int Lidar_CycleCount;
 
 #include <hellocm_msgs/Ext2CM_Test.h>      //merged
 #include <hellocm_msgs/CM2Ext_Test.h>      //merged
+#include <hellocm_msgs/Ext2CM_Lamp.h>
+#include <hellocm_msgs/Ext2CM_EStop.h>
 
 #include <sensor_msgs/point_cloud_conversion.h> //pointcloud2_example
 #include "sensor_msgs/PointCloud2.h" //pointcloud2_example
@@ -183,6 +185,8 @@ static struct {
         struct {
             tRosIF_TpcSub<hellocm_msgs::Ext2CM> Ext2CM; /* For this example also used for Synchronization */
             tRosIF_TpcSub<hellocm_msgs::Ext2CM_Test> Ext2CM_Test;   //merged
+            tRosIF_TpcSub<hellocm_msgs::Ext2CM_Lamp> Ext2CM_Lamp;   //merged
+            tRosIF_TpcSub<hellocm_msgs::Ext2CM_EStop> Ext2CM_EStop;   //merged
         } Sub; /*!< Topics to be subscribed */
 
         struct {
@@ -305,6 +309,67 @@ cmnode_Ext2CM_Test_TpcIn (const hellocm_msgs::Ext2CM_Test::ConstPtr &msg)       
      * - No lock for spinOnce necessary?
      */
     in->Msg.cmd = msg->cmd;
+
+    /* Stopping simulation is only necessary when synchronization is activated */
+    if (CMNode.Cfg.SyncMode == CMNode_SyncMode_Tpc && (rv = CMCRJob_DoPrep_SetDone(in->Job, CMNode.CycleNoRel)) != CMCRJob_RV_Success) {
+	LogErrF(EC_Sim, "CMNode: Error on DoPrep_SetDone for Job '%s'! rv=%s", CMCRJob_GetName(in->Job), CMCRJob_RVStr(rv));
+    }
+
+    /* Remember cycle for debugging */
+    CMNode.Model.CycleLastIn = CMNode.CycleNoRel;
+
+
+    // LOG("%s (CMSimTime=%.3fs): External Node is in cycle %lu, Time=%.3fs, Stamp=%.3fs, SeqID=%d",
+	//     ros::this_node::getName().c_str(), SimCore.Time,
+	//     in->Msg.cycleno, msg->time.toSec(), in->Msg.header.stamp.toSec(), in->Msg.header.seq);
+
+}
+
+static void
+cmnode_Ext2CM_Lamp_TpcIn (const hellocm_msgs::Ext2CM_Lamp::ConstPtr &msg)       //merged
+{
+    /* Process message only if receive is expected */
+    if (CMNode.Cfg.Mode == CMNode_Mode_Disabled)
+	return;
+    
+    int rv;
+    auto in = &CMNode.Topics.Sub.Ext2CM_Lamp;
+
+    /* Update receive buffer
+     * - No lock for spinOnce necessary?
+     */
+    in->Msg.l = msg->l;
+    in->Msg.r = msg->r;
+
+    /* Stopping simulation is only necessary when synchronization is activated */
+    if (CMNode.Cfg.SyncMode == CMNode_SyncMode_Tpc && (rv = CMCRJob_DoPrep_SetDone(in->Job, CMNode.CycleNoRel)) != CMCRJob_RV_Success) {
+	LogErrF(EC_Sim, "CMNode: Error on DoPrep_SetDone for Job '%s'! rv=%s", CMCRJob_GetName(in->Job), CMCRJob_RVStr(rv));
+    }
+
+    /* Remember cycle for debugging */
+    CMNode.Model.CycleLastIn = CMNode.CycleNoRel;
+
+
+    // LOG("%s (CMSimTime=%.3fs): External Node is in cycle %lu, Time=%.3fs, Stamp=%.3fs, SeqID=%d",
+	//     ros::this_node::getName().c_str(), SimCore.Time,
+	//     in->Msg.cycleno, msg->time.toSec(), in->Msg.header.stamp.toSec(), in->Msg.header.seq);
+
+}
+
+static void
+cmnode_Ext2CM_EStop_TpcIn (const hellocm_msgs::Ext2CM_EStop::ConstPtr &msg)       //merged
+{
+    /* Process message only if receive is expected */
+    if (CMNode.Cfg.Mode == CMNode_Mode_Disabled)
+	return;
+    
+    int rv;
+    auto in = &CMNode.Topics.Sub.Ext2CM_EStop;
+
+    /* Update receive buffer
+     * - No lock for spinOnce necessary?
+     */
+    in->Msg.estop = msg->estop;
 
     /* Stopping simulation is only necessary when synchronization is activated */
     if (CMNode.Cfg.SyncMode == CMNode_SyncMode_Tpc && (rv = CMCRJob_DoPrep_SetDone(in->Job, CMNode.CycleNoRel)) != CMCRJob_RV_Success) {
@@ -667,6 +732,8 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     CMNode.Topics.Sub.Ext2CM.Job         = CMCRJob_Create("Ext2CM_for_Sync");
 
     CMNode.Topics.Sub.Ext2CM_Test.Sub    = node->subscribe("ctrl_cmd", CMNode.Cfg.QueueSub, cmnode_Ext2CM_Test_TpcIn);      //merged
+    CMNode.Topics.Sub.Ext2CM_Lamp.Sub    = node->subscribe("lamp_cmd", CMNode.Cfg.QueueSub, cmnode_Ext2CM_Lamp_TpcIn);      //merged
+    CMNode.Topics.Sub.Ext2CM_EStop.Sub    = node->subscribe("emergency_stop", CMNode.Cfg.QueueSub, cmnode_Ext2CM_EStop_TpcIn);      //merged
 
     /* In this example cycle time might be updated with value of external ROS Node
      * - See CMRosIF_CMNode_TestRun_Start_atBegin() */
@@ -2260,16 +2327,45 @@ CMRosIF_CMNode_Calc (double dt)
 		Lidar_CycleCount++;
 		
          }
-	
-	UDP_Input.DriveCont.Ax = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
-    UDP_Input.DriveCont.SteeringWheel = 18*CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
+	double Ax_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
+    double SteeringWheel_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
+	// UDP_Input.DriveCont.Ax = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
+    // UDP_Input.DriveCont.SteeringWheel = 18*CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
+
+    double Ax_con = 1;
+    double SteeringWheel_con = 18;
+    double acc_transform;
+    double SteeringWheel_abs;
+    if(SteeringWheel_raw > 0)
+        SteeringWheel_abs = SteeringWheel_raw;
+    else
+        SteeringWheel_abs = -SteeringWheel_raw;
+    
+    if(Ax_raw > 0)
+        acc_transform = -10*SteeringWheel_abs/0.79 + 10;
+    else
+        acc_transform = 10*SteeringWheel_abs/0.79 + 10;
+
+
+    UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
+    if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
+        UDP_Input.DriveCont.Ax = -100;
+    }
+    UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;
 	// UDP_Input.DriveCont.SteeringWheel = 1;
     // UDP_Input.DriveCont.Ax = 1;
-	//UDP_Input.DriveCont.GearNo = 1;
+	UDP_Input.DriveCont.GearNo = 1;
     //UDP_PC.VC_SwitchOn = 1;
 	
-	//DrivMan.Lights.Hazard = 1;
-	//DrivMan.Lights.Indicator = 1;
+    //Light Indicator
+    // if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
+	//     DrivMan.Lights.Hazard = 3;
+    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1)
+	//     DrivMan.Lights.Indicator = 1;
+    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
+	//     DrivMan.Lights.Indicator = 2;
+    // else
+    //     DrivMan.Lights.Indicator = 0;
     
     return 1;
 }
