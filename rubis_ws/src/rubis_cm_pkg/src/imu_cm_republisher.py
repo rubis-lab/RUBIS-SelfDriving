@@ -8,7 +8,7 @@ pub = rospy.Publisher('imu_raw', Imu, queue_size=1)
 def cb(msg):
     roll = msg.orientation.x
     pitch = msg.orientation.y
-    yaw = msg.orientation.z
+    yaw = msg.orientation.z * -1
     quat = quaternion_from_euler(roll, pitch, yaw)
     print(roll, pitch, yaw)
     
