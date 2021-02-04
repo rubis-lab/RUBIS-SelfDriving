@@ -187,21 +187,21 @@ static struct {
 
         struct {
             tRosIF_TpcPub<hellocm_msgs::CM2Ext> CM2Ext;
-			tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP;
-            //tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_OS1;           
-            tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_1;	
-            tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_2;		            
+			//tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP;
+            tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_OS1;           
+            //tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_1;	
+            //tRosIF_TpcPub<sensor_msgs::PointCloud> Lidar_VLP_2;		            
             tRosIF_TpcPub<sensor_msgs::Imu> Imu_Out; /* IMU Topic Pub Initialization */
-            tRosIF_TpcPub<geometry_msgs::TwistStamped> Imu_Vel;
+            tRosIF_TpcPub<geometry_msgs::TwistStamped> Imu_Vel;            
 			tRosIF_TpcPub<hellocm_msgs::GPS_Out> GPS_Out;
             tRosIF_TpcPub<hellocm_msgs::GPS_Out> GPS_Out_Noise;
             tRosIF_TpcPub<hellocm_msgs::TrafficLight> TrafficLight;
 			tRosIF_TpcPub<nav_msgs::Path> LeftLane[2];
 			tRosIF_TpcPub<nav_msgs::Path> RightLane[2];
-            tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_PC2;
-            //tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_OS1_PC2;
-            tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_1_PC2;
-            tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_2_PC2;
+            //tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_PC2;
+            tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_OS1_PC2;
+            //tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_1_PC2;
+            //tRosIF_TpcPub<sensor_msgs::PointCloud2> Lidar_VLP_2_PC2;
             //tRosIF_TpcPub<sensor_in>
 			
             /*!< CarMaker can be working as ROS Time Server providing simulation time
@@ -220,15 +220,15 @@ static struct {
         boost::shared_ptr<tf2_ros::TransformBroadcaster> br;
         boost::shared_ptr<tf2_ros::StaticTransformBroadcaster> st_br;
 		
-        geometry_msgs::TransformStamped Lidar_VLP;
-        //geometry_msgs::TransformStamped Lidar_OS1;
-        geometry_msgs::TransformStamped Lidar_VLP_1;   
-        geometry_msgs::TransformStamped Lidar_VLP_2;     
+        //geometry_msgs::TransformStamped Lidar_VLP;
+        geometry_msgs::TransformStamped Lidar_OS1;
+        //geometry_msgs::TransformStamped Lidar_VLP_1;   
+        //geometry_msgs::TransformStamped Lidar_VLP_2;     
 		geometry_msgs::TransformStamped Line;
-        geometry_msgs::TransformStamped Lidar_VLP_PC2;
-        //geometry_msgs::TransformStamped Lidar_OS1_PC2;
-        geometry_msgs::TransformStamped Lidar_VLP_1_PC2; 
-        geometry_msgs::TransformStamped Lidar_VLP_2_PC2; 
+        //geometry_msgs::TransformStamped Lidar_VLP_PC2;
+        geometry_msgs::TransformStamped Lidar_OS1_PC2;
+        //geometry_msgs::TransformStamped Lidar_VLP_1_PC2; 
+        //geometry_msgs::TransformStamped Lidar_VLP_2_PC2; 
 		
     } TF;
 	
@@ -544,19 +544,20 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     CMNode.Topics.Pub.CM2Ext.CycleTime   = 5000;
     CMNode.Topics.Pub.CM2Ext.CycleOffset = 0;
 	
-    /* LiDAR Sesnsor ROS Topic (pointcloud) */
+    /*
+    //LiDAR Sesnsor ROS Topic (pointcloud) 
 	strcpy(sbuf, "/pointcloud/vlp_back");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP.Pub         = node->advertise<sensor_msgs::PointCloud>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_VLP.Job         = CMCRJob_Create("pointcloud/vlp_back");
-     
-    /*
+    */
+    
 	strcpy(sbuf, "/pointcloud/os1");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_OS1.Pub         = node->advertise<sensor_msgs::PointCloud>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_OS1.Job         = CMCRJob_Create("pointcloud/os1");
-    */
     
+    /*
     strcpy(sbuf, "/pointcloud/vlp_left");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP_1.Pub         = node->advertise<sensor_msgs::PointCloud>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
@@ -567,33 +568,34 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP_2.Pub         = node->advertise<sensor_msgs::PointCloud>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_VLP_2.Job         = CMCRJob_Create("pointcloud/vlp_right");	
-
+    */
     
-    /* LiDAR Sesnsor ROS Topic (pointcloud2) */
+    /* //LiDAR Sesnsor ROS Topic (pointcloud2) 
     strcpy(sbuf, "/pointcloud2/vlp_back");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP_PC2.Pub         = node->advertise<sensor_msgs::PointCloud2>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_VLP_PC2.Job         = CMCRJob_Create("pointcloud2/vlp_back");
-
-    /*
+    */
+    
     //PointCloud2 - OS1
     strcpy(sbuf, "/pointcloud/os1_pc2");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_OS1_PC2.Pub         = node->advertise<sensor_msgs::PointCloud2>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_OS1_PC2.Job         = CMCRJob_Create("pointcloud/os1_pc2");
-    */
     
     
+    /*
     strcpy(sbuf, "/pointcloud2/vlp_left");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP_1_PC2.Pub         = node->advertise<sensor_msgs::PointCloud2>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_VLP_1_PC2.Job         = CMCRJob_Create("pointcloud/vlp_left");
 
+    
     strcpy(sbuf, "/pointcloud2/vlp_right");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_VLP_2_PC2.Pub         = node->advertise<sensor_msgs::PointCloud2>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
     CMNode.Topics.Pub.Lidar_VLP_2_PC2.Job         = CMCRJob_Create("pointcloud2/vlp_right");
-
+    */
 
     /* GPS Sensor ROS Topic */
     strcpy(sbuf, "/gps_out");
@@ -781,6 +783,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 	tInfos *Inf_Sensor = nullptr;
     tErrorMsg *err = nullptr;
 	
+    /*
     //Create infofile handle
     Inf_Sensor = InfoNew();
     iRead2(&err, Inf_Sensor, "Data/Sensor/LidarRSI_VLP_16", "");
@@ -788,8 +791,8 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     //Read infofile parameters
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_VLP.BeamTable, VLP_16_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_VLP.rows);
 	InfoDelete(Inf_Sensor);
+    */
     
-    /*
     //Create infofile handle
     Inf_Sensor = InfoNew();
     iRead2(&err, Inf_Sensor, "Data/Sensor/LidarRSI_OS1_64", "");
@@ -797,8 +800,8 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 	//Read infofile parameters
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_OS1.BeamTable, OS1_64_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_OS1.rows);
 	InfoDelete(Inf_Sensor);    
-    */
-
+    
+    /*
     Inf_Sensor = InfoNew();
     iRead2(&err, Inf_Sensor, "Data/Sensor/LidarRSI_VLP_16_1", "");
     CMNode.LidarRSI_VLP_1.BeamTable = (double*)malloc(VLP_16_1_NUMBER_OF_POINTS * 6 * sizeof(double));
@@ -813,17 +816,29 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     //Read infofile parameters
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_VLP_2.BeamTable, VLP_16_1_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_VLP_2.rows);
 	InfoDelete(Inf_Sensor);  
-    
+    */
+
     //Point
 	//pointcloud2_example
 	//Create infofile handle
+    /*
     Inf_Sensor = InfoNew();
     iRead2(&err, Inf_Sensor, "Data/Sensor/LidarRSI_VLP_16", "");
     CMNode.LidarRSI_VLP.BeamTable = (double*)malloc(VLP_16_NUMBER_OF_POINTS * 6 * sizeof(double));
     //Read infofile parameters
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_VLP.BeamTable, VLP_16_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_VLP.rows);
 	InfoDelete(Inf_Sensor);
+    */
 
+    //Create infofile handle
+    Inf_Sensor = InfoNew();
+    iRead2(&err, Inf_Sensor, "Data/Sensor/LidarRSI_OS1_64", "");
+    CMNode.LidarRSI_OS1.BeamTable = (double*)malloc(OS1_64_NUMBER_OF_POINTS * 6 * sizeof(double));
+	//Read infofile parameters
+    iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_OS1.BeamTable, OS1_64_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_OS1.rows);
+	InfoDelete(Inf_Sensor);
+   
+    /*
     //pointcloud2_example
 	//Lidar - left
     Inf_Sensor = InfoNew();
@@ -833,6 +848,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_VLP.BeamTable, VLP_16_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_VLP.rows);
 	InfoDelete(Inf_Sensor);
 
+    
     //pointcloud2_example
 	//Lidar - right
     Inf_Sensor = InfoNew();
@@ -841,7 +857,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     //Read infofile parameters
     iGetTableOpt(Inf_Sensor, "Beams", CMNode.LidarRSI_VLP.BeamTable, VLP_16_NUMBER_OF_POINTS * 6, 6, &CMNode.LidarRSI_VLP.rows);
 	InfoDelete(Inf_Sensor);
-    
+    */
 
 
     
@@ -864,6 +880,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         double* rotation;
 		double tmp[3] = {0, 0, 0};
 		
+        /*
 		//Lidar Sensor
 		position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.pos", tmp, 3, 1);
 		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.rot", tmp, 3, 1);
@@ -874,20 +891,20 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         CMNode.TF.Lidar_VLP.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.Mounting", "Fr1A");
         CMNode.Topics.Pub.Lidar_VLP.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.CycleTime", 100);
         CMNode.Topics.Pub.Lidar_VLP.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.nCycleOffset", 0);
-
-        /*
+        */
+        
 		//Lidar Sensor
-        position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.pos", tmp, 3, 1);
-		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.rot", tmp, 3, 1);
+        position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.pos", tmp, 3, 1);
+		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.rot", tmp, 3, 1);
 		q.setRPY(rotation[0], rotation[1], rotation[2]);
         CMNode.TF.Lidar_OS1.transform.rotation = tf2::toMsg(q);
         CMNode.TF.Lidar_OS1.transform.translation = tf2::toMsg(tf2::Vector3(position[0], position[1], position[2]));
-        CMNode.TF.Lidar_OS1.child_frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.1.name", "LIR01");
-        CMNode.TF.Lidar_OS1.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.1.Mounting", "Fr1A");
-        CMNode.Topics.Pub.Lidar_OS1.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.CycleTime", 100);
-        CMNode.Topics.Pub.Lidar_OS1.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.nCycleOffset", 0);
-        */
+        CMNode.TF.Lidar_OS1.child_frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.name", "LIR01");
+        CMNode.TF.Lidar_OS1.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.Mounting", "Fr1A");
+        CMNode.Topics.Pub.Lidar_OS1.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.CycleTime", 100);
+        CMNode.Topics.Pub.Lidar_OS1.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.nCycleOffset", 0);
         
+        /*
         //LiDAR Sensor Left 
 		position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.pos", tmp, 3, 1);
 		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.rot", tmp, 3, 1);
@@ -910,8 +927,9 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         CMNode.TF.Lidar_VLP_2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.2.Mounting", "Fr1A");
         CMNode.Topics.Pub.Lidar_VLP_2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.2.CycleTime", 100);
         CMNode.Topics.Pub.Lidar_VLP_2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.2.nCycleOffset", 0);   
-        
+        */
 
+        /*
         //pointcloud2_example
 		//Lidar Sensor
 		position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.pos", tmp, 3, 1);
@@ -924,7 +942,24 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         CMNode.TF.Lidar_VLP_PC2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.Mounting", "Fr1A");
         CMNode.Topics.Pub.Lidar_VLP_PC2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.CycleTime", 100);
         CMNode.Topics.Pub.Lidar_VLP_PC2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.nCycleOffset", 0);
+        */
 
+         
+        //pointcloud2_example
+		//Lidar Sensor
+		position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.pos", tmp, 3, 1);
+		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.0.rot", tmp, 3, 1);
+		q.setRPY(rotation[0], rotation[1], rotation[2]);
+        CMNode.TF.Lidar_OS1_PC2.transform.rotation = tf2::toMsg(q);
+        CMNode.TF.Lidar_OS1_PC2.transform.translation = tf2::toMsg(tf2::Vector3(position[0], position[1], position[2]));
+        //CMNode.TF.Lidar_VLP.child_frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.name", "LIR01");
+        CMNode.TF.Lidar_OS1_PC2.child_frame_id = "velodyne";
+        CMNode.TF.Lidar_OS1_PC2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.Mounting", "Fr1A");
+        CMNode.Topics.Pub.Lidar_OS1_PC2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.CycleTime", 100);
+        CMNode.Topics.Pub.Lidar_OS1_PC2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.0.nCycleOffset", 0);
+		     
+
+        /*
         position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.pos", tmp, 3, 1);
 		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.rot", tmp, 3, 1);
 		q.setRPY(rotation[0], rotation[1], rotation[2]);
@@ -935,7 +970,9 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         CMNode.TF.Lidar_VLP_1_PC2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.1.Mounting", "Fr1A");
         CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.CycleTime", 100);
         CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.nCycleOffset", 0);
+        */
 
+        /*
         position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.2.pos", tmp, 3, 1);
 		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.2.rot", tmp, 3, 1);
 		q.setRPY(rotation[0], rotation[1], rotation[2]);
@@ -946,21 +983,8 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
         CMNode.TF.Lidar_VLP_2_PC2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.2.Mounting", "Fr1A");
         CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.2.CycleTime", 100);
         CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.2.nCycleOffset", 0);
-
-        /*
-        //pointcloud2_example
-		//Lidar Sensor
-		position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.pos", tmp, 3, 1);
-		rotation = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.LidarRSI.1.rot", tmp, 3, 1);
-		q.setRPY(rotation[0], rotation[1], rotation[2]);
-        CMNode.TF.Lidar_OS1_PC2.transform.rotation = tf2::toMsg(q);
-        CMNode.TF.Lidar_OS1_PC2.transform.translation = tf2::toMsg(tf2::Vector3(position[0], position[1], position[2]));
-        //CMNode.TF.Lidar_VLP.child_frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.0.name", "LIR01");
-        CMNode.TF.Lidar_OS1_PC2.child_frame_id = "LIR05";
-        CMNode.TF.Lidar_OS1_PC2.header.frame_id = iGetStrOpt(Inf_Vehicle, "Sensor.LidarRSI.1.Mounting", "Fr1A");
-        CMNode.Topics.Pub.Lidar_OS1_PC2.CycleTime = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.CycleTime", 100);
-        CMNode.Topics.Pub.Lidar_OS1_PC2.CycleOffset = iGetIntOpt(Inf_Vehicle, "Sensor.LidarRSI.1.nCycleOffset", 0);
-		*/       
+        */
+       
 
 		//Line Sensor
         position = iGetFixedTableOpt2(Inf_Vehicle, "Sensor.Line.0.pos", tmp, 3, 1);
@@ -994,7 +1018,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 
         //Imu
 		CMNode.Topics.Pub.Imu_Vel.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Car.Car.UpdRate", 10));
-		CMNode.Topics.Pub.Imu_Vel.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Car.Car.nCycleOffset", 0);
+		CMNode.Topics.Pub.Imu_Vel.CycleOffset   = iGetIntOpt(Inf_Vehicle, "Car.Car.nCycleOffset", 0);       
 
         //Traffic Light
         CMNode.Topics.Pub.TrafficLight.CycleTime     = (int)(1000 / iGetIntOpt(Inf_Vehicle, "Car.Car.UpdRate", 10));
@@ -1143,33 +1167,35 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     cycleoff  = CMNode.Topics.Pub.CM2Ext.CycleOffset;
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Default);
-    
+
+    /*
 	job       = CMNode.Topics.Pub.Lidar_VLP.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP.CycleTime;
-    cycleoff  = CMNode.Topics.Pub.Lidar_VLP.CycleOffset;
-    
+    cycleoff  = CMNode.Topics.Pub.Lidar_VLP.CycleOffset;    
     
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-	/*
+    */
+	
 	job       = CMNode.Topics.Pub.Lidar_OS1.Job;
     cycletime = CMNode.Topics.Pub.Lidar_OS1.CycleTime;
-    cycleoff  = CMNode.Topics.Pub.Lidar_OS1.CycleOffset;
-    */
+    cycleoff  = CMNode.Topics.Pub.Lidar_OS1.CycleOffset;    
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-    
+
+    /*
 	job       = CMNode.Topics.Pub.Lidar_VLP_1.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP_1.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_VLP_1.CycleOffset;    
     
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
+
     
 	job       = CMNode.Topics.Pub.Lidar_VLP_2.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP_2.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_VLP_2.CycleOffset; 	
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-	
+	*/
     
 	job       = CMNode.Topics.Pub.GPS_Out.Job;
 	cycletime = CMNode.Topics.Pub.GPS_Out.CycleTime;
@@ -1177,45 +1203,47 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
 
+
     job       = CMNode.Topics.Pub.GPS_Out_Noise.Job;
 	cycletime = CMNode.Topics.Pub.GPS_Out_Noise.CycleTime;
 	cycleoff  = CMNode.Topics.Pub.GPS_Out_Noise.CycleOffset;
 
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
+
 	
+    /*
 	//pointcloud2_example
 	job       = CMNode.Topics.Pub.Lidar_VLP_PC2.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP_PC2.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_VLP_PC2.CycleOffset;
     
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-
-    /*
+    */
+    
 	//pointcloud2_example - OS1
 	job       = CMNode.Topics.Pub.Lidar_OS1_PC2.Job;
     cycletime = CMNode.Topics.Pub.Lidar_OS1_PC2.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_OS1_PC2.CycleOffset;   
     
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-    */
-
-	
+    
+	/*
 	//pointcloud2_example
 	job       = CMNode.Topics.Pub.Lidar_VLP_1_PC2.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleOffset;
 
-
     CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
 	
-	//pointcloud2_example
+	
+    //pointcloud2_example
 	job       = CMNode.Topics.Pub.Lidar_VLP_2_PC2.Job;
     cycletime = CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleOffset;
 
 
 	CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
-
+    */
 	
 
 	job       = CMNode.Topics.Pub.LeftLane[0].Job;
@@ -1253,7 +1281,7 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
     cycletime = CMNode.Topics.Pub.Imu_Vel.CycleTime;
     cycleoff  = CMNode.Topics.Pub.Imu_Vel.CycleOffset;    
 
-    CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);
+    CMCRJob_Init(job, cycleoff, cycletime, CMCRJob_Mode_Ext);   
      
     job       = CMNode.Topics.Pub.TrafficLight.Job;
     cycletime = CMNode.Topics.Pub.TrafficLight.CycleTime;
@@ -1290,10 +1318,10 @@ CMRosIF_CMNode_TestRun_Start_atBegin (struct tInfos *Inf)
 	CMCRJob_Init(job, cycletime+1 , cycletime, CMCRJob_Mode_Default);
 	
 	std::vector<geometry_msgs::TransformStamped> transforms;
-	transforms.push_back(CMNode.TF.Lidar_VLP);
-	//transforms.push_back(CMNode.TF.Lidar_OS1);
-    transforms.push_back(CMNode.TF.Lidar_VLP_1);
-    transforms.push_back(CMNode.TF.Lidar_VLP_2);
+	//transforms.push_back(CMNode.TF.Lidar_VLP);
+	transforms.push_back(CMNode.TF.Lidar_OS1);
+    //transforms.push_back(CMNode.TF.Lidar_VLP_1);
+    //transforms.push_back(CMNode.TF.Lidar_VLP_2);
 	transforms.push_back(CMNode.TF.Line);
 	CMNode.TF.st_br->sendTransform(transforms);
 	
@@ -1570,6 +1598,8 @@ CMRosIF_CMNode_Calc (double dt)
     /* Do some calculation... */
 	
 	if (SimCore.State == SCState_Simulate) {
+        
+        /*
         //pointcloud - LiDAR Back
         if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP.CycleTime, CMNode.Topics.Pub.Lidar_VLP.CycleOffset, CMNode.CycleNoRel);
@@ -1604,9 +1634,10 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.Lidar_VLP.Msg.header.frame_id = CMNode.TF.Lidar_VLP.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP.Msg.header.stamp = ros::Time(LidarRSI[0].ScanTime);
 		
-        }
+        }*/
 
-        /* pointcloud - OS1
+
+        //pointcloud - OS1
 	    if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_OS1.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_OS1.CycleTime, CMNode.Topics.Pub.Lidar_OS1.CycleOffset, CMNode.CycleNoRel);
             LogErrF(EC_Sim, "CMNode: Error on DoPrep for Job '%s'! rv=%s", CMCRJob_GetName(CMNode.Topics.Pub.Lidar_OS1.Job), CMCRJob_RVStr(rv));
@@ -1621,12 +1652,12 @@ CMRosIF_CMNode_Calc (double dt)
             channels.values.clear();
 	
             //Lidar Quantity processing
-			for (int i = 0; i < LidarRSI[1].nScanPoints; i++) {
+			for (int i = 0; i < LidarRSI[0].nScanPoints; i++) {
 
-				const int beam_id = LidarRSI[1].ScanPoint[i].BeamID;
+				const int beam_id = LidarRSI[0].ScanPoint[i].BeamID;
 				const double azimuth = angles::from_degrees(CMNode.LidarRSI_OS1.BeamTable[4*CMNode.LidarRSI_OS1.rows + beam_id]);
 				const double elevation = angles::from_degrees(CMNode.LidarRSI_OS1.BeamTable[5*CMNode.LidarRSI_OS1.rows + beam_id]);
-				const double ray_length = 0.5 * LidarRSI[1].ScanPoint[i].LengthOF; // length of flight is back and forth
+				const double ray_length = 0.5 * LidarRSI[0].ScanPoint[i].LengthOF; // length of flight is back and forth
 
 				//XYZ-coordinates of scan point
 				points.x = ray_length * cos(elevation) * cos(azimuth);
@@ -1634,15 +1665,16 @@ CMRosIF_CMNode_Calc (double dt)
 				points.z = ray_length * sin(elevation);
 
 				CMNode.Topics.Pub.Lidar_OS1.Msg.points.push_back(points);
-				channels.values.push_back(LidarRSI[1].ScanPoint[i].Intensity);
+				channels.values.push_back(LidarRSI[0].ScanPoint[i].Intensity);
 
 			}
 			CMNode.Topics.Pub.Lidar_OS1.Msg.channels.push_back(channels);
 			CMNode.Topics.Pub.Lidar_OS1.Msg.header.frame_id = CMNode.TF.Lidar_OS1.child_frame_id;
-			CMNode.Topics.Pub.Lidar_OS1.Msg.header.stamp = ros::Time(LidarRSI[1].ScanTime);
+			CMNode.Topics.Pub.Lidar_OS1.Msg.header.stamp = ros::Time(LidarRSI[0].ScanTime);
 		
-        }   */     
+        }  
 
+        /*
         //pointcloud - LiDAR Left
         if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP_1.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP_1.CycleTime, CMNode.Topics.Pub.Lidar_VLP_1.CycleOffset, CMNode.CycleNoRel);
@@ -1677,9 +1709,11 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.Lidar_VLP_1.Msg.header.frame_id = CMNode.TF.Lidar_VLP_1.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP_1.Msg.header.stamp = ros::Time(LidarRSI[1].ScanTime);
 		
-        }    
+        }  
+        */
+
 		
-        //pointcloud - LiDAR Right
+        /*//pointcloud - LiDAR Right
         if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP_2.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP_2.CycleTime, CMNode.Topics.Pub.Lidar_VLP_2.CycleOffset, CMNode.CycleNoRel);
             LogErrF(EC_Sim, "CMNode: Error on DoPrep for Job '%s'! rv=%s", CMCRJob_GetName(CMNode.Topics.Pub.Lidar_VLP_2.Job), CMCRJob_RVStr(rv));
@@ -1713,9 +1747,9 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.Lidar_VLP_2.Msg.header.frame_id = CMNode.TF.Lidar_VLP_2.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP_2.Msg.header.stamp = ros::Time(LidarRSI[2].ScanTime);
 		
-        }   
+        }   */
 		
-        
+        /*
         //pointcloud2 - LiDAR Back
 		if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP_PC2.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP_PC2.CycleTime, CMNode.Topics.Pub.Lidar_VLP_PC2.CycleOffset, CMNode.CycleNoRel);
@@ -1754,8 +1788,49 @@ CMRosIF_CMNode_Calc (double dt)
 			
 			CMNode.Topics.Pub.Lidar_VLP_PC2.Msg.header.frame_id = CMNode.TF.Lidar_VLP_PC2.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP_PC2.Msg.header.stamp = ros::Time(LidarRSI[0].ScanTime);		
+        }*/
+
+         //pointcloud2_example - LiDAR Left
+		if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_OS1_PC2.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
+            LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_OS1_PC2.CycleTime, CMNode.Topics.Pub.Lidar_OS1_PC2.CycleOffset, CMNode.CycleNoRel);
+            LogErrF(EC_Sim, "CMNode: Error on DoPrep for Job '%s'! rv=%s", CMCRJob_GetName(CMNode.Topics.Pub.Lidar_OS1_PC2.Job), CMCRJob_RVStr(rv));
+        } else if (Lidar_CycleCount % (int)CMNode.Topics.Pub.Lidar_OS1_PC2.CycleTime == 0) {
+            geometry_msgs::Point32 points;
+            sensor_msgs::ChannelFloat32 channels;
+            channels.name = "intensity";
+			sensor_msgs::PointCloud pointcloud;
+			
+            ////clearing vector data to avoid overflows
+            pointcloud.points.clear();
+            pointcloud.channels.clear();
+            channels.values.clear();
+	
+			for (int i = 0; i < LidarRSI[0].nScanPoints; i++) {
+
+				const int beam_id = LidarRSI[0].ScanPoint[i].BeamID;
+				const double azimuth = angles::from_degrees(CMNode.LidarRSI_OS1.BeamTable[4*CMNode.LidarRSI_OS1.rows + beam_id]);
+				const double elevation = angles::from_degrees(CMNode.LidarRSI_OS1.BeamTable[5*CMNode.LidarRSI_OS1.rows + beam_id]);
+				const double ray_length = 0.5 * LidarRSI[0].ScanPoint[i].LengthOF; // length of flight is back and forth
+
+				//XYZ-coordinates of scan point
+				points.x = ray_length * cos(elevation) * cos(azimuth);
+				points.y = ray_length * cos(elevation) * sin(azimuth);
+				points.z = ray_length * sin(elevation);
+
+				pointcloud.points.push_back(points);
+				channels.values.push_back(LidarRSI[0].ScanPoint[i].Intensity);
+
+			}
+			
+			pointcloud.channels.push_back(channels);
+			
+			sensor_msgs::convertPointCloudToPointCloud2(pointcloud, CMNode.Topics.Pub.Lidar_OS1_PC2.Msg);
+			
+			CMNode.Topics.Pub.Lidar_OS1_PC2.Msg.header.frame_id = CMNode.TF.Lidar_OS1_PC2.child_frame_id;
+			CMNode.Topics.Pub.Lidar_OS1_PC2.Msg.header.stamp = ros::Time(LidarRSI[0].ScanTime);		
         }
 
+        /*
         //pointcloud2_example - LiDAR Left
 		if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP_1_PC2.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleTime, CMNode.Topics.Pub.Lidar_VLP_1_PC2.CycleOffset, CMNode.CycleNoRel);
@@ -1795,8 +1870,9 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.Lidar_VLP_1_PC2.Msg.header.frame_id = CMNode.TF.Lidar_VLP_1_PC2.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP_1_PC2.Msg.header.stamp = ros::Time(LidarRSI[1].ScanTime);		
         }
+        */
 
-
+        /*
         //pointcloud2_example - LiDAR Right
 		if ((rv = CMCRJob_DoPrep(CMNode.Topics.Pub.Lidar_VLP_2_PC2.Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) < CMCRJob_RV_OK) {
             LogErrF(EC_Sim, "cycleTime: %d, cycleoffset: %d, cycle: %lu", CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleTime, CMNode.Topics.Pub.Lidar_VLP_2_PC2.CycleOffset, CMNode.CycleNoRel);
@@ -1836,7 +1912,7 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.Lidar_VLP_2_PC2.Msg.header.frame_id = CMNode.TF.Lidar_VLP_2_PC2.child_frame_id;
 			CMNode.Topics.Pub.Lidar_VLP_2_PC2.Msg.header.stamp = ros::Time(LidarRSI[2].ScanTime);		
         }
-
+        */
 
 
 		//GPS
@@ -1853,7 +1929,7 @@ CMRosIF_CMNode_Calc (double dt)
 			CMNode.Topics.Pub.GPS_Out.Msg.header.stamp.nsec = wtime.nsec;
 			
 			unsigned int noise_deg = 0;
-            // unsigned int noise_deg = 150;
+            //unsigned int noise_deg = 150;
 			double pi = 3.1415926536897932384626433832795028841971;
 			CMNode.Topics.Pub.GPS_Out.Msg.latitude          = GNavSensor.Receiver.UserPosLlhTsa[0] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
 			CMNode.Topics.Pub.GPS_Out.Msg.longitude         = GNavSensor.Receiver.UserPosLlhTsa[1] * 180 / pi + ((double)(rand() % (noise_deg * 2 + 1)) - noise_deg) / 10000000;
@@ -2149,16 +2225,21 @@ CMRosIF_CMNode_Calc (double dt)
 
             CMNode.Topics.Pub.Imu_Vel.Msg.header.frame_id = "imu";
 
-            CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.x = sqrt(Car.Fr1.v_0[1]*Car.Fr1.v_0[1] + Car.Fr1.v_0[2]*Car.Fr1.v_0[2]);           
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.x = sqrt(Car.Fr1.v_0[0]*Car.Fr1.v_0[0] + Car.Fr1.v_0[1]*Car.Fr1.v_0[1]);           
             CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.y = 0;
+            //CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.x = Car.Fr1.v_0[0];
+            //CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.y = InertialSensor -> Vel_B[0];
             CMNode.Topics.Pub.Imu_Vel.Msg.twist.linear.z = 0;
+
+            //CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.x = Car.YawRate ;
+            //CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.y = InertialSensor->Omega_B[2];
 
             CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.x = 0;
             CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.y = 0;
-            CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.z = Car.YawRate * 0.017453;
+            CMNode.Topics.Pub.Imu_Vel.Msg.twist.angular.z = Car.YawRate;
               
             
-        }
+        }       
      
 
          //Traffic Light
@@ -2241,12 +2322,12 @@ CMRosIF_CMNode_Out (void)
         /* Remember cycle for debugging */
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
     }
-	
+	/*
 	auto out_lidar_vlp = &CMNode.Topics.Pub.Lidar_VLP;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
+     
     if ((rv = CMCRJob_DoJob(out_lidar_vlp->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp->Job), CMCRJob_RVStr(rv));
@@ -2254,16 +2335,16 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_vlp->Pub.publish(out_lidar_vlp->Msg);
 
-            /* Remember cycle for debugging */
+            /* Remember cycle for debugging 
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }
+    }*/
 	
-    /*
+    
     auto out_lidar_os1 = &CMNode.Topics.Pub.Lidar_OS1;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     
+     */
     if ((rv = CMCRJob_DoJob(out_lidar_os1->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_os1->Job), CMCRJob_RVStr(rv));
@@ -2271,15 +2352,16 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_os1->Pub.publish(out_lidar_os1->Msg);
 	
-	/* Remember cycle for debugging
+	/* Remember cycle for debugging*/
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }*/
+    }
     
+    /*
 	auto out_lidar_vlp_1 = &CMNode.Topics.Pub.Lidar_VLP_1;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
+     
     if ((rv = CMCRJob_DoJob(out_lidar_vlp_1->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_1->Job), CMCRJob_RVStr(rv));
@@ -2287,15 +2369,16 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_vlp_1->Pub.publish(out_lidar_vlp_1->Msg);    
 	
-	/* Remember cycle for debugging */
+	/* Remember cycle for debugging 
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }   	
-    
+    }  */ 	
+
+    /*
     auto out_lidar_vlp_2 = &CMNode.Topics.Pub.Lidar_VLP_2;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
+     
     if ((rv = CMCRJob_DoJob(out_lidar_vlp_2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_2->Job), CMCRJob_RVStr(rv));
@@ -2303,17 +2386,17 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_vlp_2->Pub.publish(out_lidar_vlp_2->Msg);    
 	
-	/* Remember cycle for debugging */
+	/* Remember cycle for debugging 
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    } 
+    } */
     
-      
+      /*
     //pointcloud2_example
 	auto out_lidar_vlp_pc2 = &CMNode.Topics.Pub.Lidar_VLP_PC2;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
+     
     if ((rv = CMCRJob_DoJob(out_lidar_vlp_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_pc2->Job), CMCRJob_RVStr(rv));
@@ -2321,51 +2404,17 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_vlp_pc2->Pub.publish(out_lidar_vlp_pc2->Msg);
 	
-	/* Remember cycle for debugging */
+	/* Remember cycle for debugging 
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }
+    }*/
 
-    //pointcloud2_example - Lidar Left
-	auto out_lidar_vlp_1_pc2 = &CMNode.Topics.Pub.Lidar_VLP_1_PC2;
-	
-    /* Communicate to External ROS Node in this cycle?
-     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
-    if ((rv = CMCRJob_DoJob(out_lidar_vlp_1_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
-            && rv != CMCRJob_RV_DoSomething) {
-        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_1_pc2->Job), CMCRJob_RVStr(rv));
-    } else if (rv == CMCRJob_RV_DoSomething) {
-	
-	out_lidar_vlp_1_pc2->Pub.publish(out_lidar_vlp_1_pc2->Msg);
-	
-	/* Remember cycle for debugging */
-	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }
-
-    //pointcloud2_example - Lidar Right
-	auto out_lidar_vlp_2_pc2 = &CMNode.Topics.Pub.Lidar_VLP_2_PC2;
-	
-    /* Communicate to External ROS Node in this cycle?
-     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     */
-    if ((rv = CMCRJob_DoJob(out_lidar_vlp_2_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
-            && rv != CMCRJob_RV_DoSomething) {
-        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_2_pc2->Job), CMCRJob_RVStr(rv));
-    } else if (rv == CMCRJob_RV_DoSomething) {
-	
-	out_lidar_vlp_2_pc2->Pub.publish(out_lidar_vlp_2_pc2->Msg);
-	
-	/* Remember cycle for debugging */
-	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }
-
-    /*
+    
     //pointcloud2_example - OS1
 	auto out_lidar_os1_pc2 = &CMNode.Topics.Pub.Lidar_OS1_PC2;
 	
     /* Communicate to External ROS Node in this cycle?
      * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
-     
+     */
     if ((rv = CMCRJob_DoJob(out_lidar_os1_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
             && rv != CMCRJob_RV_DoSomething) {
         LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_os1_pc2->Job), CMCRJob_RVStr(rv));
@@ -2373,9 +2422,47 @@ CMRosIF_CMNode_Out (void)
 	
 	out_lidar_os1_pc2->Pub.publish(out_lidar_os1_pc2->Msg);
 	
+	/* Remember cycle for debugging */
+	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
+    }
+
+    /*
+    //pointcloud2_example - Lidar Left
+	auto out_lidar_vlp_1_pc2 = &CMNode.Topics.Pub.Lidar_VLP_1_PC2;
+	
+    /* Communicate to External ROS Node in this cycle?
+     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
+     
+    if ((rv = CMCRJob_DoJob(out_lidar_vlp_1_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
+            && rv != CMCRJob_RV_DoSomething) {
+        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_1_pc2->Job), CMCRJob_RVStr(rv));
+    } else if (rv == CMCRJob_RV_DoSomething) {
+	
+	out_lidar_vlp_1_pc2->Pub.publish(out_lidar_vlp_1_pc2->Msg);
+	
 	/* Remember cycle for debugging 
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
     }*/
+
+
+    /* //pointcloud2_example - Lidar Right
+	auto out_lidar_vlp_2_pc2 = &CMNode.Topics.Pub.Lidar_VLP_2_PC2;
+	
+    /* Communicate to External ROS Node in this cycle?
+     * - The job mechanism is optional and can be e.g. replaced by simple modulo on current cycle
+     
+    if ((rv = CMCRJob_DoJob(out_lidar_vlp_2_pc2->Job, CMNode.CycleNoRel, 1, nullptr, nullptr)) != CMCRJob_RV_DoNothing
+            && rv != CMCRJob_RV_DoSomething) {
+        LogErrF(EC_Sim, "CMNode: Error on DoJob for Job '%s'! rv=%s",CMCRJob_GetName(out_lidar_vlp_2_pc2->Job), CMCRJob_RVStr(rv));
+    } else if (rv == CMCRJob_RV_DoSomething) {
+	
+	out_lidar_vlp_2_pc2->Pub.publish(out_lidar_vlp_2_pc2->Msg);
+	
+	/* Remember cycle for debugging 
+	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
+    }*/
+
+    
 	
 
     //GPS
@@ -2498,8 +2585,8 @@ CMRosIF_CMNode_Out (void)
 	
 	/* Remember cycle for debugging */
 	CMNode.Model.CycleLastOut = CMNode.CycleNoRel;
-    }
-	
+    }	
+    
 
     auto out_traffic_light = &CMNode.Topics.Pub.TrafficLight;
 	
@@ -2545,22 +2632,22 @@ CMRosIF_CMNode_Out (void)
 int
 CMRosIF_CMNode_End (void)
 {
-	CMNode.Topics.Pub.Lidar_VLP.Msg.points.clear();
-    CMNode.Topics.Pub.Lidar_VLP.Msg.channels.clear();
+	//CMNode.Topics.Pub.Lidar_VLP.Msg.points.clear();
+    //CMNode.Topics.Pub.Lidar_VLP.Msg.channels.clear();
 
-    //CMNode.Topics.Pub.Lidar_OS1.Msg.points.clear();
-    //CMNode.Topics.Pub.Lidar_OS1.Msg.channels.clear();
+    CMNode.Topics.Pub.Lidar_OS1.Msg.points.clear();
+    CMNode.Topics.Pub.Lidar_OS1.Msg.channels.clear();
 
-    CMNode.Topics.Pub.Lidar_VLP_1.Msg.points.clear();
-    CMNode.Topics.Pub.Lidar_VLP_1.Msg.channels.clear();
+    //CMNode.Topics.Pub.Lidar_VLP_1.Msg.points.clear();
+    //CMNode.Topics.Pub.Lidar_VLP_1.Msg.channels.clear();
 
-    CMNode.Topics.Pub.Lidar_VLP_2.Msg.points.clear();
-    CMNode.Topics.Pub.Lidar_VLP_2.Msg.channels.clear();
+    //CMNode.Topics.Pub.Lidar_VLP_2.Msg.points.clear();
+    //CMNode.Topics.Pub.Lidar_VLP_2.Msg.channels.clear();
 	
-	free(CMNode.LidarRSI_VLP.BeamTable);
-	//free(CMNode.LidarRSI_OS1.BeamTable);
-    free(CMNode.LidarRSI_VLP_1.BeamTable);
-    free(CMNode.LidarRSI_VLP_2.BeamTable);
+	//free(CMNode.LidarRSI_VLP.BeamTable);
+	free(CMNode.LidarRSI_OS1.BeamTable);
+    //free(CMNode.LidarRSI_VLP_1.BeamTable);
+    //free(CMNode.LidarRSI_VLP_2.BeamTable);
 
     LOG("%s: End", __func__);
 
