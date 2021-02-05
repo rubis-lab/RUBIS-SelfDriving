@@ -25,7 +25,7 @@ def on_press(key):
 
     if keyboard.KeyCode(char='w') in current_pressed:
         if current_acc < ACC_MAX:
-            current_acc += 1
+            current_acc += 0.5
 
     if keyboard.KeyCode(char='s') in current_pressed:
         if current_acc > ACC_MIN:
@@ -33,11 +33,11 @@ def on_press(key):
 
     if keyboard.KeyCode(char='a') in current_pressed:
         if current_steer < STEER_MAX:
-            current_steer += 0.5*PI/20
+            current_steer += 0.4*PI/20
 
     if keyboard.KeyCode(char='d') in current_pressed:
         if current_steer > STEER_MIN:
-            current_steer += -0.5*PI/20
+            current_steer += -0.4*PI/20
     
     if keyboard.KeyCode(char='f') in current_pressed:
         current_steer = 0
@@ -68,11 +68,11 @@ def on_release(key):
     if key == keyboard.KeyCode(char='d'):
         current_steer = 0        
     if key == keyboard.KeyCode(char='w'):
-        current_acc = -1        
+        current_acc = -1.5     
     if key == keyboard.KeyCode(char='s'):
-        current_acc = -1
+        current_acc = -0.5
     if key == keyboard.KeyCode(char='f'):
-        current_acc = -1      
+        current_acc = -0.5    
     if key in current_pressed:
         current_pressed.remove(key)
 

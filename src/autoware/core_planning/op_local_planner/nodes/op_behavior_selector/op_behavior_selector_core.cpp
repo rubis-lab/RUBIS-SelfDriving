@@ -60,6 +60,8 @@ BehaviorGen::BehaviorGen()
   pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
   pub_currentState = nh.advertise<std_msgs::Int32>("current_state", 1);
 
+  pub_lampCmd = nh.advertise<autoware_msgs::LampCmd>("lamp_cmd", 1);
+
   sub_current_pose = nh.subscribe("/current_pose", 10,  &BehaviorGen::callbackGetCurrentPose, this);
 
   int bVelSource = 1;
@@ -695,6 +697,21 @@ void BehaviorGen::MainLoop()
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);
       m_BehaviorGenerator.m_turnAngle = m_turnAngle;
+
+      if(m_CurrentBehavior.indicator == PlannerHNS::INDICATOR_LEFT){
+        m_Lamp_cmd.l = 1;
+        m_Lamp_cmd.r = 0;
+      }
+      else if(m_CurrentBehavior.indicator == PlannerHNS::INDICATOR_RIGHT){
+        m_Lamp_cmd.l = 0;
+        m_Lamp_cmd.r = 1;
+      }
+      else{
+        m_Lamp_cmd.l = 0;
+        m_Lamp_cmd.r = 0;
+      }
+
+      pub_lampCmd.publish(m_Lamp_cmd);
 
       std_msgs::Float64 turn_angle_msg;
       turn_angle_msg.data = m_turnAngle;
