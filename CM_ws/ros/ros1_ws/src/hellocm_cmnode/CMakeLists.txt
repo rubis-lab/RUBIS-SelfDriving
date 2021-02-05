@@ -16,7 +16,8 @@ endif()
 # - Definitions see <CMInstir>/include/<Makedefs,Makedefs64>
 
 set(IPGHOME /opt/ipg)
-set(CARMAKER_VER 9.0.2)
+# set(CARMAKER_VER 9.0.2)
+set(CARMAKER_VER 9.1.1)
 set(CARMAKER_NUMVER 90002)
 
 set(CARMAKER_DIR ${IPGHOME}/carmaker/linux64-${CARMAKER_VER})

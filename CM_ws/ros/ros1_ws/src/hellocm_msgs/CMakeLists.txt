@@ -57,6 +57,8 @@ add_message_files(
   Speed_Limit.msg
   CM2Ext_Test.msg
   Ext2CM_Test.msg
+  Ext2CM_Lamp.msg
+  Ext2CM_EStop.msg
   cmd.msg
 )
 
