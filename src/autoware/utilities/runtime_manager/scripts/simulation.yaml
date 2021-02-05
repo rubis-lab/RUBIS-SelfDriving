@@ -74,5 +74,5 @@ params :
     - name      : sim_time
       label     : Sim Time
       kind      : hide
-      v         : False
+      v         : True
       rosparam  : /use_sim_time

@@ -10,7 +10,7 @@
     <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     <!-- Carmaker -->
-    <arg name="use_static_goal"       value="true" />
+    <arg name="use_static_goal"       value="false" />
     <arg name="goal_pose_x"           value="43.3188" />
     <arg name="goal_pose_y"           value="-672.585" />
     <arg name="goal_pose_z"           value="0.0" />

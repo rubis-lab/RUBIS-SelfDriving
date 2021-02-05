@@ -643,10 +643,12 @@ CMRosIF_CMNode_Init (int Argc, char **Argv, char *CMNodeName, struct tInfos *Inf
     */
     
     //PointCloud2 - OS1
-    strcpy(sbuf, "/pointcloud/os1_pc2");
+    // strcpy(sbuf, "/pointcloud/os1_pc2");
+    strcpy(sbuf, "/points_raw");
     LOG("  -> Publish '%s'", sbuf);
     CMNode.Topics.Pub.Lidar_OS1_PC2.Pub         = node->advertise<sensor_msgs::PointCloud2>(sbuf, static_cast<uint>(CMNode.Cfg.QueuePub));
-    CMNode.Topics.Pub.Lidar_OS1_PC2.Job         = CMCRJob_Create("pointcloud/os1_pc2");
+    // CMNode.Topics.Pub.Lidar_OS1_PC2.Job         = CMCRJob_Create("pointcloud/os1_pc2");
+    CMNode.Topics.Pub.Lidar_OS1_PC2.Job         = CMCRJob_Create("points_raw");
     
     
     /*
