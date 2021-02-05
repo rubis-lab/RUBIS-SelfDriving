@@ -2357,24 +2357,31 @@ CMRosIF_CMNode_Calc (double dt)
     
     //60deg = 1.0472
     //45deg = 0.7854
-    if(Ax_raw > 0)
+    if(Ax_raw > 0) {
         acc_transform = -SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
-    else
+        // if(acc_transform <= 0.1) {
+        //     acc_transform = 0.1;
+        // }   
+    } else {
+        acc_transform = 1/Ax_con;
         // acc_transform = SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
-        acc_transform = 1/10;
+    }
+       
 
-    if(Ax_con * acc_transform * Ax_raw < -30)
+    if(Ax_con * acc_transform * Ax_raw < -30) {
         UDP_Input.DriveCont.Ax = -30;
-    else if(Ax_con * acc_transform * Ax_raw < -20)
+    } else if(Ax_con * acc_transform * Ax_raw < -20) {
         UDP_Input.DriveCont.Ax = -20;
-    else if(Ax_con * acc_transform * Ax_raw < -10)
+    } else if(Ax_con * acc_transform * Ax_raw < -10) {
         UDP_Input.DriveCont.Ax = -10;
-    else 
+    } else {
         UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
+    }
 
     if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
         UDP_Input.DriveCont.Ax = -30;
     }
+
     UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;
 	UDP_Input.DriveCont.GearNo = 1;
     //UDP_PC.VC_SwitchOn = 1;

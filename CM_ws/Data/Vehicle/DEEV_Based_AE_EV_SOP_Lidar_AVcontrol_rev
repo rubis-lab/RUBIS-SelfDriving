@@ -1,6 +1,7 @@
 #INFOFILE1.1 - Do not remove this line!
 FileIdent = CarMaker-Car 9
-FileCreator = CarMaker 2021-02-04 16:32:09
+FileCreator = CarMaker 2021-01-19 10:58:14
+
 
 ## Assembly ##############################################################
 
@@ -561,7 +562,10 @@ Sensor.Line.0.ExtMotion = 0
 Sensor.Line.0.PosInFrB = 0
 Sensor.Line.0.RefPoint = 0.0 0.0 0.0
 Sensor.Road.N = 0
-Sensor.Collision.Active = 0
+Sensor.Collision.Active = 1
+Sensor.Collision.WithWheels = 1
+Sensor.Collision.Fr1.EnvMode = Cuboid
+Sensor.Collision.Fr1.AboveBelowOn = 0
 Sensor.GNav.pos = 0.9 0.0 1.7
 Sensor.GNav.Mounting = Fr1A
 Sensor.GNav.UpdRate = 10
@@ -590,27 +594,45 @@ Sensor.Camera.N = 0
 Sensor.RadarRSILeg.N = 0
 Sensor.RadarRSI.N = 0
 Sensor.USonicRSI.N = 0
-Sensor.LidarRSI.N = 1
+Sensor.LidarRSI.N = 2
 Sensor.LidarRSI.Latency = 1.0 1.0
 Sensor.LidarRSI.Sensitivity = 2.0
 Sensor.LidarRSI.Visualization = 1
 Sensor.LidarRSI.CycleOffsetIgnore = 0
-Sensor.LidarRSI.0.name = OS1_64_C
-Sensor.LidarRSI.0.pos = 2.5 0.0 1.7
+Sensor.LidarRSI.0.name = VLP16_C
+Sensor.LidarRSI.0.pos = 2.5 0.0 1.5
 Sensor.LidarRSI.0.rot = 0.0 0.0 0.0
-Sensor.LidarRSI.0.Range = 0.3 120
+Sensor.LidarRSI.0.Range = 0.3 100
 Sensor.LidarRSI.0.CycleTime = 100.0
-Sensor.LidarRSI.0.nCycleOffset = 50
-Sensor.LidarRSI.0.VisColor = Blue
+Sensor.LidarRSI.0.nCycleOffset = 0
+Sensor.LidarRSI.0.VisColor = Yellow
 Sensor.LidarRSI.0.Mounting = Fr1A
 Sensor.LidarRSI.0.ExtMotion = 0
-Sensor.LidarRSI.0.BeamsFName = LidarRSI_OS1_64
-Sensor.LidarRSI.0.Wavelength = 865
+Sensor.LidarRSI.0.BeamsFName = LidarRSI_VLP_16
+Sensor.LidarRSI.0.Wavelength = 905.0
 Sensor.LidarRSI.0.SepaDist = 0.03
-Sensor.LidarRSI.0.TransmitPower = 14
+Sensor.LidarRSI.0.TransmitPower = 8.0
 Sensor.LidarRSI.0.ReceptionArea = 1.2
 Sensor.LidarRSI.0.Threshold = 1.0
 Sensor.LidarRSI.0.IntensityGain:
+	0 1
+	360 1
+Sensor.LidarRSI.1.name = OS1_64_C
+Sensor.LidarRSI.1.pos = 2.5 0.0 1.9
+Sensor.LidarRSI.1.rot = 0.0 0.0 0.0
+Sensor.LidarRSI.1.Range = 0.3 120
+Sensor.LidarRSI.1.CycleTime = 100.0
+Sensor.LidarRSI.1.nCycleOffset = 50
+Sensor.LidarRSI.1.VisColor = Blue
+Sensor.LidarRSI.1.Mounting = Fr1A
+Sensor.LidarRSI.1.ExtMotion = 0
+Sensor.LidarRSI.1.BeamsFName = LidarRSI_OS1_64
+Sensor.LidarRSI.1.Wavelength = 865
+Sensor.LidarRSI.1.SepaDist = 0.03
+Sensor.LidarRSI.1.TransmitPower = 14
+Sensor.LidarRSI.1.ReceptionArea = 1.2
+Sensor.LidarRSI.1.Threshold = 1.0
+Sensor.LidarRSI.1.IntensityGain:
 	0 1
 	360 1
 Sensor.CameraRSI.nProcesses = 0
@@ -694,8 +716,11 @@ PowerTrain.DL.RDiff.I_in = 0.001
 PowerTrain.DL.RDiff.I_out = 0.001
 PowerTrain.DL.RDiff.i = 4.1
 Sensor.LidarRSI.0.IP = 192.168.0.1
-Sensor.LidarRSI.0.Kind = OS1_64
+Sensor.LidarRSI.0.Kind = VLP_16
 Sensor.LidarRSI.0.UDPSocket = 50010
+Sensor.LidarRSI.1.IP = 192.168.0.1
+Sensor.LidarRSI.1.Kind = OS1_64
+Sensor.LidarRSI.1.UDPSocket = 50011
 Sensor.Line.0.IP = 192.168.0.1
 Sensor.Line.0.UDPSocket = 50012
 Sensor.Line.Noise = 0.05
