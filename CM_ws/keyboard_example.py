@@ -8,8 +8,8 @@ ACC_MIN = -10
 ACC_MAX = 10
 ACC_EMG = -100
 PI = 3.141592
-STEER_MIN = -3*PI
-STEER_MAX = 3*PI
+STEER_MIN = -PI/4
+STEER_MAX = PI/4
 
 current_pressed = set()
 global current_acc

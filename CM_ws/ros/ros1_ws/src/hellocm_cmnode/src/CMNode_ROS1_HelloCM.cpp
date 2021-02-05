@@ -2327,12 +2327,26 @@ CMRosIF_CMNode_Calc (double dt)
 		Lidar_CycleCount++;
 		
          }
+
+    //NDT Mapping
+    // UDP_Input.DriveCont.Ax = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
+    // UDP_Input.DriveCont.SteeringWheel = 18*CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
+    // UDP_Input.DriveCont.SteeringWheel = 1;
+    // UDP_Input.DriveCont.Ax = 1;
+    //UDP_Input.DriveCont.GearNo = 1;
+    //UDP_PC.VC_SwitchOn = 1;
+    //DrivMan.Lights.Hazard = 1;
+    //DrivMan.Lights.Indicator = 1; 
+
+
+
+    
+    // Dong Min Shin     
 	double Ax_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
     double SteeringWheel_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
-	// UDP_Input.DriveCont.Ax = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
-    // UDP_Input.DriveCont.SteeringWheel = 18*CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
 
-    double Ax_con = 1;
+    double Ax_con = 10;
+    double SteeringWheel_amp = 1;
     double SteeringWheel_con = 18;
     double acc_transform;
     double SteeringWheel_abs;
@@ -2341,19 +2355,34 @@ CMRosIF_CMNode_Calc (double dt)
     else
         SteeringWheel_abs = -SteeringWheel_raw;
     
-    if(Ax_raw > 0)
-        acc_transform = -10*SteeringWheel_abs/0.79 + 10;
-    else
-        acc_transform = 10*SteeringWheel_abs/0.79 + 10;
-
-
-    UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
-    if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
-        UDP_Input.DriveCont.Ax = -100;
+    //60deg = 1.0472
+    //45deg = 0.7854
+    if(Ax_raw > 0) {
+        acc_transform = -SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
+        // if(acc_transform <= 0.1) {
+        //     acc_transform = 0.1;
+        // }   
+    } else {
+        acc_transform = 1/Ax_con;
+        // acc_transform = SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
     }
+       
+
+    if(Ax_con * acc_transform * Ax_raw < -30) {
+        UDP_Input.DriveCont.Ax = -30;
+    } else if(Ax_con * acc_transform * Ax_raw < -20) {
+        UDP_Input.DriveCont.Ax = -20;
+    } else if(Ax_con * acc_transform * Ax_raw < -10) {
+        UDP_Input.DriveCont.Ax = -10;
+    } else {
+        UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
+    }
+
+    if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
+        UDP_Input.DriveCont.Ax = -30;
+    }
+
     UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;
-	// UDP_Input.DriveCont.SteeringWheel = 1;
-    // UDP_Input.DriveCont.Ax = 1;
 	UDP_Input.DriveCont.GearNo = 1;
     //UDP_PC.VC_SwitchOn = 1;
 	
@@ -2366,7 +2395,7 @@ CMRosIF_CMNode_Calc (double dt)
 	//     DrivMan.Lights.Indicator = 2;
     // else
     //     DrivMan.Lights.Indicator = 0;
-    
+
     return 1;
 }
 

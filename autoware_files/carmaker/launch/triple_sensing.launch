@@ -25,11 +25,15 @@
   <include file="$(find test_package)/launch/gnss_republisher.launch"/>
 
   <!-- static tf publisher between base_link and velodyne -->
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0 0 0 0 0 0 gps base_link 10"/>
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="0 0 0 0 0 0 base_link velodyne 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 gps base_link 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 10"/>
   <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_left" args="2.3 0.7 0.7 0 0 0 velodyne velodyne_left 10"/>
   <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_right" args="2.3 -0.7 0.7 0 0 0 velodyne velodyne_right 10"/>
   <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_back" args="-2.5 0.0 0.7 3.14 0 0 velodyne velodyne_back 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/>
+
+  <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
+  <!-- <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" /> -->
 
   <include file="$(find rubis_pkg)/launch/pcd_clipper.launch">
     <arg name="node_name" value="pcd_clipper_left"/>

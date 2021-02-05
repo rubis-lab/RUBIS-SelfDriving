@@ -450,8 +450,18 @@ void DecisionMaker::InitBehaviorStates()
   // Check turn
   // Detects whether or not to turning 50m ahead
   m_turnWaypoint = m_RollOuts.at(currentBehavior.currTrajectory).at(std::min(100, int(m_RollOuts.at(currentBehavior.currTrajectory).size()))-1);
-  
-  currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
+
+  // Make Lamp Signal
+  if(currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || currentBehavior.state == INTERSECTION_STATE && m_params.turnLeft){
+    currentBehavior.indicator = INDICATOR_LEFT;
+  }
+  else if(currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || currentBehavior.state == INTERSECTION_STATE && m_params.turnRight){
+    currentBehavior.indicator = INDICATOR_RIGHT;
+  }
+  else
+    currentBehavior.indicator = INDICATOR_NONE;
+
+  // currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 
   return currentBehavior;
  }

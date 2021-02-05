@@ -1,57 +1,120 @@
 #INFOFILE1.1 - Do not remove this line!
 FileIdent = CarMaker-Car 9
-FileCreator = CarMaker 2021-01-15 12:09:12
+FileCreator = CarMaker 2021-01-19 11:37:22
+
+
+## Assembly ##############################################################
+
+RefPointInputSystem = 0.0 0.0 0.0
 Description:
 
+Eng.Kind = Rigid
+Eng.Joint.pos = 0.0  0.0  0.0
+Eng.Orientation = 0.0  0.0  0.0
 
-## General ###############################################################
-Picture.PicFName = Kia_Niro_(Mk1)_(DE)_e_2019_game.png
-Movie.Skin.FName = Vehicle_Model/Kia_Niro_(Mk1)_(DE)_e_2019_game/Kia_Niro_(Mk1)_(DE)_e_2019_game.obj
 Hitch.System =
-Vehicle.OuterSkin = 0.0 0.9025 0.28 4.375 -0.9025 1.570
-Additional.Comment:
-
-
-## Mass Inertia Geometry #################################################
-WheelCarrier.fl.mass = 13.525
-WheelCarrier.fl.I = 5.0623 1.4638 4.0545 0 0 0
-WheelCarrier.fl.pos = 3.49 0.77525 0.296
-WheelCarrier.fr.mass = 13.525
-WheelCarrier.fr.I = 5.0623 1.4638 4.0545 0 0 0
-WheelCarrier.fr.pos = 3.49 -0.77525 0.296
-WheelCarrier.rl.mass = 14.32
-WheelCarrier.rl.I = 1.2834 0.70195 0.94264 0 0 0
-WheelCarrier.rl.pos = 0.79 0.77525 0.296
-WheelCarrier.rr.mass = 14.32
-WheelCarrier.rr.I = 1.2834 0.70195 0.94264 0 0 0
-WheelCarrier.rr.pos = 0.79 -0.77525 0.296
-Wheel.fl.mass = 47.55
-Wheel.fl.I = 0.56121 0.9881 0.56134
-Wheel.fl.pos = 3.49 0.77525 0.296
-Wheel.fr.mass = 47.55
-Wheel.fr.I = 0.56121 0.9881 0.56134
-Wheel.fr.pos = 3.49 -0.77525 0.296
-Wheel.rl.mass = 43.175
-Wheel.rl.I = 0.56121 0.9881 0.56134
-Wheel.rl.pos = 0.79 0.77525 0.296
-Wheel.rr.mass = 43.175
-Wheel.rr.I = 0.56121 0.9881 0.56134
-Wheel.rr.pos = 0.79 -0.77525 0.296
-RefPointInputSystem = 0.0 0.0 0.0
 Hitch.pos = 0.0 0.0 0
 Jack.fl.pos = 0 0 0
 Jack.fr.pos = 0 0 0
 Jack.rl.pos = 0 0 0
 Jack.rr.pos = 0 0 0
 Virtual.PoA = 2.298  0.000  0.540
+
+WheelCarrier.fl.mass = 13.525
+WheelCarrier.fl.I = 5.0623  1.4638  4.0545  0  0  0
+WheelCarrier.fl.pos = 3.49  0.77525  0.296
+WheelCarrier.fr.mass = 13.525
+WheelCarrier.fr.I = 5.0623  1.4638  4.0545  0  0  0
+WheelCarrier.fr.pos = 3.49  -0.77525  0.296
+WheelCarrier.rl.mass = 14.32
+WheelCarrier.rl.I = 1.2834  0.70195  0.94264  0  0  0
+WheelCarrier.rl.pos = 0.79  0.77525  0.296
+WheelCarrier.rr.mass = 14.32
+WheelCarrier.rr.I = 1.2834  0.70195  0.94264  0  0  0
+WheelCarrier.rr.pos = 0.79  -0.77525  0.296
+Wheel.fl.mass = 47.55
+Wheel.fl.I = 0.56121  0.9881  0.56134
+Wheel.fl.pos = 3.49  0.77525  0.296
+Wheel.fr.mass = 47.55
+Wheel.fr.I = 0.56121  0.9881  0.56134
+Wheel.fr.pos = 3.49  -0.77525  0.296
+Wheel.rl.mass = 43.175
+Wheel.rl.I = 0.56121  0.9881  0.56134
+Wheel.rl.pos = 0.79  0.77525  0.296
+Wheel.rr.mass = 43.175
+Wheel.rr.I = 0.56121  0.9881  0.56134
+Wheel.rr.pos = 0.79  -0.77525  0.296
+
+PowerTrain.Engine.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Engine.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Engine.Bdy.Mounting = FrEng
+PowerTrain.Engine.Bdy.RefFr = FrD
+PowerTrain.Engine.Tank.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Engine.Tank.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Engine.Tank.Bdy.Mounting = Fr1A
+PowerTrain.Engine.Tank.Bdy.RefFr = FrD
+PowerTrain.GearBox.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.GearBox.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.GearBox.Bdy.Mounting = FrEng
+PowerTrain.GearBox.Bdy.RefFr = FrD
+PowerTrain.GearBoxM.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.GearBoxM.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.GearBoxM.Bdy.Mounting = Fr1A
+PowerTrain.GearBoxM.Bdy.RefFr = FrD
+PowerTrain.GearBoxM1.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.GearBoxM1.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.GearBoxM1.Bdy.Mounting = Fr1A
+PowerTrain.GearBoxM1.Bdy.RefFr = FrD
+PowerTrain.GearBoxM2.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.GearBoxM2.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.GearBoxM2.Bdy.Mounting = Fr1A
+PowerTrain.GearBoxM2.Bdy.RefFr = FrD
+PowerTrain.GearBoxM3.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.GearBoxM3.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.GearBoxM3.Bdy.Mounting = Fr1A
+PowerTrain.GearBoxM3.Bdy.RefFr = FrD
+PowerTrain.Motor.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Motor.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Motor.Bdy.Mounting = Fr1A
+PowerTrain.Motor.Bdy.RefFr = FrD
+PowerTrain.Motor1.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Motor1.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Motor1.Bdy.Mounting = Fr1A
+PowerTrain.Motor1.Bdy.RefFr = FrD
+PowerTrain.Motor2.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Motor2.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Motor2.Bdy.Mounting = Fr1A
+PowerTrain.Motor2.Bdy.RefFr = FrD
+PowerTrain.Motor3.Bdy.pos = 0.0 0.0 0.0
+PowerTrain.Motor3.Bdy.Ori = 0.0 0.0 0.0
+PowerTrain.Motor3.Bdy.Mounting = Fr1A
+PowerTrain.Motor3.Bdy.RefFr = FrD
+PowerTrain.PowerSupply.BattLV.Bdy.0.pos = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattLV.Bdy.0.Ori = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattLV.Bdy.0.Mounting = Fr1A
+PowerTrain.PowerSupply.BattLV.Bdy.0.RefFr = FrD
+PowerTrain.PowerSupply.BattLV.Bdy.1.pos = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattLV.Bdy.1.Ori = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattLV.Bdy.1.Mounting = Fr1A
+PowerTrain.PowerSupply.BattLV.Bdy.1.RefFr = FrD
+PowerTrain.PowerSupply.BattHV.Bdy.0.pos = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattHV.Bdy.0.Ori = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattHV.Bdy.0.Mounting = Fr1A
+PowerTrain.PowerSupply.BattHV.Bdy.0.RefFr = FrD
+PowerTrain.PowerSupply.BattHV.Bdy.1.pos = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattHV.Bdy.1.Ori = 0.0 0.0 0.0
+PowerTrain.PowerSupply.BattHV.Bdy.1.Mounting = Fr1A
+PowerTrain.PowerSupply.BattHV.Bdy.1.RefFr = FrD
+
 Assembly.Comment:
 
 
-## Vehicle Model #########################################################
+## Body ##################################################################
+
 VehicleModel = Vhcl_2Axle
+nAxle = 2
 VehicleModel.Kind = RigidBody
 VehicleModel.Mode = BodyA
-nAxle = 2
 Body.mass = 1319.9111
 Body.I = 418.7782 1943.9326 2093.3847 0.536 1.7372 -1.506
 Body.pos = 2.1626 0 0.5424
@@ -65,16 +128,11 @@ Flex.JointFr1Fr1B.d.x = 0.0
 Flex.JointFr1Fr1B.d.y = 0.0
 Flex.JointFr1Fr1B.d.x.Amplify = 1.0
 Flex.JointFr1Fr1B.d.y.Amplify = 1.0
-Vhclbody.Comment:
 
+Movie.Skin.FName = Vehicle_Model/Kia_Niro_(Mk1)_(DE)_e_2019_game/Kia_Niro_(Mk1)_(DE)_e_2019_game.obj
+Picture.PicFName = Kia_Niro_(Mk1)_(DE)_e_2019_game.png
+Vehicle.OuterSkin = 0.0 0.9025 0.28 4.375 -0.9025 1.570
 
-## Eng ###################################################################
-Eng.Kind = Rigid
-Eng.Joint.pos = 0.0  0.0  0.0
-Eng.Orientation = 0.0  0.0  0.0
-
-
-## Aerodynamics ##########################################################
 Aero.Kind = Coeff6x1 1
 Aero.Marker.pos = 4.3 0 0.4
 Aero.pos = 2.25 0.0 0.6
@@ -91,6 +149,8 @@ Aero.Coeff:
 	90.0 0.00 1.70 0.9 0.20 0.00 0.00
 	135.0 -0.20 1.40 0.7 0.16 -0.021 -0.06
 	180.0 -0.40 0.00 0.1 0.00 0.01 0.00
+
+Vhclbody.Comment:
 
 
 ## Suspensions ###########################################################
@@ -313,69 +373,6 @@ Brake.System.Park.Torque_max = 0.0 0.0 0.0 0.0
 Brake.Comment:
 
 
-## PowerTrain Assembly ###################################################
-PowerTrain.Engine.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Engine.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Engine.Bdy.Mounting = FrEng
-PowerTrain.Engine.Bdy.RefFr = FrD
-PowerTrain.Engine.Tank.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Engine.Tank.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Engine.Tank.Bdy.Mounting = Fr1A
-PowerTrain.Engine.Tank.Bdy.RefFr = FrD
-PowerTrain.GearBox.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.GearBox.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.GearBox.Bdy.Mounting = FrEng
-PowerTrain.GearBox.Bdy.RefFr = FrD
-PowerTrain.GearBoxM.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.GearBoxM.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.GearBoxM.Bdy.Mounting = Fr1A
-PowerTrain.GearBoxM.Bdy.RefFr = FrD
-PowerTrain.GearBoxM1.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.GearBoxM1.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.GearBoxM1.Bdy.Mounting = Fr1A
-PowerTrain.GearBoxM1.Bdy.RefFr = FrD
-PowerTrain.GearBoxM2.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.GearBoxM2.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.GearBoxM2.Bdy.Mounting = Fr1A
-PowerTrain.GearBoxM2.Bdy.RefFr = FrD
-PowerTrain.GearBoxM3.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.GearBoxM3.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.GearBoxM3.Bdy.Mounting = Fr1A
-PowerTrain.GearBoxM3.Bdy.RefFr = FrD
-PowerTrain.Motor.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Motor.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Motor.Bdy.Mounting = Fr1A
-PowerTrain.Motor.Bdy.RefFr = FrD
-PowerTrain.Motor1.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Motor1.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Motor1.Bdy.Mounting = Fr1A
-PowerTrain.Motor1.Bdy.RefFr = FrD
-PowerTrain.Motor2.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Motor2.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Motor2.Bdy.Mounting = Fr1A
-PowerTrain.Motor2.Bdy.RefFr = FrD
-PowerTrain.Motor3.Bdy.pos = 0.0 0.0 0.0
-PowerTrain.Motor3.Bdy.Ori = 0.0 0.0 0.0
-PowerTrain.Motor3.Bdy.Mounting = Fr1A
-PowerTrain.Motor3.Bdy.RefFr = FrD
-PowerTrain.PowerSupply.BattLV.Bdy.0.pos = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattLV.Bdy.0.Ori = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattLV.Bdy.0.Mounting = Fr1A
-PowerTrain.PowerSupply.BattLV.Bdy.0.RefFr = FrD
-PowerTrain.PowerSupply.BattLV.Bdy.1.pos = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattLV.Bdy.1.Ori = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattLV.Bdy.1.Mounting = Fr1A
-PowerTrain.PowerSupply.BattLV.Bdy.1.RefFr = FrD
-PowerTrain.PowerSupply.BattHV.Bdy.0.pos = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattHV.Bdy.0.Ori = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattHV.Bdy.0.Mounting = Fr1A
-PowerTrain.PowerSupply.BattHV.Bdy.0.RefFr = FrD
-PowerTrain.PowerSupply.BattHV.Bdy.1.pos = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattHV.Bdy.1.Ori = 0.0 0.0 0.0
-PowerTrain.PowerSupply.BattHV.Bdy.1.Mounting = Fr1A
-PowerTrain.PowerSupply.BattHV.Bdy.1.RefFr = FrD
-
-
 ## Powertrain ############################################################
 PowerTrain.Kind = BEV 1
 PowerTrain.Comment:
@@ -551,7 +548,10 @@ Sensor.Line.0.ExtMotion = 0
 Sensor.Line.0.PosInFrB = 0
 Sensor.Line.0.RefPoint = 0.0 0.0 0.0
 Sensor.Road.N = 0
-Sensor.Collision.Active = 0
+Sensor.Collision.Active = 1
+Sensor.Collision.WithWheels = 1
+Sensor.Collision.Fr1.EnvMode = Cuboid
+Sensor.Collision.Fr1.AboveBelowOn = 0
 Sensor.GNav.pos = 0.9 0.0 1.7
 Sensor.GNav.Mounting = Fr1A
 Sensor.GNav.UpdRate = 10
@@ -633,7 +633,7 @@ Crypto.AllowAccess:
 	GenericPlugin
 
 
-## Additional Parameters #################################################
+## Additional ############################################################
 Env.AirDensity = 1220000000
 PowerTrain.DL.CDiff.Cpl.Kind =
 PowerTrain.DL.CDiff.Eta = 1
@@ -670,3 +670,5 @@ VehicleInfo.CycleTime_VehInf = 1
 VehicleInfo.GNSS_error = 1000
 VehicleInfo.IP = 192.168.0.1
 VehicleInfo.UDPSocket = 50301
+
+Additional.Comment:
