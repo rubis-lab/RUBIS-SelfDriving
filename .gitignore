@@ -24,8 +24,6 @@ CM_ws/bin/*
 CM_ws/src/.depend
 CM_ws/src/.version_linux64
 CM_ws/src/*.linux64
-CM_ws/src/Makefile
-CM_ws/src/Makefile_CMRosIF
 CM_ws/ros/ros1/devel/lib
 CM_ws/src/app_tmp.c
 CM_ws/Plugins
