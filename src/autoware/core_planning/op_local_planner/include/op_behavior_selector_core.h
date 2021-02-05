@@ -44,6 +44,7 @@
 #include <autoware_can_msgs/CANInfo.h>
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <autoware_msgs/IntersectionCondition.h>
+#include <autoware_msgs/LampCmd.h>
 // #include <autoware_msgs/TrafficLight.h>
 // #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/RUBISTrafficSignalArray.h>
@@ -113,6 +114,8 @@ protected: //Planning Related variables
   geometry_msgs::TwistStamped m_Twist_cmd;
   autoware_msgs::ControlCommand m_Ctrl_cmd;
 
+  autoware_msgs::LampCmd m_Lamp_cmd;
+
   //Added by PHY
   double m_distanceToPedestrianThreshold;
   double m_turnAngle;
@@ -138,6 +141,8 @@ protected: //Planning Related variables
   ros::Publisher pub_turnMarker;
   ros::Publisher pub_turnAngle;
   ros::Publisher pub_currentState;
+
+  ros::Publisher pub_lampCmd;
 
   // define subscribers.
   ros::Subscriber sub_current_pose;
