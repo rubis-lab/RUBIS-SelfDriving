@@ -8,16 +8,19 @@ pub = rospy.Publisher('imu_raw', Imu, queue_size=1)
 def cb(msg):
     roll = msg.orientation.x
     pitch = msg.orientation.y
-    yaw = msg.orientation.z
+    yaw = msg.orientation.z*-1
     quat = quaternion_from_euler(roll, pitch, yaw)
     print(roll, pitch, yaw)
     
     out = msg
     out.header.stamp = rospy.Time.now()
+    out.header.frame_id = 'imu'
     out.orientation.x = quat[0]
     out.orientation.y = quat[1]
     out.orientation.z = quat[2]
     out.orientation.w = quat[3]
+
+    out.angular_velocity.z = out.angular_velocity.z * -1 
 
     pub.publish(out)
 

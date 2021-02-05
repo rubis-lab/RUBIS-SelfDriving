@@ -9,13 +9,15 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     pose_pub.publish(cur_pose_);
     nav_msgs::Odometry gps_odom_msg;
     gps_odom_msg.header = cur_pose_.header;
+    gps_odom_msg.header.frame_id = "odom";
+    gps_odom_msg.child_frame_id = "gps";
     gps_odom_msg.pose.pose = cur_pose_.pose;
-    gps_odom_msg.pose.covariance = {1, 0, 0, 0, 0, 0,
-                                    0, 1, 0, 0, 0, 0,
-                                    0, 0, 1, 0, 0, 0,
-                                    0, 0, 0, 1, 0, 0,
-                                    0, 0, 0, 0, 1, 0,
-                                    0, 0, 0, 0, 0, 1};
+    gps_odom_msg.pose.covariance = {0.958504205, 0, 0, 0, 0, 0,
+                                    0, 0.586713415, 0, 0, 0, 0,
+                                    0, 0, 0.000000000001, 0, 0, 0,
+                                    0, 0, 0, 0.001, 0, 0,
+                                    0, 0, 0, 0, 0.001, 0,
+                                    0, 0, 0, 0, 0, 0.001};
     odom_pub.publish(gps_odom_msg);
     cur_pose_data_.x = cur_pose_.pose.position.x;
     cur_pose_data_.y = cur_pose_.pose.position.y;
@@ -24,8 +26,8 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     cur_pose_data_.pitch = pitch_;
     cur_pose_data_.yaw = yaw_;
     publishVelocity();
-    if(publish_tf_)
-        publishTF();
+    
+    publishTF();
     prev_pose_data_.x = cur_pose_data_.x;
     prev_pose_data_.y = cur_pose_data_.y;
     prev_pose_data_.z = cur_pose_data_.z;
@@ -115,7 +117,7 @@ void publishVelocity(){
     angular_velocity = (diff_time > 0) ? (diff_yaw / diff_time) : 0;
     geometry_msgs::TwistStamped twist_msg;
     twist_msg.header.stamp = ros::Time::now();
-    twist_msg.header.frame_id = "/base_link";
+    twist_msg.header.frame_id = "base_link";
     twist_msg.twist.linear.x = current_velocity;
     twist_msg.twist.linear.y = 0.0;
     twist_msg.twist.linear.z = 0.0;
