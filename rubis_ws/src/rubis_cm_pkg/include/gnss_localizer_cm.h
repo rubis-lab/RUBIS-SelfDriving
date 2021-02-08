@@ -42,7 +42,7 @@ struct Pose
 };
 
 ros::Subscriber gps_sub, imu_sub;
-ros::Publisher pose_pub, odom_pub, vel_pub;
+ros::Publisher pose_pub, vel_pub;
 
 double roll_, pitch_, yaw_;
 
