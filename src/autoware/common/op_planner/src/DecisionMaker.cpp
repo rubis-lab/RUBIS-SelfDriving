@@ -284,12 +284,17 @@ void DecisionMaker::InitBehaviorStates()
 
         if(distanceToClosestStopLine < m_params.stopLineDetectionDistance && distanceToClosestStopLine > 0){
           bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
-          double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          double reachableDistance = 10 * remain_time / 2;
           bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
                         (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
           pValues->currentTrafficLightID = trafficLightID;
           pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+
+          // std::cout << trafficLightID << " " << distanceToClosestStopLine << " " << remain_time << std::endl;
+          // std::cout << "bGreen : " << bGreenTrafficLight << ", reachable : " << reachableDistance << std::endl;
+          // std::cout << "should forward : " << bShouldForward << std::endl;
         }
 
         m_prevTrafficLightID = trafficLightID;
@@ -527,7 +532,8 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
-    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    double desiredAcceleration = 10 * 10 / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
     double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
     
     double e = max_velocity - CurrStatus.speed;
@@ -576,26 +582,25 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FOLLOW_STATE)
   {
+    // double deceleration_critical = 0;
+    // double inv_time = 2.0*((beh.followDistance- (critical_long_front_distance+m_params.additionalBrakingDistance))-CurrStatus.speed);
+    // if(inv_time <= 0)
+    //   deceleration_critical = m_CarInfo.max_deceleration;
+    // else
+    //   deceleration_critical = CurrStatus.speed*CurrStatus.speed/inv_time;
 
-    double deceleration_critical = 0;
-    double inv_time = 2.0*((beh.followDistance- (critical_long_front_distance+m_params.additionalBrakingDistance))-CurrStatus.speed);
-    if(inv_time <= 0)
-      deceleration_critical = m_CarInfo.max_deceleration;
-    else
-      deceleration_critical = CurrStatus.speed*CurrStatus.speed/inv_time;
+    // if(deceleration_critical > 0) deceleration_critical = -deceleration_critical;
+    // if(deceleration_critical < - m_CarInfo.max_acceleration) deceleration_critical = - m_CarInfo.max_acceleration;
 
-    if(deceleration_critical > 0) deceleration_critical = -deceleration_critical;
-    if(deceleration_critical < - m_CarInfo.max_acceleration) deceleration_critical = - m_CarInfo.max_acceleration;
+    // double desiredVelocity = (deceleration_critical * dt) + CurrStatus.speed;
 
-    double desiredVelocity = (deceleration_critical * dt) + CurrStatus.speed;
+    // if(desiredVelocity > m_params.maxSpeed)
+    //   desiredVelocity = m_params.maxSpeed;
 
-    if(desiredVelocity > m_params.maxSpeed)
-      desiredVelocity = m_params.maxSpeed;
+    // if((desiredVelocity < 0.1 && desiredVelocity > -0.1) || beh.followDistance <= 0) //use only effective velocities
+    //   desiredVelocity = 0;
 
-    if((desiredVelocity < 0.1 && desiredVelocity > -0.1) || beh.followDistance <= 0) //use only effective velocities
-      desiredVelocity = 0;
-
-    //std::cout << "Acc: V: " << desiredVelocity << ", Accel: " << deceleration_critical<< std::endl;
+    double desiredVelocity = 0;
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;

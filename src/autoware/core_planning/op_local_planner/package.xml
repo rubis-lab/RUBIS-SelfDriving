@@ -25,5 +25,6 @@
   <depend>std_msgs</depend>
   <depend>libwaypoint_follower</depend>
   <depend>yaml-cpp</depend>
+  <depend>hellocm_msgs</depend>
 
 </package>
