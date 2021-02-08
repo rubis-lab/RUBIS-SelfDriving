@@ -25,7 +25,7 @@
   <include file="$(find test_package)/launch/gnss_republisher.launch"/>
 
   <!-- static tf publisher between base_link and velodyne -->
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/>
+  <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/> -->
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 10"/>
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/>
 
