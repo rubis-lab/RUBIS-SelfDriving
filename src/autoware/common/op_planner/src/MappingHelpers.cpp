@@ -1017,7 +1017,7 @@ Lane* MappingHelpers::GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& ma
   }
 
   if(laneLinksList.size() == 0){
-    std::cout<<"min d: "<<min_d<<" / distance: "<<distance<<std::endl;
+    // std::cout<<"min d: "<<min_d<<" / distance: "<<distance<<std::endl;
     return nullptr;
   }
 
