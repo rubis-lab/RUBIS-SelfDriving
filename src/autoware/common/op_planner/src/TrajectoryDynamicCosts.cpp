@@ -200,8 +200,10 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   double velo_of_next = 0;
 
   bool bAllFree = true;
+  int start_idx = 0;
+  int end_idx = 1;
 
-  for(unsigned int ic = 0; ic < m_TrajectoryCosts.size(); ic++)
+  for(unsigned int ic = start_idx; ic <= end_idx; ic++)
   {
     if(!m_TrajectoryCosts.at(ic).bBlocked && m_TrajectoryCosts.at(ic).cost < smallestCost)
     {
@@ -424,13 +426,15 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     std::cout << "points num : " << contourPoints.size() << std::endl;
   #endif
 
-  int iCostIndex = 0;
   if(rollOuts.size() > 0 && rollOuts.at(0).size()>0)
   {
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
-    for(unsigned int it=0; it< rollOuts.size(); it++)
+    int start_idx = 0;
+    int end_idx = 1;
+
+    for(unsigned int it = start_idx; it<= end_idx; it++)
     {
       #ifdef DEBUG_ENABLE
       int unskipped = 0;
@@ -461,7 +465,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         // std::cout << rollOuts.size() << " " << rollOuts.size() /2 << std::endl;
         // std::cout << ((rollOuts.size() / 2) * params.rollOutDensity) * (-1) << std::endl;
 
-        double distance_from_center = trajectoryCosts.at(iCostIndex).distance_from_center; // Disetance between center and trajectory
+        double distance_from_center = trajectoryCosts.at(it).distance_from_center; // Disetance between center and trajectory
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
@@ -486,40 +490,38 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         // }
 
         if(m_SafetyBorder.PointInsidePolygon(m_SafetyBorder, contourPoints.at(icon).pos) == true)
-          trajectoryCosts.at(iCostIndex).bBlocked = true;
+          trajectoryCosts.at(it).bBlocked = true;
 
         // // Disabled bj hjw
-        // if(lateralDist <= 2
-        //     && longitudinalDist >= -carInfo.length
-        //     && longitudinalDist < 5)
-        //   trajectoryCosts.at(iCostIndex).bBlocked = true;
+        if(lateralDist <= 2
+            && longitudinalDist >= -carInfo.length
+            && longitudinalDist < 15)
+          trajectoryCosts.at(it).bBlocked = true;
 
         // Original
         // if(lateralDist <= critical_lateral_distance
         //     && longitudinalDist >= -carInfo.length/1.5
         //     && longitudinalDist < params.minFollowingDistance)
-        //   trajectoryCosts.at(iCostIndex).bBlocked = true;
+        //   trajectoryCosts.at(it).bBlocked = true;
 
         if(lateralDist != 0)
-          trajectoryCosts.at(iCostIndex).lateral_cost += 1.0/lateralDist;
+          trajectoryCosts.at(it).lateral_cost += 1.0/lateralDist;
 
         if(longitudinalDist != 0)
-          trajectoryCosts.at(iCostIndex).longitudinal_cost += 1.0/fabs(longitudinalDist);
+          trajectoryCosts.at(it).longitudinal_cost += 1.0/fabs(longitudinalDist);
 
-        if(longitudinalDist > 0 && longitudinalDist < trajectoryCosts.at(iCostIndex).closest_obj_distance)
+        if(longitudinalDist > 0 && longitudinalDist < trajectoryCosts.at(it).closest_obj_distance)
         {
-          trajectoryCosts.at(iCostIndex).closest_obj_distance = longitudinalDist;
-          trajectoryCosts.at(iCostIndex).closest_obj_velocity = contourPoints.at(icon).v;
+          trajectoryCosts.at(it).closest_obj_distance = longitudinalDist;
+          trajectoryCosts.at(it).closest_obj_velocity = contourPoints.at(icon).v;
         }
       }
 
       #ifdef DEBUG_ENABLE
-      // std::cout << trajectoryCosts.at(iCostIndex).longitudinal_cost << " " << trajectoryCosts.at(iCostIndex).lateral_cost << ", ";
+      // std::cout << trajectoryCosts.at(it).longitudinal_cost << " " << trajectoryCosts.at(it).lateral_cost << ", ";
       std::cout << unskipped << " ";
       #endif
 
-      // Calculate lateral/logitudinal cost, disdtance and velocity
-      iCostIndex++;
     }
     #ifdef DEBUG_ENABLE
     std::cout << std::endl;
