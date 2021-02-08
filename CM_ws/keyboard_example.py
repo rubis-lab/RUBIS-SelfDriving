@@ -8,8 +8,8 @@ ACC_MIN = -10
 ACC_MAX = 10
 ACC_EMG = -100
 PI = 3.141592
-STEER_MIN = -PI/4
-STEER_MAX = PI/4
+STEER_MIN = -PI / 3
+STEER_MAX = PI / 3
 
 current_pressed = set()
 global current_acc
@@ -24,20 +24,24 @@ def on_press(key):
     # print('Key %s pressed' % current_pressed)
 
     if keyboard.KeyCode(char='w') in current_pressed:
-        if current_acc < ACC_MAX:
-            current_acc += 0.5
+        current_acc = ACC_MAX
+        # if current_acc < ACC_MAX:
+        #     current_acc += 0.5
 
     if keyboard.KeyCode(char='s') in current_pressed:
-        if current_acc > ACC_MIN:
-            current_acc += -5
+        current_acc = ACC_MIN
+        # if current_acc > ACC_MIN:
+        #     current_acc += -5
 
     if keyboard.KeyCode(char='a') in current_pressed:
-        if current_steer < STEER_MAX:
-            current_steer += 0.4*PI/20
+        current_steer = STEER_MAX
+        # if current_steer < STEER_MAX:
+        #     current_steer += 0.4*PI/20
 
     if keyboard.KeyCode(char='d') in current_pressed:
-        if current_steer > STEER_MIN:
-            current_steer += -0.4*PI/20
+        current_steer = STEER_MIN
+        # if current_steer > STEER_MIN:
+        #     current_steer += -0.4*PI/20
     
     if keyboard.KeyCode(char='f') in current_pressed:
         current_steer = 0
@@ -45,10 +49,13 @@ def on_press(key):
 
     # -10/57.3
 
-    # if keyboard.KeyCode(char='w') not in current_pressed:
-    #     if keyboard.KeyCode(char='s') not in current_pressed:
-    #         current_acc = -1
-    #         current_steer = 0
+    if keyboard.KeyCode(char='w') not in current_pressed:
+        if keyboard.KeyCode(char='s') not in current_pressed:
+            current_acc = 0
+    
+    if keyboard.KeyCode(char='a') not in current_pressed:
+        if keyboard.KeyCode(char='d') not in current_pressed:
+            current_steer = 0
     # print('acc : %f steer : %f' %(current_acc, current_steer))
 
 def keyboard_routine():
@@ -68,11 +75,11 @@ def on_release(key):
     if key == keyboard.KeyCode(char='d'):
         current_steer = 0        
     if key == keyboard.KeyCode(char='w'):
-        current_acc = -1.5     
+        current_acc = 0        
     if key == keyboard.KeyCode(char='s'):
-        current_acc = -0.5
+        current_acc = 0
     if key == keyboard.KeyCode(char='f'):
-        current_acc = -0.5    
+        current_acc = 0      
     if key in current_pressed:
         current_pressed.remove(key)
 
