@@ -52,7 +52,7 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <XmlRpcException.h>
 
-#include <hellocm_msgs/TrafficLgiht.h>
+#include <hellocm_msgs/TrafficLight.h>
 
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>

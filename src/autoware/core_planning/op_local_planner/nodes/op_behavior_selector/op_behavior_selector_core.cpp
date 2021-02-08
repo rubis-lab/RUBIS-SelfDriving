@@ -452,7 +452,7 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
   {
     tl.lightState = PlannerHNS::GREEN_LIGHT;
   }
-  else if(msg.signals.at(i).type == 2)
+  else if(msg.state == 2)
   {
     tl.lightState = PlannerHNS::YELLOW_LIGHT;
   }
