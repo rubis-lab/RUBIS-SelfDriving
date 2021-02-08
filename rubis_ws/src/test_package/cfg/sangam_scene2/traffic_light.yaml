@@ -9,4 +9,3 @@ traffic_light_list:
       red : 10.0
       green : 999999.0
       yellow : 1.0
-  -

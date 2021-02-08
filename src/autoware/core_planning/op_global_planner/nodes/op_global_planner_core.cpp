@@ -65,16 +65,6 @@ GlobalPlanner::GlobalPlanner()
   m_OriginPos.position.y  = transform.getOrigin().y();
   m_OriginPos.position.z  = transform.getOrigin().z();
 
-  if(use_static_goal == true){
-    geometry_msgs::Quaternion orientation;
-    orientation.x = goal_ori_x;
-    orientation.y = goal_ori_y;
-    orientation.z = goal_ori_z;
-    orientation.w = goal_ori_w;
-    PlannerHNS::WayPoint wp = PlannerHNS::WayPoint(goal_pose_x, goal_pose_y, goal_pose_z, tf::getYaw(orientation));
-    m_GoalsPos.push_back(wp);
-  }
-
   pub_Paths = nh.advertise<autoware_msgs::LaneArray>("lane_waypoints_array", 1, true);
   pub_PathsRviz = nh.advertise<visualization_msgs::MarkerArray>("global_waypoints_rviz", 1, true);
   pub_MapRviz  = nh.advertise<visualization_msgs::MarkerArray>("vector_map_center_lines_rviz", 1, true);
@@ -123,6 +113,17 @@ GlobalPlanner::GlobalPlanner()
   sub_way_areas = nh.subscribe("/vector_map_info/way_area", 1, &GlobalPlanner::callbackGetVMWayAreas,  this);
   sub_cross_walk = nh.subscribe("/vector_map_info/cross_walk", 1, &GlobalPlanner::callbackGetVMCrossWalks,  this);
   sub_nodes = nh.subscribe("/vector_map_info/node", 1, &GlobalPlanner::callbackGetVMNodes,  this);
+
+  if(use_static_goal == true){
+    geometry_msgs::Quaternion orientation;
+    orientation.x = goal_ori_x;
+    orientation.y = goal_ori_y;
+    orientation.z = goal_ori_z;
+    orientation.w = goal_ori_w;
+    PlannerHNS::WayPoint wp = PlannerHNS::WayPoint(goal_pose_x, goal_pose_y, goal_pose_z, tf::getYaw(orientation));
+    //m_GoalsPos.push_back(wp);
+    m_WayPoints.push_back(wp);
+  }
 
 }
 
@@ -261,6 +262,7 @@ bool GlobalPlanner::GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, Planner
     ret = m_PlannerH.PlanUsingDP(startPoint, goalPoint, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, generatedTotalPaths);  
     double degree = goalPoint.pos.a/M_PI*180;
     goalPoint.pos.a  = (degree+30)/180*M_PI;
+    rot_cnt++;
   }
 
   if(ret == 0)
@@ -316,24 +318,54 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
   generatedTotalPaths.clear();
 
   // Start -> WP1
-  wp = wayPoints.at(0);
-  ret = m_PlannerH.PlanUsingDP(startPoint, wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);
-  for(auto it = temp_paths.at(0).begin(); it != temp_paths.at(0).end(); ++it){
-    PlannerHNS::WayPoint wp = *it; 
-    last_path.push_back(wp);
+  int rot_cnt = 0;
+  wp = wayPoints.at(0); // First waypoint
+  while(rot_cnt < 12){
+    if(ret != 0) break;
+    ret = m_PlannerH.PlanUsingDP(startPoint, wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);  
+    double degree = wp.pos.a/M_PI*180;
+    wp.pos.a  = (degree+30)/180*M_PI;
+    rot_cnt++;
   }
-
-  // WP N -> WP N+1
-  for(auto it = wayPoints.begin(); it != wayPoints.end()-1; ++it){
-    if(ret == 0) break; // Cannot generate path
-    temp_paths.clear();
-    PlannerHNS::WayPoint start_wp = *it;
-    PlannerHNS::WayPoint end_wp = *(it+1);
-    ret = m_PlannerH.PlanUsingDP(start_wp, end_wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);
-    
+  
+  if(ret != 0){
     for(auto it = temp_paths.at(0).begin(); it != temp_paths.at(0).end(); ++it){
       PlannerHNS::WayPoint wp = *it; 
       last_path.push_back(wp);
+    }
+  }
+  else
+  {
+    std::cout << "Can't Generate Global Path for Start (" << startPoint.pos.ToString()
+                        << ") and Goal (" << wp.pos.ToString() << ")" << std::endl;
+    return false;
+  }
+
+  // WP N -> WP N+1
+  
+  for(auto it = wayPoints.begin(); it != wayPoints.end()-1; ++it){       
+    PlannerHNS::WayPoint start_wp = *it;
+    PlannerHNS::WayPoint end_wp = *(it+1);
+    rot_cnt = 0;
+    temp_paths.clear();   
+    while(rot_cnt < 12){
+      if(ret != 0) break;
+      ret = m_PlannerH.PlanUsingDP(start_wp, end_wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);
+      double degree = end_wp.pos.a/M_PI*180;
+      end_wp.pos.a  = (degree+30)/180*M_PI;
+      rot_cnt++;
+    }
+
+    if(ret != 0){
+      for(auto it = temp_paths.at(0).begin(); it != temp_paths.at(0).end(); ++it){
+        PlannerHNS::WayPoint wp = *it; 
+        last_path.push_back(wp);
+      }
+    }
+    else{
+      std::cout << "Can't Generate Global Path for Start (" << start_wp.pos.ToString()
+                        << ") and Goal (" << end_wp.pos.ToString() << ")" << std::endl;
+      return false;
     }
   }
 

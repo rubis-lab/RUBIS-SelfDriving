@@ -10,10 +10,10 @@
   <arg name="topic_twist_stamped" default="/estimate_twist" />
   <arg name="topic_pose_stamped" default="/ndt_pose" />
 
-  <arg name="init_x" value="-8.9" />
-  <arg name="init_y" value="40" />
-  <arg name="init_z" value="-0.7" />
-  <arg name="init_yaw" value="-2.0" />
+  <arg name="init_x" value="1938.0" />
+  <arg name="init_y" value="-642.0" />
+  <arg name="init_z" value="0.0" />
+  <arg name="init_yaw" value="1.546" />
   <arg name="init_pitch" value="0.0" />
   <arg name="init_roll" value="0.0" />
 
