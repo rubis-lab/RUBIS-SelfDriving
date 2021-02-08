@@ -34,6 +34,7 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Quaternion.h>
+#include <geometry_msgs/PoseArray.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/OccupancyGrid.h>
 
@@ -49,6 +50,8 @@
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/MappingHelpers.h"
 #include "op_planner/PlannerH.h"
+
+# define M_PI           3.14159265358979323846
 
 namespace GlobalPlanningNS
 {
@@ -128,6 +131,10 @@ protected:
   ros::Subscriber sub_can_info;
   ros::Subscriber sub_road_status_occupancy;
 
+  // Added by PHY
+  bool m_EnableWaypoints;
+  std::vector<PlannerHNS::WayPoint> m_WayPoints;
+
 public:
   GlobalPlanner();
   ~GlobalPlanner();
@@ -146,6 +153,9 @@ private:
   void callbackGetCANInfo(const autoware_can_msgs::CANInfoConstPtr &msg);
   void callbackGetRobotOdom(const nav_msgs::OdometryConstPtr& msg);
   void callbackGetRoadStatusOccupancyGrid(const nav_msgs::OccupancyGridConstPtr& msg);
+  // Added by PHY
+  void callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg);
+  bool GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint, std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
 
   protected:
     PlannerHNS::RoadNetwork m_Map;
@@ -179,6 +189,8 @@ private:
   ros::Subscriber sub_way_areas;
   ros::Subscriber sub_cross_walk;
   ros::Subscriber sub_nodes;
+  // Added by PHY
+  ros::Subscriber sub_waypoints;
 
 
   void callbackGetVMLanes(const vector_map_msgs::LaneArray& msg);

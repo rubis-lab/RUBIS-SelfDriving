@@ -172,6 +172,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
     return 0;
   }
 
+  /*
   if(fabs(goal_info.perp_distance) > GOAL_POINT_MAX_DISTANCE)
   {
     if(fabs(start_info.perp_distance) > 20)
@@ -191,6 +192,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
       goal_path.push_back(goalPos);
     }
   }
+  */
 
   vector<WayPoint*> local_cell_to_delete;
   WayPoint* pLaneCell = 0;
