@@ -3529,5 +3529,31 @@ void MappingHelpers::ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossin
   }
 }
 
+void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcValue li_list){
+  for(int i=0; i<li_list.size(); i++){
+    WayPoint start_pose;
+    start_pose.pos.x = li_list[i]["pose"][0]["x"];
+    start_pose.pos.y = li_list[i]["pose"][0]["y"];
+    start_pose.pos.z = li_list[i]["pose"][0]["z"];
+    
+    WayPoint* start_wp = GetClosestWaypointFromMap(start_pose, map, false);
+
+    std::cout << start_wp->pos.x << " " << start_wp->pos.y << std::endl;
+  }
+
+
+  for(unsigned int rs = 0; rs < map.roadSegments.size(); rs++)
+  {
+    for(unsigned int li = 0; li < map.roadSegments.at(rs).Lanes.size(); li++)
+    {
+      for(unsigned int i = 0; i < map.roadSegments.at(rs).Lanes.at(li).points.size(); i++)
+      {
+        // map.roadSegments.at(rs).Lanes.at(li).points.at(i).
+        // std::cout << "jhisjhfwjhpe\n"; 
+      }
+    }
+  }
+}
+
 
 } /* namespace PlannerHNS */

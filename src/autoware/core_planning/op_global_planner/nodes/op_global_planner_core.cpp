@@ -460,6 +460,11 @@ void GlobalPlanner::MainLoop()
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_params.bEnableLaneChange, false);
 
+        // Add Lane Info from yaml file
+        XmlRpc::XmlRpcValue lane_info_xml;
+        nh.getParam("/op_global_planner/lane_info_list", lane_info_xml);
+        PlannerHNS::MappingHelpers::ConstructLaneInfo_RUBIS(m_Map, lane_info_xml);
+
       }
       else if(m_MapRaw.GetVersion()==1)
       {
