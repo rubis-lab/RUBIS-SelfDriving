@@ -576,26 +576,25 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FOLLOW_STATE)
   {
+    // double deceleration_critical = 0;
+    // double inv_time = 2.0*((beh.followDistance- (critical_long_front_distance+m_params.additionalBrakingDistance))-CurrStatus.speed);
+    // if(inv_time <= 0)
+    //   deceleration_critical = m_CarInfo.max_deceleration;
+    // else
+    //   deceleration_critical = CurrStatus.speed*CurrStatus.speed/inv_time;
 
-    double deceleration_critical = 0;
-    double inv_time = 2.0*((beh.followDistance- (critical_long_front_distance+m_params.additionalBrakingDistance))-CurrStatus.speed);
-    if(inv_time <= 0)
-      deceleration_critical = m_CarInfo.max_deceleration;
-    else
-      deceleration_critical = CurrStatus.speed*CurrStatus.speed/inv_time;
+    // if(deceleration_critical > 0) deceleration_critical = -deceleration_critical;
+    // if(deceleration_critical < - m_CarInfo.max_acceleration) deceleration_critical = - m_CarInfo.max_acceleration;
 
-    if(deceleration_critical > 0) deceleration_critical = -deceleration_critical;
-    if(deceleration_critical < - m_CarInfo.max_acceleration) deceleration_critical = - m_CarInfo.max_acceleration;
+    // double desiredVelocity = (deceleration_critical * dt) + CurrStatus.speed;
 
-    double desiredVelocity = (deceleration_critical * dt) + CurrStatus.speed;
+    // if(desiredVelocity > m_params.maxSpeed)
+    //   desiredVelocity = m_params.maxSpeed;
 
-    if(desiredVelocity > m_params.maxSpeed)
-      desiredVelocity = m_params.maxSpeed;
+    // if((desiredVelocity < 0.1 && desiredVelocity > -0.1) || beh.followDistance <= 0) //use only effective velocities
+    //   desiredVelocity = 0;
 
-    if((desiredVelocity < 0.1 && desiredVelocity > -0.1) || beh.followDistance <= 0) //use only effective velocities
-      desiredVelocity = 0;
-
-    //std::cout << "Acc: V: " << desiredVelocity << ", Accel: " << deceleration_critical<< std::endl;
+    double desiredVelocity = 0;
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;
