@@ -1,0 +1,9 @@
+stop_line_list:
+  -
+    id : 1
+    tl_id : 4
+    pose :
+      x : 4161438.25
+      y : -313620.5625
+      z : 0.0
+    length : 15
