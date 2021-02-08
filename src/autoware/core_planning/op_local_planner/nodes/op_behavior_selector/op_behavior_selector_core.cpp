@@ -79,7 +79,11 @@ BehaviorGen::BehaviorGen()
   // sub_TrafficLightSignals  = nh.subscribe("/roi_signal", 1, &BehaviorGen::callbackGetTrafficLightSignals, this);
   sub_Trajectory_Cost = nh.subscribe("/local_trajectory_cost", 1, &BehaviorGen::callbackGetLocalTrajectoryCost, this);
 
-  sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
+  // LGSVL TL Signal
+  // sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
+
+  // Carmaker TL Signal
+  sub_TrafficLightSignals  = nh.subscribe("/traffic_light", 1, &BehaviorGen::callbackGetCarMakerTrafficLightSignals, this);
 
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
@@ -405,7 +409,7 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
   {
     PlannerHNS::TrafficLight tl;
     tl.id = msg.signals.at(i).id;
-    tl.remainTime = msg.signals.at(i).time;
+    // tl.remainTime = msg.signals.at(i).time;
 
     for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
     {
@@ -432,6 +436,32 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
 
     simulatedLights.push_back(tl);
   }
+
+  m_CurrTrafficLight = simulatedLights;
+}
+
+void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::TrafficLight& msg)
+{
+  bNewLightSignal = true;
+  std::vector<PlannerHNS::TrafficLight> simulatedLights;
+
+  PlannerHNS::TrafficLight tl;
+  tl.id = msg.id;
+
+  if(msg.state == 1)
+  {
+    tl.lightState = PlannerHNS::GREEN_LIGHT;
+  }
+  else if(msg.state == 2)
+  {
+    tl.lightState = PlannerHNS::YELLOW_LIGHT;
+  }
+  else
+  {
+    tl.lightState = PlannerHNS::RED_LIGHT;
+  }
+
+  simulatedLights.push_back(tl);
 
   m_CurrTrafficLight = simulatedLights;
 }
