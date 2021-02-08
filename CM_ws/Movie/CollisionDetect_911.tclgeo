@@ -1,0 +1,162 @@
+# SET THIS AS NEEDED
+set dir .
+
+# this will be set each time the scene is reloaded
+# You can comment this out if needed
+set View(Logo.Alpha) 1.0
+
+# You can change the transparency this way:
+# open the Expert PArameters dialog, with  View > Expert Parameters
+# then modify the scale "Alpha"
+
+# The indexes for the textures in the array 'tex' are the View indexes
+# SET THIS AS NEEDED
+set tex1(0:0) [LoadTexture2D t1 "$dir/WarningCyclist.png"]
+
+### BEGIN IPG-MOVIE-INFO
+### Subscribe the Quantities you want to use
+# Subscribe Sensor.Collision.Vhcl.Fr1.Count
+# Subscribe Car.v
+# Subscribe CollisionSpeed
+# Subscribe CollisionCnt
+# Subscribe CollisionOutput
+# Subscribe CollisionOutput_trf
+# Subscribe Collision.Traffic.Attribute
+# Subscribe WayPoint
+# Subscribe Max_V_over
+# Subscribe Max_SPL
+### END IPG-MOVIE-INFO
+
+set PoI(Data) ""
+set PoI(Width) 0.05
+set PoI(Height) -0.4
+
+proc DrawOverlay {} {
+    
+    global Qu View
+	variable PoI
+	variable tex1
+    
+    #Get the width and high of the IPGMovie window
+    set hratio [expr 720.0/$View(Height)]
+    set wratio [expr 1280.0/$View(Width)]
+
+    ## Text ##
+    gl matrixmode projection
+    gl pushmatrix
+    gl loadidentity
+    # the screen coordinates are within 0 and 50, with 0,0 being bottom left
+    gl ortho 0 50. 0 50. -1. 1.
+    gl matrixmode modelview
+    gl pushmatrix
+    gl loadidentity
+
+     # available fonts: lcd, din1451, sans & sans-bold
+    gl enable texture_2d
+	glDisableLighting
+	
+    if {[info exists Qu(Sensor.Collision.Vhcl.Fr1.Count)]} {
+        set Collision_dic [format "%.0f" $Qu(CollisionCnt)]
+        set Velocity [format "%.1f" $Qu(CollisionSpeed)]
+       
+    } else {
+        set Collision_dic 0
+        set Velocity 0
+    }
+	set Way_point [format "%.0f" $Qu(WayPoint)]
+	
+	set Max_TSVelocity [format "%.1f" $Qu(Max_V_over)]
+	set Max_Velocity [format "%.1f" $Qu(Max_SPL)]
+	
+	
+
+	if {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -4} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "Traffic Signal Violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -3} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "Speed Violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -2} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "Route Deviation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -5} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "TurnSignal Deviation(L)" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -6} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "TurnSignal Deviation(R)" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -7} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "Centerline Violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == 5} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "NarrowAisle violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -8} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "HazardSignal Deviation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == -33} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "Speed Violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif {$Qu(CollisionOutput)==1 && $Qu(Collision.Traffic.Attribute) == 6} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "NarrowAisle violation" -left -pos 2 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	}
+	
+	
+	if {$Qu(CollisionOutput_trf)==1} {
+		gl color 1 0 0 1
+		OGL drawtext sans-bold "E-STOP" -left -pos 37 [expr 12*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} 
+	
+	
+	
+	
+	
+	
+    gl color 0 1 0 1
+    OGL drawtext sans-bold "Penalty Count: $Collision_dic " -left -pos 2 [expr 9*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	
+	
+	if { $Qu(Collision.Traffic.Attribute) == -3} {
+		gl color 0 1 0 1
+		OGL drawtext sans-bold "Max Over Speed: $Max_TSVelocity km/h" -left -pos 2 [expr 6*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} elseif { $Qu(Collision.Traffic.Attribute) == -33} {
+		gl color 0 1 0 1
+		OGL drawtext sans-bold "Max Over Speed: $Max_Velocity km/h" -left -pos 2 [expr 6*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	} else {
+	gl color 0 1 0 1
+	OGL drawtext sans-bold "Penalty Speed: $Velocity km/h" -left -pos 2 [expr 6*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+
+	}	
+	
+#    gl color 0 1 0 1
+#    OGL drawtext sans-bold "Penalty Speed: $Velocity km/h" -left -pos 2 [expr 6*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+	gl color 0 1 0 1
+    OGL drawtext sans-bold "Way Point: $Way_point" -left -pos 2 [expr 3*$hratio] 0 -dir [expr 2.25*$wratio] 0 0 -up 0 [expr 3*$hratio] 0
+
+    gl disable texture_2d
+    
+    gl popmatrix
+    gl matrixmode projection
+    gl popmatrix
+    gl matrixmode modelview
+	
+	if {$Qu(CollisionOutput) == 1} {
+		gl popmatrix
+		gl matrixmode projection loadidentity
+		gl ortho 0 1 0 1 -1 1
+		gl matrixmode modelview
+		gl color 1 1 1  $View(Logo.Alpha)
+		gl enable texture_2d
+		gl texenv mode modulate
+		gl bindtexture 2d $tex1($View(ViewNo))
+		gl begin quads
+		gl   texcoord 0 0  vertex 0.3 0.7 0
+		gl   texcoord 1 0  vertex 0.7 0.7 0
+		gl   texcoord 1 1  vertex 0.7 0.3 0
+		gl   texcoord 0 1  vertex 0.3 0.3 0
+		gl end
+		gl disable texture_2d
+		gl pushmatrix
+	}
+}

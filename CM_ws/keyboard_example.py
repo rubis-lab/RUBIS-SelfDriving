@@ -33,11 +33,11 @@ def on_press(key):
 
     if keyboard.KeyCode(char='a') in current_pressed:
         if current_steer < STEER_MAX:
-            current_steer += 0.4*PI/20
+            current_steer += 0.2*PI/20
 
     if keyboard.KeyCode(char='d') in current_pressed:
         if current_steer > STEER_MIN:
-            current_steer += -0.4*PI/20
+            current_steer += -0.2*PI/20
     
     if keyboard.KeyCode(char='f') in current_pressed:
         current_steer = 0
