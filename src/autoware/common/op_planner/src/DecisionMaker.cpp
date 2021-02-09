@@ -229,7 +229,7 @@ void DecisionMaker::InitBehaviorStates()
   m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
-  std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
+  // std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
 
