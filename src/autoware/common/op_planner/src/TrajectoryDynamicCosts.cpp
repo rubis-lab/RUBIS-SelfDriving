@@ -200,7 +200,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   double velo_of_next = 0;
 
   bool bAllFree = true;
-  int start_idx = 0;
+  int start_idx = 1;
   int end_idx = rollOuts.size() - 1;
 
   for(unsigned int ic = start_idx; ic <= end_idx; ic++)
@@ -1014,7 +1014,7 @@ double TrajectoryDynamicCosts::CalculateTurnAngle(const std::vector<WayPoint>& p
   RelativeInfo car_info;
   PlanningHelpers::GetRelativeInfo(path, currState, car_info);
   GPSPoint rollout_start_pose = path.at(std::min(car_info.iFront + 5, int(path.size())-1)).pos;
-  GPSPoint turn_pose = path.at(std::min(car_info.iFront + 200, int(path.size())-1)).pos;
+  GPSPoint turn_pose = path.at(std::min(car_info.iFront + 300, int(path.size())-1)).pos;
 
   // std::cout << "ego x: " << rollout_start_pose.x << ", y: " << rollout_start_pose.y << std::endl;
   // std::cout << "turn x: " << turn_pose.x << ", y: " << turn_pose.y << std::endl;
