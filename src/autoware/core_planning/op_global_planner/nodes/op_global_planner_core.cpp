@@ -464,7 +464,6 @@ void GlobalPlanner::MainLoop()
         XmlRpc::XmlRpcValue lane_info_xml;
         nh.getParam("/op_global_planner/lane_info_list", lane_info_xml);
         PlannerHNS::MappingHelpers::ConstructLaneInfo_RUBIS(m_Map, lane_info_xml);
-
       }
       else if(m_MapRaw.GetVersion()==1)
       {
