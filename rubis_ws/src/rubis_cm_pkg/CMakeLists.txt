@@ -162,3 +162,11 @@ target_link_libraries(gnss_pose_to_ndt_pose
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
 )
+
+add_executable(waypoint_generator
+  src/waypoint_generator.cpp
+)
+add_dependencies(waypoint_generator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(waypoint_generator
+  ${catkin_LIBRARIES}
+)
