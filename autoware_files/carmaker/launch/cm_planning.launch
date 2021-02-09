@@ -27,9 +27,9 @@
     <arg name="horizonDistance"                 default="120"  />     <!-- Horizon -->
     <arg name="maxLocalPlanDistance"            default="80" />       <!-- Plan Distance-->
     <arg name="pathDensity"                     default="0.5" />      <!-- Path Density-->
-    <arg name="rollOutDensity"                  default="2.9" />        <!-- Rollout Density -->
+    <arg name="rollOutDensity"                  default="3.1" />        <!-- Rollout Density -->
     <arg name="rollOutsNumber"                  default="6"    />     <!-- Rollouts Number -->
-    <arg name="maxVelocity"                     default="7" />     <!-- Max Velocity -->
+    <arg name="maxVelocity"                     default="10.0" />     <!-- Max Velocity -->
     <arg name="maxAcceleration"                 default="15.0" />      <!-- Acceleration -->
     <arg name="maxDeceleration"                 default="-15.0" />    <!-- Deceleration -->
     <arg name="enableFollowing"                 default="true" />     <!-- Enable Following -->
@@ -40,7 +40,7 @@
     <arg name="enableStopSignBehavior"          default="false" />    <!-- Enable Stop Sign Stop-->
     <arg name="enableTrafficLightBehavior"      default="true" />     <!-- Enable Traffic Light -->
     <arg name="enableLaneChange"                default="false" />    <!-- Enable Lane Change -->
-    <arg name="horizontalSafetyDistance"        default="1"  />       <!-- Lateral Safety --> 
+    <arg name="horizontalSafetyDistance"        default="0.7"  />       <!-- Lateral Safety --> 
     <arg name="verticalSafetyDistance"          default="2"  />       <!-- Longitudinal Safet y-->
     <arg name="velocitySource"                  default="1" />        <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->   
     <!-- Vehicle Specification -->
@@ -92,8 +92,8 @@
     <arg name="horizontalSafetyDistance"        default="1.2" />
     <arg name="verticalSafetyDistance"          default="0.8" />
     <arg name="weightPriority"                  default="0" />
-    <arg name="weightTransition"                default="150" />
-    <arg name="weightLong"                      default="10" />
+    <arg name="weightTransition"                default="3" />
+    <arg name="weightLong"                      default="4" />
     <arg name="weightLat"                       default="10" />
     <arg name="LateralSkipDistance"             default="5.0" />
     
@@ -113,7 +113,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="20.0" />
-    <arg name="sprintSpeed"                    default="7" />
+    <arg name="sprintSpeed"                    default="10.0" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
     <arg name="trafficLightFile"                default="sangam_scene2/traffic_light.yaml" />

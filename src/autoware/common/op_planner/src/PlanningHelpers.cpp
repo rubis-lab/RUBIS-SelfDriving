@@ -1040,7 +1040,7 @@ void PlanningHelpers::GetIntersectionCondition(const WayPoint& p, std::vector<Cr
 
   distance = closestCrossingDistance;
 
-  std::cout << "closest crossing : " << closestCrossingDistance << std::endl;
+  // std::cout << "closest crossing : " << closestCrossingDistance << std::endl;
 
   if(closestCrossingDistance > 100){
     isIntersection = false;
