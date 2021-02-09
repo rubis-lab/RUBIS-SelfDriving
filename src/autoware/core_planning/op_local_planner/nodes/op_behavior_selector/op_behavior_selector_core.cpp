@@ -17,7 +17,6 @@
 #include "op_behavior_selector_core.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 #include "op_planner/MappingHelpers.h"
-
 namespace BehaviorGeneratorNS
 {
 
@@ -55,7 +54,7 @@ BehaviorGen::BehaviorGen()
   pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 1);
   pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
   pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
-  pub_EmergencyStop = nh.advertise<std_msgs::Bool>("emergency_stop", 1);
+  pub_EmergencyStop = nh.advertise<hellocm_msgs::Ext2CM_EStop>("emergency_stop", 1);
   pub_turnAngle = nh.advertise<std_msgs::Float64>("turn_angle", 1);
   pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
   pub_currentState = nh.advertise<std_msgs::Int32>("current_state", 1);
@@ -634,13 +633,14 @@ void BehaviorGen::MainLoop()
 
   timespec planningTimer;
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
-  std_msgs::Bool emergency_stop_msg;
+  hellocm_msgs::Ext2CM_EStop emergency_stop_msg;
 
   m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
 
   while (ros::ok())
   {
     ros::spinOnce();
+    emergency_stop_msg.estop = 0;
 
     // Check Pedestrian is Appeared
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
@@ -734,6 +734,11 @@ void BehaviorGen::MainLoop()
       std_msgs::Int32 curr_state_msg;
       curr_state_msg.data = m_CurrentBehavior.state;
 
+      if(m_CurrentBehavior.state == FINISH_STATE){
+        emergency_stop_msg.estop = 1;
+        pub_EmergencyStop.publish(emergency_stop_msg);
+      }
+
       pub_currentState.publish(curr_state_msg);
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);
@@ -758,9 +763,8 @@ void BehaviorGen::MainLoop()
       turn_angle_msg.data = m_turnAngle;
       pub_turnAngle.publish(turn_angle_msg);
 
-      emergency_stop_msg.data = false;
       if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
-        emergency_stop_msg.data = true;
+        emergency_stop_msg.data = 1;
       pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();
