@@ -10,6 +10,9 @@
   <arg name="topic_twist_stamped" default="/estimate_twist" />
   <arg name="topic_pose_stamped" default="/ndt_pose" />
 
+  
+
+  <!-- scenario 2 -->
   <arg name="init_x" value="1938.0" />
   <arg name="init_y" value="-642.0" />
   <arg name="init_z" value="0.0" />
