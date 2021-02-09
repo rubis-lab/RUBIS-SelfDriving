@@ -761,6 +761,10 @@ void BehaviorGen::MainLoop()
       emergency_stop_msg.data = false;
       if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
         emergency_stop_msg.data = true;
+
+
+      
+
       pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();
