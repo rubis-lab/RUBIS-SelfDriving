@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="rubis_cm_pkg" type="waypoint_generator" name="waypoint_generator" output="screen">
+        <param name="filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/GPS_waypoints_example.csv"/>
+    </node>
+
+</launch>
