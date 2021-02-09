@@ -72,7 +72,7 @@ double PlannerH::PlanUsingDPRandom(const WayPoint& start,
   if(!pStart)
   {
     GPSPoint sp = start.pos;
-    cout << endl << "Error: PlannerH -> Can't Find Global Waypoint Nodes in the Map for Start (" <<  sp.ToString() << ")" << endl;
+    cout << endl << "Error: PlannerH -> (" <<  sp.ToString() << ")" << endl;
     return 0;
   }
 

@@ -32,3 +32,4 @@ CM_ws/Movie/Camera.cfg*
 CM_ws/SimOutput
 rubis_ws/src/hellocm_msgs
 rubis_ws/src/hellocm_msgs/*
+*.pcd
