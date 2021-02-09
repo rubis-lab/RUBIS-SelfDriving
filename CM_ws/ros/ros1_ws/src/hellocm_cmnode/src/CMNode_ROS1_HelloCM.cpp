@@ -2347,7 +2347,7 @@ CMRosIF_CMNode_Calc (double dt)
 	double Ax_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
     double SteeringWheel_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
 
-    double Ax_con = 10;
+    double Ax_con = 1;
     double SteeringWheel_amp = 1;
     double SteeringWheel_con = 18;
     double acc_transform;
@@ -2371,11 +2371,13 @@ CMRosIF_CMNode_Calc (double dt)
        
 
     if(Ax_con * acc_transform * Ax_raw < -30) {
-        UDP_Input.DriveCont.Ax = -30;
+        UDP_Input.DriveCont.Ax = -15;
     } else if(Ax_con * acc_transform * Ax_raw < -20) {
-        UDP_Input.DriveCont.Ax = -20;
-    } else if(Ax_con * acc_transform * Ax_raw < -10) {
         UDP_Input.DriveCont.Ax = -10;
+    } else if(Ax_con * acc_transform * Ax_raw < -10) {
+        UDP_Input.DriveCont.Ax = -5;
+    } else if(Ax_con * acc_transform * Ax_raw < -0) {
+        UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw/2;
     } else {
         UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
     }
