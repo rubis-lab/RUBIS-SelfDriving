@@ -16,12 +16,13 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     prev_pose_data_.z = cur_pose_data_.z;
     prev_pose_data_.roll = cur_pose_data_.roll;
     prev_pose_data_.pitch = cur_pose_data_.pitch;
-    prev_pose_data_.yaw = cur_pose_data_.yaw;
+    prev_pose_data_.yaw = cur_pose_data_.yaw ;
 }
 void IMUCallback(const sensor_msgs::Imu& msg){
     roll_ = msg.orientation.x;
     pitch_ = msg.orientation.y;
-    yaw_ = msg.orientation.z;
+    yaw_ = msg.orientation.z+2.181;
+    //yaw_ *= -1;
 }
 void LLH2UTM(double Lat, double Long, double H){
     double a = WGS84_A;
@@ -63,16 +64,18 @@ void LLH2UTM(double Lat, double Long, double H){
     (k0*(M+N*tan(LatRad)
         *(A*A/2+(5-T+9*C+4*C*C)*A*A*A*A/24
         + (61-58*T+T*T+600*C-330*eccPrimeSquared)*A*A*A*A*A*A/720)));
+    
+    double TM[4][4] = 
+    {{-0.821456, -0.593423, -0.006448, 3606301.475406},
+    {-0.596954, 0.803991, -0.096993, 2231713.639404},
+    {0.049875, 0.018177, -0.047063, -213252.081285},
+    {0.000000, 0.000000, 0.000000, 1.000000}};
 
+    double input[4] = {cur_pose_.pose.position.x, cur_pose_.pose.position.y, cur_pose_.pose.position.z, 1};
+    cur_pose_.pose.position.x = TM[0][0]*input[0] + TM[0][1]*input[1] + TM[0][2]*input[2] + TM[0][3]*input[3];
+    cur_pose_.pose.position.y = TM[1][0]*input[0] + TM[1][1]*input[1] + TM[1][2]*input[2] + TM[1][3]*input[3];
+    cur_pose_.pose.position.z = TM[2][0]*input[0] + TM[2][1]*input[1] + TM[2][2]*input[2] + TM[2][3]*input[3];
 
-
-
-    // scale down x and y
-    // cur_pose_.pose.position.x = cur_pose_.pose.position.x - 4161000;
-    // cur_pose_.pose.position.y = (cur_pose_.pose.position.y - 313000) * -1;
-
-    // cur_pose_.pose.position.x += 1157.62;
-    // cur_pose_.pose.position.y -= 1182.98;
 }
 void publishTF()
 {

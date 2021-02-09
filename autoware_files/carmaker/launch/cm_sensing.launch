@@ -1,24 +1,25 @@
 <launch>
-  <!-- Re-publishing simulator/camera_node/image/compressed topic to /image_raw as expected by Autoware -->
-  <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/simulator/camera_node/image raw out:=/image_raw_origin"  />
-
+  <include file="$(find carmaker_vds_client)/launch/carmaker_vds_client.launch">
+    <arg name="vds_port" value="2211" />
+  </include>
 
   <!-- static tf publisher between base_link and velodyne -->
   <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/> -->
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 10"/>
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_top" args="0 0 0 0 0 0 velodyne velodyne_top 100"/>
 
   <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
-  <!-- <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" /> -->
+  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" />
 
 
   <!-- ray_ground_filter LEFT-->
   <include file="$(find points_preprocessor)/launch/ray_ground_filter.launch">
-    <arg name="label" value="left" />
-    <arg name="input_point_topic" value="/points_raw_left" />  <!-- input_point_topic, ground filtering will be performed over the pointcloud in this topic. -->
-    <arg name="base_frame" value="velodyne_left" />  <!-- Coordinate system to perform transform (default base_link) -->
+    <arg name="label" value="top" />
+    <arg name="input_point_topic" value="/points_raw" />  <!-- input_point_topic, ground filtering will be performed over the pointcloud in this topic. -->
+    <arg name="base_frame" value="velodyne" />  <!-- Coordinate system to perform transform (default base_link) -->
     <arg name="max_clipping_height" value="5.0" />  <!-- Remove Points above this height value (default 2.0 meters) -->
-    <arg name="min_clipping_height" value="-0.5" />  <!-- Remove Points below this height value (default -0.5 meters) -->
+    <arg name="min_clipping_height" value="-2.5" />  <!-- Remove Points below this height value (default -0.5 meters) -->
     <arg name="min_point_distance" value="2.9" />  <!-- Removes Points closer than this distance from the sensor origin (default 1.85 meters) -->
     <arg name="radial_divider_angle" value="0.08" />  <!-- Angle of each Radial division on the XY Plane (default 0.08 degrees)-->
     <arg name="concentric_divider_distance" value="0.71" />  <!-- Distance of each concentric division on the XY Plane (default 0.0 meters) -->

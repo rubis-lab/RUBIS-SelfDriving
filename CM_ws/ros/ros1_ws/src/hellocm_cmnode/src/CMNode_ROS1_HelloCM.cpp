@@ -2378,8 +2378,8 @@ CMRosIF_CMNode_Calc (double dt)
         UDP_Input.DriveCont.Ax = -10;
     } else if(Ax_con * acc_transform * Ax_raw < -10) {
         UDP_Input.DriveCont.Ax = -5;
-    } else if(Ax_con * acc_transform * Ax_raw < -0) {
-        UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw/2;
+    } else if(Ax_con * acc_transform * Ax_raw < 0) {
+        UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw / 2;
     } else {
         UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
     }
