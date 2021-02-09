@@ -2369,6 +2369,8 @@ CMRosIF_CMNode_Calc (double dt)
         // acc_transform = SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
     }
        
+    UDP_PC.VC_SwitchOn = 1;
+    UDP_Input.DriveCont.GearNo = 1;
 
     if(Ax_con * acc_transform * Ax_raw < -30) {
         UDP_Input.DriveCont.Ax = -15;
@@ -2386,19 +2388,18 @@ CMRosIF_CMNode_Calc (double dt)
         UDP_Input.DriveCont.Ax = -30;
     }
 
-    UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;
-	UDP_Input.DriveCont.GearNo = 1;
-    //UDP_PC.VC_SwitchOn = 1;
+    UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;	
 	
-    //Light Indicator
-    // if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
-	//     DrivMan.Lights.Hazard = 3;
-    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1)
-	//     DrivMan.Lights.Indicator = 1;
-    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
-	//     DrivMan.Lights.Indicator = 2;
-    // else
-    //     DrivMan.Lights.Indicator = 0;
+    // Light Indicator
+    if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
+	    UDP_Input.DriveCont.Lights = 3;
+    } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1) {
+        UDP_Input.DriveCont.Lights = 1;
+    } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
+        UDP_Input.DriveCont.Lights = 2;
+    } else {
+        UDP_Input.DriveCont.Lights = 0;
+    }
 
     return 1;
 }
