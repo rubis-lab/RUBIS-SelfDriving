@@ -2,7 +2,7 @@
 FileIdent = CarMaker-TestRun 9
 FileCreator = CarMaker 9.1.1 2020-12-18
 Description:
-Vehicle = Control_test
+Vehicle = DEEV_Based_AE_EV_SOP_Lidar_AVcontrol_rev
 Trailer =
 Tire.0 = TIRE_PureSlip@
 Tire.1 = TIRE_PureSlip@
@@ -175,4 +175,4 @@ Driver.Knowl.Long.tPreviewBra = 0.6
 Driver.Knowl.Long.tPreviewAcc = 1.5
 Driver.Knowl.Lat.tPreview = 0.8
 Driver.Learn.NEng_S = 1
-Road.LinkObjId = 46308
+Road.LinkObjId = 23823

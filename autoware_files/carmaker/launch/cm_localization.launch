@@ -13,10 +13,10 @@
   
 
   <!-- scenario 2 -->
-  <arg name="init_x" value="1938.0" />
-  <arg name="init_y" value="-642.0" />
-  <arg name="init_z" value="0.0" />
-  <arg name="init_yaw" value="1.546" />
+  <arg name="init_x" value="19180.58" />
+  <arg name="init_y" value="-1105.62" />
+  <arg name="init_z" value="1.544" />
+  <arg name="init_yaw" value="0.0" />
   <arg name="init_pitch" value="0.0" />
   <arg name="init_roll" value="0.0" />
 
