@@ -23,6 +23,7 @@ namespace BehaviorGeneratorNS
 BehaviorGen::BehaviorGen()
 {
   sleep(2);
+
   bNewCurrentPos = false;
   bVehicleStatus = false;
   bWayGlobalPath = false;
@@ -106,6 +107,7 @@ BehaviorGen::BehaviorGen()
   sub_way_areas = nh.subscribe("/vector_map_info/way_area", 1, &BehaviorGen::callbackGetVMWayAreas,  this);
   sub_cross_walk = nh.subscribe("/vector_map_info/cross_walk", 1, &BehaviorGen::callbackGetVMCrossWalks,  this);
   sub_nodes = nh.subscribe("/vector_map_info/node", 1, &BehaviorGen::callbackGetVMNodes,  this);
+
 }
 
 BehaviorGen::~BehaviorGen()
@@ -635,6 +637,7 @@ void BehaviorGen::MainLoop()
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
   hellocm_msgs::Ext2CM_EStop emergency_stop_msg;
 
+
   m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
 
   while (ros::ok())
@@ -734,7 +737,7 @@ void BehaviorGen::MainLoop()
       std_msgs::Int32 curr_state_msg;
       curr_state_msg.data = m_CurrentBehavior.state;
 
-      if(m_CurrentBehavior.state == FINISH_STATE){
+      if(m_CurrentBehavior.state == PlannerHNS::FINISH_STATE){
         emergency_stop_msg.estop = 1;
         pub_EmergencyStop.publish(emergency_stop_msg);
       }
@@ -764,7 +767,8 @@ void BehaviorGen::MainLoop()
       pub_turnAngle.publish(turn_angle_msg);
 
       if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
-        emergency_stop_msg.data = 1;
+        emergency_stop_msg.estop = 1;
+
       pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();

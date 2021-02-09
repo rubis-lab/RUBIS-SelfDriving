@@ -2385,7 +2385,7 @@ CMRosIF_CMNode_Calc (double dt)
     }
 
     if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
-        UDP_Input.DriveCont.Ax = -30;
+        UDP_Input.DriveCont.Ax = -3000;
     }
 
     UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;	
