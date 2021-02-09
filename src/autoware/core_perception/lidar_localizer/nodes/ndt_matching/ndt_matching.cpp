@@ -74,6 +74,8 @@
 
 #define PREDICT_POSE_THRESHOLD 0.5
 
+#define USING_GPS_THRESHOLD 100
+
 #define Wa 0.4
 #define Wb 0.3
 #define Wc 0.3
@@ -107,6 +109,10 @@ static double offset_imu_x, offset_imu_y, offset_imu_z, offset_imu_roll, offset_
 static double offset_odom_x, offset_odom_y, offset_odom_z, offset_odom_roll, offset_odom_pitch, offset_odom_yaw;
 static double offset_imu_odom_x, offset_imu_odom_y, offset_imu_odom_z, offset_imu_odom_roll, offset_imu_odom_pitch,
     offset_imu_odom_yaw;
+
+// For GPS backup method
+static pose current_gnss_pose;
+static double previous_score;
 
 // Can't load if typed "pcl::PointCloud<pcl::PointXYZRGB> map, add;"
 static pcl::PointCloud<pcl::PointXYZ> map, add;
@@ -543,12 +549,13 @@ static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
                         input->pose.orientation.w);
   tf::Matrix3x3 gnss_m(gnss_q);
 
-  pose current_gnss_pose;
   current_gnss_pose.x = input->pose.position.x;
   current_gnss_pose.y = input->pose.position.y;
   current_gnss_pose.z = input->pose.position.z;
   gnss_m.getRPY(current_gnss_pose.roll, current_gnss_pose.pitch, current_gnss_pose.yaw);
 
+  // std::cout<<"GNSS_POSE: "<<current_gnss_pose.x<<" "<<current_gnss_pose.y<<" "<<current_gnss_pose.z<<std::endl;
+  /*
   static pose previous_gnss_pose = current_gnss_pose;
   ros::Time current_gnss_time = input->header.stamp;
   static ros::Time previous_gnss_time = current_gnss_time;
@@ -601,7 +608,7 @@ static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
   previous_gnss_pose.roll = current_gnss_pose.roll;
   previous_gnss_pose.pitch = current_gnss_pose.pitch;
   previous_gnss_pose.yaw = current_gnss_pose.yaw;
-  previous_gnss_time = current_gnss_time;
+  previous_gnss_time = current_gnss_time;*/
 }
 
 static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& input)
@@ -697,6 +704,8 @@ static void initialpose_callback(const geometry_msgs::PoseWithCovarianceStamped:
   offset_imu_odom_roll = 0.0;
   offset_imu_odom_pitch = 0.0;
   offset_imu_odom_yaw = 0.0;
+
+  previous_score = 0.0;
 
   init_pos_set = 1;
 }
@@ -1014,6 +1023,12 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
       predict_pose_for_ndt = predict_pose_odom;
     else
       predict_pose_for_ndt = predict_pose;
+
+
+    // if(previous_score > USING_GPS_THRESHOLD){
+    //   predict_pose_for_ndt = current_gnss_pose;
+    // }
+
 
     Eigen::Translation3f init_translation(predict_pose_for_ndt.x, predict_pose_for_ndt.y, predict_pose_for_ndt.z);
     Eigen::AngleAxisf init_rotation_x(predict_pose_for_ndt.roll, Eigen::Vector3f::UnitX());
@@ -1401,6 +1416,8 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
     health_checker_ptr_->CHECK_MAX_VALUE("estimate_twist_linear", current_velocity, 5, 10, 15, "value linear estimated twist is too high.");
     health_checker_ptr_->CHECK_MAX_VALUE("estimate_twist_angular", angular_velocity, 5, 10, 15, "value linear angular twist is too high.");
     estimated_vel_pub.publish(estimate_vel_msg);
+
+    previous_score = fitness_score;
 
     // Set values for /ndt_stat
     ndt_stat_msg.header.stamp = current_scan_time;
