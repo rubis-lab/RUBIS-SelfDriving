@@ -4,7 +4,12 @@
   <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_gnss" args="0.9 0 1.5 0 0 0 base_link gps 10"/>
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 10"/> -->
 
-  <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
-  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" />
+  <arg name="zone_points_filename" default="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_points.csv" />
+  <arg name="zone_offset_filename" default="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_offset.csv" />
+  
+  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" output="screen">
+    <param name="zone_points_filename" value="$(arg zone_points_filename)" />
+    <param name="zone_offset_filename" value="$(arg zone_offset_filename)" />    
+  </node>
     
 </launch>

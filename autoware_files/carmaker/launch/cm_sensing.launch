@@ -1,4 +1,7 @@
 <launch>
+  <arg name="zone_points_filename" default="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_points.csv" />
+  <arg name="zone_offset_filename" default="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_offset.csv" />
+
   <include file="$(find carmaker_vds_client)/launch/carmaker_vds_client.launch">
     <arg name="vds_port" value="2211" />
   </include>
@@ -10,7 +13,11 @@
   <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_top" args="0 0 0 0 0 0 velodyne velodyne_top 100"/>
 
   <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
-  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" />
+  
+  <include file="$(find rubis_cm_pkg)/launch/gnss_localizer_cm.launch">
+    <arg name="zone_points_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_points.csv" />
+    <arg name="zone_offset_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_offset.csv" />
+  </include>
 
 
   <!-- ray_ground_filter LEFT-->
