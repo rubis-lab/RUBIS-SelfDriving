@@ -40,11 +40,11 @@ mv rubis_ws autoware_files ..
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
-# If you have CUDA
-AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+# If you have CUDA (Skip op_global_planner)
+AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip op_local_planner
 
-# If you don't have CUDA
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+# If you don't have CUDA (Skip op_global_planner)
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip op_local_planner
 
 # Restore the rubis_ws and autoware_files location
 mv ../rubis_ws ../autoware_files .
@@ -62,10 +62,18 @@ source ~/autoware.ai/install/setup.bash
 source ~/autoware.ai/rubis_ws/devel/setup.bash
 ```
 
+## How to build CM workspace
+* Build CM_ws packages
+```
+cd ${WORKSPACE_DIR}/CM_ws
+./build_cmrosif.sh
+```
+
 ## How to build package in rubis_ws
 
 * Initialize ROS workspace
 ```
+source ~/autoware.ai/install/setup.bash
 cd ${WORKSPACE_DIR}/rubis_ws/src
 catkin_init_workspace
 ```
@@ -74,6 +82,14 @@ catkin_init_workspace
 ```
 cd rubis_ws
 catkin_make
+```
+
+## How to build skiped Autoware packages(op_local_planner)
+* Build only target package
+```
+source ~/autoware.ai/CM_ws/ros/ros1_ws/devel/setup.bash
+cd ${WORKSPACE_DIR}/build/op_local_planner
+make install
 ```
 
 ## How to launch LGSVL scrips

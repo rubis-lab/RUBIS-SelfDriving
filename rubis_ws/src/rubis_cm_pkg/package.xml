@@ -60,6 +60,8 @@
   <build_depend>gnss</build_depend>
   <build_depend>geographic_msgs</build_depend>
   <build_export_depend>autoware_msgs</build_export_depend>
+  <build_depend>eigen</build_depend>  
+  <build_depend>eigen_conversions</build_depend>  
   <build_export_depend>geometry_msgs</build_export_depend>
   <build_export_depend>hellocm_msgs</build_export_depend>
   <build_export_depend>nmea_msgs</build_export_depend>
@@ -69,6 +71,8 @@
   <build_export_depend>tf</build_export_depend>
   <build_export_depend>gnss</build_export_depend>
   <build_export_depend>geographic_msgs</build_export_depend>
+  <build_export_depend>eigen</build_export_depend>
+  <build_export_depend>eigen_conversions</build_export_depend>
   <exec_depend>autoware_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>hellocm_msgs</exec_depend>
@@ -79,6 +83,8 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>gnss</exec_depend>
   <exec_depend>geographic_msgs</exec_depend>
+  <exec_depend>eigen</exec_depend>
+  <exec_depend>eigen_conversions</exec_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
