@@ -7,24 +7,7 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
     cur_pose_.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(roll_, pitch_, yaw_);
     LLH2UTM(msg.latitude, msg.longitude, msg.altitude);
     pose_pub.publish(cur_pose_);
-    nav_msgs::Odometry gps_odom_msg;
-    gps_odom_msg.header = cur_pose_.header;
-    gps_odom_msg.header.frame_id = "odom";
-    gps_odom_msg.child_frame_id = "gps";
-    gps_odom_msg.pose.pose = cur_pose_.pose;
-    gps_odom_msg.pose.covariance = {0.958504205, 0, 0, 0, 0, 0,
-                                    0, 0.586713415, 0, 0, 0, 0,
-                                    0, 0, 0.000000000001, 0, 0, 0,
-                                    0, 0, 0, 0.001, 0, 0,
-                                    0, 0, 0, 0, 0.001, 0,
-                                    0, 0, 0, 0, 0, 0.001};
-    odom_pub.publish(gps_odom_msg);
-    cur_pose_data_.x = cur_pose_.pose.position.x;
-    cur_pose_data_.y = cur_pose_.pose.position.y;
-    cur_pose_data_.z = cur_pose_.pose.position.z;
-    cur_pose_data_.roll = roll_;
-    cur_pose_data_.pitch = pitch_;
-    cur_pose_data_.yaw = yaw_;
+
     publishVelocity();
     
     publishTF();
@@ -38,7 +21,7 @@ void GPSCallback(const hellocm_msgs::GPS_Out& msg){
 void IMUCallback(const sensor_msgs::Imu& msg){
     roll_ = msg.orientation.x;
     pitch_ = msg.orientation.y;
-    yaw_ = msg.orientation.z - 1.648;
+    yaw_ = msg.orientation.z;
 }
 void LLH2UTM(double Lat, double Long, double H){
     double a = WGS84_A;
@@ -80,20 +63,26 @@ void LLH2UTM(double Lat, double Long, double H){
     (k0*(M+N*tan(LatRad)
         *(A*A/2+(5-T+9*C+4*C*C)*A*A*A*A/24
         + (61-58*T+T*T+600*C-330*eccPrimeSquared)*A*A*A*A*A*A/720)));
+
+
+
+
     // scale down x and y
-    cur_pose_.pose.position.x -= 4161000;
-    cur_pose_.pose.position.y -= 313000;
-    cur_pose_.pose.position.y *= -1;
+    // cur_pose_.pose.position.x = cur_pose_.pose.position.x - 4161000;
+    // cur_pose_.pose.position.y = (cur_pose_.pose.position.y - 313000) * -1;
+
+    // cur_pose_.pose.position.x += 1157.62;
+    // cur_pose_.pose.position.y -= 1182.98;
 }
 void publishTF()
 {
   static tf::TransformBroadcaster br;
   tf::Transform transform;
-  transform.setOrigin(tf::Vector3(cur_pose_.pose.position.x, cur_pose_.pose.position.y, cur_pose_.pose.position.z));
+  transform.setOrigin(tf::Vector3(cur_pose_.pose.position.x-0.9, cur_pose_.pose.position.y, cur_pose_.pose.position.z-1.5));
   tf::Quaternion quaternion;
   quaternion.setRPY(roll_, pitch_, yaw_);
   transform.setRotation(quaternion);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, "base_link"));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), MAP_FRAME_, "gps"));
 }
 void publishVelocity(){
     static int zero_cnt = 0;
@@ -117,7 +106,7 @@ void publishVelocity(){
     angular_velocity = (diff_time > 0) ? (diff_yaw / diff_time) : 0;
     geometry_msgs::TwistStamped twist_msg;
     twist_msg.header.stamp = ros::Time::now();
-    twist_msg.header.frame_id = "base_link";
+    twist_msg.header.frame_id = "gps";
     twist_msg.twist.linear.x = current_velocity;
     twist_msg.twist.linear.y = 0.0;
     twist_msg.twist.linear.z = 0.0;
@@ -134,7 +123,6 @@ int main(int argc, char** argv){
     imu_sub = nh.subscribe("/imu_out", 100, IMUCallback);
     pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 10);
     vel_pub = nh.advertise<geometry_msgs::TwistStamped>("gnss_vel", 10);    
-    odom_pub = nh.advertise<nav_msgs::Odometry>("/gps_odom", 10);
     nh.param<bool>("/gnss_localizer_cm/publish_tf", publish_tf_, true);
     while(ros::ok())
         ros::spin();

@@ -448,6 +448,8 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
   PlannerHNS::TrafficLight tl;
   tl.id = msg.id;
 
+  // std::cout << msg.id << " " << msg.state << std::endl;
+
   if(msg.state == 1)
   {
     tl.lightState = PlannerHNS::GREEN_LIGHT;
@@ -459,6 +461,15 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
   else
   {
     tl.lightState = PlannerHNS::RED_LIGHT;
+  }
+
+  for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
+  {
+    if(m_Map.trafficLights.at(k).id == tl.id)
+    {
+      tl.routine = m_Map.trafficLights.at(k).routine;
+      break;
+    }
   }
 
   simulatedLights.push_back(tl);

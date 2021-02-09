@@ -201,7 +201,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
 
   bool bAllFree = true;
   int start_idx = 0;
-  int end_idx = 1;
+  int end_idx = rollOuts.size() - 1;
 
   for(unsigned int ic = start_idx; ic <= end_idx; ic++)
   {
@@ -432,7 +432,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
     int start_idx = 0;
-    int end_idx = 1;
+    int end_idx = rollOuts.size() - 1;
 
     for(unsigned int it = start_idx; it<= end_idx; it++)
     {
