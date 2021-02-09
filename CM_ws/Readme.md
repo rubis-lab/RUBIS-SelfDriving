@@ -110,6 +110,12 @@ Building src
 ## run Carmaker from scratch
     - pubdocs.md
 
+## Carmaker version change
+```sh
+$ source downgrade.sh or upgrade.sh
+$ bcm(./build_cmrosif)
+```
+
 ## Carmaker version update
     - ./src/Makefile
         > include /opt/ipg/carmaker/linux64-9.1.1/include/MakeDefs.linux64
@@ -123,6 +129,7 @@ Building src
     - ./ros/ros1_ws/src/hellocm_cmnode/CmakeLists.txt
         > set(CARMAKER_VER 9.1.1)
         > set(CARMAKER_NUMVER 90101))
+   
 
 ## Change from original CM_Project
 ros/ros1_ws/build.sh

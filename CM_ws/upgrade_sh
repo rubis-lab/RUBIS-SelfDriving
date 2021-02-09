@@ -1,0 +1,12 @@
+# !/bin/bash
+
+# Processes called inside CM GUI will inherit environment variables!
+# - Ensure ros workspace is already built!
+rm ./CMStart.sh
+cp ./CMStart.sh.911 ./CMStart.sh
+
+rm ./src/Makefile
+cp ./src/Makefile.911 ./src/Makefile
+
+rm ./ros/ros1_ws/src/hellocm_cmnode/CMakeLists.txt
+cp ./ros/ros1_ws/src/hellocm_cmnode/CMakeLists.txt.911 ./ros/ros1_ws/src/hellocm_cmnode/CMakeLists.txt

@@ -2369,7 +2369,7 @@ CMRosIF_CMNode_Calc (double dt)
         // acc_transform = SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
     }
        
-    UDP_PC.VC_SwitchOn = 1;
+    // UDP_PC.VC_SwitchOn = 1;
     UDP_Input.DriveCont.GearNo = 1;
 
     if(Ax_con * acc_transform * Ax_raw < -30) {
