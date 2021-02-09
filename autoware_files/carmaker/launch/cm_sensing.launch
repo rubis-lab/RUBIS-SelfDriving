@@ -10,7 +10,7 @@
   <node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_top" args="0 0 0 0 0 0 velodyne velodyne_top 100"/>
 
   <node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
-  <!-- <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" /> -->
+  <node pkg="rubis_cm_pkg" type="gnss_localizer_cm" name="gnss_localizer_cm" />
 
 
   <!-- ray_ground_filter LEFT-->

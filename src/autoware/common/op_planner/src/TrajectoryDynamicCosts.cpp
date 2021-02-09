@@ -25,6 +25,8 @@ TrajectoryDynamicCosts::TrajectoryDynamicCosts()
   m_WeightLaneChange = 0.0;
   m_LateralSkipDistance = 5;
 
+  bStart = false;
+
   m_CollisionTimeDiff = 6.0; //seconds
   m_PrevIndex = -1;
 }
@@ -200,8 +202,11 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   double velo_of_next = 0;
 
   bool bAllFree = true;
-  int start_idx = 1;
-  int end_idx = rollOuts.size() - 1;
+  // int start_idx = 0;
+  // int end_idx = rollOuts.size() - 1;
+
+  int start_idx = 0;
+  int end_idx = 3;
 
   for(unsigned int ic = start_idx; ic <= end_idx; ic++)
   {
@@ -220,6 +225,9 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     if(m_TrajectoryCosts.at(ic).lateral_cost > 0){
       bAllFree = false;
     }
+  }
+  for(unsigned int ic = end_idx+1; ic < rollOuts.size() - 1; ic++){
+    m_TrajectoryCosts.at(ic).lateral_cost = 99999;
   }
 
   #ifdef DEBUG_ENABLE
@@ -253,11 +261,50 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     smallestIndex = params.rollOutNumber - 1;
   }
 
+  // blocking test
+  // bool bBlockByNearLane = true;
+  // if(!m_TrajectoryCosts.at(currIndex).bBlocked) bBlockByNearLane = false;
+  if(smallestIndex != -1){
+    int left_block_idx = -1;
+
+    for(int ic = currIndex - 1; ic >= start_idx; ic--)
+    {
+      if(m_TrajectoryCosts.at(ic).bBlocked){
+        left_block_idx = ic;
+        break;
+      }
+    }
+
+    if(left_block_idx != -1 && smallestIndex < left_block_idx){
+      smallestIndex = -1;
+    }
+
+    int right_block_idx = -1;
+
+    for(int ic = currIndex + 1; ic <= end_idx; ic++)
+    {
+      if(m_TrajectoryCosts.at(ic).bBlocked){
+        right_block_idx = ic;
+        break;
+      }
+    }
+
+    if(right_block_idx != -1 && smallestIndex > right_block_idx){
+      smallestIndex = -1;
+    }
+  }
+
+  if(!bStart){
+    smallestIndex = params.rollOutNumber/2;
+    std::cout << "hi  asedfwefwefwe" << std::endl;
+    bStart = true;
+  }
+
   if(smallestIndex == -1)
   {
     bestTrajectory.bBlocked = true;
     bestTrajectory.lane_index = m_PrevSelectedIndex;
-    bestTrajectory.index = m_PrevSelectedIndex;
+    bestTrajectory.index = currIndex;
     bestTrajectory.closest_obj_distance = smallestDistance;
     bestTrajectory.closest_obj_velocity = velo_of_next;
   }
@@ -431,8 +478,11 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
+    // int start_idx = 0;
+    // int end_idx = rollOuts.size() - 1;
+    
     int start_idx = 0;
-    int end_idx = rollOuts.size() - 1;
+    int end_idx = 3;
 
     for(unsigned int it = start_idx; it<= end_idx; it++)
     {
