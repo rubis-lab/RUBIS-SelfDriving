@@ -131,7 +131,7 @@ DrivMan.Init.OperatorActive = 1
 DrivMan.Init.OperatorState = drive
 DrivMan.VhclOperator.Kind = IPGOperator 1
 DrivMan.nDMan = 2
-DrivMan.0.TimeLimit = 999
+DrivMan.0.TimeLimit = 9999
 DrivMan.0.Cmds:
 	[first(Collision.Traffic.ID == 0)] DVAwr VC.Brake Abs 10000 1
 	[first(Collision.Traffic.ID == 1)] DVAwr VC.Brake Abs 10000 1
