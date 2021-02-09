@@ -2392,13 +2392,13 @@ CMRosIF_CMNode_Calc (double dt)
 	
     // Light Indicator
     if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
-	    UDP_Input.DriveCont.Lights = 3;
+	    UDP_Input.DriveCont.Light = 3;
     } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1) {
-        UDP_Input.DriveCont.Lights = 1;
+        UDP_Input.DriveCont.Light = 1;
     } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
-        UDP_Input.DriveCont.Lights = 2;
+        UDP_Input.DriveCont.Light = 2;
     } else {
-        UDP_Input.DriveCont.Lights = 0;
+        UDP_Input.DriveCont.Light = 0;
     }
 
     return 1;

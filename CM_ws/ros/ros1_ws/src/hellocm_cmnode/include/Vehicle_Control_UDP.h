@@ -1,7 +1,6 @@
 /*
 ******************************************************************************
-**  CarMaker - Version 7.1.2
-**  UDP Communication: 1.0.0
+**  CarMaker - Version 9.0.2
 **
 **  Copyright (C)   IPG Automotive Korea
 ******************************************************************************
@@ -18,8 +17,6 @@ typedef struct tUDP_PC {
 	unsigned short Port_In;
 	char *Socket_In;
 	int VC_SwitchOn;
-	double SteeringWheel;
-	double Ax;
 	int GearNo;
 } tUDP_PC;
 
@@ -34,7 +31,8 @@ typedef struct tUDP_Input {
     struct {
 		double SteeringWheel;   // rad
 		double Ax; 				// [m/s^2]
-		int GearNo;
+		int GearNo; 			// 1: Driving, 0: Stop, -1: Back, -9: Parking
+		char Light; 			// 0: Off, 1: Left indicator, 2: Right indicator, 3: Hazard
     } DriveCont;
 } tUDP_Input;
 #pragma pack(pop)
