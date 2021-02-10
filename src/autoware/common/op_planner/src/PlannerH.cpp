@@ -72,7 +72,7 @@ double PlannerH::PlanUsingDPRandom(const WayPoint& start,
   if(!pStart)
   {
     GPSPoint sp = start.pos;
-    cout << endl << "Error: PlannerH -> Can't Find Global Waypoint Nodes in the Map for Start (" <<  sp.ToString() << ")" << endl;
+    cout << endl << "Error: PlannerH -> (" <<  sp.ToString() << ")" << endl;
     return 0;
   }
 
@@ -172,6 +172,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
     return 0;
   }
 
+  /*
   if(fabs(goal_info.perp_distance) > GOAL_POINT_MAX_DISTANCE)
   {
     if(fabs(start_info.perp_distance) > 20)
@@ -191,6 +192,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
       goal_path.push_back(goalPos);
     }
   }
+  */
 
   vector<WayPoint*> local_cell_to_delete;
   WayPoint* pLaneCell = 0;

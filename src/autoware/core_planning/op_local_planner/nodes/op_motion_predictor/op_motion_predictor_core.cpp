@@ -115,8 +115,10 @@ void MotionPrediction::InitTF(){
   for(int i = 0; i<tf_num; i++){
     tf::TransformListener listener;
     std::string target_frame = tf_str_list_[i];
+    if(target_frame == "velodyne") continue;
     while(1){
       try{
+        std::cout<<"Lookup"<<std::endl;
         listener_list_[i].waitForTransform("velodyne", target_frame, ros::Time(0), ros::Duration(0.001));
         listener_list_[i].lookupTransform("velodyne", target_frame, ros::Time(0), transform_list_[i]);
         break;
@@ -389,7 +391,6 @@ void MotionPrediction::callbackGetTrackedObjects(const autoware_msgs::DetectedOb
 
     m_PredictedResultsResults.header.stamp = ros::Time().now();
     m_PredictedResultsResults.header.frame_id = "velodyne";
-    
     pub_predicted_objects_trajectories.publish(m_PredictedResultsResults);
   }
 }

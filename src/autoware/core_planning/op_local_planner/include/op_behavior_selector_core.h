@@ -52,8 +52,11 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <XmlRpcException.h>
 
+#include <hellocm_msgs/TrafficLight.h>
+
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
+#include <hellocm_msgs/Ext2CM_EStop.h>
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"
@@ -176,6 +179,8 @@ protected: //Planning Related variables
   void callbackIntersectionCondition(const autoware_msgs::IntersectionCondition& msg);
 
   void callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTrafficSignalArray& msg);
+
+  void callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::TrafficLight& msg);
 
   void callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg);

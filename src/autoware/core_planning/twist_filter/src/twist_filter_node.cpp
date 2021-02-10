@@ -208,8 +208,11 @@ void TwistFilterNode::ctrlCmdCallback(const autoware_msgs::ControlCommandStamped
   last_callback_time = current_time;
 }
 
-void TwistFilterNode::emergencyStopCallback(const std_msgs::Bool& msg){
-  bool current_emergency_stop = msg.data;
+void TwistFilterNode::emergencyStopCallback(const hellocm_msgs::Ext2CM_EStop& msg){
+  bool current_emergency_stop;
+  if(msg.estop==1) current_emergency_stop = true;
+  else current_emergency_stop = false;
+
   static std::string state("none");
   
   if(current_emergency_stop == true){

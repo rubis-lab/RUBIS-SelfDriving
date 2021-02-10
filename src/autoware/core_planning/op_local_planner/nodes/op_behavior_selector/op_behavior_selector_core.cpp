@@ -17,13 +17,13 @@
 #include "op_behavior_selector_core.h"
 #include "op_ros_helpers/op_ROSHelpers.h"
 #include "op_planner/MappingHelpers.h"
-
 namespace BehaviorGeneratorNS
 {
 
 BehaviorGen::BehaviorGen()
 {
   sleep(2);
+
   bNewCurrentPos = false;
   bVehicleStatus = false;
   bWayGlobalPath = false;
@@ -55,7 +55,7 @@ BehaviorGen::BehaviorGen()
   pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 1);
   pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
   pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
-  pub_EmergencyStop = nh.advertise<std_msgs::Bool>("emergency_stop", 1);
+  pub_EmergencyStop = nh.advertise<hellocm_msgs::Ext2CM_EStop>("emergency_stop", 1);
   pub_turnAngle = nh.advertise<std_msgs::Float64>("turn_angle", 1);
   pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
   pub_currentState = nh.advertise<std_msgs::Int32>("current_state", 1);
@@ -79,7 +79,11 @@ BehaviorGen::BehaviorGen()
   // sub_TrafficLightSignals  = nh.subscribe("/roi_signal", 1, &BehaviorGen::callbackGetTrafficLightSignals, this);
   sub_Trajectory_Cost = nh.subscribe("/local_trajectory_cost", 1, &BehaviorGen::callbackGetLocalTrajectoryCost, this);
 
-  sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
+  // LGSVL TL Signal
+  // sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
+
+  // Carmaker TL Signal
+  sub_TrafficLightSignals  = nh.subscribe("/traffic_light", 1, &BehaviorGen::callbackGetCarMakerTrafficLightSignals, this);
 
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
@@ -103,6 +107,7 @@ BehaviorGen::BehaviorGen()
   sub_way_areas = nh.subscribe("/vector_map_info/way_area", 1, &BehaviorGen::callbackGetVMWayAreas,  this);
   sub_cross_walk = nh.subscribe("/vector_map_info/cross_walk", 1, &BehaviorGen::callbackGetVMCrossWalks,  this);
   sub_nodes = nh.subscribe("/vector_map_info/node", 1, &BehaviorGen::callbackGetVMNodes,  this);
+
 }
 
 BehaviorGen::~BehaviorGen()
@@ -405,7 +410,7 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
   {
     PlannerHNS::TrafficLight tl;
     tl.id = msg.signals.at(i).id;
-    tl.remainTime = msg.signals.at(i).time;
+    // tl.remainTime = msg.signals.at(i).time;
 
     for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
     {
@@ -432,6 +437,43 @@ void BehaviorGen::callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTr
 
     simulatedLights.push_back(tl);
   }
+
+  m_CurrTrafficLight = simulatedLights;
+}
+
+void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::TrafficLight& msg)
+{
+  bNewLightSignal = true;
+  std::vector<PlannerHNS::TrafficLight> simulatedLights;
+
+  PlannerHNS::TrafficLight tl;
+  tl.id = msg.id;
+
+  // std::cout << msg.id << " " << msg.state << std::endl;
+
+  if(msg.state == 1)
+  {
+    tl.lightState = PlannerHNS::GREEN_LIGHT;
+  }
+  else if(msg.state == 2)
+  {
+    tl.lightState = PlannerHNS::YELLOW_LIGHT;
+  }
+  else
+  {
+    tl.lightState = PlannerHNS::RED_LIGHT;
+  }
+
+  for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
+  {
+    if(m_Map.trafficLights.at(k).id == tl.id)
+    {
+      tl.routine = m_Map.trafficLights.at(k).routine;
+      break;
+    }
+  }
+
+  simulatedLights.push_back(tl);
 
   m_CurrTrafficLight = simulatedLights;
 }
@@ -593,13 +635,15 @@ void BehaviorGen::MainLoop()
 
   timespec planningTimer;
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
-  std_msgs::Bool emergency_stop_msg;
+  hellocm_msgs::Ext2CM_EStop emergency_stop_msg;
+
 
   m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
 
   while (ros::ok())
   {
     ros::spinOnce();
+    emergency_stop_msg.estop = 0;
 
     // Check Pedestrian is Appeared
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
@@ -693,6 +737,11 @@ void BehaviorGen::MainLoop()
       std_msgs::Int32 curr_state_msg;
       curr_state_msg.data = m_CurrentBehavior.state;
 
+      if(m_CurrentBehavior.state == PlannerHNS::FINISH_STATE){
+        emergency_stop_msg.estop = 1;
+        pub_EmergencyStop.publish(emergency_stop_msg);
+      }
+
       pub_currentState.publish(curr_state_msg);
 
       CalculateTurnAngle(m_BehaviorGenerator.m_turnWaypoint);
@@ -717,9 +766,9 @@ void BehaviorGen::MainLoop()
       turn_angle_msg.data = m_turnAngle;
       pub_turnAngle.publish(turn_angle_msg);
 
-      emergency_stop_msg.data = false;
       if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
-        emergency_stop_msg.data = true;
+        emergency_stop_msg.estop = 1;
+
       pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();
