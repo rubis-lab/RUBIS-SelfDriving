@@ -125,11 +125,17 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   bestTrajectory.closest_obj_velocity = 0;
   bestTrajectory.index = -1;
 
-  // int start_idx = 0;
-  // int end_idx = rollOuts.size() - 1;
+  RelativeInfo car_info;
+  PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
-  int start_idx = 0;
-  int end_idx = 3;
+  if(car_info.perp_point.LeftLnId == 100){
+    m_startTrajIdx = rollOuts.size() / 2;
+    m_endTrajIdx = rollOuts.size() / 2;
+  }
+  else{
+    m_startTrajIdx = car_info.perp_point.LeftLnId;
+    m_endTrajIdx = car_info.perp_point.RightLnId;
+  }
 
   // get parameter
   m_WeightPriority = params.weightPriority;
@@ -214,10 +220,10 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
 
   bool bAllFree = true;
 
-  for(int ic = 0; ic < start_idx; ic++) m_TrajectoryCosts.at(ic).bBlocked = true;
-  for(int ic = rollOuts.size() - 1; ic > end_idx; ic--) m_TrajectoryCosts.at(ic).bBlocked = true;
+  for(int ic = 0; ic < m_startTrajIdx; ic++) m_TrajectoryCosts.at(ic).bBlocked = true;
+  for(int ic = rollOuts.size() - 1; ic > m_endTrajIdx; ic--) m_TrajectoryCosts.at(ic).bBlocked = true;
 
-  for(unsigned int ic = std::max(currIndex - 1, start_idx); ic <= std::min(currIndex + 1, end_idx); ic++)
+  for(unsigned int ic = std::max(currIndex - 1, m_startTrajIdx); ic <= std::min(currIndex + 1, m_endTrajIdx); ic++)
   {
     if(!m_TrajectoryCosts.at(ic).bBlocked && m_TrajectoryCosts.at(ic).cost < smallestCost)
     {
@@ -260,11 +266,11 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   }
   // For Left Turn
   // else if(bAllFree && turn_angle > 45){
-  //   smallestIndex = start_idx;
+  //   smallestIndex = m_startTrajIdx;
   // }
   // // For Right Turn
   // else if(bAllFree && turn_angle < -45){
-  //   smallestIndex = end_idx;
+  //   smallestIndex = m_endTrajIdx;
   // }
 
   // blocking test
@@ -273,7 +279,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   if(smallestIndex >= 0 && m_TrajectoryCosts.at(currIndex).bBlocked){
     int left_block_idx = -1;
 
-    for(int ic = currIndex - 1; ic >= start_idx; ic--)
+    for(int ic = currIndex - 1; ic >= m_startTrajIdx; ic--)
     {
       if(m_TrajectoryCosts.at(ic).bBlocked){
         left_block_idx = ic;
@@ -287,7 +293,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
 
     int right_block_idx = -1;
 
-    for(int ic = currIndex + 1; ic <= end_idx; ic++)
+    for(int ic = currIndex + 1; ic <= m_endTrajIdx; ic++)
     {
       if(m_TrajectoryCosts.at(ic).bBlocked){
         right_block_idx = ic;
@@ -501,13 +507,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
-    // int start_idx = 0;
-    // int end_idx = rollOuts.size() - 1;
-    
-    int start_idx = 0;
-    int end_idx = 3;
-
-    for(unsigned int it = start_idx; it<= end_idx; it++)
+    for(unsigned int it = m_startTrajIdx; it<= m_endTrajIdx; it++)
     {
       #ifdef DEBUG_ENABLE
       int unskipped = 0;
@@ -546,8 +546,8 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
           longitudinalDist > 30 ||
           // obj_info.perp_distance < (((rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
           // obj_info.perp_distance > ((rollOuts.size() - 1) / 2 + 1) * params.rollOutDensity + critical_lateral_distance / 2)
-          obj_info.perp_distance < (((rollOuts.size() - 1) / 2 - start_idx) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
-          obj_info.perp_distance > (end_idx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2)
+          obj_info.perp_distance < (((rollOuts.size() - 1) / 2 - m_startTrajIdx) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
+          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2)
           // obj_info.perp_distance < (((rollOuts.size() - 1) / 2) * params.rollOutDensity) * (-1) ||
           // obj_info.perp_distance > ((rollOuts.size() - 1) / 2 + 1) * params.rollOutDensity)
         {

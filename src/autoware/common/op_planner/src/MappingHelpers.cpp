@@ -3536,7 +3536,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
   // Assume there is only one road segment
   PlannerHNS::RoadSegment rs = map.roadSegments.at(0);
 
-  // initialize LeftLnId, RightLnId to 0
+  // initialize LeftLnId, RightLnId to 100
   for(unsigned int li = 0; li < rs.Lanes.size(); li++)
   {
     for(unsigned int i = 0; i < rs.Lanes.at(li).points.size(); i++)
