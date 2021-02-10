@@ -3516,8 +3516,8 @@ void MappingHelpers::ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossin
       area.points.push_back(cs.pos);
       
       GPSPoint c2, c3;
-      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 6;
-      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 6;
+      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 8;
+      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 8;
 
       c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 6;
       c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 6;

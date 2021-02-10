@@ -448,8 +448,7 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
 
   PlannerHNS::TrafficLight tl;
   tl.id = msg.id;
-
-  // std::cout << msg.id << " " << msg.state << std::endl;
+  tl.stoppingDistance = msg.remain_distance;
 
   if(msg.state == 1)
   {
@@ -462,15 +461,6 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
   else
   {
     tl.lightState = PlannerHNS::RED_LIGHT;
-  }
-
-  for(unsigned int k = 0; k < m_Map.trafficLights.size(); k++)
-  {
-    if(m_Map.trafficLights.at(k).id == tl.id)
-    {
-      tl.routine = m_Map.trafficLights.at(k).routine;
-      break;
-    }
   }
 
   simulatedLights.push_back(tl);
@@ -673,6 +663,8 @@ void BehaviorGen::MainLoop()
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
 
+        // Disabled since Carmaker do not use stop line position
+        /*
         try{
           // Add Traffic Signal Info from yaml file
           XmlRpc::XmlRpcValue traffic_light_list;
@@ -692,6 +684,7 @@ void BehaviorGen::MainLoop()
           ROS_ERROR("[XmlRpc Error] %s", e.getMessage().c_str());
           exit(1);
         }
+        */
 
         m_BehaviorGenerator.m_Map = m_Map;
 

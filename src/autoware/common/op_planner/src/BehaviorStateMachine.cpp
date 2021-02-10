@@ -545,7 +545,7 @@ BehaviorStateMachine* PedestrianState::GetNextState()
 BehaviorStateMachine* IntersectionState::GetNextState()
 {
   PreCalculatedConditions* pCParams = GetCalcParams();
-  if(m_pParams->closestIntersectionDistance < 35){
+  if(m_pParams->closestIntersectionDistance < 50){
     return FindBehaviorState(this->m_Behavior);
   }
   else if(m_pParams->enableTrafficLightBehavior
