@@ -17,6 +17,8 @@
 #ifndef OP_GLOBAL_PLANNER
 #define OP_GLOBAL_PLANNER
 
+#include<limits>
+
 #include <ros/ros.h>
 
 #include "vector_map_msgs/PointArray.h"
@@ -133,8 +135,9 @@ protected:
   // Added by PHY
   bool m_EnableWaypoints;
   bool m_is_waypoint_received;
+  bool m_isCurrentPoseReceived;
   std::vector<PlannerHNS::WayPoint> m_WayPoints;
-
+  std::vector< std::vector<PlannerHNS::WayPoint*> > m_WayPointSequences;
 public:
   GlobalPlanner();
   ~GlobalPlanner();
@@ -155,7 +158,9 @@ private:
   void callbackGetRoadStatusOccupancyGrid(const nav_msgs::OccupancyGridConstPtr& msg);
   // Added by PHY
   void callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg);
-  bool GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint, std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
+  bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
+  bool GenerateWayPointSequences();
+  void DFS( std::vector< std::vector<PlannerHNS::WayPoint*> >& allWaypointCandidates, int num_of_sequence, int depth, std::vector<PlannerHNS::WayPoint*> local_data);
 
   protected:
     PlannerHNS::RoadNetwork m_Map;

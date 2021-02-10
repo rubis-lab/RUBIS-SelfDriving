@@ -206,7 +206,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
   if(!pLaneCell)
   {
     bPlan = 'B';
-    cout << endl << "PlannerH -> Plan (A) Failed, Trying Plan (B)." << endl;
+    // cout << endl << "PlannerH -> Plan (A) Failed, Trying Plan (B)." << endl;
 
     if(all_cell_to_delete)
       pLaneCell =  PlanningHelpers::BuildPlanningSearchTreeStraight(pStart, BACKUP_STRAIGHT_PLAN_DISTANCE, *all_cell_to_delete);
