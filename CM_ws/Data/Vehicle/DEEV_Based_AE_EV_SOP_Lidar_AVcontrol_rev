@@ -1,6 +1,6 @@
 #INFOFILE1.1 - Do not remove this line!
 FileIdent = CarMaker-Car 9
-FileCreator = CarMaker 2021-02-04 18:08:26
+FileCreator = CarMaker 2021-02-08 22:45:50
 
 
 ## Assembly ##############################################################
@@ -614,7 +614,7 @@ Sensor.LidarRSI.0.Threshold = 1.0
 Sensor.LidarRSI.0.IntensityGain:
 	0 1
 	360 1
-Sensor.CameraRSI.nProcesses = 0
+Sensor.CameraRSI.nProcesses = 1
 Sensor.Comment:
 
 

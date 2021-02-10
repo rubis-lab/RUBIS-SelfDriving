@@ -92,6 +92,7 @@ int Vehicle_Control_UDP_User_TestRun_atEnd (void)
 	UDP_Input.DriveCont.SteeringWheel 	= 0;
 	UDP_Input.DriveCont.Ax 				= 0;
 	UDP_Input.DriveCont.GearNo 			= 1;
+	UDP_Input.DriveCont.Light 			= 0;
 	
     return 0;
 }
@@ -103,6 +104,7 @@ void Vehicle_Control_UDP_User_DeclQuants (void)
     DDefDouble(NULL, "UDP.WheelAng", "rad", &UDP_Input.DriveCont.SteeringWheel, DVA_IO_In);
     DDefDouble(NULL, "UDP.Ax", "m/s^2", &UDP_Input.DriveCont.Ax, DVA_IO_In);
 	DDefInt(NULL, "UDP.GearNo", "", &UDP_Input.DriveCont.GearNo, DVA_IO_In);
+	DDefChar(NULL, "UDP.Light", "", &UDP_Input.DriveCont.Light, DVA_IO_In);
     DDefInt(NULL, "UDP.VC_SwitchOn", "", &UDP_PC.VC_SwitchOn, DVA_IO_In);
     DDefInt(NULL, "UDP.Length", "", &length_chk, DVA_None);
 }
@@ -175,6 +177,28 @@ int Vehicle_Control_UDP_User_VehicleControl_Calc (double dt)
 			AccelCtrl.DesrAx = -99999;
 			VehicleControl.Gas = 0;
 			VehicleControl.Brake = 1;
+		}
+		
+		// Light
+		if( UDP_Input.DriveCont.Light == 1 )
+		{
+			DrivMan.Lights.Indicator = 1;
+			DrivMan.Lights.Hazard = 0;
+		}
+		else if( UDP_Input.DriveCont.Light == 2 )
+		{
+			DrivMan.Lights.Indicator = -1;
+			DrivMan.Lights.Hazard = 0;
+		}
+		else if( UDP_Input.DriveCont.Light == 3 )
+		{
+			DrivMan.Lights.Indicator = 0;
+			DrivMan.Lights.Hazard = 1;
+		}
+		else
+		{
+			DrivMan.Lights.Indicator = 0;
+			DrivMan.Lights.Hazard = 0;
 		}
 
 	}

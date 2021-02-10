@@ -2347,7 +2347,7 @@ CMRosIF_CMNode_Calc (double dt)
 	double Ax_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.linear_acceleration;
     double SteeringWheel_raw = CMNode.Topics.Sub.Ext2CM_Test.Msg.cmd.steering_angle;
 
-    double Ax_con = 10;
+    double Ax_con = 1;
     double SteeringWheel_amp = 1;
     double SteeringWheel_con = 18;
     double acc_transform;
@@ -2369,34 +2369,37 @@ CMRosIF_CMNode_Calc (double dt)
         // acc_transform = SteeringWheel_amp*SteeringWheel_abs/1.0472 + SteeringWheel_amp;
     }
        
+    // UDP_PC.VC_SwitchOn = 1;
+    UDP_Input.DriveCont.GearNo = 1;
 
     if(Ax_con * acc_transform * Ax_raw < -30) {
-        UDP_Input.DriveCont.Ax = -30;
+        UDP_Input.DriveCont.Ax = -15;
     } else if(Ax_con * acc_transform * Ax_raw < -20) {
-        UDP_Input.DriveCont.Ax = -20;
-    } else if(Ax_con * acc_transform * Ax_raw < -10) {
         UDP_Input.DriveCont.Ax = -10;
+    } else if(Ax_con * acc_transform * Ax_raw < -10) {
+        UDP_Input.DriveCont.Ax = -5;
+    } else if(Ax_con * acc_transform * Ax_raw < 0) {
+        UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw / 2;
     } else {
         UDP_Input.DriveCont.Ax = Ax_con * acc_transform * Ax_raw;
     }
 
     if(CMNode.Topics.Sub.Ext2CM_EStop.Msg.estop == 1) {                         //Emergency Stop
-        UDP_Input.DriveCont.Ax = -30;
+        UDP_Input.DriveCont.Ax = -3000;
     }
 
-    UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;
-	UDP_Input.DriveCont.GearNo = 1;
-    //UDP_PC.VC_SwitchOn = 1;
+    UDP_Input.DriveCont.SteeringWheel = SteeringWheel_con * SteeringWheel_raw;	
 	
-    //Light Indicator
-    // if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
-	//     DrivMan.Lights.Hazard = 3;
-    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1)
-	//     DrivMan.Lights.Indicator = 1;
-    // else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1)
-	//     DrivMan.Lights.Indicator = 2;
-    // else
-    //     DrivMan.Lights.Indicator = 0;
+    // Light Indicator
+    if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1 && CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
+	    UDP_Input.DriveCont.Light = 3;
+    } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.l == 1) {
+        UDP_Input.DriveCont.Light = 1;
+    } else if(CMNode.Topics.Sub.Ext2CM_Lamp.Msg.r == 1) {
+        UDP_Input.DriveCont.Light = 2;
+    } else {
+        UDP_Input.DriveCont.Light = 0;
+    }
 
     return 1;
 }

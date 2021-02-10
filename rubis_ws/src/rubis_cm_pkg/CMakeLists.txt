@@ -45,6 +45,16 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   gnss
 )
+find_package(Eigen3)
+set(EIGEN_PACKAGE EIGEN3)
+if(NOT EIGEN3_FOUND)
+  find_package(cmake_modules REQUIRED)
+  find_package(Eigen REQUIRED)
+  set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS})
+  set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
+  set(EIGEN_PACKAGE Eigen)
+endif()
+
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
 ##   * uncomment the add_*_files sections below as needed
@@ -109,11 +119,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+)
 #  INCLUDE_DIRS include
 #  LIBRARIES rubis_cm_pkg
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
-)
 
 ###########
 ## Build ##
@@ -123,6 +133,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include ${catkin_INCLUDE_DIRS}
+  EIGEN3_INCLUDE_DIRS
 # include
 # ${catkin_INCLUDE_DIRS}
 )
@@ -140,5 +151,22 @@ add_executable(gnss_localizer_cm
 )
 add_dependencies(gnss_localizer_cm ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gnss_localizer_cm
+  ${catkin_LIBRARIES}
+)
+
+add_executable(gnss_pose_to_ndt_pose
+  src/gnss_pose_to_ndt_pose.cpp
+)
+add_dependencies(gnss_pose_to_ndt_pose ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gnss_pose_to_ndt_pose
+  ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
+)
+
+add_executable(waypoint_generator
+  src/waypoint_generator.cpp
+)
+add_dependencies(waypoint_generator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(waypoint_generator
   ${catkin_LIBRARIES}
 )

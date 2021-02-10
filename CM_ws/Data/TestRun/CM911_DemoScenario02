@@ -1,0 +1,803 @@
+#INFOFILE1.1 - Do not remove this line!
+FileIdent = CarMaker-TestRun 9
+FileCreator = CarMaker 9.1.1 2020-12-18
+Description:
+Vehicle = DEEV_Based_AE_EV_SOP_Lidar_AVcontrol_rev
+Trailer =
+Tire.0 = TIRE_PureSlip@
+Tire.1 = TIRE_PureSlip@
+Tire.2 = TIRE_PureSlip@
+Tire.3 = TIRE_PureSlip@
+Snapshot.TimeLimit =
+Snapshot.DistLimit =
+VehicleLoad.0.mass = 0
+VehicleLoad.0.pos = 0 0 0
+VehicleLoad.1.mass = 0
+VehicleLoad.1.pos = 0 0 0
+VehicleLoad.2.mass = 0
+VehicleLoad.2.pos = 0 0 0
+VehicleLoad.3.mass = 0
+VehicleLoad.3.pos = 0 0 0
+TrailerLoad.0.mass = 0
+TrailerLoad.0.pos = 0 0 0
+TrailerLoad.1.mass = 0
+TrailerLoad.1.pos = 0 0 0
+TrailerLoad.2.mass = 0
+TrailerLoad.2.pos = 0 0 0
+DrivMan.Cmds:
+	# ####################################### #
+	# Way Point
+	first() ? Qu::WayPoint = 0
+	first() ? Qu::PointDist01 = 0
+	first() ? Qu::PointDist02 = 0
+	first() ? Qu::PointDist03 = 0
+	PointDist01 = Car.Road.sRoad - Traffic.P01.sRoad
+	PointDist02 = Car.Road.sRoad - Traffic.P02.sRoad
+	PointDist03 = Car.Road.sRoad - Traffic.P03.sRoad
+	first(PointDist01 > 0) ? (WayPoint++)
+	first(PointDist02 > 0) ? (WayPoint++)
+	first(PointDist03 > 0) ? (WayPoint++)
+	# ####################################### #
+	#중앙선 침범(Collision.Traffic.Attribute = -7)
+	change(Car.Road.Lane.Act.Type) && (Car.Road.Lane.Act.Type > hist(Car.Road.Lane.Act.Type)) && (Car.Road.Lane.Act.Type==12) && EStop_flag==0 && (Time > 0) ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -7 )
+	# ####################################### #
+	# 연석침범 및 차로 유지( Collision.Traffic.Attribute = -2 )
+	(change(Lateral_flag)&&(Lateral_flag > hist(Lateral_flag)))&&(EStop_flag==0)&& (Time > 0) ? ( CollisionCnt++; CollisionSpeed = 0;Collision.Traffic.Attribute = -2 )
+	# ####################################### #
+	# 속도위반 ( Collision.Traffic.Attribute = -33 )
+	# Speed Limit
+	first() ? Qu::SPL = -1
+	first() ? Qu::Max_SPL = -1
+	first() ? Qu::Max_Test = -1
+	first() ? Qu::SPL_over = -1
+	" SPL = ((Car.v*3.6)-50)"
+	(SPL > 0.1)&&(Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0 !=50) ? SPL_over = 1 : SPL_over=0
+	(change(SPL_over)&&(SPL_over < hist(SPL_over)))&&(Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0 !=50) && (Time > 0) ? ( CollisionCnt++; CollisionSpeed = Max_SPL;Collision.Traffic.Attribute = -33 )
+	(SPL_over == 1) ? Max_Test = max(SPL,SPL)
+	(SPL_over == 1) && (change(Max_Test)) && (Max_Test > hist(Max_Test)) ? Max_SPL = Max_Test
+	# Traffic Sign
+	first() ? Qu::V_over=0
+	first() ? Qu::V_over_flag=0
+	first() ? Qu::V_Trgt=0
+	(Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0 ==50) ? V_Trgt = ((Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0)-(20))
+	#TS flag
+	(Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0 == 50)&&(Sensor.TSign.TS_Front.SpeedLimit.0.ds <= 51.15 ) ? V_over =((Car.v*3.6) - V_Trgt) : V_over = 0
+	(V_over > 0.1) ? V_over_flag = 1 : V_over_flag=0
+	(change(V_over_flag)&&(V_over_flag < hist(V_over_flag)))&& (Time > 0) ? ( CollisionCnt++; CollisionSpeed = Max_V_over;Collision.Traffic.Attribute = -3 )
+	""
+	# 속도위반최대속도(구간)
+	first() ? Qu::OverSP=0
+	(Sensor.TSign.TS_Front.SpeedLimit.0.Main.val0 == 50)&&(Sensor.TSign.TS_Front.SpeedLimit.0.ds <= 51.15 ) ? OverSP =((Car.v*3.6)) : OverSP = 0
+	first() ? Qu::Max_V_over = -1
+	first() ? Qu::Max_overTest = -1
+	first() ? Qu::Max_TSV = -1
+	first() ? Qu::Max_Vtest = -1
+	""
+	(V_over_flag == 1) ? Max_overTest = max(V_over,V_over)
+	(V_over_flag == 1) ? Max_Vtest = max(OverSP,OverSP)
+	(V_over_flag == 1) && (change(Max_overTest)) && (Max_overTest > hist(Max_overTest)) ? Max_V_over = Max_overTest
+	(V_over_flag == 1) && (change(Max_Vtest)) && (Max_Vtest > hist(Max_Vtest)) ? Max_TSV = Max_Vtest
+	""
+	""
+	# ####################################### #
+	""
+	# 신호위반 ( Collision.Traffic.Attribute = -4 )
+	first() ? Qu::SpeedOver_Lenght = 0
+	first() ? Qu::TrafficOver_Lenght = 0
+	first() ? Qu::TL_Lenght = 0
+	first() ? Qu::Traffic_flag =0
+	""
+	first() ? Qu::Traffic_dist01 = 0
+	Traffic_dist01 = (Car.Road.sRoad - Traffic.Trigger.sRoad)
+	""
+	(TL_SpeedOver_flag ==1) ? SpeedOver_Lenght = Car.Road.sRoad
+	(TL_Ign_flag ==1) ? TrafficOver_Lenght = Car.Road.sRoad
+	(TL_SpeedOver_flag ==1) ? TL_Lenght = (SpeedOver_Lenght - TrafficOver_Lenght)
+	(TL_SpeedOver_flag ==1)&&(TL_Lenght < 5) ? Traffic_flag = 1 : Traffic_flag = 0
+	""
+	""
+	first() ? Qu::TTL_flag = 0
+	first(Traffic_dist01 > 0.05) && (TrfLight.Scenario_TL.State==3) ? TTL_flag = 1 : TTL_flag = 0
+	change(TTL_flag)&&(TTL_flag > hist(TTL_flag))&&(EStop_flag==0)&& (Time > 0) ? (CollisionCnt++; CollisionSpeed = 0;  Collision.Traffic.Attribute = -4)
+	""
+	# ##################################################################
+	# 인디케이터 위반 ( Collision.Traffic.Attribute = -5, -6 )
+	change(Ego.State3) && (Ego.State3 > hist(Ego.State3)) && Ego.State3==1 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -5 )
+	change(Ego.State3) && (Ego.State3 > hist(Ego.State3)) && Ego.State3==2 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -6 )
+	""
+	first() ? Qu::LC_flag = 0
+	Ego.State==1 && VC.Lights.IndL == 0 && LC_flag == 0 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -5; LC_flag = 1; )
+	change(Ego.State) && (Ego.State > hist(Ego.State)) && Ego.State==2 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -5 )
+	Ego.State==3 && VC.Lights.IndR == 0 && LC_flag == 0 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -6; LC_flag = 1; )
+	change(Ego.State) && (Ego.State > hist(Ego.State)) && Ego.State==4 && EStop_flag==0 ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -6 )
+	change(Ego.State) && (Ego.State < hist(Ego.State)) && Ego.State== 0 ? LC_flag = 0;
+	""
+	first() ? Qu::HS_flag=0
+	(Car.Road.sRoad > 1390) && (Car.Road.sRoad < 1505 ) && VC.Lights.IndL == 0 && VC.Lights.IndR == 0 ? HS_flag = 1 : HS_flag = 0
+	change(HS_flag) && (HS_flag > hist(HS_flag)) ? ( CollisionCnt++; CollisionSpeed = 0; Collision.Traffic.Attribute = -8 )
+	# ####################################### #
+	""
+	# ##################################################################
+	# Collision ( Collision.Traffic.Attribute >= 0 )
+	first() ? Qu::CollisionSpeed = 0
+	first() ? Qu::CollisionOn = 0
+	first() ? Qu::EStop_flag = 0
+	"first() ? Qu::CollisionOutput_trf = 0 "
+	(CollisionOutput_trf==1)&&(VC.Brake >=0.9) ? EStop_flag = 1 : EStop_flag = 0
+	(VC.Brake < 0.01 ) ? CollisionOutput_trf = 0
+	first(Collision.Traffic.ID == 0) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 1) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 2) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 3) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 4) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 5) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 6) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 7) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+	first(Collision.Traffic.ID == 8) ? ( CollisionCnt++; CollisionSpeed = Car.v*3.6; )
+DrivMan.Init.Velocity = 0
+DrivMan.Init.GearNo = 0
+DrivMan.Init.SteerAng = 0
+DrivMan.Init.LaneOffset = 0
+DrivMan.Init.OperatorActive = 1
+DrivMan.Init.OperatorState = drive
+DrivMan.VhclOperator.Kind = IPGOperator 1
+DrivMan.nDMan = 2
+DrivMan.0.TimeLimit = 999
+DrivMan.0.Cmds:
+	[first(Collision.Traffic.ID == 0)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 1)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 2)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 3)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 4)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 5)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 6)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 7)] DVAwr VC.Brake Abs 10000 1
+	[first(Collision.Traffic.ID == 8)] DVAwr VC.Brake Abs 10000 1
+	Eval (CollisionOutput==1)&&(VC.Brake >=0.9) ? DM.Steer.Ang = 0
+DrivMan.0.LongDyn = Manual
+DrivMan.0.LatDyn = Step 0 0 0 abs 1
+DrivMan.0.SteerMode = Angle
+DrivMan.1.TimeLimit = 0
+DrivMan.1.Cmds:
+	DVArel *
+DrivMan.1.LongDyn = Manual
+DrivMan.1.LatDyn = Step 0 0 0 abs 1
+DrivMan.1.SteerMode = Angle
+Traffic.IFF.FName =
+Traffic.IFF.Time.Name =
+Traffic.N = 12
+Traffic.SpeedUnit = kmh
+Traffic.0.ObjectKind = Movable
+Traffic.0.ObjectClass = Car
+Traffic.0.Name = T90
+Traffic.0.Info = UNNAMED Object 91
+Traffic.0.Movie.Geometry = 3D/Vehicles/LynkCo_01_2016.mobj
+Traffic.0.Color = 1.0 0.0 0.0
+Traffic.0.Basics.Dimension = 4.49 1.88 1.35
+Traffic.0.Basics.Offset = 0.27 0.0
+Traffic.0.Basics.Fr12CoM = 2.55
+Traffic.0.Init.Orientation = 0.0 0.0 0
+Traffic.0.RCSClass = RCS_Car
+Traffic.0.DetectMask = 1 1
+Traffic.0.Route = 4 1
+Traffic.0.Init.Road = 0 0
+Traffic.0.Init.v = 1.1
+Traffic.0.FreeMotion = 0
+Traffic.0.Lighting = 0
+Traffic.0.UpdRate = 200
+Traffic.0.Motion.Kind = 4Wheel
+Traffic.0.Motion.mass = 1600
+Traffic.0.Motion.I = 730  2300  2500
+Traffic.0.Motion.Overhang = 0.90  0.88
+Traffic.0.Motion.Cf = 1.9e5
+Traffic.0.Motion.Cr = 1.3e5
+Traffic.0.Motion.C_roll = 1.7e5
+Traffic.0.Motion.D_roll = 1.7e4
+Traffic.0.Motion.C_pitch = 4.5e5
+Traffic.0.Motion.D_pitch = 4.5e4
+Traffic.0.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.0.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.0.Man.TreatAtEnd = Hide
+Traffic.0.Man.N = 2
+Traffic.0.Man.0.Limit = t 999
+Traffic.0.Man.0.LongDyn = auto 30
+Traffic.0.Man.0.EndCondition = (Collision.Traffic.ID == 0) && CollisionCnt > 0
+Traffic.0.Man.1.Limit = t 10
+Traffic.0.AutoDrv.UpdRate = 20
+Traffic.0.AutoDrv.Long.Kind = Generic
+Traffic.0.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.0.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.0.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.0.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.0.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.0.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.0.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.0.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.0.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.0.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.0.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.0.AutoDrv.AccLatMax = 4.0
+Traffic.0.AutoDrv.Cautious = 0.5
+Traffic.0.LVD.AxMax = 4.8
+Traffic.0.LVD.vMax = 210
+Traffic.0.LVD.Pmax = 140
+Traffic.0.LVD.tBuildUp = 0.25
+Traffic.1.ObjectKind = Movable
+Traffic.1.ObjectClass = Car
+Traffic.1.Name = T92
+Traffic.1.Info = UNNAMED Object 93
+Traffic.1.Movie.Geometry = 3D/Vehicles/KIA_Stonic_2018.mobj
+Traffic.1.Color = 1.0 0.0 0.0
+Traffic.1.Basics.Dimension = 4.14 1.75 1.50
+Traffic.1.Basics.Offset = 0.20 0.0
+Traffic.1.Basics.Fr12CoM = 2.28
+Traffic.1.Init.Orientation = 0.0 0.0 0
+Traffic.1.RCSClass = RCS_Car
+Traffic.1.DetectMask = 1 1
+Traffic.1.Route = 2 1
+Traffic.1.Init.Road = 10 0
+Traffic.1.Init.v = 1.1
+Traffic.1.FreeMotion = 0
+Traffic.1.Lighting = 0
+Traffic.1.UpdRate = 200
+Traffic.1.Motion.Kind = 4Wheel
+Traffic.1.Motion.mass = 1278
+Traffic.1.Motion.I = 515  1580  1740
+Traffic.1.Motion.Overhang = 0.86  0.70
+Traffic.1.Motion.Cf = 1.5e5
+Traffic.1.Motion.Cr = 1.1e5
+Traffic.1.Motion.C_roll = 1.0e5
+Traffic.1.Motion.D_roll = 1.0e4
+Traffic.1.Motion.C_pitch = 2.4e5
+Traffic.1.Motion.D_pitch = 2.4e4
+Traffic.1.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.1.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.1.Man.TreatAtEnd = Hide
+Traffic.1.Man.N = 2
+Traffic.1.Man.0.Limit = t 999
+Traffic.1.Man.0.LongDyn = auto 30
+Traffic.1.Man.0.EndCondition = (Collision.Traffic.ID == 1) && CollisionCnt > 0
+Traffic.1.Man.1.Limit = t 10
+Traffic.1.AutoDrv.UpdRate = 20
+Traffic.1.AutoDrv.Long.Kind = Generic
+Traffic.1.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.1.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.1.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.1.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.1.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.1.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.1.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.1.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.1.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.1.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.1.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.1.AutoDrv.AccLatMax = 4.0
+Traffic.1.AutoDrv.Cautious = 0.5
+Traffic.1.LVD.AxMax = 5.2
+Traffic.1.LVD.vMax = 184
+Traffic.1.LVD.Pmax = 88
+Traffic.1.LVD.tBuildUp = 0.22
+Traffic.2.ObjectKind = Movable
+Traffic.2.ObjectClass = Car
+Traffic.2.Name = T93
+Traffic.2.Info = UNNAMED Object 91
+Traffic.2.Movie.Geometry = 3D/Vehicles/Hyundai_Sonata_2015.mobj
+Traffic.2.Color = 1.0 0.0 0.0
+Traffic.2.Basics.Dimension = 4.83 1.8 1.3
+Traffic.2.Basics.Offset = 0.2 0.0
+Traffic.2.Basics.Fr12CoM = 2.8
+Traffic.2.Init.Orientation = 0.0 0.0 0
+Traffic.2.RCSClass = RCS_Car
+Traffic.2.DetectMask = 1 1
+Traffic.2.Route = 2 1
+Traffic.2.Init.Road = 40 0
+Traffic.2.Init.v = 1.1
+Traffic.2.FreeMotion = 0
+Traffic.2.Lighting = 0
+Traffic.2.UpdRate = 200
+Traffic.2.Motion.Kind = 4Wheel
+Traffic.2.Motion.mass = 1630
+Traffic.2.Motion.I = 660  2580  2820
+Traffic.2.Motion.Overhang = 0.97  1.09
+Traffic.2.Motion.Cf = 1.8e5
+Traffic.2.Motion.Cr = 1.3e5
+Traffic.2.Motion.C_roll = 1.5e5
+Traffic.2.Motion.D_roll = 1.5e4
+Traffic.2.Motion.C_pitch = 4.3e5
+Traffic.2.Motion.D_pitch = 4.3e4
+Traffic.2.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.2.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.2.Man.TreatAtEnd = Hide
+Traffic.2.Man.N = 2
+Traffic.2.Man.0.Limit = t 999
+Traffic.2.Man.0.LongDyn = auto 30
+Traffic.2.Man.0.EndCondition = (Collision.Traffic.ID == 2) && CollisionCnt > 0
+Traffic.2.Man.1.Limit = t 10
+Traffic.2.AutoDrv.UpdRate = 20
+Traffic.2.AutoDrv.Long.Kind = Generic
+Traffic.2.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.2.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.2.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.2.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.2.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.2.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.2.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.2.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.2.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.2.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.2.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.2.AutoDrv.AccLatMax = 4.0
+Traffic.2.AutoDrv.Cautious = 0.5
+Traffic.2.LVD.AxMax = 4.8
+Traffic.2.LVD.vMax = 207
+Traffic.2.LVD.Pmax = 121
+Traffic.2.LVD.tBuildUp = 0.2
+Traffic.3.ObjectKind = StatWithName
+Traffic.3.ObjectClass = Unknown
+Traffic.3.Name = Trigger
+Traffic.3.Info = Ball
+Traffic.3.Movie.Geometry = 3D/StreetFurniture/BollardRoad_01_1.mobj
+Traffic.3.Color = 1.0 1.0 1.0
+Traffic.3.Basics.Dimension = 0.080 0.080 0.810
+Traffic.3.Basics.Offset = 0.0 0.0
+Traffic.3.Basics.Fr12CoM = 0.040
+Traffic.3.Init.Orientation = 0.0 0.0 0
+Traffic.3.RCSClass = RCS_Unknown
+Traffic.3.DetectMask = 0 0
+Traffic.3.Route = 0 1
+Traffic.3.Init.Road = 773.67 -8.2
+Traffic.4.ObjectKind = Movable
+Traffic.4.ObjectClass = Car
+Traffic.4.Name = T01
+Traffic.4.Info = UNNAMED Object 91
+Traffic.4.Movie.Geometry = 3D/Vehicles/Hyundai_Kona_2018.mobj
+Traffic.4.Color = 1.0 0.0 0.0
+Traffic.4.Basics.Dimension = 4.16 1.79 1.29
+Traffic.4.Basics.Offset = 0.22 0.0
+Traffic.4.Basics.Fr12CoM = 2.3
+Traffic.4.Init.Orientation = 0.0 0.0 0
+Traffic.4.RCSClass = RCS_Car
+Traffic.4.DetectMask = 1 1
+Traffic.4.Route = 4 1
+Traffic.4.Init.Road = 30 0
+Traffic.4.Init.v = 1.1
+Traffic.4.FreeMotion = 0
+Traffic.4.Lighting = 0
+Traffic.4.UpdRate = 200
+Traffic.4.Motion.Kind = 4Wheel
+Traffic.4.Motion.mass = 1378
+Traffic.4.Motion.I = 590  1720  1900
+Traffic.4.Motion.Overhang = 0.86  0.71
+Traffic.4.Motion.Cf = 2.0e5
+Traffic.4.Motion.Cr = 1.4e5
+Traffic.4.Motion.C_roll = 1.2e5
+Traffic.4.Motion.D_roll = 1.2e4
+Traffic.4.Motion.C_pitch = 2.5e5
+Traffic.4.Motion.D_pitch = 2.5e4
+Traffic.4.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.4.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.4.Man.TreatAtEnd = Hide
+Traffic.4.Man.N = 2
+Traffic.4.Man.0.Limit = t 999
+Traffic.4.Man.0.LongDyn = auto 30
+Traffic.4.Man.0.EndCondition = (Collision.Traffic.ID == 4) && CollisionCnt > 0
+Traffic.4.Man.1.Limit = t 10
+Traffic.4.AutoDrv.UpdRate = 20
+Traffic.4.AutoDrv.Long.Kind = Generic
+Traffic.4.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.4.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.4.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.4.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.4.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.4.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.4.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.4.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.4.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.4.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.4.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.4.AutoDrv.AccLatMax = 4.0
+Traffic.4.AutoDrv.Cautious = 0.5
+Traffic.4.LVD.AxMax = 5.1
+Traffic.4.LVD.vMax = 210
+Traffic.4.LVD.Pmax = 100
+Traffic.4.LVD.tBuildUp = 0.22
+Traffic.5.ObjectKind = Movable
+Traffic.5.ObjectClass = Car
+Traffic.5.Name = T06
+Traffic.5.Info = UNNAMED Object 91
+Traffic.5.Movie.Geometry = 3D/Vehicles/Citroen_C3_2015.mobj
+Traffic.5.Color = 1.0 0.0 0.0
+Traffic.5.Basics.Dimension = 3.83 1.64 1.31
+Traffic.5.Basics.Offset = 0.15 0.0
+Traffic.5.Basics.Fr12CoM = 2.16
+Traffic.5.Init.Orientation = 0.0 0.0 0
+Traffic.5.RCSClass = RCS_Car
+Traffic.5.DetectMask = 1 1
+Traffic.5.Route = 4 1
+Traffic.5.Init.Road = 60 0
+Traffic.5.Init.v = 1.1
+Traffic.5.FreeMotion = 0
+Traffic.5.Lighting = 0
+Traffic.5.UpdRate = 200
+Traffic.5.Motion.Kind = 4Wheel
+Traffic.5.Motion.mass = 1230
+Traffic.5.Motion.I = 460  1370  1480
+Traffic.5.Motion.Overhang = 0.74  0.66
+Traffic.5.Motion.Cf = 8.1e4
+Traffic.5.Motion.Cr = 6.6e4
+Traffic.5.Motion.C_roll = 1.04e5
+Traffic.5.Motion.D_roll = 1.04e4
+Traffic.5.Motion.C_pitch = 2.5e5
+Traffic.5.Motion.D_pitch = 2.5e4
+Traffic.5.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.5.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.5.Man.TreatAtEnd = Hide
+Traffic.5.Man.N = 2
+Traffic.5.Man.0.Limit = t 999
+Traffic.5.Man.0.LongDyn = auto 30
+Traffic.5.Man.0.EndCondition = (Collision.Traffic.ID == 5) && CollisionCnt > 0
+Traffic.5.Man.1.Limit = t 10
+Traffic.5.AutoDrv.UpdRate = 20
+Traffic.5.AutoDrv.Long.Kind = Generic
+Traffic.5.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.5.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.5.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.5.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.5.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.5.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.5.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.5.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.5.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.5.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.5.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.5.AutoDrv.AccLatMax = 4.0
+Traffic.5.AutoDrv.Cautious = 0.5
+Traffic.5.LVD.AxMax = 4.1
+Traffic.5.LVD.vMax = 167
+Traffic.5.LVD.Pmax = 54
+Traffic.5.LVD.tBuildUp = 0.22
+Traffic.6.ObjectKind = Movable
+Traffic.6.ObjectClass = Car
+Traffic.6.Name = T07
+Traffic.6.Info = UNNAMED Object 91
+Traffic.6.Movie.Geometry = 3D/Vehicles/Hyundai_Kona_2018.mobj
+Traffic.6.Color = 1.0 0.0 0.0
+Traffic.6.Basics.Dimension = 4.16 1.79 1.29
+Traffic.6.Basics.Offset = 0.22 0.0
+Traffic.6.Basics.Fr12CoM = 2.3
+Traffic.6.Init.Orientation = 0.0 0.0 0
+Traffic.6.RCSClass = RCS_Car
+Traffic.6.DetectMask = 1 1
+Traffic.6.Route = 4 1
+Traffic.6.Init.Road = 90 0
+Traffic.6.Init.v = 1.1
+Traffic.6.FreeMotion = 0
+Traffic.6.Lighting = 0
+Traffic.6.UpdRate = 200
+Traffic.6.Motion.Kind = 4Wheel
+Traffic.6.Motion.mass = 1378
+Traffic.6.Motion.I = 590  1720  1900
+Traffic.6.Motion.Overhang = 0.86  0.71
+Traffic.6.Motion.Cf = 2.0e5
+Traffic.6.Motion.Cr = 1.4e5
+Traffic.6.Motion.C_roll = 1.2e5
+Traffic.6.Motion.D_roll = 1.2e4
+Traffic.6.Motion.C_pitch = 2.5e5
+Traffic.6.Motion.D_pitch = 2.5e4
+Traffic.6.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.6.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.6.Man.TreatAtEnd = Hide
+Traffic.6.Man.N = 2
+Traffic.6.Man.0.Limit = t 999
+Traffic.6.Man.0.LongDyn = auto 30
+Traffic.6.Man.0.EndCondition = (Collision.Traffic.ID == 6) && CollisionCnt > 0
+Traffic.6.Man.1.Limit = t 10
+Traffic.6.AutoDrv.UpdRate = 20
+Traffic.6.AutoDrv.Long.Kind = Generic
+Traffic.6.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.6.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.6.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.6.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.6.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.6.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.6.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.6.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.6.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.6.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.6.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.6.AutoDrv.AccLatMax = 4.0
+Traffic.6.AutoDrv.Cautious = 0.5
+Traffic.6.LVD.AxMax = 5.1
+Traffic.6.LVD.vMax = 210
+Traffic.6.LVD.Pmax = 100
+Traffic.6.LVD.tBuildUp = 0.22
+Traffic.7.ObjectKind = Movable
+Traffic.7.ObjectClass = Car
+Traffic.7.Name = T08
+Traffic.7.Info = UNNAMED Object 91
+Traffic.7.Movie.Geometry = 3D/Vehicles/Audi_S3_2015.mobj
+Traffic.7.Color = 1.0 0.0 0.0
+Traffic.7.Basics.Dimension = 4.2 1.7 1.15
+Traffic.7.Basics.Offset = 0.23 0.0
+Traffic.7.Basics.Fr12CoM = 2.35
+Traffic.7.Init.Orientation = 0.0 0.0 0
+Traffic.7.RCSClass = RCS_Car
+Traffic.7.DetectMask = 1 1
+Traffic.7.Route = 4 1
+Traffic.7.Init.Road = 120 0
+Traffic.7.Init.v = 1.1
+Traffic.7.FreeMotion = 0
+Traffic.7.Lighting = 0
+Traffic.7.UpdRate = 200
+Traffic.7.Motion.Kind = 4Wheel
+Traffic.7.Motion.mass = 1550
+Traffic.7.Motion.I = 580  1920  2160
+Traffic.7.Motion.Overhang = 0.87  0.76
+Traffic.7.Motion.Cf = 1.6e5
+Traffic.7.Motion.Cr = 1.6e5
+Traffic.7.Motion.C_roll = 2.5e5
+Traffic.7.Motion.D_roll = 2.5e4
+Traffic.7.Motion.C_pitch = 4.0e5
+Traffic.7.Motion.D_pitch = 4.0e4
+Traffic.7.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.7.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.7.Man.TreatAtEnd = Hide
+Traffic.7.Man.N = 2
+Traffic.7.Man.0.Limit = t 999
+Traffic.7.Man.0.LongDyn = auto 30
+Traffic.7.Man.0.EndCondition = (Collision.Traffic.ID == 7) && CollisionCnt > 0
+Traffic.7.Man.1.Limit = t 10
+Traffic.7.AutoDrv.UpdRate = 20
+Traffic.7.AutoDrv.Long.Kind = Generic
+Traffic.7.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.7.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.7.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.7.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.7.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.7.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.7.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.7.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.7.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.7.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.7.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.7.AutoDrv.AccLatMax = 4.0
+Traffic.7.AutoDrv.Cautious = 0.5
+Traffic.7.LVD.AxMax = 8.4
+Traffic.7.LVD.vMax = 250
+Traffic.7.LVD.Pmax = 195
+Traffic.7.LVD.tBuildUp = 0.15
+Traffic.8.ObjectKind = Movable
+Traffic.8.ObjectClass = Car
+Traffic.8.Name = T09
+Traffic.8.Info = UNNAMED Object 91
+Traffic.8.Movie.Geometry = 3D/Vehicles/Hyundai_Sonata_2015.mobj
+Traffic.8.Color = 1.0 0.0 0.0
+Traffic.8.Basics.Dimension = 4.83 1.8 1.3
+Traffic.8.Basics.Offset = 0.2 0.0
+Traffic.8.Basics.Fr12CoM = 2.8
+Traffic.8.Init.Orientation = 0.0 0.0 0
+Traffic.8.RCSClass = RCS_Car
+Traffic.8.DetectMask = 1 1
+Traffic.8.Route = 4 1
+Traffic.8.Init.Road = 145 0
+Traffic.8.Init.v = 1.1
+Traffic.8.FreeMotion = 0
+Traffic.8.Lighting = 0
+Traffic.8.UpdRate = 200
+Traffic.8.Motion.Kind = 4Wheel
+Traffic.8.Motion.mass = 1630
+Traffic.8.Motion.I = 660  2580  2820
+Traffic.8.Motion.Overhang = 0.97  1.09
+Traffic.8.Motion.Cf = 1.8e5
+Traffic.8.Motion.Cr = 1.3e5
+Traffic.8.Motion.C_roll = 1.5e5
+Traffic.8.Motion.D_roll = 1.5e4
+Traffic.8.Motion.C_pitch = 4.3e5
+Traffic.8.Motion.D_pitch = 4.3e4
+Traffic.8.Motion.SteerCtrl.Ang_max = 40.0
+Traffic.8.Man.StartCondition = Car.Road.sRoad > 305
+Traffic.8.Man.TreatAtEnd = Hide
+Traffic.8.Man.N = 2
+Traffic.8.Man.0.Limit = t 999
+Traffic.8.Man.0.LongDyn = auto 30
+Traffic.8.Man.0.EndCondition = (Collision.Traffic.ID == 8) && CollisionCnt > 0
+Traffic.8.Man.1.Limit = t 10
+Traffic.8.AutoDrv.UpdRate = 20
+Traffic.8.AutoDrv.Long.Kind = Generic
+Traffic.8.AutoDrv.Long.Gen.DistPreview = 200.0
+Traffic.8.AutoDrv.Long.Gen.DistStand = 3.0
+Traffic.8.AutoDrv.Long.Gen.AccMax = 2.0
+Traffic.8.AutoDrv.Long.Gen.DecComf = -2.0
+Traffic.8.AutoDrv.Long.Gen.PCtrlSpd = 0.41
+Traffic.8.AutoDrv.Long.Gen.TimeGap = 1.5
+Traffic.8.AutoDrv.Long.Gen.TAdaptDist = 4.0
+Traffic.8.AutoDrv.Long.Gen.TAdaptRelSpd_low = 2.6
+Traffic.8.AutoDrv.Long.Gen.TAdaptRelSpd_high = 1.3
+Traffic.8.AutoDrv.Long.Gen.RelSpdRef = 1.0
+Traffic.8.AutoDrv.Long.Gen.DecMax = -10.0
+Traffic.8.AutoDrv.AccLatMax = 4.0
+Traffic.8.AutoDrv.Cautious = 0.5
+Traffic.8.LVD.AxMax = 4.8
+Traffic.8.LVD.vMax = 207
+Traffic.8.LVD.Pmax = 121
+Traffic.8.LVD.tBuildUp = 0.2
+Traffic.9.ObjectKind = StatWithName
+Traffic.9.ObjectClass = Unknown
+Traffic.9.Name = P01
+Traffic.9.Info = Bicycle
+Traffic.9.Movie.Geometry = 3D/StreetFurniture/Construction/Beacon_Security.mobj
+Traffic.9.Color = 1.0 0.8 0.0
+Traffic.9.Basics.Dimension = 0.410 0.420 1.540
+Traffic.9.Basics.Offset = 0.0 0.0
+Traffic.9.Basics.Fr12CoM = 0.205
+Traffic.9.Init.Orientation = 0.0 0.0 0
+Traffic.9.RCSClass = RCS_Unknown
+Traffic.9.DetectMask = 1 0
+Traffic.9.Route = 0 1
+Traffic.9.Init.Road = 620 -10
+Traffic.10.ObjectKind = StatWithName
+Traffic.10.ObjectClass = Unknown
+Traffic.10.Name = P02
+Traffic.10.Info = Bicycle
+Traffic.10.Movie.Geometry = 3D/StreetFurniture/Construction/Beacon_Security.mobj
+Traffic.10.Color = 1.0 0.8 0.0
+Traffic.10.Basics.Dimension = 0.410 0.420 1.540
+Traffic.10.Basics.Offset = 0.0 0.0
+Traffic.10.Basics.Fr12CoM = 0.205
+Traffic.10.Init.Orientation = 0.0 0.0 0
+Traffic.10.RCSClass = RCS_Unknown
+Traffic.10.DetectMask = 1 0
+Traffic.10.Route = 0 1
+Traffic.10.Init.Road = 820 -8
+Traffic.11.ObjectKind = StatWithName
+Traffic.11.ObjectClass = Unknown
+Traffic.11.Name = P03
+Traffic.11.Info = Bicycle
+Traffic.11.Movie.Geometry = 3D/StreetFurniture/Construction/Beacon_Security.mobj
+Traffic.11.Color = 1.0 0.8 0.0
+Traffic.11.Basics.Dimension = 0.410 0.420 1.540
+Traffic.11.Basics.Offset = 0.0 0.0
+Traffic.11.Basics.Fr12CoM = 0.205
+Traffic.11.Init.Orientation = 0.0 0.0 0
+Traffic.11.RCSClass = RCS_Unknown
+Traffic.11.DetectMask = 1 0
+Traffic.11.Route = 0 1
+Traffic.11.Init.Road = 520 -12
+DrivMan.OW.Active = 0
+DrivMan.OW.Quantities =
+DrivMan.OW.StartGearNo = 1
+DrivMan.OW.StartVelocity =
+DrivMan.OW.GasMax = 0.5
+DrivMan.OW.RefCh = Time
+DrivMan.OW.ConsiderRoadSigns = 0
+DrivMan.OW.sRoute.Offset = 0
+ErrorClass.0.Action = abort
+ErrorClass.0.Save = 0
+ErrorClass.0.WarningLimit = 3 5
+ErrorClass.1.Action = abort
+ErrorClass.1.Save = 0
+ErrorClass.1.WarningLimit = 3 5
+ErrorClass.2.Action = abort
+ErrorClass.2.Save = 0
+ErrorClass.2.WarningLimit = 3 5
+ErrorClass.3.Action = abort
+ErrorClass.3.Save = 0
+ErrorClass.3.WarningLimit = 3 5
+ErrorClass.4.Action = abort
+ErrorClass.4.Save = 0
+ErrorClass.4.WarningLimit = 3 5
+ErrorClass.5.Action = abort
+ErrorClass.5.Save = 0
+ErrorClass.5.WarningLimit = 3 5
+ErrorClass.6.Action = abort
+ErrorClass.6.Save = 0
+ErrorClass.6.WarningLimit = 10 5
+ErrorClass.7.Action = abort
+ErrorClass.7.Save = 0
+ErrorClass.7.WarningLimit = 3 5
+ErrorClass.10.Action = abort
+ErrorClass.10.Save = 0
+ErrorClass.10.WarningLimit = 3 5
+ErrorClass.11.Action = abort
+ErrorClass.11.Save = 0
+ErrorClass.11.WarningLimit = 3 5
+Road.FName = TestScenarioRoad/TestScenarioRoad02_CM911.rd5
+Road.VhclStartPos = 300 0 0
+Road.VhclRoute = Route_0
+Road.RouteId = 0
+Env.StartTime.Year = 2014
+Env.StartTime.Month = 7
+Env.StartTime.Day = 1
+Env.StartTime.Hour = 12
+Env.StartTime.Min = 0
+Env.StartTime.Sec = 0
+Env.StartTime.DeltaUTC = 0.0
+Env.GNav.Active = 1
+Env.Temperature = 20.0
+Env.AirDensity = 1.205
+Env.AirPressure = 1.013
+Env.AirHumidity = 60
+Env.SolarRadiation = 400.0
+Env.RainRate = 0.0
+Env.VisRangeInFog = 10000.0
+Env.Wind.Kind = none
+Env.Wind.Velocity = 0.0
+Env.Wind.Angle = 0.0
+Env.Sun.Position = angleDefinition
+Env.Sun.Azimuth = 45.0
+Env.Sun.Elevation = 45.0
+Env.Kind = Generic
+Env.Temp.Offset_Elev = -0.0065
+Env.Temp.Offset_sRoad.Amplify = 1.0
+Env.Temp.Offset_sRoad.On = 0
+Env.Temp.Offset_Time.Amplify = 1.0
+Env.Temp.Offset_Time.On = 1
+Env.Temp.Offset_Time:
+	0.0 -2.0
+	3.0 -2.5
+	6.0 -2.7
+	7.5 -2.7
+	9.0 -2.5
+	10.0 -2.3
+	11.0 -1.6
+	12.0 0.0
+	13.0 1.4
+	14.0 2.1
+	15.5 2.5
+	17.0 2.2
+	18.0 1.7
+	19.0 1.1
+	20.0 0.2
+	21.0 -0.6
+	22.0 -1.1
+	23.0 -1.6
+	24.0 -2.0
+Driver.ParamIdent = IPGDriver 5
+Driver.Mode = std
+Driver.Long.DrivMaxSpeed = 0
+Driver.Long.CruisingSpeed = 150
+Driver.CornerCutCoef = 0.5
+Driver.ConsiderTraffic = 0
+Driver.Traffic.TimeGapMin = 1.8
+Driver.Traffic.TimeGapMax = 5.0
+Driver.Traffic.DistMin = 6
+Driver.Traffic.DistMax = 250
+Driver.Traffic.EcoCoef = 0.75
+Driver.Traffic.Overtake = 1
+Driver.Traffic.Overtake_Rate = 1
+Driver.Traffic.Overtake_dSpeedMin = 0
+Driver.Long.dtAccBrake = 0.5
+Driver.Long.axMax = 3.0
+Driver.Long.axMin = -4.0
+Driver.Long.ayMax = 4.0
+Driver.Long.GGExp:
+	50 1.0 1.0
+Driver.Long.DevMax = 0.0
+Driver.Long.tReact = 0.0
+Driver.Long.TractionControl = 1
+Driver.DecShift.UseBrakePark = 0
+Driver.DecShift.tSwitchGear = 1.0
+Driver.DecShift.nEngine.Limits:
+	1500 4000
+Driver.DecShift.nEngine.Shift:
+	2000 3000
+Driver.Lat.DevMax = 0.0
+Driver.Lat.tReact = 0.0
+Driver.Knowl.Long.tActionMin = 4
+Driver.Knowl.Lat.StWhlAngleMax = 630
+Driver.Knowl.Lat.StWhlAngleVelMax = 500
+Driver.Knowl.Lat.StWhlAngleAccMax = 3000
+Driver.Learn.VehicleLimits.TestRun =
+Driver.Learn.VehicleLimits.Date = 0
+Driver.Learn.ControllerDyn.TestRun =
+Driver.Learn.ControllerDyn.Date = 0
+Driver.Learn.MaxSpeed.TestRun =
+Driver.Learn.MaxSpeed.Date = 0
+Driver.Learn.Remember = 0
+Driver.Learn.Friction = 1.0
+Driver.Knowl.Long.tPreviewBra = 0.6
+Driver.Knowl.Long.tPreviewAcc = 1.5
+Driver.Knowl.Lat.tPreview = 0.8
+Driver.Learn.NEng_S = 1
+Traffic.44.Lights.Custom.0 = 0.0 0.15 0.3 0.45 0.6
+Traffic.44.Lights.Custom.1 = 0.15 0.3 0.45 0.6

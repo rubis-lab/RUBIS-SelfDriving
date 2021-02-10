@@ -284,12 +284,17 @@ void DecisionMaker::InitBehaviorStates()
 
         if(distanceToClosestStopLine < m_params.stopLineDetectionDistance && distanceToClosestStopLine > 0){
           bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
-          double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          double reachableDistance = 10 * remain_time / 2;
           bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
                         (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
 
           pValues->currentTrafficLightID = trafficLightID;
           pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+
+          // std::cout << trafficLightID << " " << distanceToClosestStopLine << " " << remain_time << std::endl;
+          // std::cout << "bGreen : " << bGreenTrafficLight << ", reachable : " << reachableDistance << std::endl;
+          // std::cout << "should forward : " << bShouldForward << std::endl;
         }
 
         m_prevTrafficLightID = trafficLightID;
@@ -449,7 +454,7 @@ void DecisionMaker::InitBehaviorStates()
 
   // Check turn
   // Detects whether or not to turning 50m ahead
-  m_turnWaypoint = m_RollOuts.at(currentBehavior.currTrajectory).at(std::min(100, int(m_RollOuts.at(currentBehavior.currTrajectory).size()))-1);
+  m_turnWaypoint = m_RollOuts.at(currentBehavior.currTrajectory).at(std::min(250, int(m_RollOuts.at(currentBehavior.currTrajectory).size()))-1);
 
   // Make Lamp Signal
   if(currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || currentBehavior.state == INTERSECTION_STATE && m_params.turnLeft){
@@ -527,7 +532,8 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
-    double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    double desiredAcceleration = 10 * 10 / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
     double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
     
     double e = max_velocity - CurrStatus.speed;

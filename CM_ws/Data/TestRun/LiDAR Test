@@ -1,13 +1,13 @@
 #INFOFILE1.1 - Do not remove this line!
 FileIdent = CarMaker-TestRun 9
-FileCreator = CarMaker 9.0.2 2020-8-5
+FileCreator = CarMaker 9.1.1 2020-12-18
 Description:
 Vehicle = DEEV_Based_AE_EV_SOP_Lidar_rev
 Trailer =
-Tire.0 =
-Tire.1 =
-Tire.2 =
-Tire.3 =
+Tire.0 = TIRE_PureSlip@
+Tire.1 = TIRE_PureSlip@
+Tire.2 = TIRE_PureSlip@
+Tire.3 = TIRE_PureSlip@
 Snapshot.TimeLimit =
 Snapshot.DistLimit =
 VehicleLoad.0.mass = 0
@@ -80,12 +80,7 @@ ErrorClass.11.WarningLimit = 3 5
 Road.FName = Sangam_AD_TestRoad_v3_ipg_v3.rd5
 Road.VhclStartPos = 0 0 0
 Road.VhclRoute = NotSpecified
-<<<<<<< HEAD
-Road.RouteId = 
-=======
 Road.RouteId =
->>>>>>> 0e6010c60f0421984114eebb1da1a1fd80538f7f
-Road.LinkObjId = 46308
 Env.StartTime.Year = 2014
 Env.StartTime.Month = 7
 Env.StartTime.Day = 1
@@ -180,3 +175,4 @@ Driver.Knowl.Long.tPreviewBra = 0.6
 Driver.Knowl.Long.tPreviewAcc = 1.5
 Driver.Knowl.Lat.tPreview = 0.8
 Driver.Learn.NEng_S = 1
+Road.LinkObjId = 46308
