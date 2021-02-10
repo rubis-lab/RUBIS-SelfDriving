@@ -128,7 +128,7 @@ protected: //Planning Related variables
   bool m_sprintSwitch;
   double m_obstacleWaitingTimeinIntersection;
 
-  bool prevSpeedLimit;
+  double prevSpeedLimit;
 
   //ROS messages (topics)
   ros::NodeHandle nh;

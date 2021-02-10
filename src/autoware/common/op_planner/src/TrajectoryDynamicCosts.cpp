@@ -133,8 +133,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     m_endTrajIdx = rollOuts.size() / 2;
   }
   else{
-    m_startTrajIdx = car_info.perp_point.LeftLnId;
-    m_endTrajIdx = car_info.perp_point.RightLnId;
+    m_startTrajIdx = min(car_info.perp_point.LeftLnId, int(rollOuts.size())-1);
+    m_endTrajIdx = min(car_info.perp_point.RightLnId, int(rollOuts.size())-1);
   }
 
   // get parameter

@@ -72,13 +72,13 @@ void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::P
     m_sprintSpeed = sprintSpeed;
 
     m_pidVelocity.Init(0.01, 0.004, 0.01);
-    m_pidVelocity.Setlimit(m_params.maxSpeed, 0);
+    m_pidVelocity.Setlimit(m_maxSpeed, 0);
 
     m_pidSprintVelocity.Init(0.01, 0.004, 0.01);
     m_pidSprintVelocity.Setlimit(sprintSpeed, 0);
 
     m_pidIntersectionVelocity.Init(0.01, 0.004, 0.01);
-    m_pidIntersectionVelocity.Setlimit(m_params.maxSpeed*0.7, 0);
+    m_pidIntersectionVelocity.Setlimit(m_maxSpeed*0.7, 0);
 
     m_pidStopping.Init(0.05, 0.05, 0.1);
     m_pidStopping.Setlimit(m_params.horizonDistance, 0);
@@ -288,7 +288,7 @@ void DecisionMaker::InitBehaviorStates()
 
         if(distanceToClosestStopLine < m_params.stopLineDetectionDistance && distanceToClosestStopLine > 0){
           bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
-          // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+          // double reachableDistance = m_maxSpeed * detectedLights.at(i).remainTime / 2;
           double reachableDistance = 10 * remain_time / 2;
           bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
                         (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
@@ -309,7 +309,7 @@ void DecisionMaker::InitBehaviorStates()
         // if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
         //   remain_time += detectedLights.at(i).routine.at(1); // Add yellow light
         // }
-        // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        // double reachableDistance = m_maxSpeed * detectedLights.at(i).remainTime / 2;
         // bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
         // bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine + stopLineLength) ||
         //               (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
@@ -319,7 +319,7 @@ void DecisionMaker::InitBehaviorStates()
         // if(detectedLights.at(i).lightState == GREEN_LIGHT){ // Add time for yellow lights time
         //   remain_time += detectedLights.at(i).routine.at(1); // Add yellow light
         // }
-        // double reachableDistance = m_params.maxSpeed * detectedLights.at(i).remainTime / 2;
+        // double reachableDistance = m_maxSpeed * detectedLights.at(i).remainTime / 2;
         // bool bGreenTrafficLight = !(detectedLights.at(i).lightState == RED_LIGHT);
         // bShouldForward = (bGreenTrafficLight && reachableDistance > distanceToClosestStopLine) ||
         //               (!bGreenTrafficLight && reachableDistance < distanceToClosestStopLine);
@@ -525,7 +525,9 @@ void DecisionMaker::InitBehaviorStates()
   PlanningHelpers::GetRelativeInfo(m_TotalOriginalPath.at(m_iCurrentTotalPathId), state, total_info);
   PlanningHelpers::GetRelativeInfo(m_Path, state, info);
   double average_braking_distance = -pow(CurrStatus.speed, 2)/(m_CarInfo.max_deceleration) + m_params.additionalBrakingDistance;
-  double max_velocity  = PlannerHNS::PlanningHelpers::GetVelocityAhead(m_TotalOriginalPath.at(m_iCurrentTotalPathId), total_info, total_info.iBack, average_braking_distance);
+  // double max_velocity  = PlannerHNS::PlanningHelpers::GetVelocityAhead(m_TotalOriginalPath.at(m_iCurrentTotalPathId), total_info, total_info.iBack, average_braking_distance);
+
+  double max_velocity = m_maxSpeed;
 
   unsigned int point_index = 0;
   double critical_long_front_distance = m_CarInfo.length/2.0;
@@ -536,7 +538,7 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == INTERSECTION_STATE){
     
-    max_velocity = m_params.maxSpeed*0.7;
+    max_velocity = m_maxSpeed*0.7;
     double target_velocity = max_velocity;
 
     double e = target_velocity - CurrStatus.speed;
@@ -559,8 +561,8 @@ void DecisionMaker::InitBehaviorStates()
       desiredVelocity = 0;
     }
     // else if(m_params.obstacleinRiskyArea){
-      // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
-      // double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+      // double desiredAcceleration = m_maxSpeed * m_maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+      // double desiredVelocity = m_maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
       // if(desiredVelocity < 0.5)
       //   desiredVelocity = 0;
     //   desiredVelocity = 0;
@@ -578,9 +580,9 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == TRAFFIC_LIGHT_STOP_STATE || beh.state == TRAFFIC_LIGHT_WAIT_STATE)
   {
-    // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
-    double desiredAcceleration = 10 * 10 / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
-    double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
+    // double desiredAcceleration = m_maxSpeed * m_maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    double desiredAcceleration = m_maxSpeed * m_maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
+    double desiredVelocity = m_maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
     
     double e = max_velocity - CurrStatus.speed;
     m_pidSprintVelocity.getPID(e);
@@ -640,8 +642,8 @@ void DecisionMaker::InitBehaviorStates()
 
     // double desiredVelocity = (deceleration_critical * dt) + CurrStatus.speed;
 
-    // if(desiredVelocity > m_params.maxSpeed)
-    //   desiredVelocity = m_params.maxSpeed;
+    // if(desiredVelocity > m_maxSpeed)
+    //   desiredVelocity = m_maxSpeed;
 
     // if((desiredVelocity < 0.1 && desiredVelocity > -0.1) || beh.followDistance <= 0) //use only effective velocities
     //   desiredVelocity = 0;
@@ -656,9 +658,9 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FORWARD_STATE)
   {
-    if(m_sprintSwitch == true){
-      max_velocity = m_sprintSpeed;
-    }
+    // if(m_sprintSwitch == true){
+    //   max_velocity = m_sprintSpeed;
+    // }
 
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
@@ -681,10 +683,12 @@ void DecisionMaker::InitBehaviorStates()
     forward_pid_vel = m_pidVelocity.getPID(e);
     m_pidIntersectionVelocity.getPID(e);
 
-    if(m_sprintSwitch == true)
-      desiredVelocity = sprint_pid_vel;
-    else
-      desiredVelocity = forward_pid_vel;
+    // if(m_sprintSwitch == true)
+    //   desiredVelocity = sprint_pid_vel;
+    // else
+    //   desiredVelocity = forward_pid_vel;
+
+    desiredVelocity = forward_pid_vel;
 
 
     if(desiredVelocity>max_velocity)
@@ -775,6 +779,8 @@ void DecisionMaker::InitBehaviorStates()
   beh = GenerateBehaviorState(vehicleState);
 
   beh.bNewPlan = SelectSafeTrajectory();
+
+  // std::cout << "max_speed : " << m_maxSpeed << std::endl;
 
   beh.maxVelocity = UpdateVelocityDirectlyToTrajectory(beh, vehicleState, dt);
   
