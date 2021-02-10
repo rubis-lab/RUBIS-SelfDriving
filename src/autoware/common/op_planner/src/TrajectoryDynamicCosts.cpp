@@ -125,11 +125,11 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   bestTrajectory.closest_obj_velocity = 0;
   bestTrajectory.index = -1;
 
-  // int start_idx = 0;
-  // int end_idx = rollOuts.size() - 1;
-
   int start_idx = 0;
-  int end_idx = 3;
+  int end_idx = rollOuts.size() - 1;
+
+  // int start_idx = 0;
+  // int end_idx = 3;
 
   // get parameter
   m_WeightPriority = params.weightPriority;
@@ -501,11 +501,11 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
-    // int start_idx = 0;
-    // int end_idx = rollOuts.size() - 1;
-    
     int start_idx = 0;
-    int end_idx = 3;
+    int end_idx = rollOuts.size() - 1;
+    
+    // int start_idx = 0;
+    // int end_idx = 3;
 
     for(unsigned int it = start_idx; it<= end_idx; it++)
     {
