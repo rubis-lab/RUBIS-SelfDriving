@@ -42,6 +42,9 @@ DecisionMaker::DecisionMaker()
   m_pPedestrianState = 0;
   m_sprintSpeed = -1;
   m_remainObstacleWaitingTime = 0;
+
+  m_maxSpeed = 10.0;
+  m_speedLimitDistance = 9999.0;
 }
 
 DecisionMaker::~DecisionMaker()
