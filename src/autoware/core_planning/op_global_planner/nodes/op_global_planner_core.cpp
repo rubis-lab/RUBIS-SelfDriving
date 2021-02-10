@@ -213,6 +213,7 @@ void GlobalPlanner::callbackGetStartPose(const geometry_msgs::PoseWithCovariance
 
 void GlobalPlanner::callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg)
 {
+  m_WayPoints.clear();
   for(auto it = msg.poses.begin(); it != msg.poses.end(); ++it){
     PlannerHNS::WayPoint wp = PlannerHNS::WayPoint((*it).position.x+m_OriginPos.position.x, (*it).position.y+m_OriginPos.position.y, (*it).position.z+m_OriginPos.position.z, tf::getYaw((*it).orientation));
     m_WayPoints.push_back(wp);
@@ -321,7 +322,11 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
   int rot_cnt = 0;
   wp = wayPoints.at(0); // First waypoint
   while(rot_cnt < 12){
-    if(ret != 0) break;
+    if(ret != 0){      
+      PlannerHNS::WayPoint* updated_goal = PlannerHNS::MappingHelpers::GetClosestWaypointFromMap(wp, m_Map);
+      wayPoints.at(0) = (*updated_goal);
+      break;      
+    }
     ret = m_PlannerH.PlanUsingDP(startPoint, wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);  
     double degree = wp.pos.a/M_PI*180;
     wp.pos.a  = (degree+30)/180*M_PI;
@@ -347,16 +352,21 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
     PlannerHNS::WayPoint start_wp = *it;
     PlannerHNS::WayPoint end_wp = *(it+1);
     rot_cnt = 0;
+    ret = 0;
     temp_paths.clear();   
     while(rot_cnt < 12){
-      if(ret != 0) break;
+      if(ret != 0){
+        PlannerHNS::WayPoint* updated_goal = PlannerHNS::MappingHelpers::GetClosestWaypointFromMap(end_wp, m_Map);
+        *(it+1) = (*updated_goal);
+        break;
+      }
       ret = m_PlannerH.PlanUsingDP(start_wp, end_wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);
       double degree = end_wp.pos.a/M_PI*180;
       end_wp.pos.a  = (degree+30)/180*M_PI;
       rot_cnt++;
     }
 
-    if(ret != 0){
+    if(ret != 0 && temp_paths.size() != 0){
       for(auto it = temp_paths.at(0).begin(); it != temp_paths.at(0).end(); ++it){
         PlannerHNS::WayPoint wp = *it; 
         last_path.push_back(wp);
@@ -368,7 +378,7 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
       return false;
     }
   }
-
+  
   generatedTotalPaths.push_back(last_path);
 
   if(ret == 0)
@@ -688,6 +698,7 @@ void GlobalPlanner::MainLoop()
           {
             bMakeNewPlan = false;
             VisualizeAndSend(m_GeneratedTotalPaths);
+            sub_waypoints.shutdown();
           }
         }
         VisualizeDestinations(m_GoalsPos, m_iCurrentGoalIndex);

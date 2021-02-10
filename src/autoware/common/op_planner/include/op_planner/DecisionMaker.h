@@ -57,6 +57,9 @@ public:
   bool bLeftLampByIntersection;
   bool bRightLampByIntersection;
 
+  bool bLeftLampByVectorMap;
+  bool bRightLampByVectorMap;
+
   int m_prevTrafficLightID;
   PlannerHNS::TrafficLightState m_prevTrafficLightSignal;
   double m_remainTrafficLightWaitingTime;

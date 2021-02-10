@@ -2,7 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-#include <geometry_msgs/PoseArray.h>
+#include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseArray.h>
 #include <angles/angles.h>
 #include <geographic_msgs/GeoPoint.h>
@@ -29,7 +29,11 @@
 #define MAP_FRAME_ "map"
 #define GPS_FRAME_ "gps"
 
-#define DEBUG_FLAG true
+#define POSE_MODE 0
+#define GPS_MODE 1
+
+#define DEBUG_FLAG false
+
 
 using namespace std;
 
@@ -46,7 +50,8 @@ static std::vector< std::vector<double> > zone_offset;
 
 
 void LLH2UTM(double Lat, double Long, double H, geometry_msgs::Pose& pose);
-void create_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out);
+void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out);
+void create_pose_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out);
 void init_zone_points(std::string filename);
 void print_zone_points(std::vector< std::vector<double> >& zone_points);
 void init_zone_offset(std::string filename);
@@ -303,7 +308,7 @@ void add_offset(Point& p){
 
 }
 
-void create_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out){
+void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out){
     static int seq;
     ifstream inputFile(waypoint_filename);
     int l=0;
@@ -346,12 +351,65 @@ void create_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& o
         double lat = stof(line[2]);
         double lon = stof(line[3]);
         double h = stof(line[1]);
-        std::cout<<lat<<" "<<lon<<" "<<h<<std::endl;
+        std::cout<<"GPS waypoint: "<<lat<<" "<<lon<<" "<<h<<std::endl;
         LLH2UTM(lat, lon, h, pose);
         out.poses.push_back(pose);
     }
     pub.publish(out);
 }
+
+void create_pose_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out){
+    static int seq;
+    ifstream inputFile(waypoint_filename);
+    int l=0;
+
+    vector< vector<string> > data;
+
+    while(inputFile){
+        l++;
+        string s;
+        if (!getline(inputFile, s))
+            break;
+        if (s[0] != '#') {
+            istringstream ss(s);
+            vector<string> record;
+
+            while (ss) {
+                string line;
+                if (!getline(ss, line, ','))
+                    break;
+                try {
+                    record.push_back(line);
+                }
+                catch (const std::invalid_argument e) {
+                    cout << "NaN found in file " << waypoint_filename << " line " << l
+                         << endl;
+                    e.what();
+                }
+            }
+            data.push_back(record);
+        }
+    }
+    
+    out.header.stamp = ros::Time::now();
+    out.header.seq = seq;
+    out.header.frame_id = "map";
+
+    for(auto it = data.begin(); it != data.end(); ++it){
+        vector<string> line = *it;
+        geometry_msgs::Pose pose;
+        pose.position.x = stof(line[1]);
+        pose.position.y = stof(line[2]);
+        pose.position.z = stof(line[3]);
+        pose.orientation.x = 0;
+        pose.orientation.y = 0;
+        pose.orientation.z = 0.6691;
+        pose.orientation.w = 0.7431;
+       out.poses.push_back(pose);
+    }
+    pub.publish(out);
+}
+
 
 void test(){
     Point z1 = {1920.635,   -990.108,   -0.276};
@@ -408,6 +466,7 @@ int main(int argc, char* argv[]){
     std::string zone_points_filename;
     std::string zone_offset_filename;
     ros::Rate r(10);
+    int mode = -1;
 
     pub = nh.advertise<geometry_msgs::PoseArray>("/global_waypoints", 1);
 
@@ -425,22 +484,32 @@ int main(int argc, char* argv[]){
     if(zone_offset_filename == "none"){
         ROS_ERROR("Can't find zone points file %s!", zone_offset_filename.c_str());
     }
+    
+    nh.param<int>("/waypoint_generator/mode", mode, -1);
+    if(mode != GPS_MODE && mode != POSE_MODE){
+        ROS_ERROR("Mode parameter shuld be POSE(0) or GPS(1)");
+    }
 
-    std::cout<<"================================"<<std::endl;
+    
     init_zone_points(zone_points_filename);
-    print_zone_points(zone_points);
-
-    std::cout<<endl;
-
-    init_zone_offset(zone_offset_filename);
-    print_zone_offset(zone_offset);
-    std::cout<<"================================"<<std::endl;
+        init_zone_offset(zone_offset_filename);
+    if(DEBUG_FLAG){
+        print_zone_points(zone_points);
+        std::cout<<"================================"<<std::endl;  
+        std::cout<<endl;
+        print_zone_offset(zone_offset);
+        std::cout<<"================================"<<std::endl;    
+    }
+    
 
     if(DEBUG_FLAG) test();
 
     while(ros::ok()){
         geometry_msgs::PoseArray out;
-        create_waypoints(waypoint_filename, out);
+        if(mode == GPS_MODE)
+            create_gps_waypoints(waypoint_filename, out);
+        else if(mode == POSE_MODE)
+            create_pose_waypoints(waypoint_filename, out);
         r.sleep();
     }
 
