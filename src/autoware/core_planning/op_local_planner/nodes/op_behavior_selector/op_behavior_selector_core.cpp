@@ -484,8 +484,8 @@ void BehaviorGen::callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg)
   }
   // change higher speed when timing for next speed
   // Consider FP error
-  else if(m_BehaviorGenerator.m_maxSpeed < speed_mps && abs(prevSpeedLimit - speed_mps) > 0.2){
-    m_BehaviorGenerator.m_maxSpeed = min(speed_mps, m_PlanningParams.maxSpeed);
+  else if(m_BehaviorGenerator.m_maxSpeed < prevSpeedLimit && abs(prevSpeedLimit - speed_mps) > 0.2 && prevSpeedLimit > speed_mps){
+    m_BehaviorGenerator.m_maxSpeed = min(prevSpeedLimit, m_PlanningParams.maxSpeed);
   }
 
   prevSpeedLimit = speed_mps;
