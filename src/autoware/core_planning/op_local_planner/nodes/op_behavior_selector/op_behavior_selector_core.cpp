@@ -37,6 +37,8 @@ BehaviorGen::BehaviorGen()
   ros::NodeHandle _nh;
   UpdatePlanningParams(_nh);
 
+  prevSpeedLimit = m_PlanningParams.maxSpeed;
+
   // RUBIS driving parameter
   nh.getParam("/op_behavior_selector/distanceToPedestrianThreshold", m_distanceToPedestrianThreshold);
   nh.param("/op_behavior_selector/turnThreshold", m_turnThreshold, 20.0);
@@ -55,7 +57,7 @@ BehaviorGen::BehaviorGen()
   pub_SimuBoxPose    = nh.advertise<geometry_msgs::PoseArray>("sim_box_pose_ego", 1);
   pub_BehaviorStateRviz = nh.advertise<visualization_msgs::MarkerArray>("behavior_state", 1);
   pub_SelectedPathRviz = nh.advertise<visualization_msgs::MarkerArray>("local_selected_trajectory_rviz", 1);
-  pub_EmergencyStop = nh.advertise<hellocm_msgs::Ext2CM_EStop>("emergency_stop", 1);
+  // pub_EmergencyStop = nh.advertise<hellocm_msgs::Ext2CM_EStop>("emergency_stop", 1);
   pub_turnAngle = nh.advertise<std_msgs::Float64>("turn_angle", 1);
   pub_turnMarker = nh.advertise<visualization_msgs::MarkerArray>("turn_marker", 1);
   pub_currentState = nh.advertise<std_msgs::Int32>("current_state", 1);
@@ -82,8 +84,10 @@ BehaviorGen::BehaviorGen()
   // LGSVL TL Signal
   // sub_TrafficLightSignals  = nh.subscribe("/v2x_traffic_signal", 1, &BehaviorGen::callbackGetV2XTrafficLightSignals, this);
 
-  // Carmaker TL Signal
+  // Carmaker TL, speed limit V2X topic
   sub_TrafficLightSignals  = nh.subscribe("/traffic_light", 1, &BehaviorGen::callbackGetCarMakerTrafficLightSignals, this);
+
+  sub_SpeedLimit = nh.subscribe("/cm_speed_limit", 1, &BehaviorGen::callbackGetSpeedLimit, this);
 
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
@@ -478,6 +482,25 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
   m_CurrTrafficLight = simulatedLights;
 }
 
+void BehaviorGen::callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg)
+{
+  m_BehaviorGenerator.m_speedLimitDistance = msg.distance;
+
+  // make margin
+  double speed_mps = (msg.speed_limit - 4) / 3.6;
+
+  if(m_BehaviorGenerator.m_maxSpeed > speed_mps && m_BehaviorGenerator.m_speedLimitDistance < 40){
+    m_BehaviorGenerator.m_maxSpeed = speed_mps;
+  }
+  // change higher speed when timing for next speed
+  // Consider FP error
+  else if(m_BehaviorGenerator.m_maxSpeed < speed_mps && abs(prevSpeedLimit - speed_mps) > 0.2){
+    m_BehaviorGenerator.m_maxSpeed = min(speed_mps, m_PlanningParams.maxSpeed);
+  }
+
+  prevSpeedLimit = speed_mps;
+}
+
 void BehaviorGen::VisualizeLocalPlanner()
 {
   visualization_msgs::Marker behavior_rviz;
@@ -635,7 +658,7 @@ void BehaviorGen::MainLoop()
 
   timespec planningTimer;
   UtilityHNS::UtilityH::GetTickCount(planningTimer);
-  hellocm_msgs::Ext2CM_EStop emergency_stop_msg;
+  // hellocm_msgs::Ext2CM_EStop emergency_stop_msg;
 
 
   m_BehaviorGenerator.m_turnThreshold = m_turnThreshold;
@@ -643,7 +666,7 @@ void BehaviorGen::MainLoop()
   while (ros::ok())
   {
     ros::spinOnce();
-    emergency_stop_msg.estop = 0;
+    // emergency_stop_msg.estop = 0;
 
     // Check Pedestrian is Appeared
     double dt  = UtilityHNS::UtilityH::GetTimeDiffNow(planningTimer);
@@ -737,10 +760,10 @@ void BehaviorGen::MainLoop()
       std_msgs::Int32 curr_state_msg;
       curr_state_msg.data = m_CurrentBehavior.state;
 
-      if(m_CurrentBehavior.state == PlannerHNS::FINISH_STATE){
-        emergency_stop_msg.estop = 1;
-        pub_EmergencyStop.publish(emergency_stop_msg);
-      }
+      // if(m_CurrentBehavior.state == PlannerHNS::FINISH_STATE){
+      //   emergency_stop_msg.estop = 1;
+      //   pub_EmergencyStop.publish(emergency_stop_msg);
+      // }
 
       pub_currentState.publish(curr_state_msg);
 
@@ -766,10 +789,10 @@ void BehaviorGen::MainLoop()
       turn_angle_msg.data = m_turnAngle;
       pub_turnAngle.publish(turn_angle_msg);
 
-      if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
-        emergency_stop_msg.estop = 1;
+      // if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
+      //   emergency_stop_msg.estop = 1;
 
-      pub_EmergencyStop.publish(emergency_stop_msg);
+      // pub_EmergencyStop.publish(emergency_stop_msg);
 
       SendLocalPlanningTopics();
       VisualizeLocalPlanner();
