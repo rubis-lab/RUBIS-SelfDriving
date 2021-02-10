@@ -76,7 +76,6 @@ public:
   PlannerHNS::MAP_SOURCE_TYPE  mapSource;
   bool bEnableDynamicMapUpdate;
 
-
   WayPlannerParams()
   {
       bEnableDynamicMapUpdate = false;
@@ -133,6 +132,7 @@ protected:
 
   // Added by PHY
   bool m_EnableWaypoints;
+  bool m_is_waypoint_received;
   std::vector<PlannerHNS::WayPoint> m_WayPoints;
 
 public:

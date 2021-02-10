@@ -5,9 +5,9 @@
 /// \date Dec 14, 2016
 
 
-#define START_POINT_MAX_DISTANCE 8 // meters
-#define GOAL_POINT_MAX_DISTANCE 8 // meters
-#define LANE_CHANGE_SMOOTH_FACTOR_DISTANCE 8 // meters
+#define START_POINT_MAX_DISTANCE 20 // meters
+#define GOAL_POINT_MAX_DISTANCE 20 // meters
+#define LANE_CHANGE_SMOOTH_FACTOR_DISTANCE 20 // meters
 
 #include "RoadNetwork.h"
 
@@ -32,7 +32,7 @@ public:
         std::vector<std::vector<std::vector<WayPoint> > >& rollOutsPaths,
         std::vector<WayPoint>& sampledPoints);
 
-  double PlanUsingDP(const WayPoint& carPos,const WayPoint& goalPos,
+  double PlanUsingDP(const WayPoint& carPos, const WayPoint& goalPos,
       const double& maxPlanningDistance, const bool bEnableLaneChange, const std::vector<int>& globalPath,
       RoadNetwork& map, std::vector<std::vector<WayPoint> >& paths, std::vector<WayPoint*>* all_cell_to_delete = 0);
 

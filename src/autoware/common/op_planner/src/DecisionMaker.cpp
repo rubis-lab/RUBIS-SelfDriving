@@ -42,6 +42,9 @@ DecisionMaker::DecisionMaker()
   m_pPedestrianState = 0;
   m_sprintSpeed = -1;
   m_remainObstacleWaitingTime = 0;
+
+  bLeftLampByIntersection = false;
+  bRightLampByIntersection = false;
 }
 
 DecisionMaker::~DecisionMaker()
