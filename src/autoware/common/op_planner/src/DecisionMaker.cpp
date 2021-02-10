@@ -45,6 +45,8 @@ DecisionMaker::DecisionMaker()
 
   m_maxSpeed = 10.0;
   m_speedLimitDistance = 9999.0;
+  bLeftLampByIntersection = false;
+  bRightLampByIntersection = false;
 }
 
 DecisionMaker::~DecisionMaker()
