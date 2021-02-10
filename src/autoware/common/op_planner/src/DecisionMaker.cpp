@@ -232,6 +232,7 @@ void DecisionMaker::InitBehaviorStates()
   m_params.obstacleinRiskyArea = (m_riskyLeft || m_riskyRight);
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
+  // std::cout << "closest_in_d : " << m_closestIntersectionDistance << std::endl;
   // std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
@@ -245,8 +246,8 @@ void DecisionMaker::InitBehaviorStates()
   bool traffic_detected = false;
   double remain_time = 0;
 
-  distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, stopLineLength, trafficLightID) - critical_long_front_distance;
-
+  /* LGSVL Traffic Light
+  // distanceToClosestStopLine = PlanningHelpers::CalculateStopLineDistance_RUBIS(m_TotalPath.at(pValues->iCurrSafeLane), state, m_Map.stopLines, stopLineID, stopLineLength, trafficLightID) - critical_long_front_distance;
   // std::cout << "StopLineID : " << stopLineID << ", TrafficLightID : " << trafficLightID << ", Distance: " << distanceToClosestStopLine << ", MinStopDistance: " << pValues->minStoppingDistance << std::endl;
   // std::cout << "detected Lights # : " << detectedLights.size() << std::endl;
 
@@ -332,10 +333,35 @@ void DecisionMaker::InitBehaviorStates()
 
     m_remainTrafficLightWaitingTime = remain_time;
   }
+  */
 
-   pValues->bTrafficIsRed = !bShouldForward;
+  // CarMaker Traffic Light
+  if(m_pCurrentBehaviorState->m_pParams->enableTrafficLightBehavior){
+    for(unsigned int i=0; i< detectedLights.size(); i++)
+    {
+      traffic_detected = true;
+      distanceToClosestStopLine = detectedLights.at(i).stoppingDistance;
 
-   if(bEmergencyStop)
+      bShouldForward = (detectedLights.at(i).lightState == GREEN_LIGHT) ||
+                        (detectedLights.at(i).lightState == YELLOW_LIGHT && distanceToClosestStopLine < 10) ||
+                        (distanceToClosestStopLine > 40);
+
+      pValues->stoppingDistances.push_back(distanceToClosestStopLine);
+      pValues->currentTrafficLightID = detectedLights.at(i).id;
+
+      m_prevTrafficLightID = detectedLights.at(i).id;
+      m_prevTrafficLightSignal = detectedLights.at(i).lightState;
+    }
+
+    if(!traffic_detected){
+      m_prevTrafficLightID = -1;
+      m_prevTrafficLightSignal = UNKNOWN_LIGHT;
+    }
+  }
+
+  pValues->bTrafficIsRed = !bShouldForward;
+
+  if(bEmergencyStop)
   {
     pValues->bFullyBlock = true;
     pValues->distanceToNext = 1;
@@ -460,10 +486,27 @@ void DecisionMaker::InitBehaviorStates()
   m_turnWaypoint = m_RollOuts.at(currentBehavior.currTrajectory).at(std::min(250, int(m_RollOuts.at(currentBehavior.currTrajectory).size()))-1);
 
   // Make Lamp Signal
-  if(currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || currentBehavior.state == INTERSECTION_STATE && m_params.turnLeft){
+
+  if(currentBehavior.state == INTERSECTION_STATE && m_params.turnLeft && !bLeftLampByIntersection){
+    bLeftLampByIntersection = true;
+  }
+  else if(bLeftLampByIntersection && currentBehavior.state != INTERSECTION_STATE){
+    bLeftLampByIntersection = false;
+  }
+
+  if(currentBehavior.state == INTERSECTION_STATE && m_params.turnRight && !bRightLampByIntersection){
+    bRightLampByIntersection = true;
+  }
+  else if(bRightLampByIntersection && currentBehavior.state != INTERSECTION_STATE){
+    bRightLampByIntersection = false;
+  }
+
+
+
+  if(currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || bLeftLampByIntersection){
     currentBehavior.indicator = INDICATOR_LEFT;
   }
-  else if(currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || currentBehavior.state == INTERSECTION_STATE && m_params.turnRight){
+  else if(currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || bRightLampByIntersection){
     currentBehavior.indicator = INDICATOR_RIGHT;
   }
   else
@@ -515,18 +558,18 @@ void DecisionMaker::InitBehaviorStates()
       m_remainObstacleWaitingTime--;
       desiredVelocity = 0;
     }
-    else if(m_params.obstacleinRiskyArea){
+    // else if(m_params.obstacleinRiskyArea){
       // double desiredAcceleration = m_params.maxSpeed * m_params.maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
       // double desiredVelocity = m_params.maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
       // if(desiredVelocity < 0.5)
       //   desiredVelocity = 0;
-      desiredVelocity = 0;
-      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
-    }
-    // else if(beh.followDistance < 30){
     //   desiredVelocity = 0;
     //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     // }
+    else if(beh.followDistance < 30){
+      desiredVelocity = 0;
+      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
+    }
 
     for(unsigned int i = 0; i < m_Path.size(); i++)
       m_Path.at(i).v = desiredVelocity;

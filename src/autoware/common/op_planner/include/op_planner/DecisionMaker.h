@@ -56,6 +56,8 @@ public:
 
   double m_speedLimitDistance;
   double m_maxSpeed;
+  bool bLeftLampByIntersection;
+  bool bRightLampByIntersection;
 
   int m_prevTrafficLightID;
   PlannerHNS::TrafficLightState m_prevTrafficLightSignal;
