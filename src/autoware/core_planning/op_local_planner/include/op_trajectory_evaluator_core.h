@@ -30,6 +30,7 @@
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <autoware_msgs/DetectedObject.h>
 #include <autoware_msgs/IntersectionCondition.h>
+#include <autoware_msgs/ControlCommandStamped.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <tf/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>

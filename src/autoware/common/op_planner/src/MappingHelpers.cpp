@@ -3644,5 +3644,88 @@ void MappingHelpers::ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossin
   }
 }
 
+void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcValue li_list){
+  // Assume there is only one road segment
+  PlannerHNS::RoadSegment rs = map.roadSegments.at(0);
+
+  // initialize LeftLnId, RightLnId to 100
+  for(unsigned int li = 0; li < rs.Lanes.size(); li++)
+  {
+    for(unsigned int i = 0; i < rs.Lanes.at(li).points.size(); i++)
+    {
+      map.roadSegments.at(0).Lanes.at(li).points.at(i).LeftLnId = 0;
+      map.roadSegments.at(0).Lanes.at(li).points.at(i).RightLnId = 0;
+    }
+  }
+
+  for(int i=0; i<li_list.size(); i++){
+    WayPoint start_pose;
+    start_pose.pos.x = li_list[i]["pose"][0]["x"];
+    start_pose.pos.y = li_list[i]["pose"][0]["y"];
+    start_pose.pos.z = li_list[i]["pose"][0]["z"];
+
+    WayPoint end_pose;
+    end_pose.pos.x = li_list[i]["pose"][1]["x"];
+    end_pose.pos.y = li_list[i]["pose"][1]["y"];
+    end_pose.pos.z = li_list[i]["pose"][1]["z"];
+
+    // Get close waypoints from map
+    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 5);
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 5);
+
+    // Find matching waypoints on same line
+    int matched_lane_id = -1;
+    WayPoint* start_wp;
+    WayPoint* end_wp;
+    for(int si=0; si<start_wp_list.size(); si++){
+      for(int ei=0; ei<end_wp_list.size(); ei++){
+        // std::cout << start_wp_list.at(si)->laneId << " " << end_wp_list.at(ei)->laneId << std::endl;
+        if(start_wp_list.at(si)->laneId == end_wp_list.at(ei)->laneId){
+          start_wp = start_wp_list.at(si);
+          end_wp = end_wp_list.at(ei);
+          matched_lane_id = start_wp_list.at(si)->laneId;
+          break;
+        }
+      }
+      if(matched_lane_id != -1) break;
+    }
+
+    // If there are no matching lanes, skip
+    if(matched_lane_id == -1) continue;
+
+    // Find matching lane
+    int matching_idx;
+    for(int li = 0; li < rs.Lanes.size(); li++)
+    {
+      if(rs.Lanes.at(li).id == matched_lane_id){
+        matching_idx = li;
+        break;
+      }
+    }
+
+    // Assign start_idx and end_idx
+    bool find_start_idx = false;
+    bool find_end_idx = false;
+    for(int pi = 0; pi < map.roadSegments.at(0).Lanes.at(matching_idx).points.size(); pi++){
+      if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == start_wp->id){
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+        if(find_end_idx) break;
+        find_start_idx = true;
+      }
+      else if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == end_wp->id){
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+        if(find_start_idx) break;
+        find_end_idx = true;
+      }
+      else if(find_start_idx || find_end_idx){
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
+        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+      }
+    }
+  }
+}
+
 
 } /* namespace PlannerHNS */

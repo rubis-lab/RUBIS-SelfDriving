@@ -48,15 +48,16 @@
 // #include <autoware_msgs/TrafficLight.h>
 // #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/RUBISTrafficSignalArray.h>
-#include <autoware_msgs/ControlCommand.h>
+#include <autoware_msgs/ControlCommandStamped.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <XmlRpcException.h>
 
 #include <hellocm_msgs/TrafficLight.h>
+#include <hellocm_msgs/Speed_Limit.h>
 
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
-#include <hellocm_msgs/Ext2CM_EStop.h>
+// #include <hellocm_msgs/Ext2CM_EStop.h>
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"
@@ -127,6 +128,8 @@ protected: //Planning Related variables
   bool m_sprintSwitch;
   double m_obstacleWaitingTimeinIntersection;
 
+  double prevSpeedLimit;
+
   //ROS messages (topics)
   ros::NodeHandle nh;
 
@@ -167,6 +170,8 @@ protected: //Planning Related variables
   ros::Subscriber sub_SprintSwitch;
   ros::Subscriber sub_IntersectionCondition;
 
+  ros::Subscriber sub_SpeedLimit;
+
   // Callback function for subscriber.
   void callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg);
   void callbackGetVehicleStatus(const geometry_msgs::TwistStampedConstPtr& msg);
@@ -181,10 +186,11 @@ protected: //Planning Related variables
   void callbackGetV2XTrafficLightSignals(const autoware_msgs::RUBISTrafficSignalArray& msg);
 
   void callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::TrafficLight& msg);
+  void callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg);
 
   void callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg);
-  void callbackGetCommandCMD(const autoware_msgs::ControlCommandConstPtr& msg);
+  void callbackGetCommandCMD(const autoware_msgs::ControlCommandStampedConstPtr& msg);
   void callbackSprintSwitch(const std_msgs::Bool& msg);
 
   //Helper Functions

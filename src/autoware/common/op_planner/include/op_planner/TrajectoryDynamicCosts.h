@@ -52,6 +52,8 @@ public:
   double m_LateralSkipDistance;
   double m_CollisionTimeDiff;
 
+  int m_startTrajIdx;
+  int m_endTrajIdx;
   bool bStart;
 
 
