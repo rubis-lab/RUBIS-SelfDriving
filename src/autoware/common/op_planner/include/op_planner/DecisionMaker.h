@@ -54,6 +54,12 @@ public:
   double m_obstacleWaitingTimeinIntersection;
   int m_remainObstacleWaitingTime;
 
+  double m_targetSteerAngle;
+  int m_remainLeftLampTime;
+  int m_remainRightLampTime;
+
+  double m_speedLimitDistance;
+  double m_maxSpeed;
   bool bLeftLampByIntersection;
   bool bRightLampByIntersection;
 

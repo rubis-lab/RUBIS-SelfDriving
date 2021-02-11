@@ -37,6 +37,8 @@
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="-0.99" />
     <arg name="goal_ori_w"            value="0.024" />
+
+    <arg name="LaneInfoFile"          value="crossing_test/crossing_lane_info.yaml" />
   </include>
 
   <!-- op_common_params  -->

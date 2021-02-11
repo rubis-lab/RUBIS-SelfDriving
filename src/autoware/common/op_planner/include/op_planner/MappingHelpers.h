@@ -225,6 +225,8 @@ public:
 
   static void ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossing>& crossing, XmlRpc::XmlRpcValue is_list);
 
+  static void ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcValue lane_info_list);
+
   static double m_USING_VER_ZERO;
 
   static int g_max_point_id;
