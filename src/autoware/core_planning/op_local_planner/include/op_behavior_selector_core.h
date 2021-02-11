@@ -48,7 +48,7 @@
 // #include <autoware_msgs/TrafficLight.h>
 // #include <autoware_msgs/Signals.h>
 #include <autoware_msgs/RUBISTrafficSignalArray.h>
-#include <autoware_msgs/ControlCommand.h>
+#include <autoware_msgs/ControlCommandStamped.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <XmlRpcException.h>
 
@@ -190,7 +190,7 @@ protected: //Planning Related variables
 
   void callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr& msg);
   void callbackGetTwistRaw(const geometry_msgs::TwistStampedConstPtr& msg);
-  void callbackGetCommandCMD(const autoware_msgs::ControlCommandConstPtr& msg);
+  void callbackGetCommandCMD(const autoware_msgs::ControlCommandStampedConstPtr& msg);
   void callbackSprintSwitch(const std_msgs::Bool& msg);
 
   //Helper Functions
