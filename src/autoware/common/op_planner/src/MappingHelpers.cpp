@@ -3668,21 +3668,36 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.x = li_list[i]["pose"][1]["x"];
     end_pose.pos.y = li_list[i]["pose"][1]["y"];
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
-    
-    // Get closest waypoint
-    WayPoint* start_wp = GetClosestWaypointFromMap(start_pose, map, false);
-    WayPoint* end_wp = GetClosestWaypointFromMap(end_pose, map, false);
 
-    std::cout << start_wp->id << " " << end_wp->id << std::endl;
+    // Get close waypoints from map
+    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 5);
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 5);
 
-    // If they are on different lane, pass
-    if(start_wp->laneId != end_wp->laneId) continue;
+    // Find matching waypoints on same line
+    int matched_lane_id = -1;
+    WayPoint* start_wp;
+    WayPoint* end_wp;
+    for(int si=0; si<start_wp_list.size(); si++){
+      for(int ei=0; ei<end_wp_list.size(); ei++){
+        // std::cout << start_wp_list.at(si)->laneId << " " << end_wp_list.at(ei)->laneId << std::endl;
+        if(start_wp_list.at(si)->laneId == end_wp_list.at(ei)->laneId){
+          start_wp = start_wp_list.at(si);
+          end_wp = end_wp_list.at(ei);
+          matched_lane_id = start_wp_list.at(si)->laneId;
+          break;
+        }
+      }
+      if(matched_lane_id != -1) break;
+    }
+
+    // If there are no matching lanes, skip
+    if(matched_lane_id == -1) continue;
 
     // Find matching lane
     int matching_idx;
     for(int li = 0; li < rs.Lanes.size(); li++)
     {
-      if(rs.Lanes.at(li).id == start_wp->laneId){
+      if(rs.Lanes.at(li).id == matched_lane_id){
         matching_idx = li;
         break;
       }
