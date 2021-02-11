@@ -503,16 +503,29 @@ void DecisionMaker::InitBehaviorStates()
     bRightLampByIntersection = false;
   }
 
+  bool bChangeToLeftTraj = currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
+  bool bChangeToRightTraj = currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
 
+  if(bChangeToLeftTraj && m_targetSteerAngle > 0.1){
+    m_remainLeftLampTime = 350;
+  }
+  else if(bChangeToRightTraj && m_targetSteerAngle < -0.1){
+    m_remainRightLampTime = 350;
+  }
 
-  if(currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || bLeftLampByIntersection){
+  // std::cout << "s_angle : " << m_targetSteerAngle << std::endl;
+
+  if(m_remainLeftLampTime > 0 || bLeftLampByIntersection){
     currentBehavior.indicator = INDICATOR_LEFT;
   }
-  else if(currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory || bRightLampByIntersection){
+  else if(m_remainRightLampTime > 0 || bRightLampByIntersection){
     currentBehavior.indicator = INDICATOR_RIGHT;
   }
   else
     currentBehavior.indicator = INDICATOR_NONE;
+
+  if(m_remainLeftLampTime > 0) m_remainLeftLampTime -= 1;
+  if(m_remainRightLampTime > 0) m_remainRightLampTime -= 1;
 
   // currentBehavior.indicator = PlanningHelpers::GetIndicatorsFromPath(m_Path, state, average_braking_distance );
 

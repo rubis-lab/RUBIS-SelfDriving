@@ -91,7 +91,7 @@ BehaviorGen::BehaviorGen()
 
   sub_twist_raw = nh.subscribe("/twist_raw", 1, &BehaviorGen::callbackGetTwistRaw, this);
   sub_twist_cmd = nh.subscribe("/twist_cmd", 1, &BehaviorGen::callbackGetTwistCMD, this);
-  //sub_ctrl_cmd = nh.subscribe("/ctrl_cmd", 1, &BehaviorGen::callbackGetCommandCMD, this);
+  sub_ctrl_cmd = nh.subscribe("/ctrl_cmd", 1, &BehaviorGen::callbackGetCommandCMD, this);
   sub_DistanceToPedestrian = nh.subscribe("/distance_to_pedestrian", 1, &BehaviorGen::callbackDistanceToPedestrian, this);
   sub_IntersectionCondition = nh.subscribe("/intersection_condition", 1, &BehaviorGen::callbackIntersectionCondition, this);
   sub_SprintSwitch = nh.subscribe("/sprint_switch", 1, &BehaviorGen::callbackSprintSwitch, this);
@@ -236,9 +236,9 @@ void BehaviorGen::callbackGetTwistCMD(const geometry_msgs::TwistStampedConstPtr&
   m_Twist_cmd = *msg;
 }
 
-void BehaviorGen::callbackGetCommandCMD(const autoware_msgs::ControlCommandConstPtr& msg)
+void BehaviorGen::callbackGetCommandCMD(const autoware_msgs::ControlCommandStampedConstPtr& msg)
 {
-  m_Ctrl_cmd = *msg;
+  m_BehaviorGenerator.m_targetSteerAngle = msg->cmd.steering_angle;
 }
 
 void BehaviorGen::callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg)
