@@ -760,6 +760,33 @@ public:
 
 };
 
+static void lane_data_copy(const Lane& in, Lane& out){
+  out.id = in.id;
+  out.roadId = in.roadId;
+  out.areaId = in.roadId;
+  out.fromAreaId = in.fromAreaId;
+  out.toAreaId = in.toAreaId;
+  out.fromIds = in.fromIds;
+  out.toIds = in.toIds;
+  out.num = in.num; //lane number in the road segment from left to right
+  out.speed = in.speed;
+  out.length = in.length;
+  out.dir = in.dir;
+  out.type = in.type;
+  out.width = in.width;
+  out.points = in.points;
+  out.trafficlights = in.trafficlights;
+  out.stopLines = in.stopLines;
+  out.waitingLine = in.waitingLine;
+
+  out.fromLanes = in.fromLanes;
+  out.toLanes = in.toLanes;
+  out.pLeftLane = in.pLeftLane;
+  out.pRightLane = in.pRightLane;
+
+  out.pRoad = in.pRoad;
+}
+
 class RoadNetwork
 {
 public:

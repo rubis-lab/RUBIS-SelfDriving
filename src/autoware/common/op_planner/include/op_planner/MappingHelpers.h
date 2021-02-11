@@ -16,6 +16,8 @@
 #include "tinyxml.h"
 #include <XmlRpcValue.h>
 
+#define DEBUG_FLAG 0
+
 namespace PlannerHNS {
 
 
@@ -81,11 +83,17 @@ public:
   static TiXmlElement* GetDataFolder(const std::string& folderName, TiXmlElement* pMainElem);
 
 
+// Added by PHY
+  static std::vector<WayPoint*> GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num);
+  static std::vector<Lane*> GetCloseLanesFromMap(const WayPoint& pos, RoadNetwork& map, const int candidate_num, const double& distance, const bool bDirectionBased = true);
+
   static Lane* GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& map, const double& distance = 5.0, const bool bDirectionBased = true);
+
   static std::vector<Lane*> GetClosestLanesListFromMap(const WayPoint& pos, RoadNetwork& map, const double& distance = 2.0, const bool bDirectionBased = true);
   static Lane* GetClosestLaneFromMapDirectionBased(const WayPoint& pos, RoadNetwork& map, const double& distance = 5.0);
   static std::vector<Lane*> GetClosestMultipleLanesFromMap(const WayPoint& pos, RoadNetwork& map, const double& distance = 5.0);
   static WayPoint* GetClosestWaypointFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased = true);
+  
   static std::vector<Lane*> GetClosestLanesFast(const WayPoint& pos, RoadNetwork& map, const double& distance = 10.0);
 
   static std::vector<WayPoint*> GetClosestWaypointsListFromMap(const WayPoint& center, RoadNetwork& map, const double& distance = 2.0, const bool bDirectionBased = true);

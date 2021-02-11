@@ -28,6 +28,7 @@ GlobalPlanner::GlobalPlanner()
   m_bFirstStart = false;
   m_GlobalPathID = 1;
   m_EnableWaypoints = false;
+  m_isCurrentPoseReceived = false;
   UtilityHNS::UtilityH::GetTickCount(m_ReplnningTimer);
 
   nh.getParam("/op_global_planner/pathDensity" , m_params.pathDensity);
@@ -207,6 +208,7 @@ void GlobalPlanner::callbackGetGoalPose(const geometry_msgs::PoseStampedConstPtr
 
 void GlobalPlanner::callbackGetStartPose(const geometry_msgs::PoseWithCovarianceStampedConstPtr &msg)
 {
+  m_isCurrentPoseReceived = true;
   m_CurrentPose = PlannerHNS::WayPoint(msg->pose.pose.position.x+m_OriginPos.position.x, msg->pose.pose.position.y+m_OriginPos.position.y, msg->pose.pose.position.z+m_OriginPos.position.z, tf::getYaw(msg->pose.pose.orientation));
   ROS_INFO("Received Start pose");
 }
@@ -214,15 +216,25 @@ void GlobalPlanner::callbackGetStartPose(const geometry_msgs::PoseWithCovariance
 void GlobalPlanner::callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg)
 {
   m_WayPoints.clear();
-  for(auto it = msg.poses.begin(); it != msg.poses.end(); ++it){
-    PlannerHNS::WayPoint wp = PlannerHNS::WayPoint((*it).position.x+m_OriginPos.position.x, (*it).position.y+m_OriginPos.position.y, (*it).position.z+m_OriginPos.position.z, tf::getYaw((*it).orientation));
-    m_WayPoints.push_back(wp);
+  if(m_isCurrentPoseReceived){
+    m_WayPoints.push_back(m_CurrentPose);    
+
+    for(auto it = msg.poses.begin(); it != msg.poses.end(); ++it){
+      PlannerHNS::WayPoint wp = PlannerHNS::WayPoint((*it).position.x+m_OriginPos.position.x, (*it).position.y+m_OriginPos.position.y, (*it).position.z+m_OriginPos.position.z, tf::getYaw((*it).orientation));
+      m_WayPoints.push_back(wp);
+    }
   }
+
+  std::cout<<"[ Waypoints ]"<<std::endl;
+  for(auto it = m_WayPoints.begin(); it != m_WayPoints.end(); ++it)
+    std::cout<<(*it).pos.x<<" "<<(*it).pos.y<<std::endl;
+
   ROS_INFO("Received Waypoints");
 }
 
 void GlobalPlanner::callbackGetCurrentPose(const geometry_msgs::PoseStampedConstPtr& msg)
 {
+  m_isCurrentPoseReceived = true;
   m_CurrentPose = PlannerHNS::WayPoint(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z, tf::getYaw(msg->pose.orientation));
 }
 
@@ -307,47 +319,102 @@ bool GlobalPlanner::GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, Planner
   return false;
 }
 
-bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint, std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths)
-{
-  std::vector<int> predefinedLanesIds;
-  double ret = 0;
+bool GlobalPlanner::GenerateWayPointSequences(){
+  std::vector< std::vector<PlannerHNS::WayPoint*> > allWaypointCandidates; // dim 0: waypoint id(index), dim 1: candidates for target waypoint
+  int candidates_num = 1;
+  int search_distance = 5;
+  bool areCandidatesGenerated = true;
 
-  std::vector<std::vector<PlannerHNS::WayPoint> > temp_paths;
-  std::vector<PlannerHNS::WayPoint> last_path;
-  PlannerHNS::WayPoint wp;
+  m_WayPointSequences.clear();
 
-  generatedTotalPaths.clear();
-
-  // Start -> WP1
-  int rot_cnt = 0;
-  wp = wayPoints.at(0); // First waypoint
-  while(rot_cnt < 12){
-    if(ret != 0){      
-      PlannerHNS::WayPoint* updated_goal = PlannerHNS::MappingHelpers::GetClosestWaypointFromMap(wp, m_Map);
-      wayPoints.at(0) = (*updated_goal);
-      break;      
+  for(int i = 0; i < m_WayPoints.size(); i++){
+    std::vector<PlannerHNS::WayPoint*> waypoint_candidates;
+    PlannerHNS::WayPoint wp = m_WayPoints[i];
+    
+    if(i==0) waypoint_candidates.push_back(&m_CurrentPose);
+    else{
+      waypoint_candidates = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, candidates_num, search_distance);
+      waypoint_candidates.push_back(&(m_WayPoints[i]));
     }
-    ret = m_PlannerH.PlanUsingDP(startPoint, wp, MAX_GLOBAL_PLAN_DISTANCE, m_params.bEnableLaneChange, predefinedLanesIds, m_Map, temp_paths);  
-    double degree = wp.pos.a/M_PI*180;
-    wp.pos.a  = (degree+30)/180*M_PI;
-    rot_cnt++;
+
+    std::cout<<"!!!!!!!!!!!!!!!!"<< i<<" wp cand size : "<<waypoint_candidates.size()<<std::endl;
+    allWaypointCandidates.push_back(waypoint_candidates);
+    if(waypoint_candidates.size() == 0) areCandidatesGenerated = false;
   }
-  
-  if(ret != 0){
-    for(auto it = temp_paths.at(0).begin(); it != temp_paths.at(0).end(); ++it){
-      PlannerHNS::WayPoint wp = *it; 
-      last_path.push_back(wp);
+
+  if(areCandidatesGenerated){
+    for(auto it = allWaypointCandidates.begin(); it != allWaypointCandidates.end(); ++it){
+      std::vector<PlannerHNS::WayPoint*> waypoint_candidates = *it;
+      std::cout<<" >> Waypoint "<<it - allWaypointCandidates.begin()<<" Candidates "<<std::endl;
+      std::cout<<"Candidate num: "<<waypoint_candidates.size()<<std::endl;
+      for(int i = 0; i < waypoint_candidates.size(); ++i){
+        std::cout<<waypoint_candidates[i]->pos.x<<" "<<waypoint_candidates[i]->pos.y<<" "<<waypoint_candidates[i]->pos.z<<std::endl;
+      }
     }
   }
-  else
-  {
-    std::cout << "Can't Generate Global Path for Start (" << startPoint.pos.ToString()
-                        << ") and Goal (" << wp.pos.ToString() << ")" << std::endl;
+  else{
     return false;
   }
 
-  // WP N -> WP N+1
+
+  int num_of_sequence = allWaypointCandidates[0].size();
+  for(auto it = allWaypointCandidates.begin()+1; it != allWaypointCandidates.end(); ++it){
+    num_of_sequence *= (*it).size();
+  }
+
+  std::cout<<"num of sequence: "<<num_of_sequence<<std::endl;
+  std::vector<PlannerHNS::WayPoint*> entry;
+  DFS(allWaypointCandidates, num_of_sequence, 0, entry);
   
+  std::cout<<"====================================="<<std::endl;
+  std::cout<<"[WayPoint Sequence]"<<std::endl;
+  for(auto it1 = m_WayPointSequences.begin(); it1!= m_WayPointSequences.end(); ++it1){
+    std::vector<PlannerHNS::WayPoint*> line = *it1;
+    std::cout<<line.size()<<std::endl;
+    for(auto it2 = line.begin(); it2 != line.end(); ++it2){      
+      PlannerHNS::WayPoint* wp = *it2;
+      std::cout<< wp->pos.x << "/";
+    }
+    std::cout<<std::endl<<"====================================="<<std::endl;
+  }
+
+  return areCandidatesGenerated;
+}
+
+void GlobalPlanner::DFS( std::vector< std::vector<PlannerHNS::WayPoint*> >& allWaypointCandidates, int num_of_sequence, int depth, std::vector<PlannerHNS::WayPoint*> entry){
+  if(depth == allWaypointCandidates.size()){
+    m_WayPointSequences.push_back(entry);
+    return;
+  }
+
+  int iter = num_of_sequence;
+  for(int i = 0; i < depth+1; i++){
+    iter /= allWaypointCandidates[i].size();
+  }
+
+  for(int i = 0; i < allWaypointCandidates[depth].size(); i++){
+    std::vector<PlannerHNS::WayPoint*> data = entry;
+    data.push_back(allWaypointCandidates[depth][i]);
+    DFS(allWaypointCandidates, num_of_sequence, depth+1, data);
+  }
+
+}
+
+bool GlobalPlanner::GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths)
+{ 
+  
+  std::vector<int> predefinedLanesIds;
+  double ret = 0;
+  std::vector<std::vector<PlannerHNS::WayPoint> > temp_paths;
+  std::vector<PlannerHNS::WayPoint> last_path;
+  PlannerHNS::WayPoint startPoint;
+
+  startPoint = wayPoints[0];
+
+  generatedTotalPaths.clear();
+  
+  int rot_cnt = 0;
+    
   for(auto it = wayPoints.begin(); it != wayPoints.end()-1; ++it){       
     PlannerHNS::WayPoint start_wp = *it;
     PlannerHNS::WayPoint end_wp = *(it+1);
@@ -373,8 +440,8 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
       }
     }
     else{
-      std::cout << "Can't Generate Global Path for Start (" << start_wp.pos.ToString()
-                        << ") and Goal (" << end_wp.pos.ToString() << ")" << std::endl;
+      // std::cout << "Can't Generate Global Path for Start (" << start_wp.pos.ToString()
+      //                   << ") and Goal (" << end_wp.pos.ToString() << ")" << std::endl;
       return false;
     }
   }
@@ -387,6 +454,7 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
                         << ") and Goal (" << wayPoints.back().pos.ToString() << ")" << std::endl;
     return false;
   }
+
 
   if(generatedTotalPaths.size() > 0 && generatedTotalPaths.at(0).size()>0)
   {
@@ -410,13 +478,13 @@ bool GlobalPlanner::GenerateWaypointsGlobalPlan(PlannerHNS::WayPoint& startPoint
 
       m_GlobalPathID++;
 
-      std::cout << "New DP Path -> " << generatedTotalPaths.at(i).size() << std::endl;
+      // std::cout << "New DP Path -> " << generatedTotalPaths.at(i).size() << std::endl;
     }
     return true;
   }
   else
   {
-    std::cout << "Can't Generate Global Path for Start (" << startPoint.pos.ToString() << ") and Goal (" << wayPoints.back().pos.ToString() << ")" << std::endl;
+    // std::cout << "Can't Generate Global Path for Start (" << startPoint.pos.ToString() << ") and Goal (" << wayPoints.back().pos.ToString() << ")" << std::endl;
   }
   return false;
 }
@@ -562,6 +630,8 @@ void GlobalPlanner::MainLoop()
   ros::Rate loop_rate(25);
   timespec animation_timer;
   UtilityHNS::UtilityH::GetTickCount(animation_timer);
+  bool isCandidatesCreated = false;
+
 
   while (ros::ok())
   {
@@ -691,18 +761,65 @@ void GlobalPlanner::MainLoop()
         }
         else
           bMakeNewPlan = true;
-
+        
         if(bMakeNewPlan || (m_params.bEnableDynamicMapUpdate && UtilityHNS::UtilityH::GetTimeDiffNow(m_ReplnningTimer) > REPLANNING_TIME))
         {
           UtilityHNS::UtilityH::GetTickCount(m_ReplnningTimer);
-          bool bNewPlan = GenerateWaypointsGlobalPlan(m_CurrentPose, m_WayPoints, m_GeneratedTotalPaths);
+
+          // Generate candidates
+          if(!isCandidatesCreated)
+            isCandidatesCreated = GenerateWayPointSequences();
+
+          if(isCandidatesCreated){
+            // Generate all combination of candidates                
+            std::vector< std::vector <std::vector<PlannerHNS::WayPoint> > > path_candidates; 
+            
+
+            std::cout<<"============================================"<<std::endl;
+            for(auto it = m_WayPointSequences.begin(); it != m_WayPointSequences.end(); ++it){
+              
+              bool isPathGenerated = false;
+              std::vector<PlannerHNS::WayPoint*> waypoint_pointers = *it;
+              std::vector<PlannerHNS::WayPoint> waypoints;
 
 
-          if(bNewPlan)
-          {
-            bMakeNewPlan = false;
-            VisualizeAndSend(m_GeneratedTotalPaths);
-            sub_waypoints.shutdown();
+              std::cout<<"[Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
+              std::cout<<"[waypoints]"<<std::endl;
+              for(int cnt = 0; cnt != waypoint_pointers.size(); ++cnt){
+                waypoints.push_back(*(waypoint_pointers[cnt]));
+                std::cout<<waypoints.back().pos.x<<std::endl;
+              }
+
+              
+
+              std::vector<std::vector<PlannerHNS::WayPoint> > total_path;
+
+              isPathGenerated = GenerateWaypointsGlobalPlan(waypoints, total_path);
+              if(isPathGenerated) path_candidates.push_back(total_path);
+            }
+            
+
+            std::cout<<" ## Planning for all sequence is finished!" <<std::endl;
+            // Select shortest path
+            bool bNewPlan;
+            std::cout<<"path candidates size: "<<path_candidates.size()<<std::endl;
+            int min_path_size = std::numeric_limits<int>::max();
+            for(auto it = path_candidates.begin(); it != path_candidates.end(); ++it){
+              std::vector<std::vector<PlannerHNS::WayPoint> > candidate_path = *it;
+
+              if(candidate_path.size()!=0 && candidate_path[0].size() < min_path_size){
+                m_GeneratedTotalPaths = candidate_path;
+                bNewPlan = true;
+              }
+            }
+
+            if(bNewPlan)
+            {
+              bMakeNewPlan = false;
+              VisualizeAndSend(m_GeneratedTotalPaths);
+              sub_waypoints.shutdown();
+            }
+
           }
         }
         VisualizeDestinations(m_GoalsPos, m_iCurrentGoalIndex);
