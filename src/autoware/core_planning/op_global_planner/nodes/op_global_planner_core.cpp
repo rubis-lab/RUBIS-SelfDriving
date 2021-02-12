@@ -782,15 +782,20 @@ void GlobalPlanner::MainLoop()
               std::vector<PlannerHNS::WayPoint*> waypoint_pointers = *it;
               std::vector<PlannerHNS::WayPoint> waypoints;
 
-
-              std::cout<<"[Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
-              std::cout<<"[waypoints]"<<std::endl;
               for(int cnt = 0; cnt != waypoint_pointers.size(); ++cnt){
-                waypoints.push_back(*(waypoint_pointers[cnt]));
-                std::cout<<waypoints.back().pos.x<<std::endl;
+                waypoints.push_back(*(waypoint_pointers[cnt])); 
               }
 
-              
+              if(DEBUG_FLAG) {
+                std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
+                for(int seq_id = 0; seq_id != waypoints.size(); ++seq_id){
+                  std::cout<<"## Sequence id: "<<seq_id<<std::endl;
+                  for(auto pid = 0; pid < waypoints[seq_id].size(); ++pid){
+                    std:cout<<waypoints[seq_id][pid].pos.x<<" "<<waypoints[seq_id][pid].pos.y<<" -> ";
+                  }
+                }
+                std::cout<<endl;
+              }
 
               std::vector<std::vector<PlannerHNS::WayPoint> > total_path;
 
@@ -802,7 +807,7 @@ void GlobalPlanner::MainLoop()
             std::cout<<" ## Planning for all sequence is finished!" <<std::endl;
             // Select shortest path
             bool bNewPlan;
-            std::cout<<"path candidates size: "<<path_candidates.size()<<std::endl;
+            std::cout<<"## Number of candidate paths: "<<path_candidates.size()<<std::endl;
             int min_path_size = std::numeric_limits<int>::max();
             for(auto it = path_candidates.begin(); it != path_candidates.end(); ++it){
               std::vector<std::vector<PlannerHNS::WayPoint> > candidate_path = *it;
