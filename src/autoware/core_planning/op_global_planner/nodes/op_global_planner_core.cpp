@@ -770,6 +770,21 @@ void GlobalPlanner::MainLoop()
           if(!isCandidatesCreated)
             isCandidatesCreated = GenerateWayPointSequences();
 
+          if(DEBUG_FLAG) {
+            std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
+            for(int seq_id = 0; seq_id != m_WayPointSequences.size(); ++seq_id){
+              std::cout<<"## Sequence id: "<<seq_id<<std::endl;
+              std::vector<PlannerHNS::WayPoint*> waypoints;
+              waypoints = (m_WayPointSequences[seq_id]);
+              for(auto pid = 0; pid < waypoints[seq_id].size(); ++pid){
+                <PlannerHNS::WayPoint> point = *(waypoints[pid]);
+                std:cout<<point.pos.x<<" "<<point.pos.y<<" -> ";
+              }
+            }
+            std::cout<<endl;
+          }
+
+
           if(isCandidatesCreated){
             // Generate all combination of candidates                
             std::vector< std::vector <std::vector<PlannerHNS::WayPoint> > > path_candidates; 
@@ -777,7 +792,8 @@ void GlobalPlanner::MainLoop()
 
             std::cout<<"============================================"<<std::endl;
             for(auto it = m_WayPointSequences.begin(); it != m_WayPointSequences.end(); ++it){
-              
+              int seq_id = it-m_WayPointSequences.begin();
+
               bool isPathGenerated = false;
               std::vector<PlannerHNS::WayPoint*> waypoint_pointers = *it;
               std::vector<PlannerHNS::WayPoint> waypoints;
@@ -786,24 +802,21 @@ void GlobalPlanner::MainLoop()
                 waypoints.push_back(*(waypoint_pointers[cnt])); 
               }
 
-              if(DEBUG_FLAG) {
-                std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
-                for(int seq_id = 0; seq_id != waypoints.size(); ++seq_id){
-                  std::cout<<"## Sequence id: "<<seq_id<<std::endl;
-                  for(auto pid = 0; pid < waypoints[seq_id].size(); ++pid){
-                    std:cout<<waypoints[seq_id][pid].pos.x<<" "<<waypoints[seq_id][pid].pos.y<<" -> ";
-                  }
-                }
-                std::cout<<endl;
-              }
-
               std::vector<std::vector<PlannerHNS::WayPoint> > total_path;
 
               isPathGenerated = GenerateWaypointsGlobalPlan(waypoints, total_path);
-              if(isPathGenerated) path_candidates.push_back(total_path);
+              if(isPathGenerated){
+                path_candidates.push_back(total_path);
+                std::cout << " >> Seq "<< seq_id <<": Success"<<std::endl;
+              }
+              else
+              {
+                std::cout << " >> Seq "<< seq_id <<": Fail"<<std::endl;
+              }              
             }
-            
+            std::cout<<"============================================"<<std::endl;            
 
+            
             std::cout<<" ## Planning for all sequence is finished!" <<std::endl;
             // Select shortest path
             bool bNewPlan;
