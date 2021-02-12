@@ -1002,13 +1002,13 @@ std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& 
   }
   if(close_lanes.size() == 0) return close_waypoints;
 
-  if(DEBUG_FLAG) std::cout<<"## Multiple close lane_id: "<<std::endl;
+  if(DEBUG_FLAG) std::cout<<"## Multiple close lane_id / points: "<<std::endl;
   for(int i = 0; i < close_lanes.size(); ++i){
     if(close_waypoints.size() == candidate_num) break;
     Lane* pLane = close_lanes[i];
     int closest_index = PlanningHelpers::GetClosestNextPointIndexFast(pLane->points, pos);
     close_waypoints.push_back(&pLane->points.at(closest_index));
-    if(DEBUG_FLAG) std::cout<<pLane->id<<" "<<std::endl;
+    if(DEBUG_FLAG) std::cout<<pLane->id<<" / "<<pLane->points.at(closest_index).pos.x<<" "<< pLane->points.at(closest_index).pos.y <<std::endl;
     
   }
 
@@ -1062,7 +1062,9 @@ std::vector<Lane*> MappingHelpers::GetCloseLanesFromMap(const WayPoint& pos, Roa
       if(info.perp_distance == 0 && laneLinksList.at(i).first != 0)
         continue;
 
-      if(bDirectionBased && fabs(info.perp_distance) < min_d && fabs(info.angle_diff) < 45)
+      // PHY
+      // if(bDirectionBased && fabs(info.perp_distance) < min_d && fabs(info.angle_diff) < 45)
+      if(bDirectionBased && fabs(info.perp_distance) < min_d ) // don't think about angle
       {
         min_d = fabs(info.perp_distance);
         closest_lane = laneLinksList.at(i).second;
