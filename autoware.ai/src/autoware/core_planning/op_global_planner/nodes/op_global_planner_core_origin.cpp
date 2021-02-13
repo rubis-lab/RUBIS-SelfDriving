@@ -20,7 +20,6 @@
 namespace GlobalPlanningNS
 {
 
-
 GlobalPlanner::GlobalPlanner()
 {
   m_pCurrGoal = 0;
@@ -31,7 +30,6 @@ GlobalPlanner::GlobalPlanner()
   m_EnableWaypoints = false;
   m_isCurrentPoseReceived = false;
   m_WaypointCandidateNum = 1;
-  m_ThreadNum = 5;
   UtilityHNS::UtilityH::GetTickCount(m_ReplnningTimer);
 
   nh.getParam("/op_global_planner/pathDensity" , m_params.pathDensity);
@@ -43,7 +41,6 @@ GlobalPlanner::GlobalPlanner()
   nh.getParam("/op_global_planner/mapFileName" , m_params.KmlMapPath);
   nh.getParam("/op_global_planner/enableWaypoints", m_EnableWaypoints);
   nh.getParam("/op_global_planner/waypointCandidateNum", m_WaypointCandidateNum);
-  nh.getParam("/op_global_planner/threadNum", m_ThreadNum);
 
   bool use_static_goal = false;
   double goal_pose_x, goal_pose_y, goal_pose_z, goal_ori_x, goal_ori_y, goal_ori_z, goal_ori_w;
@@ -342,6 +339,7 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     }    
 
     WpPtrVec candidatwe_without_id;
+    std::cout<<" >> Candidate Num: "<<m_WaypointCandidateNum<<std::endl;
     candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum);
     
     for(auto it = candidatwe_without_id.begin(); it != candidatwe_without_id.end(); ++it){
@@ -399,7 +397,7 @@ void GlobalPlanner::DFS( std::vector< WpPtrIdVec >& allWaypointCandidates, int n
 
 }
 
-bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx)
+bool GlobalPlanner::GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx)
 { 
   if(wayPoints.size() == 0)
     return false;
@@ -627,44 +625,6 @@ int GlobalPlanner::LoadSimulationData()
   return nData;
 }
 
-void threadMain(int start_idx, int end_idx){
-  for(auto i = start_idx; i != end_idx; ++i){              
-    int seq_id = i;
-
-    bool isPathGenerated = false;
-    WpPtrIdVec waypoint_pointers = m_WayPointSequences[i];
-    if(waypoint_pointers.size() == 0){
-      continue;
-    }
-
-    WpVec waypoints;
-    for(int cnt = 0; cnt != waypoint_pointers.size(); ++cnt){
-      waypoints.push_back( *(waypoint_pointers[cnt].second) ); 
-    }
-
-    std::vector<std::vector<PlannerHNS::WayPoint> > total_path;
-
-    int fail_idx = -1;
-    isPathGenerated = GenerateWaypointsGlobalPlan(waypoints, total_path, fail_idx);
-    finished_seq_num++;
-
-    std::cout<<"["<<(float)finished_seq_num/(float)m_WayPointSequences.size()*100<<"%] ";
-    if(isPathGenerated){
-      m_PathCandidates.push_back(std::pair<int, std::vector<WpVec> >(i, total_path) );
-      std::cout << " >> Seq "<< seq_id <<": Success( Length: "<<total_path[0].size()<<" )"<<std::endl;
-    }
-    else
-    {
-      int current_seq_idx = i;
-      std::cout << " >> Seq "<< seq_id <<": Fail( "<< fail_idx-1<<" -> "<<fail_idx<< " )" <<std::endl;
-      clearUnnecessarySequences(current_seq_idx, end_idx, fail_idx, waypoint_pointers);
-    }              
-  }
-
-  finished_thread++;
-}
-
-
 void GlobalPlanner::MainLoop()
 {
   ros::Rate loop_rate(25);
@@ -829,32 +789,41 @@ void GlobalPlanner::MainLoop()
 
           
           if(isCandidatesCreated){
-            // Generate all combination of candidates                            
-            m_PathCandidates.clear();
-
-            int start_idx = 0;            
-            int remain_num = m_WayPointSequences.size();
-            int one_data_num = remain_num/m_ThreadNum+1;
+            // Generate all combination of candidates                
+            std::vector< std::vector <std::vector<PlannerHNS::WayPoint> > > path_candidates; 
             
-            for(int thread_id = 0; thread_id < m_ThreadNum-1; ++thread_id){
-              thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+one_data_num));
-              start_idx += one_data_num;
-              remain_num -= one_data_num;
-              std::cout <<" >> Thread "<<thread_id<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+one_data_num-1<<")"<<std::endl;
-            }
-            thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+remain_num));
-            std::cout <<" >> Thread "<<m_ThreadNum-1<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+remain_num-1<<")"<<std::endl;
 
             std::cout<<"============================================"<<std::endl;
-            
-            for(auto t_it = thread_vec.begin(); t_it != thread_vec.end(); ++t_it)
-              (*t_it).join();
+            for(auto it = m_WayPointSequences.begin(); it != m_WayPointSequences.end(); ++it){              
+              int seq_id = it-m_WayPointSequences.begin();
 
-            while(1){
-              if(finished_thread==m_ThreadNum) break;
-              sleep(1);
+              bool isPathGenerated = false;
+              WpPtrIdVec waypoint_pointers = *it;
+              if(waypoint_pointers.size() == 0){
+                continue;
+              }
+
+              WpVec waypoints;
+              for(int cnt = 0; cnt != waypoint_pointers.size(); ++cnt){
+                waypoints.push_back( *(waypoint_pointers[cnt].second) ); 
+              }
+
+              std::vector<std::vector<PlannerHNS::WayPoint> > total_path;
+
+              int fail_idx = -1;
+              isPathGenerated = GenerateWaypointsGlobalPlan(waypoints, total_path, fail_idx);
+              std::cout<<"["<<(float)seq_id/(float)m_WayPointSequences.size()*100<<"%] ";
+              if(isPathGenerated){
+                path_candidates.push_back(total_path);
+                std::cout << " >> Seq "<< seq_id <<": Success( Length: "<<total_path[0].size()<<" )"<<std::endl;
+              }
+              else
+              {
+                int current_seq_idx = it - m_WayPointSequences.begin();
+                std::cout << " >> Seq "<< seq_id <<": Fail( "<< fail_idx-1<<" -> "<<fail_idx<< " )" <<std::endl;
+                clearUnnecessarySequences(current_seq_idx, fail_idx, waypoint_pointers);
+              }              
             }
-
             std::cout<<"============================================"<<std::endl;            
 
             
@@ -863,11 +832,11 @@ void GlobalPlanner::MainLoop()
             bool bNewPlan;            
             int min_path_size = std::numeric_limits<int>::max();
             int selected_path_id = -1;
-            for(auto it = m_PathCandidates.begin(); it != m_PathCandidates.end(); ++it){
-              std::vector<std::vector<PlannerHNS::WayPoint> > candidate_path = (*it).second;
+            for(auto it = path_candidates.begin(); it != path_candidates.end(); ++it){
+              std::vector<std::vector<PlannerHNS::WayPoint> > candidate_path = *it;
 
               if(candidate_path.size()!=0 && candidate_path[0].size() < min_path_size){
-                selected_path_id = (*it).first;
+                selected_path_id = it-path_candidates.begin();
                 min_path_size = candidate_path[0].size();
                 m_GeneratedTotalPaths = candidate_path;
                 bNewPlan = true;
@@ -892,7 +861,7 @@ void GlobalPlanner::MainLoop()
   }
 }
 
-void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers){
+void GlobalPlanner::clearUnnecessarySequences(int current_seq_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers){
   std::vector<int> fail_waypoints_vec;
   
   // Create vector of ids to failure sequence
@@ -901,7 +870,7 @@ void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, W
   }
 
   // Clear not necessary sequences
-  for(int i = current_seq_idx+1; i < end_idx; ++i){  
+  for(int i = current_seq_idx+1; i < m_WayPointSequences.size(); ++i){  
     WpPtrIdVec target_sequence = m_WayPointSequences[i];
     if(target_sequence.size()==0){
       continue;
@@ -915,7 +884,6 @@ void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, W
     }
     if(isCleared){
       m_WayPointSequences[i].clear();
-      finished_seq_num++;
       // std::cout<< " >> Clear Sequence ("<<i<<")"<<std::endl;
     }
   }  
