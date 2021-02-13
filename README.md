@@ -5,19 +5,7 @@
 - Ubuntu 18.04
 - ROS Melodic
 
-
-## How to build CM workspace
-* Build CM_ws packages
-```
-cd ${WORKSPACE_DIR}/CM_ws
-./build_cmrosif.sh
-ln -s ${WORKSPACE_DIR}/CM_ws ~/CM_ws
-source ~/CM_ws/ros/ros1_ws/devel/setup.bash
-
-```
-
-## How to build Autoware
-
+## How to install ROS melodic
 * ROS Melodic Install
 ```
 sudo apt update
@@ -25,6 +13,21 @@ sudo apt install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin
 sudo apt install -y python3-pip python3-colcon-common-extensions python3-setuptools python3-vcstool
 pip3 install -U setuptools
 ```
+
+## How to build CM workspace
+* Build CM_ws packages
+```
+cd ${WORKSPACE_DIR}/CM_ws
+./build_cmrosif.sh
+cd
+ln -s ${WORKSPACE_DIR}/CM_ws ~/CM_ws
+source ~/CM_ws/ros/ros1_ws/devel/setup.bash
+
+```
+
+## How to build Autoware
+
+
 
 * Eigen build
 ```
