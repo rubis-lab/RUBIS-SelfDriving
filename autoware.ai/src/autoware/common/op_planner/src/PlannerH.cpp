@@ -109,7 +109,7 @@ double PlannerH::PlanUsingDPRandom(const WayPoint& start,
   vector<vector<WayPoint> > tempCurrentForwardPathss;
   const std::vector<int> globalPath;
   PlanningHelpers::TraversePathTreeBackwards(pLaneCell, pStart, globalPath, path, tempCurrentForwardPathss);
-  cout << endl <<"Info: PlannerH -> Plan (B) Path With Size (" << (int)path.size() << "), MultiPaths No(" << paths.size() << ") Extraction Time : " << endl;
+  // cout << endl <<"Info: PlannerH -> Plan (B) Path With Size (" << (int)path.size() << "), MultiPaths No(" << paths.size() << ") Extraction Time : " << endl;
 
   //PlanningHelpers::CreateManualBranch(path, 0, FORWARD_RIGHT_DIR);
   //cout << "Right Branch Created with Size: " << path.size()  << endl;
@@ -259,7 +259,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
     }
   }
 
-  cout << endl <<"Info: PlannerH -> Plan (" << bPlan << ") Path With Size (" << (int)path.size() << "), MultiPaths No(" << paths.size() << ") Extraction Time : " << endl;
+  // cout << endl <<"Info: PlannerH -> Plan (" << bPlan << ") Path With Size (" << (int)path.size() << "), MultiPaths No(" << paths.size() << ") Extraction Time : " << endl;
 
 
   if(path.size()<2)
