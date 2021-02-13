@@ -18,6 +18,7 @@
   <arg name="goal_ori_y"           default="0.0" />
   <arg name="goal_ori_z"           default="0.0" />
   <arg name="goal_ori_w"           default="0.0" />
+  <arg name="waypointCandidateNum"  default="3" />
 
   <arg name="LaneInfoFile"          default="crossing_test/crossing_lane_info.yaml" />
 
@@ -33,6 +34,7 @@
     <param name="mapFileName"         value="$(arg mapFileName)" />    
     <param name="enableDynamicMapUpdate"   value="$(arg enableDynamicMapUpdate)" />    
     <param name="enableWaypoints"       value="$(arg enableWaypoints)" />
+    <param name="waypointCandidateNum"  value="$(arg waypointCandidateNum)" />
     <param name="use_static_goal"       value="$(arg use_static_goal)"/>
     <param name="goal_pose_x"           value="$(arg goal_pose_x)" />
     <param name="goal_pose_y"           value="$(arg goal_pose_y)" />

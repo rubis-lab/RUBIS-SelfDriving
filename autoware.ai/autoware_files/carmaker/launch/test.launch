@@ -10,6 +10,7 @@
     <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->
+    <arg name="waypointCandidateNum"   value="3" /> <!-- Find determined number of candidates for each waypoint -->
     <!-- Carmaker -->
     <arg name="use_static_goal"       value="false" />
     <arg name="goal_pose_x"           value="1927.49" />

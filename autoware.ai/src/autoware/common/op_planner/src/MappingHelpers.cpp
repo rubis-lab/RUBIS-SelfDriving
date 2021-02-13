@@ -1012,8 +1012,6 @@ std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& 
     
   }
 
-
-  std::cout<<"# candidate size: "<<close_waypoints.size()<<std::endl;
   return close_waypoints;
 }
 

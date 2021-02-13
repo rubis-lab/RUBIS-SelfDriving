@@ -137,7 +137,8 @@ protected:
   bool m_is_waypoint_received;
   bool m_isCurrentPoseReceived;
   std::vector<PlannerHNS::WayPoint> m_WayPoints;
-  std::vector< std::vector<PlannerHNS::WayPoint*> > m_WayPointSequences;
+  std::vector< WpPtrIdVec > m_WayPointSequences;
+  int m_WaypointCandidateNum;
 public:
   GlobalPlanner();
   ~GlobalPlanner();
@@ -158,9 +159,10 @@ private:
   void callbackGetRoadStatusOccupancyGrid(const nav_msgs::OccupancyGridConstPtr& msg);
   // Added by PHY
   void callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg);
-  bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
+  bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
   bool GenerateWayPointSequences();
-  void DFS( std::vector< std::vector<PlannerHNS::WayPoint*> >& allWaypointCandidates, int num_of_sequence, int depth, std::vector<PlannerHNS::WayPoint*> local_data);
+  void DFS( std::vector< WpPtrIdVec >& allWaypointCandidates, int num_of_sequence, int depth, WpPtrIdVec entry);
+  void clearUnnecessarySequences(int current_seq_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
 
   protected:
     PlannerHNS::RoadNetwork m_Map;
