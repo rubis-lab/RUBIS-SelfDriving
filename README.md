@@ -44,16 +44,15 @@ sudo make install
 
 Older versions may already be installed. If `/usr/lib/cmake/eigen3/Eigen3Config.cmake` is older than 3.3.7 version, copy files in `/usr/local/share/eigen3/cmake` to `/usr/lib/cmake/eigen3`.
 
-
+* Install dependent packages
+```
+cd {$WORKSPACE_DIR}/autoware.ai
+rosdep update
+rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+```
 
 * Autoware Build
 ```
-# Move the rubis_ws and autoware_files to safe location
-cd {$WORKSPACE_DIR}/autoware.ai
-
-rosdep update
-rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-
 # If you have CUDA (Skip op_global_planner)
 AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip lgsvl
 
@@ -63,6 +62,7 @@ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip lgsvl
 
 Since Autoware recommend to use directory name 'autoware.ai', you should make soft link with autoware.ai to this repository
 ```
+cd
 ln -s ${WORKSPACE_DIR}/RUBIS-SelfDriving ~/autoware.ai
 ```
 

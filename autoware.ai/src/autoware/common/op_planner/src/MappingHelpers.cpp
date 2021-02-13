@@ -913,7 +913,7 @@ WayPoint* MappingHelpers::GetClosestWaypointFromMap(const WayPoint& pos, RoadNet
 {
   double distance_to_nearest_lane = 1;
   Lane* pLane = 0;
-  while(distance_to_nearest_lane < 100 && pLane == 0)
+  while(distance_to_nearest_lane < 20 && pLane == 0)
   {
     pLane = GetClosestLaneFromMap(pos, map, distance_to_nearest_lane, bDirectionBased);
     distance_to_nearest_lane += 1;    
@@ -921,7 +921,7 @@ WayPoint* MappingHelpers::GetClosestWaypointFromMap(const WayPoint& pos, RoadNet
 
   if(!pLane) return nullptr;
   
-  if(DEBUG_FLAG) std::cout<<"## Closest lane_id: "<<pLane->id<<std::endl;
+  // if(DEBUG_FLAG) std::cout<<"## Closest lane_id: "<<pLane->id<<std::endl;
 
 
   int closest_index = PlanningHelpers::GetClosestNextPointIndexFast(pLane->points, pos);
@@ -992,9 +992,9 @@ Lane* MappingHelpers::GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& ma
 std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num){
   std::vector<Lane*> close_lanes;
   std::vector<WayPoint*> close_waypoints;
-  double distance_to_nearest_lane = 5;
+  double distance_to_nearest_lane = 15;
 
-  while(distance_to_nearest_lane < 100)
+  while(distance_to_nearest_lane < 20)
   {
     close_lanes = GetCloseLanesFromMap(pos, map, candidate_num, distance_to_nearest_lane, bDirectionBased);
     distance_to_nearest_lane += 1;
