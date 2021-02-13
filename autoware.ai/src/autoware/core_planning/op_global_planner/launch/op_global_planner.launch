@@ -9,7 +9,11 @@
   <arg name="mapSource"             default="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
   <arg name="mapFileName"           default="" /> <!-- incase of kml map source -->
   <arg name="enableDynamicMapUpdate"       default="false" />  
-  <arg name="enableWaypoints"       default="false" />
+  
+  <arg name="enableWaypoints"       default="false" /> <!-- In case of using multiple waypoints -->    
+  <arg name="waypointCandidateNum"  default="3" /> <!-- Find determined number of candidates for each waypoint -->
+  <arg name="threadNum"             default="5" /> <!-- Number of thread for mulit-threading -->
+
   <arg name="use_static_goal"       default="false" />
   <arg name="goal_pose_x"           default="0.0" />
   <arg name="goal_pose_y"           default="0.0" />
@@ -33,6 +37,8 @@
     <param name="mapFileName"         value="$(arg mapFileName)" />    
     <param name="enableDynamicMapUpdate"   value="$(arg enableDynamicMapUpdate)" />    
     <param name="enableWaypoints"       value="$(arg enableWaypoints)" />
+    <param name="waypointCandidateNum"  value="$(arg waypointCandidateNum)" />
+    <param name="threadNum"             value="$(arg threadNum)" />
     <param name="use_static_goal"       value="$(arg use_static_goal)"/>
     <param name="goal_pose_x"           value="$(arg goal_pose_x)" />
     <param name="goal_pose_y"           value="$(arg goal_pose_y)" />

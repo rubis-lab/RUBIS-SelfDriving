@@ -18,13 +18,8 @@
 #define OP_GLOBAL_PLANNER
 
 #include<limits>
-#include <thread>
-#include <mutex>
-#include <csignal>
-#include <pthread.h>
 
 #include <ros/ros.h>
-
 
 #include "vector_map_msgs/PointArray.h"
 #include "vector_map_msgs/LaneArray.h"
@@ -96,26 +91,6 @@ public:
   }
 };
 
-static std::mutex mtx;
-static std::vector<std::thread> thread_vec;
-static int finished_seq_num = 0;
-static int finished_thread = 0;
-static std::vector< WpPtrIdVec > m_WayPointSequences;
-static std::vector< std::pair<int, std::vector<WpVec> > > m_PathCandidates; 
-static std::vector< pthread_t > m_pThreadVec;
-
-
-static WayPlannerParams m_params;
-static int m_GlobalPathID;
-static PlannerHNS::PlannerH m_PlannerH;
-static PlannerHNS::RoadNetwork m_Map;
-static int m_ThreadNum;
-
-void threadMain(int start_idx, int end_idx);
-void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
-bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
-void signalHandler(int signum);
-
 
 class GlobalPlanner
 {
@@ -124,6 +99,7 @@ public:
   int m_iCurrentGoalIndex;
 protected:
 
+  WayPlannerParams m_params;
   PlannerHNS::WayPoint m_CurrentPose;
   std::vector<PlannerHNS::WayPoint> m_GoalsPos;
   geometry_msgs::Pose m_OriginPos;
@@ -132,6 +108,7 @@ protected:
   std::vector<std::pair<std::vector<PlannerHNS::WayPoint*> , timespec> > m_ModifiedMapItemsTimes;
   timespec m_ReplnningTimer;
 
+  int m_GlobalPathID;
 
   bool m_bFirstStart;
 
@@ -160,6 +137,7 @@ protected:
   bool m_is_waypoint_received;
   bool m_isCurrentPoseReceived;
   std::vector<PlannerHNS::WayPoint> m_WayPoints;
+  std::vector< WpPtrIdVec > m_WayPointSequences;
   int m_WaypointCandidateNum;
 public:
   GlobalPlanner();
@@ -181,11 +159,15 @@ private:
   void callbackGetRoadStatusOccupancyGrid(const nav_msgs::OccupancyGridConstPtr& msg);
   // Added by PHY
   void callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg);
+  bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
   bool GenerateWayPointSequences();
   void DFS( std::vector< WpPtrIdVec >& allWaypointCandidates, int num_of_sequence, int depth, WpPtrIdVec entry);
+  void clearUnnecessarySequences(int current_seq_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
 
   protected:
+    PlannerHNS::RoadNetwork m_Map;
     bool  m_bKmlMap;
+    PlannerHNS::PlannerH m_PlannerH;
     std::vector<std::vector<PlannerHNS::WayPoint> > m_GeneratedTotalPaths;
 
     bool GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, PlannerHNS::WayPoint& goalPoint, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
