@@ -19,6 +19,8 @@
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="0.6691" />
     <arg name="goal_ori_w"            value="0.7431" />
+
+    <arg name="LaneInfoFile"          value="sangam_full/lane_info.yaml" />
   </include>
 
   <!-- op_common_params  -->
@@ -107,7 +109,7 @@
     <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
     <arg name="SprintDecisionTime" default="99999999999999999999.0" /> <!-- Seconds -->
 
-    <arg name="intersectionFile"                default="sangam_scene2/intersection.yaml" />
+    <arg name="intersectionFile"                default="sangam_full/intersection.yaml" />
   </include>
 
   <!-- op_behavior_selector -->
@@ -117,7 +119,7 @@
     <arg name="sprintSpeed"                    default="10.0" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
-    <arg name="trafficLightFile"                default="sangam_scene2/traffic_light.yaml" />
-    <arg name="stopLineFile"                    default="sangam_scene2/stop_line.yaml" />
+    <arg name="trafficLightFile"                default="sangam_full/traffic_light.yaml" />
+    <arg name="stopLineFile"                    default="sangam_full/stop_line.yaml" />
   </include>
 </launch>
