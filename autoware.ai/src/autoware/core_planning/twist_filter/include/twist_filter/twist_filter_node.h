@@ -25,6 +25,9 @@
 #include <autoware_msgs/ControlCommandStamped.h>
 #include <autoware_config_msgs/ConfigTwistFilter.h>
 #include <std_msgs/Bool.h>
+#include <hellocm_msgs/Ext2CM.h>
+#include <hellocm_msgs/Ext2CM_EStop.h>
+
 
 namespace twist_filter_node
 {
@@ -61,7 +64,7 @@ private:
   void checkCtrl(const twist_filter::Ctrl ctrl, const twist_filter::Ctrl ctrl_prev, const double& dt);
 
   //Added by PHY
-  void emergencyStopCallback(const std_msgs::Bool& msg);
+  void emergencyStopCallback(const hellocm_msgs::Ext2CM_EStop& msg);
 };
 
 }  // namespace twist_filter_node

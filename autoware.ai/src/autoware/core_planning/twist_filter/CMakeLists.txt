@@ -12,6 +12,7 @@ find_package(
     roscpp
     roslint
     std_msgs
+    hellocm_msgs
 )
 
 catkin_package(

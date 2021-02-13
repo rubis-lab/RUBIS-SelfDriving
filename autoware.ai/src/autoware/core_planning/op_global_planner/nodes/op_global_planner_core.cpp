@@ -776,8 +776,8 @@ void GlobalPlanner::MainLoop()
               std::cout<<"## Sequence id: "<<seq_id<<std::endl;
               std::vector<PlannerHNS::WayPoint*> waypoints;
               waypoints = (m_WayPointSequences[seq_id]);
-              for(auto pid = 0; pid < waypoints[seq_id].size(); ++pid){
-                <PlannerHNS::WayPoint> point = *(waypoints[pid]);
+              for(auto pid = 0; pid < waypoints.size(); ++pid){
+                PlannerHNS::WayPoint point = *(waypoints[pid]);
                 std:cout<<point.pos.x<<" "<<point.pos.y<<" -> ";
               }
             }

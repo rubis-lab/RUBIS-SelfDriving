@@ -13,6 +13,7 @@ find_package(
     roslint
     std_msgs
     tablet_socket_msgs
+    hellocm_msgs
 )
 
 catkin_package(

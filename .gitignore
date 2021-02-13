@@ -1,6 +1,6 @@
-build
-log
-install
+autoware.ai/build
+autoware.ai/log
+autoware.ai/install
 autoware.ai.repos
 *.weights
 .vscode
