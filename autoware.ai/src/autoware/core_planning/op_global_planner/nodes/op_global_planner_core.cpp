@@ -228,6 +228,7 @@ void GlobalPlanner::callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& m
   std::cout<<"[ Waypoints ]"<<std::endl;
   for(auto it = m_WayPoints.begin(); it != m_WayPoints.end(); ++it)
     std::cout<<(*it).pos.x<<" "<<(*it).pos.y<<std::endl;
+  sleep(1);
 
   ROS_INFO("Received Waypoints");
 }
@@ -321,8 +322,7 @@ bool GlobalPlanner::GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, Planner
 
 bool GlobalPlanner::GenerateWayPointSequences(){
   std::vector< std::vector<PlannerHNS::WayPoint*> > allWaypointCandidates; // dim 0: waypoint id(index), dim 1: candidates for target waypoint
-  int candidates_num = 1;
-  int search_distance = 5;
+  int candidates_num = 3;
   bool areCandidatesGenerated = true;
 
   m_WayPointSequences.clear();
@@ -332,12 +332,11 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     PlannerHNS::WayPoint wp = m_WayPoints[i];
     
     if(i==0) waypoint_candidates.push_back(&m_CurrentPose);
-    else{
-      waypoint_candidates = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, candidates_num, search_distance);
-      waypoint_candidates.push_back(&(m_WayPoints[i]));
-    }
+    
+    waypoint_candidates = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, candidates_num);
+    // waypoint_candidates.push_back(&(m_WayPoints[i]));
+    
 
-    std::cout<<"!!!!!!!!!!!!!!!!"<< i<<" wp cand size : "<<waypoint_candidates.size()<<std::endl;
     allWaypointCandidates.push_back(waypoint_candidates);
     if(waypoint_candidates.size() == 0) areCandidatesGenerated = false;
   }
@@ -346,16 +345,14 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     for(auto it = allWaypointCandidates.begin(); it != allWaypointCandidates.end(); ++it){
       std::vector<PlannerHNS::WayPoint*> waypoint_candidates = *it;
       std::cout<<" >> Waypoint "<<it - allWaypointCandidates.begin()<<" Candidates "<<std::endl;
-      std::cout<<"Candidate num: "<<waypoint_candidates.size()<<std::endl;
       for(int i = 0; i < waypoint_candidates.size(); ++i){
-        std::cout<<waypoint_candidates[i]->pos.x<<" "<<waypoint_candidates[i]->pos.y<<" "<<waypoint_candidates[i]->pos.z<<std::endl;
+        std::cout<<"       "<<waypoint_candidates[i]->pos.x<<" "<<waypoint_candidates[i]->pos.y<<" "<<waypoint_candidates[i]->pos.z<<std::endl;
       }
     }
   }
   else{
     return false;
   }
-
 
   int num_of_sequence = allWaypointCandidates[0].size();
   for(auto it = allWaypointCandidates.begin()+1; it != allWaypointCandidates.end(); ++it){
@@ -771,7 +768,7 @@ void GlobalPlanner::MainLoop()
             isCandidatesCreated = GenerateWayPointSequences();
 
           if(DEBUG_FLAG) {
-            std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<"]"<<std::endl;
+            std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<std::endl;
             for(int seq_id = 0; seq_id != m_WayPointSequences.size(); ++seq_id){
               std::cout<<"## Sequence id: "<<seq_id<<std::endl;
               std::vector<PlannerHNS::WayPoint*> waypoints;
@@ -780,8 +777,9 @@ void GlobalPlanner::MainLoop()
                 PlannerHNS::WayPoint point = *(waypoints[pid]);
                 std:cout<<point.pos.x<<" "<<point.pos.y<<" -> ";
               }
+              std::cout<<"End"<<endl;
             }
-            std::cout<<endl;
+            
           }
 
 
@@ -819,18 +817,21 @@ void GlobalPlanner::MainLoop()
             
             std::cout<<" ## Planning for all sequence is finished!" <<std::endl;
             // Select shortest path
-            bool bNewPlan;
-            std::cout<<"## Number of candidate paths: "<<path_candidates.size()<<std::endl;
+            bool bNewPlan;            
             int min_path_size = std::numeric_limits<int>::max();
+            int selected_path_id = -1;
             for(auto it = path_candidates.begin(); it != path_candidates.end(); ++it){
               std::vector<std::vector<PlannerHNS::WayPoint> > candidate_path = *it;
 
               if(candidate_path.size()!=0 && candidate_path[0].size() < min_path_size){
+                selected_path_id = it-path_candidates.begin();
+                min_path_size = candidate_path[0].size();
                 m_GeneratedTotalPaths = candidate_path;
                 bNewPlan = true;
               }
             }
 
+            std::cout<<" ## Selected Path: "<<selected_path_id<<std::endl;
             if(bNewPlan)
             {
               bMakeNewPlan = false;

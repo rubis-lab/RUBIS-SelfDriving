@@ -147,13 +147,13 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
   {
     GPSPoint sp = start.pos;
     GPSPoint gp = goalPos.pos;
-    cout << endl << "Error: PlannerH -> Can't Find Global Waypoint Nodes in the Map for Start (" <<  sp.ToString() << ") and Goal (" << gp.ToString() << ")" << endl;
+    // cout << endl << "Error: PlannerH -> Can't Find Global Waypoint Nodes in the Map for Start (" <<  sp.ToString() << ") and Goal (" << gp.ToString() << ")" << endl;
     return 0;
   }
 
   if(!pStart->pLane || !pGoal->pLane)
   {
-    cout << endl << "Error: PlannerH -> Null Lane, Start (" << pStart->pLane << ") and Goal (" << pGoal->pLane << ")" << endl;
+    // cout << endl << "Error: PlannerH -> Null Lane, Start (" << pStart->pLane << ") and Goal (" << pGoal->pLane << ")" << endl;
     return 0;
   }
 
@@ -166,9 +166,9 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
   if(fabs(start_info.perp_distance) > START_POINT_MAX_DISTANCE)
   {
     GPSPoint sp = start.pos;
-    cout << endl << "Error: PlannerH -> Start Distance to Lane is: " << start_info.perp_distance
-        << ", Pose: " << sp.ToString() << ", LanePose:" << start_info.perp_point.pos.ToString()
-        << ", LaneID: " << pStart->pLane->id << " -> Check origin and vector map. " << endl;
+    // cout << endl << "Error: PlannerH -> Start Distance to Lane is: " << start_info.perp_distance
+    //     << ", Pose: " << sp.ToString() << ", LanePose:" << start_info.perp_point.pos.ToString()
+    //     << ", LaneID: " << pStart->pLane->id << " -> Check origin and vector map. " << endl;
     return 0;
   }
 
@@ -216,7 +216,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
     if(!pLaneCell)
     {
       bPlan = 'Z';
-      cout << endl << "PlannerH -> Plan (B) Failed, Sorry we Don't have plan (C) This is the END." << endl;
+      // cout << endl << "PlannerH -> Plan (B) Failed, Sorry we Don't have plan (C) This is the END." << endl;
       return 0;
     }
   }
@@ -264,7 +264,7 @@ double PlannerH::PlanUsingDP(const WayPoint& start,
 
   if(path.size()<2)
   {
-    cout << endl << "Err: PlannerH -> Invalid Path, Car Should Stop." << endl;
+    // cout << endl << "Err: PlannerH -> Invalid Path, Car Should Stop." << endl;
     if(pLaneCell && !all_cell_to_delete)
       DeleteWaypoints(local_cell_to_delete);
     return 0 ;

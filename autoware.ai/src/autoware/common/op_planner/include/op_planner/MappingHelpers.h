@@ -16,7 +16,7 @@
 #include "tinyxml.h"
 #include <XmlRpcValue.h>
 
-#define DEBUG_FLAG 0
+#define DEBUG_FLAG 1
 
 namespace PlannerHNS {
 
