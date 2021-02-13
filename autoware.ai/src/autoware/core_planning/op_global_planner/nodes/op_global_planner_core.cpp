@@ -672,6 +672,8 @@ void GlobalPlanner::MainLoop()
   UtilityHNS::UtilityH::GetTickCount(animation_timer);
   bool isCandidatesCreated = false;
 
+  signal(SIGINT, signalHandler);
+  signal(SIGQUIT, signalHandler);
 
   while (ros::ok())
   {
@@ -836,11 +838,13 @@ void GlobalPlanner::MainLoop()
             int remain_num = m_WayPointSequences.size();
             int one_data_num = remain_num/m_ThreadNum+1;
             
-            for(int thread_id = 0; thread_id < m_ThreadNum-1; ++thread_id){
+            for(int thread_idx = 0; thread_idx < m_ThreadNum-1; ++thread_idx){
               thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+one_data_num));
+              m_pThreadVec.push_back(thread_vec[thread_idx].native_handle());
+
+              std::cout <<" >> Thread "<<thread_idx<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+one_data_num-1<<")"<<std::endl;
               start_idx += one_data_num;
               remain_num -= one_data_num;
-              std::cout <<" >> Thread "<<thread_id<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+one_data_num-1<<")"<<std::endl;
             }
             thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+remain_num));
             std::cout <<" >> Thread "<<m_ThreadNum-1<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+remain_num-1<<")"<<std::endl;
@@ -919,6 +923,14 @@ void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, W
       // std::cout<< " >> Clear Sequence ("<<i<<")"<<std::endl;
     }
   }  
+}
+
+void signalHandler(int signum){
+  std::cout<<"[ Kill all op_global_planner's threads! ]"<<std::endl;
+  for(auto it = m_pThreadVec.begin(); it != m_pThreadVec.end(); ++it){
+    pthread_cancel(*it);
+  }
+  exit(0);
 }
 
 //Mapping Section

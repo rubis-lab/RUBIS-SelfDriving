@@ -20,6 +20,8 @@
 #include<limits>
 #include <thread>
 #include <mutex>
+#include <csignal>
+#include <pthread.h>
 
 #include <ros/ros.h>
 
@@ -100,10 +102,8 @@ static int finished_seq_num = 0;
 static int finished_thread = 0;
 static std::vector< WpPtrIdVec > m_WayPointSequences;
 static std::vector< std::pair<int, std::vector<WpVec> > > m_PathCandidates; 
+static std::vector< pthread_t > m_pThreadVec;
 
-void threadMain(int start_idx, int end_idx);
-void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
-bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
 
 static WayPlannerParams m_params;
 static int m_GlobalPathID;
@@ -111,6 +111,10 @@ static PlannerHNS::PlannerH m_PlannerH;
 static PlannerHNS::RoadNetwork m_Map;
 static int m_ThreadNum;
 
+void threadMain(int start_idx, int end_idx);
+void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
+bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
+void signalHandler(int signum);
 
 
 class GlobalPlanner
