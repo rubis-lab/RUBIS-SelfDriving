@@ -15,6 +15,12 @@
 #include "op_utility/DataRW.h"
 #include "tinyxml.h"
 #include <XmlRpcValue.h>
+typedef std::pair<int, PlannerHNS::WayPoint> WpId;
+typedef std::pair<int, PlannerHNS::WayPoint*> WpPtrId;
+typedef std::vector<PlannerHNS::WayPoint> WpVec;
+typedef std::vector<PlannerHNS::WayPoint*> WpPtrVec;
+typedef std::vector<WpId> WpIdVec;
+typedef std::vector<WpPtrId> WpPtrIdVec;
 
 #define DEBUG_FLAG 0
 
