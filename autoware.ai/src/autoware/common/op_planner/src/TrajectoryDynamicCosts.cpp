@@ -340,6 +340,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
            << std::endl;
   }
   std::cout << "---------------------------------------" << std::endl;
+  std::cout << "start_idx : " << m_startTrajIdx << ", end_idx : " << m_endTrajIdx << std::endl;
   std::cout << "current_idx : " << currIndex << ", selected one : " << smallestIndex << std::endl;
   std::cout << "---------------------------------------" << std::endl;
   #endif
