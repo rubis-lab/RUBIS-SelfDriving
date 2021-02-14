@@ -23,14 +23,15 @@ void CarMakerAutorunner::register_subscribers(){
     sub_v_[STEP(6)] = nh_.subscribe("/lane_waypoints_array", 1, &CarMakerAutorunner::lane_waypoints_array_cb, this);
     sub_v_[STEP(7)] = nh_.subscribe("/local_trajectory_cost", 1, &CarMakerAutorunner::local_traj_cost_cb, this);
     sub_v_[STEP(8)] = nh_.subscribe("/behavior_state", 1, &CarMakerAutorunner::behavior_state_cb, this);
-    // sub_v_[STEP(9)]
+    // sub_v_[STEP(9)];
 }
 
 void CarMakerAutorunner::imu_raw_cb(const sensor_msgs::Imu& msg){
     if(!ros_autorunner_.step_info_list_[STEP(2)].is_prepared){
         ROS_WARN("[STEP 1] Connected with Carmaker");
         ROS_WARN("[STEP 1] Imu Info Detected");
-        sleep(SLEEP_PERIOD);
+        // sleep(SLEEP_PERIOD);
+        sleep(5);
         ros_autorunner_.step_info_list_[STEP(2)].is_prepared = true;
     }
 }

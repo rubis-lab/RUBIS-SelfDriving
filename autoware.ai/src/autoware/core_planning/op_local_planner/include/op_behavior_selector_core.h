@@ -57,7 +57,7 @@
 
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
-// #include <hellocm_msgs/Ext2CM_EStop.h>
+#include <hellocm_msgs/Ext2CM_EStop.h>
 
 #include "op_planner/PlannerCommonDef.h"
 #include "op_planner/DecisionMaker.h"

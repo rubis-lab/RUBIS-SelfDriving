@@ -13,6 +13,15 @@
     <arg name="method_type" value="3" />
     <arg name="use_gnss" value="0" />
     <arg name="get_height" value="true" />
+    <arg name="use_csv_init" value="false" />
+  </include>
+
+  <include file="$(find rubis_cm_pkg)/launch/waypoint_generator.launch">
+    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_waypoints_example.csv" />
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_waypoints_example.csv" /> -->
+    <arg name="zone_points_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_points.csv" />
+    <arg name="zone_offset_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_offset.csv" />
+    <arg name="mode" value="0" /> <!-- 0: POSE(XYZ) / 1: GPS(LLH)-->
   </include>
 
   <!-- vel_pose_mux -->
