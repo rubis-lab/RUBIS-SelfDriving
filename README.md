@@ -5,8 +5,7 @@
 - Ubuntu 18.04
 - ROS Melodic
 
-## How to build Autoware
-
+## How to install ROS melodic
 * ROS Melodic Install
 ```
 sudo apt update
@@ -14,6 +13,21 @@ sudo apt install -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin
 sudo apt install -y python3-pip python3-colcon-common-extensions python3-setuptools python3-vcstool
 pip3 install -U setuptools
 ```
+
+## How to build CM workspace
+* Build CM_ws packages
+```
+cd ${WORKSPACE_DIR}/CM_ws
+./build_cmrosif.sh
+cd
+ln -s ${WORKSPACE_DIR}/CM_ws ~/CM_ws
+source ~/CM_ws/ros/ros1_ws/devel/setup.bash
+
+```
+
+## How to build Autoware
+
+
 
 * Eigen build
 ```
@@ -30,66 +44,55 @@ sudo make install
 
 Older versions may already be installed. If `/usr/lib/cmake/eigen3/Eigen3Config.cmake` is older than 3.3.7 version, copy files in `/usr/local/share/eigen3/cmake` to `/usr/lib/cmake/eigen3`.
 
+* Install dependent packages
+```
+cd {$WORKSPACE_DIR}/autoware.ai
+rosdep update
+rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+```
 
 * Autoware Build
 ```
-# Move the rubis_ws and autoware_files to safe location
-cd {$WORKSPACE_DIR}
-mv rubis_ws autoware_files ..
-
-rosdep update
-rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-
 # If you have CUDA (Skip op_global_planner)
-AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip op_local_planner
+AUTOWARE_COMPILE_WITH_CUDA=1 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip lgsvl
 
 # If you don't have CUDA (Skip op_global_planner)
-colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip op_local_planner
-
-# Restore the rubis_ws and autoware_files location
-mv ../rubis_ws ../autoware_files .
-
+colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-skip lgsvl       
 ```
 
 Since Autoware recommend to use directory name 'autoware.ai', you should make soft link with autoware.ai to this repository
 ```
+cd
 ln -s ${WORKSPACE_DIR}/RUBIS-SelfDriving ~/autoware.ai
 ```
 
 And it is recommned to add below sourcing command in your `~/.bashrc` file.
 ```
 source ~/autoware.ai/install/setup.bash
-source ~/autoware.ai/rubis_ws/devel/setup.bash
-```
-
-## How to build CM workspace
-* Build CM_ws packages
-```
-cd ${WORKSPACE_DIR}/CM_ws
-./build_cmrosif.sh
 ```
 
 ## How to build package in rubis_ws
 
 * Initialize ROS workspace
 ```
-source ~/autoware.ai/install/setup.bash
 cd ${WORKSPACE_DIR}/rubis_ws/src
 catkin_init_workspace
 ```
 
 * Build rubis_ws packages
 ```
-cd rubis_ws
+cd ${WORKSPACE_DIR}/rubis_ws
 catkin_make
+ln -s ${WORKSPACE_DIR}/rubis_ws ~/rubis_ws
+source ~/rubis_ws/devel/setup.bash
+
 ```
 
-## How to build skiped Autoware packages(op_local_planner)
-* Build only target package
+## Create symoblic links
 ```
-source ~/autoware.ai/CM_ws/ros/ros1_ws/devel/setup.bash
-cd ${WORKSPACE_DIR}/build/op_local_planner
-make install
+ln -s ${WORKSPACE_DIR}/CM_ws ~/CM_ws
+ln -s ${WORKSPACE_DIR}/autoware.ai ~/autoware.ai
+ln -s ${WORKSPACE_DIR}/rubis_ws ~/rubis_ws
 ```
 
 ## How to launch LGSVL scrips

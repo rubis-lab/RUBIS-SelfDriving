@@ -13,8 +13,8 @@
 #**
 #******************************************************************************
 
-include /opt/ipg/carmaker/linux64-9.0.2/include/MakeDefs.linux64
-# include /opt/ipg/carmaker/linux64-9.1.1/include/MakeDefs.linux64
+# include /opt/ipg/carmaker/linux64-9.0.2/include/MakeDefs.linux64
+include /opt/ipg/carmaker/linux64-9.1.1/include/MakeDefs.linux64
 
 APP_VER =		"Car_Generic <insert.your.version.no>"
 APP_NAME =		CarMaker_AutonomousDriving.$(ARCH)$(EXE_EXT)
