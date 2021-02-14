@@ -74,7 +74,7 @@
 
 #define PREDICT_POSE_THRESHOLD 0.5
 
-#define USING_GPS_THRESHOLD 9999999
+#define USING_GPS_THRESHOLD 30
 
 #define Wa 0.4
 #define Wb 0.3
@@ -112,7 +112,7 @@ static double offset_imu_odom_x, offset_imu_odom_y, offset_imu_odom_z, offset_im
 
 // For GPS backup method
 static pose current_gnss_pose;
-static double previous_score;
+static double previous_score = 0.0;
 
 // Can't load if typed "pcl::PointCloud<pcl::PointXYZRGB> map, add;"
 static pcl::PointCloud<pcl::PointXYZ> map, add;
@@ -245,6 +245,10 @@ static tf::StampedTransform local_transform;
 static unsigned int points_map_num = 0;
 
 pthread_mutex_t mutex;
+
+// For CSV Init
+static bool _use_csv_init = false;
+static bool _is_init_match_finished = false;
 
 static pose convertPoseIntoRelativeCoordinate(const pose &target_pose, const pose &reference_pose)
 {
@@ -554,11 +558,31 @@ static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
   current_gnss_pose.z = input->pose.position.z;
   gnss_m.getRPY(current_gnss_pose.roll, current_gnss_pose.pitch, current_gnss_pose.yaw);
 
-  if( (previous_score == 0.0 || previous_score > USING_GPS_THRESHOLD)){
+  static int matching_fail_cnt = 0;
+
+  if(previous_score <= USING_GPS_THRESHOLD)
+    matching_fail_cnt = 0;
+  else
+    matching_fail_cnt++;
+
+
+  if( previous_score == 0.0 && _use_csv_init == false){
     previous_score = 0.0;
     current_pose = current_gnss_pose;
     previous_pose = previous_gnss_pose;
   }
+  else if( previous_score > USING_GPS_THRESHOLD && _is_init_match_finished == true){
+    previous_score = 0.0;
+    current_pose = current_gnss_pose;
+    previous_pose = previous_gnss_pose;
+  }
+  else if(matching_fail_cnt > 50){
+    previous_score = 0.0;
+    current_pose = current_gnss_pose;
+    previous_pose = previous_gnss_pose;
+  }
+
+
 
   previous_gnss_pose = current_gnss_pose;
 
@@ -941,6 +965,10 @@ static void imu_callback(const sensor_msgs::Imu::Ptr& input)
 
 static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
 {
+  // Check inital matching is success or not
+  if(_is_init_match_finished == false && previous_score < USING_GPS_THRESHOLD && previous_score != 0.0)
+    _is_init_match_finished = true;
+
   health_checker_ptr_->CHECK_RATE("topic_rate_filtered_points_slow", 8, 5, 1, "topic filtered_points subscribe rate slow.");
   if (map_loaded == 1 && init_pos_set == 1)
   {
@@ -1578,6 +1606,7 @@ int main(int argc, char** argv)
   private_nh.getParam("use_odom", _use_odom);
   private_nh.getParam("imu_upside_down", _imu_upside_down);
   private_nh.getParam("imu_topic", _imu_topic);
+  private_nh.getParam("use_csv_init", _use_csv_init);
   private_nh.param<double>("gnss_reinit_fitness", _gnss_reinit_fitness, 500.0);
 
 

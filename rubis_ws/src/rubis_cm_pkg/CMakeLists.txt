@@ -42,6 +42,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   nmea_msgs
+  autoware_config_msgs
   tf
   gnss
 )
@@ -119,6 +120,8 @@ endif()
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+  CATKIN_DEPENDS
+    autoware_config_msgs
 )
 #  INCLUDE_DIRS include
 #  LIBRARIES rubis_cm_pkg
