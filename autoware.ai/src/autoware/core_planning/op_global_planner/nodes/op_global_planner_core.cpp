@@ -496,6 +496,10 @@ void GlobalPlanner::VisualizeAndSend(const std::vector<std::vector<PlannerHNS::W
   autoware_msgs::LaneArray lane_array;
   visualization_msgs::MarkerArray pathsToVisualize;
 
+  for(int i=0; i< generatedTotalPaths.at(0).size(); i++){
+    // std::cout << "laneId : " << generatedTotalPaths.at(0).at(i).laneId << ", start_idx : " << generatedTotalPaths.at(0).at(i).LeftLnId << ", end_idx : " << generatedTotalPaths.at(0).at(i).RightLnId << std::endl;
+  }
+
   for(unsigned int i=0; i < generatedTotalPaths.size(); i++)
   {
     autoware_msgs::Lane lane;

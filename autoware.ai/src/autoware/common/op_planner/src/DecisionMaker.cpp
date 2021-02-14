@@ -235,7 +235,7 @@ void DecisionMaker::InitBehaviorStates()
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
   // std::cout << "closest_in_d : " << m_closestIntersectionDistance << std::endl;
-  // std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
+  std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
 
@@ -512,10 +512,17 @@ void DecisionMaker::InitBehaviorStates()
   bool bChangeToLeftTraj = currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
   bool bChangeToRightTraj = currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
 
-  if((bVectorMapLaneChangeLeft || bChangeToLeftTraj) && m_targetSteerAngle > 0.1){
+  // if((bVectorMapLaneChangeLeft || bChangeToLeftTraj) && m_targetSteerAngle > 0.1){
+  //   m_remainLeftLampTime = 350;
+  // }
+  // else if((bVectorMapLaneChangeRight || bChangeToRightTraj) && m_targetSteerAngle < -0.1){
+  //   m_remainRightLampTime = 350;
+  // }
+
+  if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainRightLampTime <= 0 && m_targetSteerAngle > 0.1){
     m_remainLeftLampTime = 350;
   }
-  else if((bVectorMapLaneChangeRight || bChangeToRightTraj) && m_targetSteerAngle < -0.1){
+  else if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainLeftLampTime <= 0 && m_targetSteerAngle < -0.1){
     m_remainRightLampTime = 350;
   }
 
