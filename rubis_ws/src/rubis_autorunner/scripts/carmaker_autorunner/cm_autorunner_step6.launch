@@ -15,14 +15,14 @@
     <arg name="threadNum"             value="5" /> <!-- Number of thread for mulit-threading -->>
 
     <!-- Carmaker -->
-    <arg name="use_static_goal"       value="false" />
-    <arg name="goal_pose_x"           value="1927.49" />
-    <arg name="goal_pose_y"           value="-1008.88" />
+    <arg name="use_static_goal"       value="true" />
+    <arg name="goal_pose_x"           value="1675.0" />
+    <arg name="goal_pose_y"           value="-319.5" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
-    <arg name="goal_ori_z"            value="0.6691" />
-    <arg name="goal_ori_w"            value="0.7431" />
+    <arg name="goal_ori_z"            value="0.99" />
+    <arg name="goal_ori_w"            value="-0.01" />
 
     <arg name="LaneInfoFile"          value="sangam_full/lane_info.yaml" />
   </include>
