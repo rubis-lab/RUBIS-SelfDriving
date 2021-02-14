@@ -1,11 +1,17 @@
 #include <ros/ros.h>
+#include <tf/tf.h>
+
 #include <sstream>
 #include <fstream>
 #include <iostream>
+
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseArray.h>
 #include <angles/angles.h>
 #include <geographic_msgs/GeoPoint.h>
+#include <sensor_msgs/Imu.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
+#include <autoware_config_msgs/ConfigNDT.h>
 
 #define WGS84_A		6378137.0		// major axis
 #define WGS84_B		6356752.31424518	// minor axis
@@ -45,9 +51,11 @@ typedef struct _Point{
 
 static int max_zone = -1;
 ros::Publisher pub;
+ros::Publisher ndt_config_pub;
+ros::Subscriber sub;
 static std::vector< std::vector<double> > zone_points;
 static std::vector< std::vector<double> > zone_offset;
-
+static double roll_, pitch_, yaw_;
 
 void LLH2UTM(double Lat, double Long, double H, geometry_msgs::Pose& pose);
 void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArray& out);
@@ -57,6 +65,7 @@ void print_zone_points(std::vector< std::vector<double> >& zone_points);
 void init_zone_offset(std::string filename);
 void print_zone_offset(std::vector< std::vector<double> >& zone_points);
 void add_offset(Point& p);
+void imu_cb(const sensor_msgs::Imu& msg);
 void test();
 
 inline int PointInsidePolygon(const std::vector<Point>& polygon,const Point& p)
@@ -345,15 +354,41 @@ void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArra
     out.header.seq = seq;
     out.header.frame_id = "map";
 
+    static int ndt_pub_cnt = 0;
+    
+    if(DEBUG_FLAG) std::cout<<"================================================="<<std::endl;
     for(auto it = data.begin(); it != data.end(); ++it){
         vector<string> line = *it;
         geometry_msgs::Pose pose;
+        std::string category = line[0];
         double lat = stof(line[2]);
         double lon = stof(line[3]);
         double h = stof(line[1]);
-        std::cout<<"GPS waypoint: "<<lat<<" "<<lon<<" "<<h<<std::endl;
+        if(DEBUG_FLAG) std::cout<<"GPS waypoint: "<<category<<" "<<lat<<" "<<lon<<" "<<h<<std::endl;
         LLH2UTM(lat, lon, h, pose);
-        out.poses.push_back(pose);
+
+        if(category=="Start" && ndt_pub_cnt < 30){
+            autoware_config_msgs::ConfigNDT config_msg;
+            config_msg.init_pos_gnss = 0;
+            config_msg.x = pose.position.x;
+            config_msg.y = pose.position.y;
+            config_msg.z = pose.position.z;
+            config_msg.roll = roll_;
+            config_msg.pitch = pitch_;
+            config_msg.yaw = yaw_;
+            config_msg.use_predict_pose = 1;
+            config_msg.error_threshold = 1.0;
+            config_msg.resolution = 10.0;
+            config_msg.step_size = 0.5;
+            config_msg.trans_epsilon = 0.01;
+            config_msg.max_iterations = 100;
+
+            ndt_config_pub.publish(config_msg);
+            ndt_pub_cnt++;
+        }
+        else{
+            out.poses.push_back(pose);
+        }        
     }
     pub.publish(out);
 }
@@ -395,17 +430,46 @@ void create_pose_waypoints(std::string waypoint_filename, geometry_msgs::PoseArr
     out.header.seq = seq;
     out.header.frame_id = "map";
 
+    static int ndt_pub_cnt = 0;
+
+    if(DEBUG_FLAG) std::cout<<"================================================="<<std::endl;
     for(auto it = data.begin(); it != data.end(); ++it){
         vector<string> line = *it;
+        std::string category = line[0];
         geometry_msgs::Pose pose;
         pose.position.x = stof(line[1]);
         pose.position.y = stof(line[2]);
         pose.position.z = stof(line[3]);
+
         pose.orientation.x = 0;
         pose.orientation.y = 0;
         pose.orientation.z = 0.6691;
         pose.orientation.w = 0.7431;
-       out.poses.push_back(pose);
+
+        if(DEBUG_FLAG) std::cout<<"Pose waypoint: "<<category<<" "<<pose.position.x<<" "<<pose.position.y<<" "<<std::endl;
+        if(category == "Start" && ndt_pub_cnt < 30){
+            autoware_config_msgs::ConfigNDT config_msg;
+            config_msg.init_pos_gnss = 0;
+            config_msg.x = pose.position.x;
+            config_msg.y = pose.position.y;
+            config_msg.z = pose.position.z;
+            config_msg.roll = roll_;
+            config_msg.pitch = pitch_;
+            config_msg.yaw = yaw_;
+            config_msg.use_predict_pose = 1;
+            config_msg.error_threshold = 1.0;
+            config_msg.resolution = 10.0;
+            config_msg.step_size = 0.5;
+            config_msg.trans_epsilon = 0.01;
+            config_msg.max_iterations = 100;
+
+            ndt_config_pub.publish(config_msg);
+            ndt_pub_cnt++;
+
+        }
+        else{
+            out.poses.push_back(pose);
+        }
     }
     pub.publish(out);
 }
@@ -459,6 +523,12 @@ void test(){
 
 }
 
+void imu_cb(const sensor_msgs::Imu& msg){
+    roll_ = msg.orientation.x;
+    pitch_ = msg.orientation.y;
+    yaw_ = msg.orientation.z+2.181;
+}
+
 int main(int argc, char* argv[]){
     ros::init(argc, argv, "waypoint_generator");
     ros::NodeHandle nh;
@@ -469,6 +539,9 @@ int main(int argc, char* argv[]){
     int mode = -1;
 
     pub = nh.advertise<geometry_msgs::PoseArray>("/global_waypoints", 1);
+    ndt_config_pub = nh.advertise<autoware_config_msgs::ConfigNDT>("/config/ndt",1);
+
+    sub = nh.subscribe("/imu_out", 100, imu_cb);
 
     nh.param<std::string>("/waypoint_generator/waypoint_filename", waypoint_filename, "none");
     if(waypoint_filename == "none"){
@@ -502,7 +575,7 @@ int main(int argc, char* argv[]){
     }
     
 
-    if(DEBUG_FLAG) test();
+    // if(DEBUG_FLAG) test();
 
     while(ros::ok()){
         geometry_msgs::PoseArray out;
@@ -510,7 +583,9 @@ int main(int argc, char* argv[]){
             create_gps_waypoints(waypoint_filename, out);
         else if(mode == POSE_MODE)
             create_pose_waypoints(waypoint_filename, out);
+        ros::spinOnce();
         r.sleep();
+        
     }
 
     
