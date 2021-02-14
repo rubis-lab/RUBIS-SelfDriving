@@ -74,7 +74,7 @@
 
 #define PREDICT_POSE_THRESHOLD 0.5
 
-#define USING_GPS_THRESHOLD 100
+#define USING_GPS_THRESHOLD 9999999
 
 #define Wa 0.4
 #define Wb 0.3
@@ -101,7 +101,7 @@ enum class MethodType
 };
 static MethodType _method_type = MethodType::PCL_GENERIC;
 
-static pose initial_pose, predict_pose, predict_pose_imu, predict_pose_odom, predict_pose_imu_odom, previous_pose,
+static pose initial_pose, predict_pose, predict_pose_imu, predict_pose_odom, predict_pose_imu_odom, previous_pose, previous_gnss_pose,
     ndt_pose, current_pose, current_pose_imu, current_pose_odom, current_pose_imu_odom, localizer_pose;
 
 static double offset_x, offset_y, offset_z, offset_yaw;  // current_pos - previous_pose
@@ -553,6 +553,14 @@ static void gnss_callback(const geometry_msgs::PoseStamped::ConstPtr& input)
   current_gnss_pose.y = input->pose.position.y;
   current_gnss_pose.z = input->pose.position.z;
   gnss_m.getRPY(current_gnss_pose.roll, current_gnss_pose.pitch, current_gnss_pose.yaw);
+
+  if( (previous_score == 0.0 || previous_score > USING_GPS_THRESHOLD)){
+    previous_score = 0.0;
+    current_pose = current_gnss_pose;
+    previous_pose = previous_gnss_pose;
+  }
+
+  previous_gnss_pose = current_gnss_pose;
 
   // std::cout<<"GNSS_POSE: "<<current_gnss_pose.x<<" "<<current_gnss_pose.y<<" "<<current_gnss_pose.z<<std::endl;
   /*
@@ -1023,12 +1031,6 @@ static void points_callback(const sensor_msgs::PointCloud2::ConstPtr& input)
       predict_pose_for_ndt = predict_pose_odom;
     else
       predict_pose_for_ndt = predict_pose;
-
-
-    // if(previous_score > USING_GPS_THRESHOLD){
-    //   predict_pose_for_ndt = current_gnss_pose;
-    // }
-
 
     Eigen::Translation3f init_translation(predict_pose_for_ndt.x, predict_pose_for_ndt.y, predict_pose_for_ndt.z);
     Eigen::AngleAxisf init_rotation_x(predict_pose_for_ndt.roll, Eigen::Vector3f::UnitX());
