@@ -336,10 +336,10 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     WpPtrIdVec waypoint_candidates;
     PlannerHNS::WayPoint wp = m_WayPoints[i];
     
-    if(i==0){
-      waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
-      waypoint_id++;
-    }    
+    // if(i==0){
+    //   waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
+    //   waypoint_id++;
+    // }    
 
     WpPtrVec candidatwe_without_id;
     candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum);
@@ -836,9 +836,10 @@ void GlobalPlanner::MainLoop()
 
             int start_idx = 0;            
             int remain_num = m_WayPointSequences.size();
-            int one_data_num = remain_num/m_ThreadNum+1;
-            
+            int one_data_num = remain_num/m_ThreadNum+1;                        
             for(int thread_idx = 0; thread_idx < m_ThreadNum-1; ++thread_idx){
+              if(one_data_num <= 0 || remain_num < one_data_num)
+                break;
               thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+one_data_num));
               m_pThreadVec.push_back(thread_vec[thread_idx].native_handle());
 
@@ -846,7 +847,8 @@ void GlobalPlanner::MainLoop()
               start_idx += one_data_num;
               remain_num -= one_data_num;
             }
-            thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+remain_num));
+            if(remain_num > 0)
+              thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+remain_num));
             std::cout <<" >> Thread "<<m_ThreadNum-1<<": Seq("<<start_idx<<") ~ Seq("<<start_idx+remain_num-1<<")"<<std::endl;
 
             std::cout<<"============================================"<<std::endl;
@@ -855,7 +857,7 @@ void GlobalPlanner::MainLoop()
               (*t_it).join();
 
             while(1){
-              if(finished_thread==m_ThreadNum) break;
+              if(finished_thread==thread_vec.size()) break;
               sleep(1);
             }
 
