@@ -1,0 +1,12 @@
+source ~/CM_ws/ros/ros1_ws/devel/setup.bash
+source ~/autoware.ai/install/setup.bash
+source ~/rubis_ws/devel/setup.bash
+
+alias sa='source ~/autoware.ai/install/setup.bash'
+alias gb='gedit ~/.bashrc'
+alias sb='source ~/.bashrc'
+alias scm='source ~/CM_ws/ros/ros1_ws/devel/setup.bash'
+alias sr='source ~/rubis_ws/devel/setup.bash'
+alias bcm='cd ~/CM_ws && ./build_cmrosif.sh'
+alias key='python3 ~/CM_ws/keyboard_example.py'
+alias cm='cd ~/CM_ws && ./CMStart.sh'

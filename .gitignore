@@ -1,6 +1,6 @@
-build
-log
-install
+autoware.ai/build
+autoware.ai/log
+autoware.ai/install
 autoware.ai.repos
 *.weights
 .vscode
@@ -30,6 +30,10 @@ CM_ws/Plugins
 CM_ws/Movie/Camera.cfg*
 *.pyc
 CM_ws/SimOutput
+rubis_ws/devel
+rubis_ws/devel/*
+rubis_ws/build
+rubis_ws/build/*
 rubis_ws/src/hellocm_msgs
 rubis_ws/src/hellocm_msgs/*
 *.pcd
