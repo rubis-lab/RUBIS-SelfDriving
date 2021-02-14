@@ -350,6 +350,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           else if(msg_obj.height>=95) temp_x_distance = 20.0;      
           else if(msg_obj.height>=70) temp_x_distance = 25.0;   
           if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+          std::cout<<msg_obj.height<<std::endl;
         }
       }                    
       else if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){            
