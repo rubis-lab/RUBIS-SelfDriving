@@ -8,6 +8,6 @@
     <arg name="pretrained_model_file" value="$(env HOME)/autoware.ai/autoware_files/vision/yolov3-320.weights"/>
     <arg name="names_file" value="$(find vision_darknet_detect)/darknet/cfg/coco.names"/>
     <arg name="camera_id" value="/"/>
-    <arg name="image_src" value="/image_raw"/>
+    <arg name="image_src" value="/vds_node_localhost_2211/image_raw"/>
   </include>
 </launch>
