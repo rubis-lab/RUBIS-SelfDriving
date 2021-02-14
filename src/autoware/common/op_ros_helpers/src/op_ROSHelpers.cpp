@@ -1325,6 +1325,10 @@ void ROSHelpers::ConvertFromLocalLaneToAutowareLane(const std::vector<PlannerHNS
     wp.right_lane_id = path.at(i).RightLnId;
     wp.time_cost = path.at(i).timeCost;
 
+    if(path.at(i).laneChangeCost == 1) wp.direction = 1;
+    else if(path.at(i).laneChangeCost == 2) wp.direction = 2;
+    else wp.direction = 0;
+
     wp.gid = path.at(i).gid;
 
     //wp.cost = path.at(i).cost;
@@ -1332,7 +1336,7 @@ void ROSHelpers::ConvertFromLocalLaneToAutowareLane(const std::vector<PlannerHNS
 
     if(path.at(i).actionCost.size()>0)
     {
-      wp.direction = path.at(i).actionCost.at(0).first;
+      // wp.direction = path.at(i).actionCost.at(0).first;
       wp.cost += path.at(i).actionCost.at(0).second;
     }
 
@@ -1377,19 +1381,26 @@ void ROSHelpers::ConvertFromAutowareLaneToLocalLane(const autoware_msgs::Lane& t
     wp.timeCost = trajectory.waypoints.at(i).time_cost;
 
     if(trajectory.waypoints.at(i).direction == 0)
-      wp.bDir = PlannerHNS::FORWARD_DIR;
+      wp.laneChangeCost = 0;
     else if(trajectory.waypoints.at(i).direction == 1)
-      wp.bDir = PlannerHNS::FORWARD_LEFT_DIR;
+      wp.laneChangeCost = 1;
     else if(trajectory.waypoints.at(i).direction == 2)
-      wp.bDir = PlannerHNS::FORWARD_RIGHT_DIR;
-    else if(trajectory.waypoints.at(i).direction == 3)
-      wp.bDir = PlannerHNS::BACKWARD_DIR;
-    else if(trajectory.waypoints.at(i).direction == 4)
-      wp.bDir = PlannerHNS::BACKWARD_LEFT_DIR;
-    else if(trajectory.waypoints.at(i).direction == 5)
-      wp.bDir = PlannerHNS::BACKWARD_RIGHT_DIR;
-    else if(trajectory.waypoints.at(i).direction == 6)
-      wp.bDir = PlannerHNS::STANDSTILL_DIR;
+      wp.laneChangeCost = 2;
+
+    // if(trajectory.waypoints.at(i).direction == 0)
+    //   wp.bDir = PlannerHNS::FORWARD_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 1)
+    //   wp.bDir = PlannerHNS::FORWARD_LEFT_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 2)
+    //   wp.bDir = PlannerHNS::FORWARD_RIGHT_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 3)
+    //   wp.bDir = PlannerHNS::BACKWARD_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 4)
+    //   wp.bDir = PlannerHNS::BACKWARD_LEFT_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 5)
+    //   wp.bDir = PlannerHNS::BACKWARD_RIGHT_DIR;
+    // else if(trajectory.waypoints.at(i).direction == 6)
+    //   wp.bDir = PlannerHNS::STANDSTILL_DIR;
 
     wp.cost = trajectory.waypoints.at(i).cost;
 
