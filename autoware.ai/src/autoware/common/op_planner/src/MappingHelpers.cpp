@@ -3706,22 +3706,58 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     // Assign start_idx and end_idx
     bool find_start_idx = false;
     bool find_end_idx = false;
+
+    int bLeft = li_list[i]["left_turn"];
+    int bRight = li_list[i]["right_turn"];
+
     for(int pi = 0; pi < map.roadSegments.at(0).Lanes.at(matching_idx).points.size(); pi++){
       if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == start_wp->id){
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+
+        if(bLeft){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
+        }
+        else if(bRight){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
+        }
+        else{
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
+        }
+
         if(find_end_idx) break;
         find_start_idx = true;
       }
       else if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == end_wp->id){
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+
+        if(bLeft){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
+        }
+        else if(bRight){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
+        }
+        else{
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
+        }
+
         if(find_start_idx) break;
         find_end_idx = true;
       }
       else if(find_start_idx || find_end_idx){
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
+
+        if(bLeft){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
+        }
+        else if(bRight){
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
+        }
+        else{
+          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
+        }
       }
     }
   }
