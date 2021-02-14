@@ -262,6 +262,7 @@ void Yolo3DetectorNode::image_callback(const sensor_msgs::ImageConstPtr& in_imag
     //Prepare Output message
     autoware_msgs::DetectedObjectArray output_message;
     output_message.header = in_image_message->header;
+    output_message.header.frame_id = "velodyne";
 
     convert_rect_to_image_obj(detections, output_message);
 
