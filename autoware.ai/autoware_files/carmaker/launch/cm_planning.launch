@@ -123,7 +123,5 @@
     <arg name="sprintSpeed"                    default="10.0" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
-    <arg name="trafficLightFile"                default="sangam_full/traffic_light.yaml" />
-    <arg name="stopLineFile"                    default="sangam_full/stop_line.yaml" />
   </include>
 </launch>
