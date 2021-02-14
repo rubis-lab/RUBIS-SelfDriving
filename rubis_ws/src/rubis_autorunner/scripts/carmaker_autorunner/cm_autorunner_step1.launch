@@ -5,11 +5,11 @@
 
 	<!-- Vector Map Loader -->
 	<node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
-	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/dtlane.csv 
-	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/idx.csv 
-	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/lane.csv 
-	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/node.csv 
-	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/point.csv"/>
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/dtlane.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/idx.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/lane.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/node.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/point.csv"/>
 	
 	<!-- Point Map Loader -->
 	<node pkg="map_file" type="points_map_loader" name="points_map_loader"
