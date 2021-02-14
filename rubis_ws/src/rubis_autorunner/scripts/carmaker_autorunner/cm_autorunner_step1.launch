@@ -1,50 +1,28 @@
 <launch>
-	<!-- ROS-Bridge node for Simulator connection -->
-	<node name="websocket_bridge" pkg="rosbridge_server" type="rosbridge_websocket" output="screen" clear_params="true" required="true" />
+	<include file="$(find carmaker_vds_client)/launch/carmaker_vds_client.launch">
+    	<arg name="vds_port" value="2211" />
+  	</include>
 
 	<!-- Vector Map Loader -->
 	<node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
-	    $(env HOME)/autoware.ai/autoware_files/lgsvl/vector_map/intersection_left_turn/dtlane.csv 
-	    $(env HOME)/autoware.ai/autoware_files/lgsvl/vector_map/intersection_left_turn/idx.csv 
-	    $(env HOME)/autoware.ai/autoware_files/lgsvl/vector_map/intersection_left_turn/lane.csv 
-	    $(env HOME)/autoware.ai/autoware_files/lgsvl/vector_map/intersection_left_turn/node.csv 
-	    $(env HOME)/autoware.ai/autoware_files/lgsvl/vector_map/intersection_left_turn/point.csv"/>
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/dtlane.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/idx.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/lane.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/node.csv 
+	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v4/point.csv"/>
 	
 	<!-- Point Map Loader -->
-	<!-- <node pkg="map_file"type="points_map_loader" name="points_map_loader"
-		args="noupdate /home/nvidia/autoware_files/map/points_map/191028_rubis_track_origin.pcd"/> -->
+	<node pkg="map_file" type="points_map_loader" name="points_map_loader"
+		args="noupdate $(env HOME)/autoware.ai/autoware_files/carmaker/points_map/testbed.pcd"/>
 
 	<!-- Map TF Publisher -->	
 	<node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0.0001 0 0 0 0 0 /world /map 10" />
 	<node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10" />
 
-	<!-- Re-publishing simulator/camera_node/image/compressed topic to /image_raw as expected by Autoware -->
-	<node name="image_republisher" type="republish" pkg="image_transport" output="screen" args="compressed in:=/simulator/camera_node/image raw out:=/image_raw_origin"  />
+	<!-- static tf publisher between base_link and velodyne -->
+	<node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 100"/>
+	<node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="2.5226 0 0.5424 0 0 0 base_link imu 100"/>
+	<node pkg="tf" type="static_transform_publisher" name="velodyne_to_velodyne_top" args="0 0 0 0 0 0 velodyne velodyne_top 100"/>
 
-	<!-- LiDAR Republisher -->
-	<include file="$(find test_package)/launch/lidar_republisher.launch">
-		<arg name="node_name" value="lidar_republisher_left" />
-		<arg name="input_topic" value="/points_raw_l_all_direction" />
-		<arg name="output_topic" value="/points_raw_l_republished" />
-	</include>
-
-	<include file="$(find test_package)/launch/lidar_republisher.launch">
-		<arg name="node_name" value="lidar_republisher_right" />
-		<arg name="input_topic" value="/points_raw_r_all_direction" />
-		<arg name="output_topic" value="/points_raw_r_republished" />
-	</include>
-
-	<include file="$(find test_package)/launch/lidar_republisher.launch">
-		<arg name="node_name" value="lidar_republisher_back" />
-		<arg name="input_topic" value="/points_raw_b_all_direction" />
-		<arg name="output_topic" value="/points_raw_b_republished" />
-	</include>
-
-	<include file="$(find test_package)/launch/camera_republisher.launch"/>
-	<include file="$(find test_package)/launch/gnss_republisher.launch"/>
-
-	<!-- Traffic Signal -->
-	<include file="$(find test_package)/launch/lgsvl_traffic_signal_test.launch">
-		<arg name="stopline_data" value="$(env HOME)/autoware.ai/rubis_ws/src/test_package/cfg/testbed_stop_line.yaml"/>
-	</include>
+	<node pkg="rubis_cm_pkg" type="imu_cm_republisher.py" name="imu_cm_republisher" />
 </launch>

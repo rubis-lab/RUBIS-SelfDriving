@@ -15,29 +15,29 @@ void CarMakerAutorunner::register_subscribers(){
     sub_v_.resize(TOTAL_STEP_NUM);          // Resizing the subscriber vectors. Its size must be same with number of steps
 
     // Set the check function(subscriber)
-    sub_v_[STEP(1)] = nh_.subscribe("/nmea_sentence", 1, &CarMakerAutorunner::nmea_sentence_cb, this);
-    sub_v_[STEP(2)] = nh_.subscribe("/points_no_ground_left", 1, &CarMakerAutorunner::points_no_ground_left_cb, this);
+    sub_v_[STEP(1)] = nh_.subscribe("/imu_raw", 1, &CarMakerAutorunner::imu_raw_cb, this);
+    sub_v_[STEP(2)] = nh_.subscribe("/filtered_points", 1, &CarMakerAutorunner::filtered_points_cb, this);
     sub_v_[STEP(3)] = nh_.subscribe("/current_pose", 1, &CarMakerAutorunner::current_pose_cb, this);
     sub_v_[STEP(4)] = nh_.subscribe("/detection/image_detector/objects", 1, &CarMakerAutorunner::detection_objects_cb, this);
-    sub_v_[STEP(5)] = nh_.subscribe("/detection/object_tracker/objects_left", 1, &CarMakerAutorunner::detection_objects_from_tracker_cb, this);
+    sub_v_[STEP(5)] = nh_.subscribe("/detection/object_tracker/objects_top", 1, &CarMakerAutorunner::detection_objects_from_tracker_cb, this);
     sub_v_[STEP(6)] = nh_.subscribe("/lane_waypoints_array", 1, &CarMakerAutorunner::lane_waypoints_array_cb, this);
     sub_v_[STEP(7)] = nh_.subscribe("/local_trajectory_cost", 1, &CarMakerAutorunner::local_traj_cost_cb, this);
     sub_v_[STEP(8)] = nh_.subscribe("/behavior_state", 1, &CarMakerAutorunner::behavior_state_cb, this);
     // sub_v_[STEP(9)]
 }
 
-void CarMakerAutorunner::nmea_sentence_cb(const nmea_msgs::Sentence& msg){
-    if(!msg.sentence.empty() && !ros_autorunner_.step_info_list_[STEP(2)].is_prepared){
-        ROS_WARN("[STEP 1] Connected with LGSVL");
-        ROS_WARN("[STEP 1] GNSS Info Detected");
+void CarMakerAutorunner::imu_raw_cb(const sensor_msgs::Imu& msg){
+    if(!ros_autorunner_.step_info_list_[STEP(2)].is_prepared){
+        ROS_WARN("[STEP 1] Connected with Carmaker");
+        ROS_WARN("[STEP 1] Imu Info Detected");
         sleep(SLEEP_PERIOD);
         ros_autorunner_.step_info_list_[STEP(2)].is_prepared = true;
     }
 }
 
-void CarMakerAutorunner::points_no_ground_left_cb(const sensor_msgs::PointCloud2& msg){
+void CarMakerAutorunner::filtered_points_cb(const sensor_msgs::PointCloud2& msg){
     if(!msg.fields.empty() && !ros_autorunner_.step_info_list_[STEP(3)].is_prepared){
-        ROS_WARN("[STEP 2] ray ground filter activated");
+        ROS_WARN("[STEP 2] Voxel Grid filter activated");
     	sleep(SLEEP_PERIOD);
         ros_autorunner_.step_info_list_[STEP(3)].is_prepared = true;
     }
@@ -46,7 +46,7 @@ void CarMakerAutorunner::points_no_ground_left_cb(const sensor_msgs::PointCloud2
 void CarMakerAutorunner::current_pose_cb(const geometry_msgs::PoseStamped& msg){
     if(!ros_autorunner_.step_info_list_[STEP(4)].is_prepared){
         ROS_WARN("[STEP 3] Localization Success!");
-        ROS_WARN("[STEP 3] gnss pose Detected");
+        ROS_WARN("[STEP 3] NDT pose Detected");
         sleep(SLEEP_PERIOD);
         ros_autorunner_.step_info_list_[STEP(4)].is_prepared = true;
     }

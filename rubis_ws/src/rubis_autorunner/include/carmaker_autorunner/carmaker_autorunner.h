@@ -3,14 +3,14 @@
 
 // Include subscribe message type
 #include <sensor_msgs/PointCloud2.h>
-#include <nmea_msgs/Sentence.h>
+#include <sensor_msgs/Imu.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <autoware_msgs/DetectedObjectArray.h>
 #include <autoware_msgs/LaneArray.h>
 #include <autoware_msgs/Lane.h>
 #include <visualization_msgs/MarkerArray.h>
 
-#define TOTAL_STEP_NUM 2 // Need to change when total step number is changed
+#define TOTAL_STEP_NUM 9 // Need to change when total step number is changed
 #define SLEEP_PERIOD 1
 
 class CarMakerAutorunner : public AutorunnerBase{
@@ -20,8 +20,8 @@ private:
 private:
     virtual void register_subscribers();
 private:
-    void points_no_ground_left_cb(const sensor_msgs::PointCloud2& msg);
-    void nmea_sentence_cb(const nmea_msgs::Sentence& msg);
+    void imu_raw_cb(const sensor_msgs::Imu& msg);
+    void filtered_points_cb(const sensor_msgs::PointCloud2& msg);
     void current_pose_cb(const geometry_msgs::PoseStamped& msg);
     void detection_objects_cb(const autoware_msgs::DetectedObjectArray& msg);
     void detection_objects_from_tracker_cb(const autoware_msgs::DetectedObjectArray& msg);
