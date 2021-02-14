@@ -3,6 +3,10 @@
     	<arg name="vds_port" value="2211" />
   	</include>
 
+	<!-- Map TF Publisher -->	
+	<node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0.0001 0 0 0 0 0 /world /map 10" />
+	<node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10" />
+
 	<!-- Vector Map Loader -->
 	<node pkg="map_file" type="vector_map_loader" name="vector_map_loader" args="
 	    $(env HOME)/autoware.ai/autoware_files/carmaker/vector_map/Testbed_vectormap_v5/dtlane.csv 
@@ -14,10 +18,6 @@
 	<!-- Point Map Loader -->
 	<node pkg="map_file" type="points_map_loader" name="points_map_loader"
 		args="noupdate $(env HOME)/autoware.ai/autoware_files/carmaker/points_map/testbed.pcd"/>
-
-	<!-- Map TF Publisher -->	
-	<node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0.0001 0 0 0 0 0 /world /map 10" />
-	<node pkg="tf" type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10" />
 
 	<!-- static tf publisher between base_link and velodyne -->
 	<node pkg="tf" type="static_transform_publisher" name="base_link_to_velodyne" args="2.5 0 1.7 0 0 0 base_link velodyne 100"/>
