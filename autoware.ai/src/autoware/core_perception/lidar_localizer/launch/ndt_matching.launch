@@ -14,8 +14,9 @@
   <arg name="sync" default="false" />
   <arg name="output_log_data" default="false" />
   <arg name="gnss_reinit_fitness" default="500.0" />
+  <arg name="use_csv_init" default="false" />
 
-  <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
+  <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="screen">
     <param name="method_type" value="$(arg method_type)" />
     <param name="use_gnss" value="$(arg use_gnss)" />
     <param name="use_odom" value="$(arg use_odom)" />
@@ -29,6 +30,7 @@
     <param name="output_log_data" value="$(arg output_log_data)" />
     <param name="gnss_reinit_fitness" value="$(arg gnss_reinit_fitness)" />
     <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+    <param name="use_csv_init" value="$(arg use_csv_init)" />
   </node>
 
 </launch>
