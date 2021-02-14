@@ -503,17 +503,21 @@ void DecisionMaker::InitBehaviorStates()
     bRightLampByIntersection = false;
   }
 
+  RelativeInfo info;
+  PlanningHelpers::GetRelativeInfo(m_Path, state, info);
+
+  bool bVectorMapLaneChangeLeft = (info.perp_point.laneChangeCost == 1);
+  bool bVectorMapLaneChangeRight = (info.perp_point.laneChangeCost == 2);
+
   bool bChangeToLeftTraj = currentBehavior.currTrajectory > m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
   bool bChangeToRightTraj = currentBehavior.currTrajectory < m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory;
 
-  if(bChangeToLeftTraj && m_targetSteerAngle > 0.1){
+  if((bVectorMapLaneChangeLeft || bChangeToLeftTraj) && m_targetSteerAngle > 0.1){
     m_remainLeftLampTime = 350;
   }
-  else if(bChangeToRightTraj && m_targetSteerAngle < -0.1){
+  else if((bVectorMapLaneChangeRight || bChangeToRightTraj) && m_targetSteerAngle < -0.1){
     m_remainRightLampTime = 350;
   }
-
-  // std::cout << "s_angle : " << m_targetSteerAngle << std::endl;
 
   if(m_remainLeftLampTime > 0 || bLeftLampByIntersection){
     currentBehavior.indicator = INDICATOR_LEFT;
