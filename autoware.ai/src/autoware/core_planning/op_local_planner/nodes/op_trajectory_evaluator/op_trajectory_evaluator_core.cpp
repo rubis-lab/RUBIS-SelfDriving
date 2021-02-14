@@ -255,6 +255,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
 
   int vehicle_cnt = 0;
 
+
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
@@ -343,14 +344,18 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       int image_obj_center_y = msg_obj.y+msg_obj.height/2;
       
       if (msg_obj.label == "person"){// If person is detected only in image
+
         if(image_obj_center_x >= image_person_detection_range_left && image_obj_center_x <= image_person_detection_range_right){ 
           double temp_x_distance = 1000;
-          if(msg_obj.height>=178) temp_x_distance = 10.0;
-          else if(msg_obj.height>=112) temp_x_distance = 15.0;
-          else if(msg_obj.height>=95) temp_x_distance = 20.0;      
-          else if(msg_obj.height>=70) temp_x_distance = 25.0;   
+          if(msg_obj.height>=800) temp_x_distance = 10.0;
+          else if(msg_obj.height>=720) temp_x_distance = 15.0;
+          else if(msg_obj.height>=620) temp_x_distance = 20.0;
+          else if(msg_obj.height>=450) temp_x_distance = 25.0;
+          else if(msg_obj.height>=370) temp_x_distance = 30.0;
+          else if(msg_obj.height>=330) temp_x_distance = 35.0;      
+          else if(msg_obj.height>=260) temp_x_distance = 40.0;   
+          else if(msg_obj.height>=200) temp_x_distance = 50.0;   
           if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
-          std::cout<<msg_obj.height<<std::endl;
         }
       }                    
       else if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){            
