@@ -11,9 +11,9 @@
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
-    <arg name="waypointCandidateNum"   value="5" /> <!-- Find determined number of candidates for each waypoint -->
+    <arg name="waypointCandidateNum"   value="6" /> <!-- Find determined number of candidates for each waypoint -->
     <arg name="threadNum"             value="10" /> <!-- Number of thread for mulit-threading -->
-    
+
     <!-- Carmaker -->
     <arg name="use_static_goal"       value="false" />
     <arg name="goal_pose_x"           value="1927.49" />
