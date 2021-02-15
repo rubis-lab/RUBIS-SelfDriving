@@ -7,7 +7,7 @@
   <!-- Setup -->
 
   <!-- vel/pose connect -->
-  <arg name="topic_twist_stamped" default="/estimate_twist" />
+  <arg name="topic_twist_stamped" default="/imu_vel" />
   <arg name="topic_pose_stamped" default="/ndt_pose" />
 
   

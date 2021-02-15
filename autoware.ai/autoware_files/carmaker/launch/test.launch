@@ -1,15 +1,32 @@
 <launch>
 
-  <!-- vision_darknet_detect -->
-  <include file="$(find vision_darknet_detect)/launch/vision_yolo3_detect.launch">
-    <arg name="gpu_device_id" value="0"/>
-    <arg name="score_threshold" value="0.5"/>
-    <arg name="nms_threshold" value="0.45"/>
-    <arg name="network_definition_file" value="$(env HOME)/autoware.ai/autoware_files/vision/yolov3-320.cfg"/>
-    <arg name="pretrained_model_file" value="$(env HOME)/autoware.ai/autoware_files/vision/yolov3-320.weights"/>
-    <arg name="names_file" value="$(find vision_darknet_detect)/darknet/cfg/coco.names"/>
-    <arg name="camera_id" value="/"/>
-    <arg name="image_src" value="/vds_node_localhost_2211/image_raw"/>
+  <!-- op_global_planning -->
+  <include file="$(find op_global_planner)/launch/op_global_planner.launch">
+    <arg name="pathDensity"           value="1" /> <!-- distance between each two waypoints-->
+    <arg name="enableSmoothing"       value="false" /> <!-- 1 or 0 -->
+    <arg name="enableLaneChange"      value="false" /> <!-- 1 or 0 -->
+    <arg name="enableRvizInput"       value="true" /> <!-- 1 or 0 -->
+    <arg name="enableReplan"          value="false" /> <!-- 1 or 0 -->  
+    <arg name="velocitySource"        value="1" /> <!-- read velocities from (0- Odometry, 1- autoware current_velocities, 2- car_info) "" -->
+    <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
+    <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
+    
+    <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
+    <arg name="waypointCandidateNum"   value="10" /> <!-- Find determined number of candidates for each waypoint -->
+    <arg name="threadNum"             value="5" /> <!-- Number of thread for mulit-threading -->>
+
+    <!-- Carmaker -->
+    <arg name="use_static_goal"       value="false" />
+    <arg name="goal_pose_x"           value="1927.49" />
+    <arg name="goal_pose_y"           value="-1008.88" />
+    <arg name="goal_pose_z"           value="0.0" />
+    <arg name="goal_ori_x"            value="0.0" />
+    <arg name="goal_ori_y"            value="0.0" />
+    <arg name="goal_ori_z"            value="0.6691" />
+    <arg name="goal_ori_w"            value="0.7431" />
+
+    <arg name="LaneInfoFile"          value="sangam_full/lane_info.yaml" />
+
   </include>
-  
+
 </launch>

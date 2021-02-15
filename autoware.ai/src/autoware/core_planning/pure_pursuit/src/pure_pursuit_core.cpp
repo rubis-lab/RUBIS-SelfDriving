@@ -255,7 +255,14 @@ double PurePursuitNode::computeCommandAccel() const
         current_pose.position.y - target_pose.position.y);
   const double v0 = current_linear_velocity_;
   const double v = computeCommandVelocity();
+  
   const double a = getSgn() * (v * v - v0 * v0) / (2 * x);
+
+  std::cout<<"hypot: "<<x<<std::endl;
+  std::cout<<"current v: "<<v0<<std::endl;
+  std::cout<<"computed v: "<<v<<std::endl;
+  std::cout<<"Accel: "<<a<<std::endl;
+
   return a;
 }
 
