@@ -203,7 +203,7 @@ void BehaviorGen::UpdatePlanningParams(ros::NodeHandle& _nh)
 }
 
 void BehaviorGen::callbackDistanceToPedestrian(const std_msgs::Float64& msg){
-  double distance = msg.data;
+  double distance = msg.data;  
   if(distance < m_distanceToPedestrianThreshold){
     m_PlanningParams.pedestrianAppearence = true;
   }
@@ -755,7 +755,10 @@ void BehaviorGen::MainLoop()
 
       if(m_CurrentBehavior.state == PlannerHNS::FINISH_STATE){
         emergency_stop_msg.estop = 1;
-        pub_EmergencyStop.publish(emergency_stop_msg);
+      }
+
+      if(m_CurrentBehavior.state == PlannerHNS::PEDESTRIAN_STATE){
+        emergency_stop_msg.estop = 1;
       }
 
       pub_currentState.publish(curr_state_msg);
@@ -782,8 +785,9 @@ void BehaviorGen::MainLoop()
       turn_angle_msg.data = m_turnAngle;
       pub_turnAngle.publish(turn_angle_msg);
 
-      if(m_CurrentBehavior.maxVelocity == -1)//Emergency Stop!
+      if(m_CurrentBehavior.maxVelocity == -1){//Emergency Stop!
         emergency_stop_msg.estop = 1;
+      }
 
       pub_EmergencyStop.publish(emergency_stop_msg);
 
