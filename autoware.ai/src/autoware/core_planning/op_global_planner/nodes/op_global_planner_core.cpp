@@ -502,13 +502,13 @@ void GlobalPlanner::VisualizeAndSend(const std::vector<std::vector<PlannerHNS::W
     // printf("pid : %d, laneId : %d, lpid : %d, rpid : %d, llid : %d, rlid : %d, origin_idx : %d, toId.size : %d, fromId.size : %d\n", 
     //   w.id, w.laneId, w.LeftPointId, w.RightPointId, w.LeftLnId, w.RightLnId, w.iOriginalIndex, w.toIds.size(), w.fromIds.size());
 
-    printf("pid : %d, laneId : %d, toId : [", w.id, w.laneId);
+    // printf("pid : %d, laneId : %d, toId : [", w.id, w.laneId);
 
-    for(int p=0; p<w.pFronts.size(); p++){
-      printf("%d ", w.pFronts.at(p)->id);
-    }
+    // for(int p=0; p<w.pFronts.size(); p++){
+    //   printf("%d ", w.pFronts.at(p)->id);
+    // }
 
-    printf("]\n");
+    // printf("]\n");
 
     // std::cout << "pid : " << generatedTotalPaths.at(0).at(i).id << ", laneId : " << generatedTotalPaths.at(0).at(i).laneId << ", start_idx : " << generatedTotalPaths.at(0).at(i).LeftLnId << ", end_idx : " << generatedTotalPaths.at(0).at(i).RightLnId << std::endl;
   }
