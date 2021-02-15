@@ -992,6 +992,8 @@ Lane* MappingHelpers::GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& ma
 std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num){
   std::vector<Lane*> close_lanes;
   std::vector<WayPoint*> close_waypoints;
+
+  std::cout<<"CANDIDATE NUM: "<<candidate_num<<std::endl;
   double distance_to_nearest_lane = 15;
 
   while(distance_to_nearest_lane < 20)

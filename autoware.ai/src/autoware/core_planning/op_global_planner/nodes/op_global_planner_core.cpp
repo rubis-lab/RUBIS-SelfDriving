@@ -871,7 +871,7 @@ void GlobalPlanner::MainLoop()
             // Generate Pair Path
             GeneratePairPath();             
 
-            for(int seq_id = 0; seq_id != m_WayPointSequences.size(); ++seq_id){
+            for(int seq_id = 0; seq_id != m_WayPointSequences.size(); ++seq_id){              
               WpPtrIdVec seq;
               seq = (m_WayPointSequences[seq_id]);
               bool isPlannable = true;
@@ -896,6 +896,7 @@ void GlobalPlanner::MainLoop()
               }
               if(!isPlannable) continue;
               else{
+                std::cout<<"["<<(float)seq_id/(float)m_WayPointSequences.size()*100<<"] Seq: "<<seq_id<<" Success!("<<candidate_path.at(0).size()<<")"<<std::endl;
                 if(m_GeneratedTotalPaths.empty())
                   m_GeneratedTotalPaths = candidate_path;              
                 else if(m_GeneratedTotalPaths.at(0).size() > candidate_path.at(0).size())
@@ -907,10 +908,10 @@ void GlobalPlanner::MainLoop()
             bool bNewPlan = false;
             if( !(m_GeneratedTotalPaths.empty()) ){
               bNewPlan = true;
+              std::cout<<" >> Selected Path Size: "<<m_GeneratedTotalPaths.at(0).size()<<std::endl;
             }
-            std::cout<<m_GeneratedTotalPaths.size()<<std::endl;
 
-            std::cout<<m_GeneratedTotalPaths.at(0).size()<<std::endl;
+            
 
             /*
             int start_idx = 0;            
