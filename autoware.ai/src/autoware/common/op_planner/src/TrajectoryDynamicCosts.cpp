@@ -25,6 +25,9 @@ TrajectoryDynamicCosts::TrajectoryDynamicCosts()
   m_WeightLaneChange = 0.0;
   m_LateralSkipDistance = 5;
 
+  m_startTrajIdx = 0;
+  m_endTrajIdx = 0;
+
   bStart = false;
 
   m_CollisionTimeDiff = 6.0; //seconds
@@ -129,8 +132,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
   if(car_info.perp_point.LeftLnId == 100){
-    m_startTrajIdx = rollOuts.size() / 2;
-    m_endTrajIdx = rollOuts.size() / 2;
+    // m_startTrajIdx = rollOuts.size() / 2;
+    // m_endTrajIdx = rollOuts.size() / 2;
   }
   else{
     m_startTrajIdx = min(car_info.perp_point.LeftLnId, int(rollOuts.size())-1);

@@ -497,7 +497,20 @@ void GlobalPlanner::VisualizeAndSend(const std::vector<std::vector<PlannerHNS::W
   visualization_msgs::MarkerArray pathsToVisualize;
 
   for(int i=0; i< generatedTotalPaths.at(0).size(); i++){
-    // std::cout << "laneId : " << generatedTotalPaths.at(0).at(i).laneId << ", start_idx : " << generatedTotalPaths.at(0).at(i).LeftLnId << ", end_idx : " << generatedTotalPaths.at(0).at(i).RightLnId << std::endl;
+    PlannerHNS::WayPoint w = generatedTotalPaths.at(0).at(i);
+
+    // printf("pid : %d, laneId : %d, lpid : %d, rpid : %d, llid : %d, rlid : %d, origin_idx : %d, toId.size : %d, fromId.size : %d\n", 
+    //   w.id, w.laneId, w.LeftPointId, w.RightPointId, w.LeftLnId, w.RightLnId, w.iOriginalIndex, w.toIds.size(), w.fromIds.size());
+
+    printf("pid : %d, laneId : %d, toId : [", w.id, w.laneId);
+
+    for(int p=0; p<w.pFronts.size(); p++){
+      printf("%d ", w.pFronts.at(p)->id);
+    }
+
+    printf("]\n");
+
+    // std::cout << "pid : " << generatedTotalPaths.at(0).at(i).id << ", laneId : " << generatedTotalPaths.at(0).at(i).laneId << ", start_idx : " << generatedTotalPaths.at(0).at(i).LeftLnId << ", end_idx : " << generatedTotalPaths.at(0).at(i).RightLnId << std::endl;
   }
 
   for(unsigned int i=0; i < generatedTotalPaths.size(); i++)

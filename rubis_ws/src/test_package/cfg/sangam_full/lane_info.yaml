@@ -3,59 +3,59 @@ lane_info_list:
     id : 1
     start_idx : 4
     end_idx : 4
-    left_turn : 0
-    right_turn : 1
-    pose :
-      -
-        x : 2019.4
-        y : -1016.6
-        z : 0.0
-      -
-        x : 1936.4
-        y : -925.1
-        z : 0.0
-  -
-    id : 2
-    start_idx : 1
-    end_idx : 4
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1936.4
-        y : -925.1
-        z : 0.0
-      -
-        x : 1937.4
-        y : -881.1
-        z : 0.0
-  -
-    id : 3
-    start_idx : 4
-    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :
       -
-        x : 1933.1
-        y : -814.5
+        x : 1937.0
+        y : -895.6
         z : 0.0
       -
-        x : 1937.4
-        y : -881.1
+        x : 1933.5
+        y : -801.2
         z : 0.0
-  -
-    id : 3
-    start_idx : 4
-    end_idx : 7
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1933.1
-        y : -814.5
-        z : 0.0
-      -
-        x : 1948.8
-        y : -300.7
-        z : 0.0
+  # -
+  #   id : 2
+  #   start_idx : 1
+  #   end_idx : 4
+  #   left_turn : 0
+  #   right_turn : 0
+  #   pose :
+  #     -
+  #       x : 1936.4
+  #       y : -925.1
+  #       z : 0.0
+  #     -
+  #       x : 1937.4
+  #       y : -881.1
+  #       z : 0.0
+  # -
+  #   id : 3
+  #   start_idx : 4
+  #   end_idx : 4
+  #   left_turn : 1
+  #   right_turn : 0
+  #   pose :
+  #     -
+  #       x : 1933.1
+  #       y : -814.5
+  #       z : 0.0
+  #     -
+  #       x : 1937.4
+  #       y : -881.1
+  #       z : 0.0
+  # -
+  #   id : 3
+  #   start_idx : 4
+  #   end_idx : 7
+  #   left_turn : 0
+  #   right_turn : 0
+  #   pose :
+  #     -
+  #       x : 1933.1
+  #       y : -814.5
+  #       z : 0.0
+  #     -
+  #       x : 1948.8
+  #       y : -300.7
+  #       z : 0.0
