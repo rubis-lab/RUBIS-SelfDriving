@@ -105,8 +105,6 @@ static int finished_thread = 0;
 static std::vector< WpPtrIdVec > m_WayPointSequences;
 static std::vector< WpPtrIdVec > m_allWaypointCandidates; // dim 0: waypoint id(index), dim 1: candidates for target waypoint
 static std::vector< PairPath > m_PairPaths;
-static std::vector< std::pair<int, int> > m_PairIds;
-static std::vector< std::pair<PlannerHNS::WayPoint, PlannerHNS::WayPoint> > m_PairPoints;
 
 static std::vector< std::pair<int, std::vector<WpVec> > > m_PathCandidates; 
 static std::vector< pthread_t > m_pThreadVec;
@@ -119,12 +117,12 @@ static PlannerHNS::PlannerH m_PlannerH;
 static PlannerHNS::RoadNetwork m_Map;
 static int m_ThreadNum;
 
-void threadMain(int start_idx, int end_idx, int total_size);
+void threadMain(int start_idx, int end_idx);
 void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
 bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
 void signalHandler(int signum);
 bool getLocalPathFromPairPaths(int start_id, int goal_id, std::vector<WpVec>& local_path);
-bool GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, PlannerHNS::WayPoint& goalPoint, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
+
 
 class GlobalPlanner
 {
@@ -197,7 +195,7 @@ private:
   protected:
     bool  m_bKmlMap;
 
-    
+    bool GenerateGlobalPlan(PlannerHNS::WayPoint& startPoint, PlannerHNS::WayPoint& goalPoint, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths);
     void VisualizeAndSend(const std::vector<std::vector<PlannerHNS::WayPoint> > generatedTotalPaths);
     void VisualizeDestinations(std::vector<PlannerHNS::WayPoint>& destinations, const int& iSelected);
     void SaveSimulationData();
