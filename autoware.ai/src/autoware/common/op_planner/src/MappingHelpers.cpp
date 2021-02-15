@@ -997,6 +997,9 @@ std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& 
   while(distance_to_nearest_lane < 20)
   {
     close_lanes = GetCloseLanesFromMap(pos, map, candidate_num, distance_to_nearest_lane, bDirectionBased);
+
+    // for(int i=0; i<close_lanes.size(); i++) std::cout << "laneID in lane f : " << close_lanes.at(i)->id << std::endl;
+
     distance_to_nearest_lane += 1;
     if(!close_lanes.empty()) break;
   }
@@ -3669,37 +3672,48 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.y = li_list[i]["pose"][1]["y"];
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
 
-    // Get close waypoints from map
-    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 5);
-    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 5);
-
-    // Find matching waypoints on same line
+    std::vector<Lane*> start_lane_list = GetCloseLanesFromMap(start_pose, map, 10, 15, false);
+    std::vector<Lane*> end_lane_list = GetCloseLanesFromMap(end_pose, map, 10, 15, false);
+    
     int matched_lane_id = -1;
-    WayPoint* start_wp;
-    WayPoint* end_wp;
-    for(int si=0; si<start_wp_list.size(); si++){
-      for(int ei=0; ei<end_wp_list.size(); ei++){
-        // std::cout << start_wp_list.at(si)->laneId << " " << end_wp_list.at(ei)->laneId << std::endl;
-        if(start_wp_list.at(si)->laneId == end_wp_list.at(ei)->laneId){
-          start_wp = start_wp_list.at(si);
-          end_wp = end_wp_list.at(ei);
-          matched_lane_id = start_wp_list.at(si)->laneId;
-          break;
-        }
+    for(int si=0; si<start_lane_list.size(); si++){
+      for(int ei=0; ei<end_lane_list.size(); ei++){
+        std::cout << start_lane_list.at(si)->id << " " << end_lane_list.at(ei)->id << std::endl;
+        if(start_lane_list.at(si)->id == end_lane_list.at(ei)->id) matched_lane_id = end_lane_list.at(ei)->id;
       }
       if(matched_lane_id != -1) break;
     }
 
+    std::cout << std::endl;
+
     // If there are no matching lanes, skip
     if(matched_lane_id == -1) continue;
+    
+    WayPoint start_wp;
+    WayPoint end_wp;
 
     // Find matching lane
     int matching_idx;
+    Lane matched_lane;
     for(int li = 0; li < rs.Lanes.size(); li++)
     {
       if(rs.Lanes.at(li).id == matched_lane_id){
+        matched_lane = rs.Lanes.at(li);
         matching_idx = li;
         break;
+      }
+    }
+
+    double d1 = DBL_MAX, d2 = DBL_MAX;
+    for(int si=0; si<matched_lane.points.size(); si++){
+      if(distance2points(matched_lane.points.at(si).pos, start_pose.pos) < d1){
+        d1 = distance2points(matched_lane.points.at(si).pos, start_pose.pos);
+        start_wp = matched_lane.points.at(si);
+      }
+
+      if(distance2points(matched_lane.points.at(si).pos, end_pose.pos) < d2){
+        d2 = distance2points(matched_lane.points.at(si).pos, end_pose.pos);
+        end_wp = matched_lane.points.at(si);
       }
     }
 
@@ -3711,7 +3725,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     int bRight = li_list[i]["right_turn"];
 
     for(int pi = 0; pi < map.roadSegments.at(0).Lanes.at(matching_idx).points.size(); pi++){
-      if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == start_wp->id){
+      if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == start_wp.id){
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
 
@@ -3728,7 +3742,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
         if(find_end_idx) break;
         find_start_idx = true;
       }
-      else if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == end_wp->id){
+      else if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == end_wp.id){
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
         map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
 

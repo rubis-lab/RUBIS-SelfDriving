@@ -183,6 +183,7 @@ void TwistFilterNode::ctrlCmdCallback(const autoware_msgs::ControlCommandStamped
 
   // Smoothed value publish
   autoware_msgs::ControlCommandStamped out_msg = *msg;
+
   out_msg.cmd.linear_velocity = ctrl_out.lv;
   out_msg.cmd.steering_angle = ctrl_out.sa;
   ctrl_pub_.publish(out_msg);

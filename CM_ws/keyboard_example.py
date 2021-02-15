@@ -3,6 +3,7 @@ import threading
 import rospy
 from std_msgs.msg import Float32
 from hellocm_msgs.msg import Ext2CM_Test 
+from hellocm_msgs.msg import Ext2CM_EStop
 
 ACC_MIN = -10
 ACC_MAX = 10
@@ -89,16 +90,22 @@ if __name__ == '__main__':
 
     ext_pub = rospy.Publisher('ctrl_cmd', Ext2CM_Test, queue_size=10)
     # steer_pub = rospy.Publisher('test_steer', Float32, queue_size=10)
+    estop_pub = rospy.Publisher('emergency_stop', Ext2CM_EStop, queue_size=10)
+
 
     rospy.init_node('keyboard_test')
     rate = rospy.Rate(100)
 
     ext_msg = Ext2CM_Test()
+    estop_msg = Ext2CM_EStop()
     
     while not rospy.is_shutdown():
         ext_msg.cmd.linear_acceleration = current_acc
         ext_msg.cmd.steering_angle = current_steer
 
         ext_pub.publish(ext_msg)
+
+        estop_msg.estop= 0
+        estop_pub.publish(estop_msg)
 
         rate.sleep()
