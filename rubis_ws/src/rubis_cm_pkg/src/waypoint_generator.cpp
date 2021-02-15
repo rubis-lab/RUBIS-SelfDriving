@@ -43,6 +43,8 @@
 
 using namespace std;
 
+int mode = -1;
+
 typedef struct _Point{
     double x;
     double y;
@@ -536,7 +538,7 @@ int main(int argc, char* argv[]){
     std::string zone_points_filename;
     std::string zone_offset_filename;
     ros::Rate r(10);
-    int mode = -1;
+    
 
     pub = nh.advertise<geometry_msgs::PoseArray>("/global_waypoints", 1);
     ndt_config_pub = nh.advertise<autoware_config_msgs::ConfigNDT>("/config/ndt",1);

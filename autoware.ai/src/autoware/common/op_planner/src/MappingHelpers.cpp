@@ -3678,13 +3678,13 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     int matched_lane_id = -1;
     for(int si=0; si<start_lane_list.size(); si++){
       for(int ei=0; ei<end_lane_list.size(); ei++){
-        std::cout << start_lane_list.at(si)->id << " " << end_lane_list.at(ei)->id << std::endl;
+        // std::cout << start_lane_list.at(si)->id << " " << end_lane_list.at(ei)->id << std::endl;
         if(start_lane_list.at(si)->id == end_lane_list.at(ei)->id) matched_lane_id = end_lane_list.at(ei)->id;
       }
       if(matched_lane_id != -1) break;
     }
 
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     // If there are no matching lanes, skip
     if(matched_lane_id == -1) continue;

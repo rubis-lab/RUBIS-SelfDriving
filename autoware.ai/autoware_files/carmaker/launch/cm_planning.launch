@@ -12,7 +12,7 @@
     
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
     <arg name="waypointCandidateNum"   value="3" /> <!-- Find determined number of candidates for each waypoint -->
-    <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->>
+    <arg name="threadNum"             value="1" /> <!-- Number of thread for mulit-threading -->>
 
     <!-- Carmaker -->
     <arg name="use_static_goal"       value="false" />
