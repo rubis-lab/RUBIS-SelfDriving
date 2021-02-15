@@ -387,8 +387,8 @@ void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArra
 
             ndt_config_pub.publish(config_msg);
             ndt_pub_cnt++;
-        }
-        else{
+        }        
+        else if(category!="Start"){
             out.poses.push_back(pose);
         }        
     }
@@ -469,7 +469,7 @@ void create_pose_waypoints(std::string waypoint_filename, geometry_msgs::PoseArr
             ndt_pub_cnt++;
 
         }
-        else{
+        else if (category!="Start"){
             out.poses.push_back(pose);
         }
     }

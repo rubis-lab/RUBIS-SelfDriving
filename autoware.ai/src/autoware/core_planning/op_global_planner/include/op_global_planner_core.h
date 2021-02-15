@@ -97,7 +97,7 @@ public:
 };
 
 
-static std::mutex mtx;
+static std::mutex mtx, mtx2;
 static std::vector<std::thread> thread_vec;
 static int finished_seq_num = 0;
 static int finished_thread = 0;
@@ -111,7 +111,7 @@ static std::vector< std::pair<PlannerHNS::WayPoint, PlannerHNS::WayPoint> > m_Pa
 static std::vector< std::pair<int, std::vector<WpVec> > > m_PathCandidates; 
 static std::vector< pthread_t > m_pThreadVec;
 static std::vector<std::vector<PlannerHNS::WayPoint> > m_GeneratedTotalPaths;
-
+static bool m_ThreadWorking = false;
 
 static WayPlannerParams m_params;
 static int m_GlobalPathID;

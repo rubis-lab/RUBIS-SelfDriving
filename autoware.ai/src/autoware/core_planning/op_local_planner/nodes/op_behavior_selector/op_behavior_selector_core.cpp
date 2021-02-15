@@ -296,7 +296,6 @@ void BehaviorGen::callbackGetGlobalPlannerPath(const autoware_msgs::LaneArrayCon
         if(!pLane)
         {
           pLane = PlannerHNS::MappingHelpers::GetClosestLaneFromMapDirectionBased(m_temp_path.at(j), m_Map, 1);
-
           if(!pLane && !pPrevValid)
           {
             ROS_ERROR("Map inconsistency between Global Path and Local Planer Map, Can't identify current lane.");
@@ -476,6 +475,10 @@ void BehaviorGen::callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg)
 {
   m_BehaviorGenerator.m_speedLimitDistance = msg.distance;
 
+  double speed_kph = msg.speed_limit;
+
+  if(speed_kph <= 1) return;
+
   // make margin
   double speed_mps = (msg.speed_limit - 4) / 3.6;
 
@@ -484,7 +487,7 @@ void BehaviorGen::callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg)
   }
   // change higher speed when timing for next speed
   // Consider FP error
-  else if(m_BehaviorGenerator.m_maxSpeed < prevSpeedLimit && abs(prevSpeedLimit - speed_mps) > 0.2 && prevSpeedLimit > speed_mps){
+  else if(abs(prevSpeedLimit - speed_mps) > 0.2 && prevSpeedLimit > speed_mps){
     m_BehaviorGenerator.m_maxSpeed = min(prevSpeedLimit, m_PlanningParams.maxSpeed);
   }
 
@@ -670,7 +673,9 @@ void BehaviorGen::MainLoop()
     else if (m_MapType == PlannerHNS::MAP_FOLDER && !bMap)
     {
       bMap = true;
+      std::cout<<"#1"<<std::endl;      
       PlannerHNS::MappingHelpers::ConstructRoadNetworkFromDataFiles(m_MapPath, m_Map, true);
+      std::cout<<"#1-1"<<std::endl;
 
     }
     else if (m_MapType == PlannerHNS::MAP_AUTOWARE && !bMap)
@@ -679,12 +684,14 @@ void BehaviorGen::MainLoop()
 
       if(m_MapRaw.GetVersion()==2)
       {
+        std::cout<<"#2"<<std::endl;
         PlannerHNS::MappingHelpers::ConstructRoadNetworkFromROSMessageV2(m_MapRaw.pLanes->m_data_list, m_MapRaw.pPoints->m_data_list,
             m_MapRaw.pCenterLines->m_data_list, m_MapRaw.pIntersections->m_data_list,m_MapRaw.pAreas->m_data_list,
             m_MapRaw.pLines->m_data_list, m_MapRaw.pStopLines->m_data_list,  m_MapRaw.pSignals->m_data_list,
             m_MapRaw.pVectors->m_data_list, m_MapRaw.pCurbs->m_data_list, m_MapRaw.pRoadedges->m_data_list, m_MapRaw.pWayAreas->m_data_list,
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,
             m_MapRaw.pLanes, m_MapRaw.pPoints, m_MapRaw.pNodes, m_MapRaw.pLines, PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
+        std::cout<<"#2-1"<<std::endl;
 
         // Disabled since Carmaker do not use stop line position
         /*
@@ -724,7 +731,6 @@ void BehaviorGen::MainLoop()
             m_MapRaw.pLines->m_data_list, m_MapRaw.pStopLines->m_data_list,  m_MapRaw.pSignals->m_data_list,
             m_MapRaw.pVectors->m_data_list, m_MapRaw.pCurbs->m_data_list, m_MapRaw.pRoadedges->m_data_list, m_MapRaw.pWayAreas->m_data_list,
             m_MapRaw.pCrossWalks->m_data_list, m_MapRaw.pNodes->m_data_list, conn_data,  PlannerHNS::GPSPoint(), m_Map, true, m_PlanningParams.enableLaneChange, false);
-
         if(m_Map.roadSegments.size() > 0)
         {
           bMap = true;

@@ -993,7 +993,6 @@ std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& 
   std::vector<Lane*> close_lanes;
   std::vector<WayPoint*> close_waypoints;
 
-  std::cout<<"CANDIDATE NUM: "<<candidate_num<<std::endl;
   double distance_to_nearest_lane = 15;
 
   while(distance_to_nearest_lane < 20)
@@ -2481,6 +2480,7 @@ void MappingHelpers::ConstructRoadNetworkFromROSMessageV2(const std::vector<Util
   {
     cout << " >> Extract Lane Change Information... " << endl;
     FindAdjacentLanesV2(map);
+    std::cout<<"#SPOT"<<std::endl;
   }
 
   //Extract Signals and StopLines
@@ -3812,7 +3812,9 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
 
     if(!bMatched) continue;
 
-    // std::cout << i << "'s lane info matched : ";
+    // int id = li_list[i]["id"];
+
+    // printf("[%d/%d] %d matched : ", i, li_list.size(), id);
     // for(int ti = 0; ti < matched_wp_list.size(); ti++){
     //   std::cout << matched_wp_list.at(ti).id << " ";
     // }

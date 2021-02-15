@@ -235,7 +235,7 @@ void DecisionMaker::InitBehaviorStates()
   m_params.closestIntersectionDistance = m_closestIntersectionDistance;
 
   // std::cout << "closest_in_d : " << m_closestIntersectionDistance << std::endl;
-  std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
+  // std::cout << "isIn : " << m_params.isInsideIntersection << " left : " << m_params.turnLeft << " right : " << m_params.turnRight << std::endl;
 
   // For Traffic Signal
 
@@ -594,7 +594,7 @@ void DecisionMaker::InitBehaviorStates()
     //   desiredVelocity = 0;
     //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     // }
-    else if(beh.followDistance < 30){
+    else if(beh.followDistance < 20){
       desiredVelocity = 0;
       m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }

@@ -136,7 +136,6 @@ BehaviorStateMachine* ForwardState::GetNextState()
     return FindBehaviorState(OBSTACLE_AVOIDANCE_STATE);
 
   else if(m_pParams->enableTrafficLightBehavior
-      && pCParams->currentTrafficLightID > 0
       && pCParams->bTrafficIsRed
       && pCParams->currentTrafficLightID != pCParams->prevTrafficLightID)
     return FindBehaviorState(TRAFFIC_LIGHT_STOP_STATE);
@@ -549,7 +548,6 @@ BehaviorStateMachine* IntersectionState::GetNextState()
     return FindBehaviorState(this->m_Behavior);
   }
   else if(m_pParams->enableTrafficLightBehavior
-        && pCParams->currentTrafficLightID > 0
         && pCParams->bTrafficIsRed)
         // && pCParams->currentTrafficLightID != pCParams->prevTrafficLightID)
       return FindBehaviorState(TRAFFIC_LIGHT_STOP_STATE);

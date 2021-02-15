@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-// #define DEBUG_ENABLE
+#define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -25,8 +25,8 @@ TrajectoryDynamicCosts::TrajectoryDynamicCosts()
   m_WeightLaneChange = 0.0;
   m_LateralSkipDistance = 5;
 
-  m_startTrajIdx = 0;
-  m_endTrajIdx = 0;
+  m_startTrajIdx = 4;
+  m_endTrajIdx = 4;
 
   bStart = false;
 
@@ -128,12 +128,18 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   bestTrajectory.closest_obj_velocity = 0;
   bestTrajectory.index = -1;
 
+  bIsIntersection = (state == PlannerHNS::INTERSECTION_STATE);
+
   RelativeInfo car_info;
   PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
   if(car_info.perp_point.LeftLnId == 100){
     // m_startTrajIdx = rollOuts.size() / 2;
     // m_endTrajIdx = rollOuts.size() / 2;
+  }
+  else if(car_info.perp_point.LeftLnId > car_info.perp_point.RightLnId){
+    m_endTrajIdx = min(car_info.perp_point.LeftLnId, int(rollOuts.size())-1);
+    m_startTrajIdx = min(car_info.perp_point.RightLnId, int(rollOuts.size())-1);
   }
   else{
     m_startTrajIdx = min(car_info.perp_point.LeftLnId, int(rollOuts.size())-1);
@@ -511,7 +517,18 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
     RelativeInfo car_info;
     PlanningHelpers::GetRelativeInfo(totalPaths, currState, car_info);
 
-    for(unsigned int it = m_startTrajIdx; it<= m_endTrajIdx; it++)
+    unsigned int tmp_start_idx, tmp_end_idx;
+
+    if(bIsIntersection){
+      tmp_start_idx = max(int(rollOuts.size()/2 - 1), 0);
+      tmp_end_idx = min(int(rollOuts.size()/2 + 1), int(rollOuts.size() - 1));
+    }
+    else{
+      tmp_start_idx = m_startTrajIdx;
+      tmp_end_idx = m_endTrajIdx;
+    }
+
+    for(unsigned int it = tmp_start_idx; it<= tmp_end_idx; it++)
     {
       #ifdef DEBUG_ENABLE
       int unskipped = 0;
@@ -572,9 +589,9 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
           trajectoryCosts.at(it).bBlocked = true;
 
         // // Disabled bj hjw
-        if(lateralDist <= 1
+        if(lateralDist <= 2
             && longitudinalDist >= 0
-            && longitudinalDist < 7)
+            && longitudinalDist < 30)
           trajectoryCosts.at(it).bBlocked = true;
 
         // Original

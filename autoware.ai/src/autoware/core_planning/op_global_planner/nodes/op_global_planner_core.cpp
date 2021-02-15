@@ -220,6 +220,8 @@ void GlobalPlanner::callbackGetStartPose(const geometry_msgs::PoseWithCovariance
 
 void GlobalPlanner::callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& msg)
 {
+  if(m_WayPoints.size() > 0)
+    return;
   m_WayPoints.clear();
   if(m_isCurrentPoseReceived){
     m_WayPoints.push_back(m_CurrentPose);    
@@ -227,7 +229,7 @@ void GlobalPlanner::callbackGetGlobalWaypoints(const geometry_msgs::PoseArray& m
     for(auto it = msg.poses.begin(); it != msg.poses.end(); ++it){
       PlannerHNS::WayPoint wp = PlannerHNS::WayPoint((*it).position.x+m_OriginPos.position.x, (*it).position.y+m_OriginPos.position.y, (*it).position.z+m_OriginPos.position.z, tf::getYaw((*it).orientation));
       m_WayPoints.push_back(wp);
-    }
+    }    
   }
 
   std::cout<<"[ Waypoints ]"<<std::endl;
@@ -332,21 +334,29 @@ bool GlobalPlanner::GenerateWayPointSequences(){
   m_allWaypointCandidates.clear();
   m_WayPointSequences.clear();
   m_PairPaths.clear();
+  m_PairIds.clear();
+  m_PairPoints.clear();
 
   for(int i = 0; i < m_WayPoints.size(); i++){
     WpPtrIdVec waypoint_candidates;
     PlannerHNS::WayPoint wp = m_WayPoints[i];
     
-    // if(i==0){
-    //   waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
-    //   waypoint_id++;
-    // }    
+    if(i==0){
+      waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
+      waypoint_id++;
+    }    
 
     WpPtrVec candidatwe_without_id;
     candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum);
     
     for(auto it = candidatwe_without_id.begin(); it != candidatwe_without_id.end(); ++it){
       PlannerHNS::WayPoint* candidate = *it;
+      if(i==0){
+        double angle_diff = ((m_CurrentPose.pos.a)/M_PI*180.0) - (((*it)->pos.a)/M_PI*180.0);
+        if(fabs(angle_diff) > 150) continue;
+      }
+
+      
       waypoint_candidates.push_back(WpPtrId(waypoint_id, candidate));
       waypoint_id++;
     }
@@ -403,7 +413,10 @@ void GlobalPlanner::GeneratePairPath(){
   // Multi Threading
   int start_idx = 0;            
   int remain_num = m_PairIds.size();
-  int one_data_num = remain_num/m_ThreadNum+1;                        
+  int one_data_num = remain_num/m_ThreadNum+1;   
+
+  std::cout<<" >> Total Pair: "<<m_PairIds.size()<<std::endl;
+
   for(int thread_idx = 0; thread_idx < m_ThreadNum-1; ++thread_idx){
     if(one_data_num <= 0 || remain_num < one_data_num)
       break;
@@ -414,9 +427,12 @@ void GlobalPlanner::GeneratePairPath(){
     start_idx += one_data_num;
     remain_num -= one_data_num;
   }
-  if(remain_num > 0)
+
+  if(remain_num > 0){
     thread_vec.push_back(std::thread(threadMain, start_idx, start_idx+remain_num, m_PairIds.size()));
-  std::cout <<" >> Thread "<<m_ThreadNum-1<<": Pair("<<start_idx<<") ~ Pair("<<start_idx+remain_num-1<<")"<<std::endl;
+    std::cout <<" >> Last Thread: Pair("<<start_idx<<") ~ Pair("<<start_idx+remain_num-1<<")"<<std::endl;
+  }
+
 
   for(auto t_it = thread_vec.begin(); t_it != thread_vec.end(); ++t_it)
     (*t_it).join();
@@ -447,7 +463,9 @@ void threadMain(int start_idx, int end_idx, int total_size){
       else{
         entry = PairPath(start_point_id, goal_point_id, std::vector<WpVec>());
       }
+      mtx.lock();
       m_PairPaths.push_back(entry);
+      mtx.unlock();
   }
 
   finished_thread++;
@@ -863,9 +881,12 @@ void GlobalPlanner::MainLoop()
         {
           UtilityHNS::UtilityH::GetTickCount(m_ReplnningTimer);
 
+          if(m_ThreadWorking == true) continue; // avoid duplicated execution
+
           // Generate candidates
-          if(!isCandidatesCreated)
+          if(!isCandidatesCreated){
             isCandidatesCreated = GenerateWayPointSequences();
+          }
 
           if(DEBUG_FLAG) {
             std::cout<<"## Sequence size: "<<m_WayPointSequences.size()<<std::endl;
@@ -890,15 +911,14 @@ void GlobalPlanner::MainLoop()
             m_PathCandidates.clear();
 
             // Generate Pair Path
-            GeneratePairPath();             
-
+            GeneratePairPath();           
+            m_ThreadWorking = true;
             for(int seq_id = 0; seq_id != m_WayPointSequences.size(); ++seq_id){              
               WpPtrIdVec seq;
               seq = (m_WayPointSequences[seq_id]);
               bool isPlannable = true;
               std::vector<WpVec> candidate_path;
               candidate_path.push_back(WpVec());
-              
               for(int seq_data_idx = 0; seq_data_idx < seq.size()-1; ++seq_data_idx){
                 bool isLocalPathExist = false; 
                 int start_id = seq[seq_data_idx].first;
@@ -931,8 +951,12 @@ void GlobalPlanner::MainLoop()
               bNewPlan = true;
               std::cout<<" >> Selected Path Size: "<<m_GeneratedTotalPaths.at(0).size()<<std::endl;
             }
-
-            
+            else{
+              ROS_ERROR("Path is not plannable!");
+              exit(1);
+            }
+            thread_vec.clear();            
+            m_ThreadWorking = false;
 
             /*
             int start_idx = 0;            
@@ -1004,11 +1028,9 @@ void GlobalPlanner::MainLoop()
 }
 
  bool getLocalPathFromPairPaths(int start_id, int goal_id, std::vector<WpVec>& local_path){   
-  // std::cout<<" >> input: "<<start_id<<" -> "<<goal_id<<std::endl;
   for(auto it = m_PairPaths.begin(); it != m_PairPaths.end(); ++it){
     int path_start_id = get<0>(*it);
     int path_goal_id = get<1>(*it);
-    // std::cout<<"Path id: "<<path_start_id<<" -> "<<path_goal_id;
 
     std::vector<WpVec> local_path_data = get<2>(*it);
     

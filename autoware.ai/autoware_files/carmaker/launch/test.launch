@@ -11,20 +11,20 @@
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
-    <arg name="waypointCandidateNum"   value="5" /> <!-- Find determined number of candidates for each waypoint -->
-    <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->>
+    <arg name="waypointCandidateNum"   value="3" /> <!-- Find determined number of candidates for each waypoint -->
+    <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->
 
     <!-- Carmaker -->
-    <arg name="use_static_goal"       value="true" />
-    <arg name="goal_pose_x"           value="1933.509" />
-    <arg name="goal_pose_y"           value="-801.55" />
+    <arg name="use_static_goal"       value="false" />
+    <arg name="goal_pose_x"           value="1927.49" />
+    <arg name="goal_pose_y"           value="-1008.88" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="0.6691" />
     <arg name="goal_ori_w"            value="0.7431" />
 
-    <arg name="LaneInfoFile"          value="sangam_full/lane_info.yaml" />
+    <arg name="LaneInfoFile"          value="sangam_full/total_lane_info.yaml" />
   </include>
 
 

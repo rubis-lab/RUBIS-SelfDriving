@@ -56,7 +56,7 @@ public:
   int m_endTrajIdx;
   bool bStart;
 
-
+  bool bIsIntersection;
 
 private:
   bool ValidateRollOutsInput(const vector<vector<vector<WayPoint> > >& rollOuts);

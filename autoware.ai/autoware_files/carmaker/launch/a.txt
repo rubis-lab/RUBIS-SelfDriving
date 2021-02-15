@@ -1,0 +1,6684 @@
+... logging to /home/rubis/.ros/log/49d577c6-6fb4-11eb-bc7f-d03745cce056/roslaunch-rubis-com-22815.log
+Checking log directory for disk usage. This may take a while.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+]2;cm_planning.launch
+[1mstarted roslaunch server http://rubis-com:43777/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /op_behavior_selector/distanceToPedestrianThreshold: 30.0
+ * /op_behavior_selector/evidence_tust_number: 25
+ * /op_behavior_selector/obstacleWaitingTimeinIntersection: 3.0
+ * /op_behavior_selector/sprintSpeed: 10.0
+ * /op_behavior_selector/turnThreshold: 30.0
+ * /op_common_params/additionalBrakingDistance: 5.0
+ * /op_common_params/enableFollowing: True
+ * /op_common_params/enableLaneChange: False
+ * /op_common_params/enableStopSignBehavior: False
+ * /op_common_params/enableSwerving: True
+ * /op_common_params/enableTrafficLightBehavior: True
+ * /op_common_params/giveUpDistance: -4.0
+ * /op_common_params/horizonDistance: 120
+ * /op_common_params/horizontalSafetyDistance: 0.7
+ * /op_common_params/length: 4.2
+ * /op_common_params/mapFileName: 
+ * /op_common_params/mapSource: 0
+ * /op_common_params/maxAcceleration: 15.0
+ * /op_common_params/maxDeceleration: -15.0
+ * /op_common_params/maxDistanceToAvoid: 0.1
+ * /op_common_params/maxLocalPlanDistance: 80
+ * /op_common_params/maxSteerAngle: 0.45
+ * /op_common_params/maxVelocity: 10.0
+ * /op_common_params/minDistanceToAvoid: 20.0
+ * /op_common_params/minFollowingDistance: 30.0
+ * /op_common_params/minPursuiteDistance: 3.0
+ * /op_common_params/minVelocity: 0.1
+ * /op_common_params/pathDensity: 0.5
+ * /op_common_params/rollOutDensity: 3.1
+ * /op_common_params/rollOutsNumber: 8
+ * /op_common_params/smoothingDataWeight: 0.45
+ * /op_common_params/smoothingSmoothWeight: 0.4
+ * /op_common_params/speedProfileFactor: 1.2
+ * /op_common_params/steeringDelay: 1.2
+ * /op_common_params/stopLineDetectionDistance: 40.0
+ * /op_common_params/stopLineMargin: 20.0
+ * /op_common_params/turningRadius: 5.2
+ * /op_common_params/velocitySource: 1
+ * /op_common_params/verticalSafetyDistance: 2
+ * /op_common_params/wheelBaseLength: 2.7
+ * /op_common_params/width: 1.85
+ * /op_global_planner/enableDynamicMapUpdate: False
+ * /op_global_planner/enableLaneChange: False
+ * /op_global_planner/enableReplan: False
+ * /op_global_planner/enableRvizInput: True
+ * /op_global_planner/enableSmoothing: False
+ * /op_global_planner/enableWaypoints: True
+ * /op_global_planner/goal_ori_w: 0.7431
+ * /op_global_planner/goal_ori_x: 0.0
+ * /op_global_planner/goal_ori_y: 0.0
+ * /op_global_planner/goal_ori_z: 0.6691
+ * /op_global_planner/goal_pose_x: 1927.49
+ * /op_global_planner/goal_pose_y: -1008.88
+ * /op_global_planner/goal_pose_z: 0.0
+ * /op_global_planner/lane_info_list: [{'right_turn': 0...
+ * /op_global_planner/mapFileName: 
+ * /op_global_planner/mapSource: 0
+ * /op_global_planner/pathDensity: 1
+ * /op_global_planner/threadNum: 15
+ * /op_global_planner/use_static_goal: False
+ * /op_global_planner/velocitySource: 1
+ * /op_global_planner/waypointCandidateNum: 3
+ * /op_motion_predictor/distanceBetweenCurbs: 1.5
+ * /op_motion_predictor/enableCurbObstacles: False
+ * /op_motion_predictor/enableGenrateBranches: False
+ * /op_motion_predictor/enableParticleFilterPrediction: False
+ * /op_motion_predictor/enableStepByStepSignal: False
+ * /op_motion_predictor/input_object_list: [/detection/objec...
+ * /op_motion_predictor/max_distance_to_lane: 2.0
+ * /op_motion_predictor/object_tf_list: [velodyne,velodyne]
+ * /op_motion_predictor/prediction_distance: 35.0
+ * /op_motion_predictor/visualizationTime: 0.25
+ * /op_trajectory_evaluator/ImageHeight: 1080
+ * /op_trajectory_evaluator/ImageWidth: 1920
+ * /op_trajectory_evaluator/LateralSkipDistance: 5.0
+ * /op_trajectory_evaluator/PedestrianImageDetectionRange: 0.75
+ * /op_trajectory_evaluator/PedestrianLeftThreshold: 4.0
+ * /op_trajectory_evaluator/PedestrianRightThreshold: 4.0
+ * /op_trajectory_evaluator/SprintDecisionTime: 1e+20
+ * /op_trajectory_evaluator/VehicleImageDetectionRange: 0.3
+ * /op_trajectory_evaluator/VehicleImageWidthThreshold: 0Can't Create OpenPlanner Log Path!n
+Rolls Number: 8
+Rolls Number: 8
+OpenPlanner Motion Predictor initialized successfully 
+Received Lanes44858
+Received Points45016
+[ Waypoints ]
+1959.99 -151.748
+1960.05 -150.902
+2075.15 -60.5822
+2280.94 72.1794
+Received Nodes
+Received Lanes
+Received Points
+Received dtLanes
+ >> Extracting Lanes ... 
+Start line size: 147
+ >> Fix Waypoints errors ... 
+ >> Create Missing lane connections ... 
+ >> Link lanes and waypoints with pointers ... 
+ >> Extract Signal data ... 
+ >> Extract Stop lines data ... 
+ >> Extract curbs data ... 
+ >> Extract wayarea data ... 
+ >> Link missing branches and waypoints... 
+ >> Link StopLines and Traffic Lights ... 
+ >> Map loaded from data with 383 lanes
+ ******* Map V2 Is Loaded successfully from the Motion Predictor !! 
+[0m[ INFO] [1613411966.182425181, 1340.399999975]: Received Waypoints[0m
+Received Nodes45005
+Received dtLanes45079
+Map Version 2
+ >> Extracting Lanes ... 
+Start line size: 147
+ >> Fix Waypoints errors ... 
+ >> Create Missing lane connections ... 
+ >> Link lanes and waypoints with pointers ... 
+ >> Extract Signal data ... 
+ >> Extract Stop lines data ... 
+ >> Link missing branches and waypoints... 
+ >> Link StopLines and Traffic Lights ... 
+ >> Map loaded from data with 383 lanes
+Received Lanes
+Received Points
+Received dtLanes
+Received Nodes
+#2
+ >> Extracting Lanes ... 
+Start line size: 147
+ >> Fix Waypoints errors ... 
+ >> Create Missing lane connections ... 
+ >> Link lanes and waypoints with pointers ... 
+ >> Extract Signal data ... 
+ >> Extract Stop lines data ... 
+ >> Link missing branches and waypoints... 
+ >> Link StopLines and Traffic Lights ... 
+ >> Map loaded from data with 383 lanes
+#2-1
+ ******* Map V2 Is Loaded successfully from the Behavior Selector !! 
+ >> Waypoint 0 Candidates 
+   ID: 1 / 1959.99 -151.749
+   ID: 2 / 1959.45 -163.215
+   ID: 3 / 1959.7 -151.343
+   ID: 4 / 1959.36 -163.214
+ >> Waypoint 1 Candidates 
+   ID: 5 / 1959.45 -163.215
+   ID: 6 / 1959.7 -150.521
+   ID: 7 / 1959.36 -163.214
+ >> Waypoint 2 Candidates 
+   ID: 8 / 2081.55 -60.7694
+   ID: 9 / 2075.42 -60.321
+   ID: 10 / 2063.57 -59.485
+ >> Waypoint 3 Candidates 
+   ID: 11 / 2281.14 72.6
+   ID: 12 / 2277.76 68.2338
+   ID: 13 / 2278.08 72.606
+num of sequence: 108
+ >> Total Pair: 30
+ >> Thread 0: Pair(0) ~ Pair(2)
+ >> Thread 1: Pair(3) ~ Pair(5)
+ >> Thread 2: Pair(6) ~ Pair(8)
+ >> Thread 3: Pair(9) ~ Pair(11)
+ >> Thread 4: Pair(12) ~ Pair(14)
+ >> Thread 5: Pair(15) ~ Pair(17)
+ >> Thread 6: Pair(18) ~ Pair(20)
+ >> Thread 7: Pair(21) ~ Pair(23)
+ >> Thread 8: Pair(24) ~ Pair(26)
+ >> Thread 9: Pair(27) ~ Pair(29)
+>> Local Path 7 -> 8 / size: 265
+>> Local Path 6 -> 8 / size: 249
+>> Local Path 5 -> 8 / size: 265
+>> Local Path 7 -> 9 / size: 258
+>> Local Path 6 -> 9 / size: 242
+>> Local Path 5 -> 9 / size: 258
+>> Local Path 7 -> 10 / size: 243
+>> Local Path 6 -> 10 / size: 227
+>> Local Path 5 -> 10 / size: 243
+>> Local Path 4 -> 5 / size: 1440
+>> Local Path 4 -> 6 / size: 16
+>> Local Path 2 -> 5 / size: 1440
+>> Local Path 2 -> 6 / size: 16
+>> Local Path 4 -> 7 / size: 1440
+>> Local Path 2 -> 7 / size: 1440
+>> Local Path 3 -> 5 / size: 2675
+>> Local Path 1 -> 5 / size: 2675
+>> Local Path 3 -> 6 / size: 1410
+>> Local Path 1 -> 6 / size: 1410
+>> Local Path 3 -> 7 / size: 2675
+>> Local Path 1 -> 7 / size: 2675
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 1 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 2 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 3 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 5
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+ >>>>>>> input: 5 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 8
+Path id: 7 -> 8
+Path id: 6 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 6
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+ >>>>>>> input: 6 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 8
+Path id: 7 -> 8
+ >>>>>>> input: 8 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 9
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+ >>>>>>> input: 9 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 11
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 12
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+ >>>>>>> input: 4 -> 7
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+ >>>>>>> input: 7 -> 10
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+ >>>>>>> input: 10 -> 13
+Path id: 7 -> 8
+Path id: 6 -> 8
+Path id: 5 -> 8
+Path id: 7 -> 9
+Path id: 6 -> 9
+Path id: 5 -> 9
+Path id: 7 -> 10
+Path id: 6 -> 10
+Path id: 5 -> 10
+Path id: 8 -> 11
+Path id: 9 -> 11
+Path id: 10 -> 11
+Path id: 4 -> 5
+Path id: 4 -> 6
+Path id: 2 -> 5
+Path id: 2 -> 6
+Path id: 8 -> 12
+Path id: 9 -> 12
+Path id: 10 -> 12
+Path id: 4 -> 7
+Path id: 2 -> 7
+Path id: 8 -> 13
+Path id: 9 -> 13
+Path id: 3 -> 5
+Path id: 1 -> 5
+Path id: 3 -> 6
+Path id: 1 -> 6
+Path id: 3 -> 7
+Path id: 1 -> 7
+!!!!!!!
+[0m[ INFO] [1613411963.687425580]: [visualize_detected_objects] objects_src_topic: //predicted_objects[0m
+[0m[ INFO] [1613411963.691203493]: [visualize_detected_objects] object_speed_threshold: 0.10[0m
+[0m[ INFO] [1613411963.691667855]: [visualize_detected_objects] arrow_speed_threshold: 0.25[0m
+[0m[ INFO] [1613411963.692012659]: [visualize_detected_objects] marker_display_duration: 0.20[0m
+[0m[ INFO] [1613411963.692816281]: [visualize_detected_objects] label_color: {R:255.0, G:255.0, B:255.0, A:1.0}[0m
+[0m[ INFO] [1613411963.693265223]: [visualize_detected_objects] arrow_color: {R:0.0, G:255.0, B:0.0, A:0.8}[0m
+[0m[ INFO] [1613411963.693440425]: [visualize_detected_objects] hull_color: {R:51.0, G:204.0, B:51.0, A:0.8}[0m
+[0m[ INFO] [1613411963.693775332]: [visualize_detected_objects] box_color: {R:51.0, G:128.0, B:204.0, A:0.8}[0m
+[0m[ INFO] [1613411963.694484122]: [visualize_detected_objects] model_color: {R:190.0, G:190.0, B:190.0, A:0.5}[0m
+[0m[ INFO] [1613411963.694902933]: [visualize_detected_objects] centroid_color: {R:77.0, G:121.0, B:255.0, A:0.8}[0m
+[0m[ INFO] [1613411963.697818002]: [visualize_detected_objects] object_src_topic: //predicted_objects[0m
+[0m[ INFO] [1613411963.698816026]: [visualize_detected_objects] markers_out_topic: //objects_markers_total[0m
+.018
+ * /op_trajectory_evaluator/enablePrediction: False
+ * /op_trajectory_evaluator/horizontalSafetyDistance: 1.2
+ * /op_trajectory_evaluator/intersection_list: [{'pose': {'y': -...
+ * /op_trajectory_evaluator/verticalSafetyDistance: 0.8
+ * /op_trajectory_evaluator/weightLat: 10
+ * /op_trajectory_evaluator/weightLong: 4
+ * /op_trajectory_evaluator/weightPriority: 0
+ * /op_trajectory_evaluator/weightTransition: 3
+ * /op_trajectory_generator/enableHeadingSmoothing: False
+ * /op_trajectory_generator/samplingOutMargin: 8
+ * /op_trajectory_generator/samplingSpeedFactor: 0.25
+ * /op_trajectory_generator/samplingTipMargin: 4
+ * /predicted_objects_visualizer/label: total
+ * /predicted_objects_visualizer/objects_src_topic: /predicted_objects
+ * /rosdistro: melodic
+ * /rosversion: 1.14.10
+
+NODES
+  /
+    op_behavior_selector (op_local_planner/op_behavior_selector)
+    op_common_params (op_local_planner/op_common_params)
+    op_global_planner (op_global_planner/op_global_planner)
+    op_motion_predictor (op_local_planner/op_motion_predictor)
+    op_trajectory_evaluator (op_local_planner/op_trajectory_evaluator)
+    op_trajectory_generator (op_local_planner/op_trajectory_generator)
+    predicted_objects_visualizer (detected_objects_visualizer/visualize_detected_objects)
+
+[1mROS_MASTER_URI=http://localhost:11311[0m
+]2;cm_planning.launch http://localhost:11311
+[1mprocess[op_global_planner-1]: started with pid [22830][0m
+[1mprocess[op_common_params-2]: started with pid [22831][0m
+[1mprocess[op_trajectory_generator-3]: started with pid [22832][0m
+[1mprocess[op_motion_predictor-4]: started with pid [22833][0m
+[1mprocess[predicted_objects_visualizer-5]: started with pid [22842][0m
+[1mprocess[op_trajectory_evaluator-6]: started with pid [22845][0m
+[1mprocess[op_behavior_selector-7]: started with pid [22851][0m
+[op_behavior_selector-7] killing on exit
+[op_trajectory_evaluator-6] killing on exit
+[op_common_params-2] killing on exit
+[op_trajectory_generator-3] killing on exit
+[predicted_objects_visualizer-5] killing on exit
+[op_motion_predictor-4] killing on exit
+shutting down processing monitor...
+... shutting down processing monitor complete
+[1mdone[0m
+... logging to /home/rubis/.ros/log/49d577c6-6fb4-11eb-bc7f-d03745cce056/roslaunch-rubis-com-23864.log
+Checking log directory for disk usage. This may take a while.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+]2;cm_planning.launch
+[1mstarted roslaunch server http://rubis-com:40203/[0m
+
+SUMMARY
+========
+
+PARAMETERS
+ * /op_behavior_selector/distanceToPedestrianThreshold: 30.0
+ * /op_behavior_selector/evidence_tust_number: 25
+ * /op_behavior_selector/obstacleWaitingTimeinIntersection: 3.0
+ * /op_behavior_selector/sprintSpeed: 10.0
+ * /op_behavior_selector/turnThreshold: 30.0
+ * /op_common_params/additionalBrakingDistance: 5.0
+ * /op_common_params/enableFollowing: True
+ * /op_common_params/enableLaneChange: False
+ * /op_common_params/enableStopSignBehavior: False
+ * /op_common_params/enableSwerving: True
+ * /op_common_params/enableTrafficLightBehavior: True
+ * /op_common_params/giveUpDistance: -4.0
+ * /op_common_params/horizonDistance: 120
+ * /op_common_params/horizontalSafetyDistance: 0.7
+ * /op_common_params/length: 4.2
+ * /op_common_params/mapFileName: 
+ * /op_common_params/mapSource: 0
+ * /op_common_params/maxAcceleration: 15.0
+ * /op_common_params/maxDeceleration: -15.0
+ * /op_common_params/maxDistanceToAvoid: 0.1
+ * /op_common_params/maxLocalPlanDistance: 80
+ * /op_common_params/maxSteerAngle: 0.45
+ * /op_common_params/maxVelocity: 10.0
+ * /op_common_params/minDistanceToAvoid: 20.0
+ * /op_common_params/minFollowingDistance: 30.0
+ * /op_common_params/minPursuiteDistance: 3.0
+ * /op_common_params/minVelocity: 0.1
+ * /op_common_params/pathDensity: 0.5
+ * /op_common_params/rollOutDensity: 3.1
+ * /op_common_params/rollOutsNumber: 8
+ * /op_common_params/smoothingDataWeight: 0.45
+ * /op_common_params/smoothingSmoothWeight: 0.4
+ * /op_common_params/speedProfileFactor: 1.2
+ * /op_common_params/steeringDelay: 1.2
+ * /op_common_params/stopLineDetectionDistance: 40.0
+ * /op_common_params/stopLineMargin: 20.0
+ * /op_common_params/turningRadius: 5.2
+ * /op_common_params/velocitySource: 1
+ * /op_common_params/verticalSafetyDistance: 2
+ * /op_common_params/wheelBaseLength: 2.7
+ * /op_common_params/width: 1.85
+ * /op_global_planner/enableDynamicMapUpdate: False
+ * /op_global_planner/enableLaneChange: False
+ * /op_global_planner/enableReplan: False
+ * /op_global_planner/enableRvizInput: True
+ * /op_global_planner/enableSmoothing: False
+ * /op_global_planner/enableWaypoints: True
+ * /op_global_planner/goal_ori_w: 0.7431
+ * /op_global_planner/goal_ori_x: 0.0
+ * /op_global_planner/goal_ori_y: 0.0
+ * /op_global_planner/goal_ori_z: 0.6691
+ * /op_global_planner/goal_pose_x: 1927.49
+ * /op_global_planner/goal_pose_y: -1008.88
+ * /op_global_planner/goal_pose_z: 0.0
+ * /op_global_planner/lane_info_list: [{'right_turn': 0...
+ * /op_global_planner/mapFileName: 
+ * /op_global_planner/mapSource: 0
+ * /op_global_planner/pathDensity: 1
+ * /op_global_planner/threadNum: 15
+ * /op_global_planner/use_static_goal: False
+ * /op_global_planner/velocitySource: 1
+ * /op_global_planner/waypointCandidateNum: 3
+ * /op_motion_predictor/distanceBetweenCurbs: 1.5
+ * /op_motion_predictor/enableCurbObstacles: False
+ * /op_motion_predictor/enableGenrateBranches: False
+ * /op_motion_predictor/enableParticleFilterPrediction: False
+ * /op_motion_predictor/enableStepByStepSignal: False
+ * /op_motion_predictor/input_object_list: [/detection/objec...
+ * /op_motion_predictor/max_distance_to_lane: 2.0
+ * /op_motion_predictor/object_tf_list: [velodyne,velodyne]
+ * /op_motion_predictor/prediction_distance: 35.0
+ * /op_motion_predictor/visualizationTime: 0.25
+ * /op_trajectory_evaluator/ImageHeight: 1080
+ * /op_trajectory_evaluator/ImageWidth: 1920
+ * /op_trajectory_evaluator/LateralSkipDistance: 5.0
+ * /op_trajectory_evaluator/PedestrianImageDetectionRange: 0.75
+ * /op_trajectory_evaluator/PedestrianLeftThreshold: 4.0
+ * /op_trajectory_evaluator/PedestrianRightThreshold: 4.0
+ * /op_trajectory_evaluator/SprintDecisionTime: 1e+20
+ * /op_trajectory_evaluator/VehicleImageDetectionRange: 0.3
+ * /op_trajectory_evaluator/VehicleImageWidthThreshold: 0Can't Create OpenPlanner Log Path!n
+Rolls Number: 8
+Rolls Number: 8
+[0m[ INFO] [1613412127.974156165]: [visualize_detected_objects] objects_src_topic: //predicted_objects[0m
+[0m[ INFO] [1613412127.977265690]: [visualize_detected_objects] object_speed_threshold: 0.10[0m
+[0m[ INFO] [1613412127.977460193]: [visualize_detected_objects] arrow_speed_threshold: 0.25[0m
+[0m[ INFO] [1613412127.977879118]: [visualize_detected_objects] marker_display_duration: 0.20[0m
+[0m[ INFO] [1613412127.978416335]: [visualize_detected_objects] label_color: {R:255.0, G:255.0, B:255.0, A:1.0}[0m
+[0m[ INFO] [1613412127.978745719]: [visualize_detected_objects] arrow_color: {R:0.0, G:255.0, B:0.0, A:0.8}[0m
+[0m[ INFO] [1613412127.979052900]: [visualize_detected_objects] hull_color: {R:51.0, G:204.0, B:51.0, A:0.8}[0m
+[0m[ INFO] [1613412127.979538939]: [visualize_detected_objects] box_color: {R:51.0, G:128.0, B:204.0, A:0.8}[0m
+[0m[ INFO] [1613412127.979885828]: [visualize_detected_objects] model_color: {R:190.0, G:190.0, B:190.0, A:0.5}[0m
+[0m[ INFO] [1613412127.980484358]: [visualize_detected_objects] centroid_color: {R:77.0, G:121.0, B:255.0, A:0.8}[0m
+[0m[ INFO] [1613412127.983947571]: [visualize_detected_objects] object_src_topic: //predicted_objects[0m
+[0m[ INFO] [1613412127.984530849]: [visualize_detected_objects] markers_out_topic: //objects_markers_total[0m
+OpenPlanner Motion Predictor initialized successfully 
