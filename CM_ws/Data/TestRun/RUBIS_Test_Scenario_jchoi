@@ -2,12 +2,12 @@
 FileIdent = CarMaker-TestRun 9
 FileCreator = CarMaker 9.1.1 2020-12-18
 Description:
-Vehicle = DEEV_Based_AE_EV_SOP_Lidar_rev
+Vehicle = DEEV_Based_AE_EV_SOP_Lidar_AVcontrol_rev
 Trailer =
-Tire.0 =
-Tire.1 =
-Tire.2 =
-Tire.3 =
+Tire.0 = TIRE_PureSlip@
+Tire.1 = TIRE_PureSlip@
+Tire.2 = TIRE_PureSlip@
+Tire.3 = TIRE_PureSlip@
 Snapshot.TimeLimit =
 Snapshot.DistLimit =
 VehicleLoad.0.mass = 0
@@ -325,7 +325,7 @@ Env.StartTime.Hour = 12
 Env.StartTime.Min = 0
 Env.StartTime.Sec = 0
 Env.StartTime.DeltaUTC = 0.0
-Env.GNav.Active = 0
+Env.GNav.Active = 1
 Env.Temperature = 20.0
 Env.AirDensity = 1.205
 Env.AirPressure = 1.013
