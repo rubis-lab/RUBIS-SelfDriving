@@ -3663,7 +3663,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     }
   }
 
-  for(int i=0; i<li_list.size(); i++){
+  for(unsigned int i=0; i<li_list.size(); i++){
     WayPoint start_pose;
     start_pose.pos.x = li_list[i]["pose"][0]["x"];
     start_pose.pos.y = li_list[i]["pose"][0]["y"];
@@ -3674,50 +3674,149 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.y = li_list[i]["pose"][1]["y"];
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
 
-    std::vector<Lane*> start_lane_list = GetCloseLanesFromMap(start_pose, map, 10, 15, false);
-    std::vector<Lane*> end_lane_list = GetCloseLanesFromMap(end_pose, map, 10, 15, false);
-    
-    int matched_lane_id = -1;
-    for(int si=0; si<start_lane_list.size(); si++){
-      for(int ei=0; ei<end_lane_list.size(); ei++){
-        // std::cout << start_lane_list.at(si)->id << " " << end_lane_list.at(ei)->id << std::endl;
-        if(start_lane_list.at(si)->id == end_lane_list.at(ei)->id) matched_lane_id = end_lane_list.at(ei)->id;
+    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3);
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3);
+
+    int matched_lane;
+    std::vector<WayPoint> matched_wp_list;
+    std::vector<WayPoint> wp_queue;
+
+    WayPoint end_wp, curr_wp;
+    double min_dis;
+    double start_dis;
+    bool bMatched = false;
+
+    for(unsigned int si = 0; si < start_wp_list.size(); si++){
+      for(unsigned int ei = 0; ei < end_wp_list.size(); ei++){
+        ////// find in forward direction
+        matched_wp_list.clear();
+        wp_queue.clear();
+        min_dis = DBL_MAX / 10;
+        
+        curr_wp = *(start_wp_list.at(si));
+        end_wp = *(end_wp_list.at(ei));
+
+        min_dis = start_dis = distance2points(curr_wp.pos, end_wp.pos);
+
+        matched_wp_list.push_back(curr_wp);
+        for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
+          wp_queue.push_back(*curr_wp.pFronts.at(ti));
+        }
+
+        while(wp_queue.size() > 0){
+          curr_wp = wp_queue.back();
+          wp_queue.pop_back();
+
+          // remove waypoints for fail case
+          bool bCanContinue = false;
+          while(!bCanContinue && matched_wp_list.size() > 0){
+            WayPoint last_wp = matched_wp_list.back();
+            for(int ti = 0; ti < last_wp.toIds.size(); ti++){
+              if(last_wp.toIds.at(ti) == curr_wp.id){
+                min_dis = distance2points(last_wp.pos, end_wp.pos);
+                bCanContinue = true;
+                break;
+              }
+            }
+
+            if(!bCanContinue){
+              matched_wp_list.pop_back();
+            }
+          }
+
+          if(matched_wp_list.size() == 0) break;
+
+          double curr_dis = distance2points(curr_wp.pos, end_wp.pos);
+
+          // Match! :)
+          if(curr_wp.id == end_wp.id){
+            matched_wp_list.push_back(curr_wp);
+            bMatched = true;
+            break;
+          }
+          // keep tracking case
+          else if(curr_dis < min_dis + 10 && curr_dis < start_dis + 10){
+            matched_wp_list.push_back(curr_wp);
+            for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
+              wp_queue.push_back(*curr_wp.pFronts.at(ti));
+            }
+          }
+
+          if(curr_dis < min_dis) min_dis = curr_dis;
+        }
+
+        if(bMatched) break;
+
+        ////// find in backward direction
+        matched_wp_list.clear();
+        wp_queue.clear();
+        min_dis = DBL_MAX / 10;
+        
+        end_wp = *(start_wp_list.at(si));
+        curr_wp = *(end_wp_list.at(ei));
+
+        min_dis = start_dis = distance2points(curr_wp.pos, end_wp.pos);
+
+        matched_wp_list.push_back(curr_wp);
+        for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
+          wp_queue.push_back(*curr_wp.pFronts.at(ti));
+        }
+
+        while(wp_queue.size() > 0){
+          curr_wp = wp_queue.back();
+          wp_queue.pop_back();
+
+          // remove waypoints for fail case
+          bool bCanContinue = false;
+          while(!bCanContinue && matched_wp_list.size() > 0){
+            WayPoint last_wp = matched_wp_list.back();
+            for(int ti = 0; ti < last_wp.toIds.size(); ti++){
+              if(last_wp.toIds.at(ti) == curr_wp.id){
+                min_dis = distance2points(last_wp.pos, end_wp.pos);
+                bCanContinue = true;
+                break;
+              }
+            }
+
+            if(!bCanContinue){
+              matched_wp_list.pop_back();
+            }
+          }
+
+          if(matched_wp_list.size() == 0) break;
+
+          double curr_dis = distance2points(curr_wp.pos, end_wp.pos);
+
+          // Match! :)
+          if(curr_wp.id == end_wp.id){
+            matched_wp_list.push_back(curr_wp);
+            bMatched = true;
+            break;
+          }
+          // keep tracking case
+          else if(curr_dis < min_dis + 10 && curr_dis < start_dis + 10){
+            matched_wp_list.push_back(curr_wp);
+            for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
+              wp_queue.push_back(*curr_wp.pFronts.at(ti));
+            }
+          }
+
+          if(curr_dis < min_dis) min_dis = curr_dis;
+        }
+
+        if(bMatched) break;
+        
       }
-      if(matched_lane_id != -1) break;
+      if(bMatched) break;
     }
 
+    if(!bMatched) continue;
+
+    // std::cout << i << "'s lane info matched : ";
+    // for(int ti = 0; ti < matched_wp_list.size(); ti++){
+    //   std::cout << matched_wp_list.at(ti).id << " ";
+    // }
     // std::cout << std::endl;
-
-    // If there are no matching lanes, skip
-    if(matched_lane_id == -1) continue;
-    
-    WayPoint start_wp;
-    WayPoint end_wp;
-
-    // Find matching lane
-    int matching_idx;
-    Lane matched_lane;
-    for(int li = 0; li < rs.Lanes.size(); li++)
-    {
-      if(rs.Lanes.at(li).id == matched_lane_id){
-        matched_lane = rs.Lanes.at(li);
-        matching_idx = li;
-        break;
-      }
-    }
-
-    double d1 = DBL_MAX, d2 = DBL_MAX;
-    for(int si=0; si<matched_lane.points.size(); si++){
-      if(distance2points(matched_lane.points.at(si).pos, start_pose.pos) < d1){
-        d1 = distance2points(matched_lane.points.at(si).pos, start_pose.pos);
-        start_wp = matched_lane.points.at(si);
-      }
-
-      if(distance2points(matched_lane.points.at(si).pos, end_pose.pos) < d2){
-        d2 = distance2points(matched_lane.points.at(si).pos, end_pose.pos);
-        end_wp = matched_lane.points.at(si);
-      }
-    }
 
     // Assign start_idx and end_idx
     bool find_start_idx = false;
@@ -3726,55 +3825,14 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     int bLeft = li_list[i]["left_turn"];
     int bRight = li_list[i]["right_turn"];
 
-    for(int pi = 0; pi < map.roadSegments.at(0).Lanes.at(matching_idx).points.size(); pi++){
-      if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == start_wp.id){
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
-
-        if(bLeft){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
-        }
-        else if(bRight){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
-        }
-        else{
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
-        }
-
-        if(find_end_idx) break;
-        find_start_idx = true;
-      }
-      else if(map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).id == end_wp.id){
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
-
-        if(bLeft){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
-        }
-        else if(bRight){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
-        }
-        else{
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
-        }
-
-        if(find_start_idx) break;
-        find_end_idx = true;
-      }
-      else if(find_start_idx || find_end_idx){
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).LeftLnId = li_list[i]["start_idx"];
-        map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).RightLnId = li_list[i]["end_idx"];
-
-        if(bLeft){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 1;
-        }
-        else if(bRight){
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 2;
-        }
-        else{
-          map.roadSegments.at(0).Lanes.at(matching_idx).points.at(pi).laneChangeCost = 0;
-        }
-      }
+    for(unsigned int pi = 0; pi < matched_wp_list.size(); pi++){
+      WayPoint* wp = FindWaypoint(matched_wp_list.at(pi).id, map);
+      wp->LeftLnId = li_list[i]["start_idx"];
+      wp->RightLnId = li_list[i]["end_idx"];
+      
+      if(bLeft) wp->laneChangeCost = 1;
+      else if(bRight) wp->laneChangeCost = 2;
+      else wp->laneChangeCost = 0;
     }
   }
 }

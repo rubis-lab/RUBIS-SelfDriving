@@ -15,9 +15,9 @@
     <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->>
 
     <!-- Carmaker -->
-    <arg name="use_static_goal"       value="false" />
-    <arg name="goal_pose_x"           value="1927.49" />
-    <arg name="goal_pose_y"           value="-1008.88" />
+    <arg name="use_static_goal"       value="true" />
+    <arg name="goal_pose_x"           value="1933.509" />
+    <arg name="goal_pose_y"           value="-801.55" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
