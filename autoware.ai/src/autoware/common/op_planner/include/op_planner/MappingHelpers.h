@@ -21,6 +21,7 @@ typedef std::vector<PlannerHNS::WayPoint> WpVec;
 typedef std::vector<PlannerHNS::WayPoint*> WpPtrVec;
 typedef std::vector<WpId> WpIdVec;
 typedef std::vector<WpPtrId> WpPtrIdVec;
+typedef std::tuple<int, int, std::vector<WpVec> > PairPath;
 
 #define DEBUG_FLAG 0
 
