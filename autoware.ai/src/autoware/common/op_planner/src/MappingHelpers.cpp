@@ -993,7 +993,7 @@ std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& 
   std::vector<Lane*> close_lanes;
   std::vector<WayPoint*> close_waypoints;
 
-  double distance_to_nearest_lane = 15;
+  double distance_to_nearest_lane = 4;
 
   while(distance_to_nearest_lane < 20)
   {

@@ -176,6 +176,8 @@ VisualizeDetectedObjects::ObjectsToCentroids(const autoware_msgs::DetectedObject
 
   for (auto const &object: in_objects.objects)
   {
+    if(object.pose.position.z < -3.0 || object.pose.position.z > 0.5 ) continue;
+    
     if (IsObjectValid(object))
     {
       visualization_msgs::Marker centroid_marker;
@@ -319,6 +321,7 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_msgs::DetectedObjectArra
 
   for (auto const &object: in_objects.objects)
   {
+    if(object.pose.position.z < -3.0 || object.pose.position.z > 0.5 ) continue;
     // if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty() && object.label == "unknown")
     if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty())
     {

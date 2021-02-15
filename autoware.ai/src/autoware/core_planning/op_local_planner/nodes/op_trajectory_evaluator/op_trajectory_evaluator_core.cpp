@@ -261,7 +261,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   {
     if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
       continue;
-    if(msg->objects.at(i).pose.position.z < -2 || msg->objects.at(i).pose.position.z > 0)
+    if(msg->objects.at(i).pose.position.z < -3.0 || msg->objects.at(i).pose.position.z > 0.5)
       continue;
 
     autoware_msgs::DetectedObject msg_obj = msg->objects.at(i); 
