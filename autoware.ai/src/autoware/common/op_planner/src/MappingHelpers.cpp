@@ -3673,54 +3673,43 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
 
     std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3);
-    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3);
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3);
 
     int matched_lane;
-    std::vector<WayPoint*> matched_wp_list;
-    std::vector<WayPoint*> wp_queue;
+    std::vector<WayPoint> matched_wp_list;
+    std::vector<WayPoint> wp_queue;
 
-    WayPoint end_wp, prev_wp, curr_wp;
-    double prev_dis;
+    WayPoint end_wp, curr_wp;
+    double min_dis;
     bool bMatched = false;
 
     for(int si = 0; si < start_wp_list.size(); si++){
       for(int ei = 0; ei < end_wp_list.size(); ei++){
         matched_wp_list.clear();
         wp_queue.clear();
-        prev_dis = DBL_MAX;
+        min_dis = DBL_MAX / 10;
         
         curr_wp = *(start_wp_list.at(si));
         end_wp = *(end_wp_list.at(ei));
 
         ////// find in toId direction
 
-        matched_wp_list.push_back(&curr_wp);
+        matched_wp_list.push_back(curr_wp);
         for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
-          wp_queue.push_back(curr_wp.pFronts.at(ti));
+          wp_queue.push_back(*curr_wp.pFronts.at(ti));
         }
 
         while(wp_queue.size() > 0){
-          for(int ti = 0; ti < matched_wp_list.size(); ti++){
-            std::cout << "matched : " << matched_wp_list.at(ti)->id << " ";
-          }
-          std::cout << std::endl;
-
-          for(int ti = 0; ti < wp_queue.size(); ti++){
-            std::cout << "wp_Q : " << wp_queue.at(ti)->id << " ";
-          }
-          std::cout << std::endl;
-
-          // prev_wp = curr_wp;
-          curr_wp = *(wp_queue.back());
+          curr_wp = wp_queue.back();
           wp_queue.pop_back();
 
           // remove waypoints for fail case
           bool bCanContinue = false;
           while(!bCanContinue){
-            WayPoint last_wp = *(matched_wp_list.back());
+            WayPoint last_wp = matched_wp_list.back();
             for(int ti = 0; ti < last_wp.toIds.size(); ti++){
-              // printf("pid : %d, toId : %d\n", last_wp.id, last_wp.toIds.at(ti));
               if(last_wp.toIds.at(ti) == curr_wp.id){
+                min_dis = distance2points(last_wp.pos, end_wp.pos);
                 bCanContinue = true;
                 break;
               }
@@ -3731,25 +3720,23 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
             }
           }
 
-          prev_wp = *(matched_wp_list.back());
-
-          // printf("curr : %d, prev : %d\n", curr_wp.id, prev_wp.id);
-
           double curr_dis = distance2points(curr_wp.pos, end_wp.pos);
 
           // Match! :)
           if(curr_wp.id == end_wp.id){
-            matched_wp_list.push_back(&curr_wp);
+            matched_wp_list.push_back(curr_wp);
             bMatched = true;
             break;
           }
           // keep tracking case
-          else if(curr_dis <= prev_dis){
-            matched_wp_list.push_back(&curr_wp);
+          else if(curr_dis < min_dis + 10){
+            matched_wp_list.push_back(curr_wp);
             for(int ti = 0; ti < curr_wp.pFronts.size(); ti++){
-              wp_queue.push_back(curr_wp.pFronts.at(ti));
+              wp_queue.push_back(*curr_wp.pFronts.at(ti));
             }
           }
+
+          if(curr_dis < min_dis) min_dis = curr_dis;
         }
 
         if(bMatched) break;
@@ -3759,6 +3746,12 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
 
     if(!bMatched) continue;
 
+    std::cout << "matched : ";
+    for(int ti = 0; ti < matched_wp_list.size(); ti++){
+      std::cout << matched_wp_list.at(ti).id << " ";
+    }
+    std::cout << std::endl;
+
     // Assign start_idx and end_idx
     bool find_start_idx = false;
     bool find_end_idx = false;
@@ -3766,10 +3759,10 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     int bLeft = li_list[i]["left_turn"];
     int bRight = li_list[i]["right_turn"];
 
-    for(int pi = 0; pi < matched_wp_list.size(); pi++){
-      matched_wp_list.at(pi)->LeftLnId = li_list[i]["start_idx"];
-      matched_wp_list.at(pi)->RightLnId = li_list[i]["end_idx"];
-    }
+    // for(int pi = 0; pi < matched_wp_list.size(); pi++){
+    //   matched_wp_list.at(pi)->LeftLnId = li_list[i]["start_idx"];
+    //   matched_wp_list.at(pi)->RightLnId = li_list[i]["end_idx"];
+    // }
 
   }
 }
