@@ -58,6 +58,8 @@ public:
 
   bool bIsIntersection;
 
+  double m_turnAngle;
+
 private:
   bool ValidateRollOutsInput(const vector<vector<vector<WayPoint> > >& rollOuts);
   vector<TrajectoryCost> CalculatePriorityAndLaneChangeCosts(const vector<vector<WayPoint> >& laneRollOuts, const int& lane_index, const PlanningParams& params);

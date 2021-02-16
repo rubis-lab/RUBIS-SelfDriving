@@ -594,7 +594,7 @@ void DecisionMaker::InitBehaviorStates()
     //   desiredVelocity = 0;
     //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     // }
-    else if(beh.followDistance < 20){
+    else if(beh.followDistance < 35 && beh.followDistance > 0){
       desiredVelocity = 0;
       m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }

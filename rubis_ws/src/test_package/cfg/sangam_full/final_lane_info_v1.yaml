@@ -3745,7 +3745,7 @@ lane_info_list:
   -
     id : 247
     start_idx : 4
-    end_idx : 5
+    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :
@@ -3754,23 +3754,23 @@ lane_info_list:
         y : -751.3
         z : 0.0
       -
-        x : 1932.1
-        y : -723.8
+        x : 1931.1
+        y : -678.8
         z : 0.0
   -
     id : 248
     start_idx : 4
-    end_idx : 5
+    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :
       -
-        x : 1932.1
-        y : -723.8
+        x : 1931.1
+        y : -678.8
         z : 0.0
       -
-        x : 1934.0
-        y : -695.7
+        x : 1863.47
+        y : -653.74
         z : 0.0
   -
     id : 249

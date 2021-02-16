@@ -119,6 +119,7 @@ protected:
 
   // HJW added
   ros::Subscriber sub_current_state;
+  ros::Subscriber sub_turn_angle;
 
   // TF
   tf::TransformListener m_vtob_listener;
@@ -137,6 +138,7 @@ protected:
   void callbackGetPredictedObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg);
   void callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr & msg);
   void callbackGetCurrentState(const std_msgs::Int32 & msg);
+  void callbackGetTurnAngle(const std_msgs::Float64 & msg);
 
   //Helper Functions
   void UpdatePlanningParams(ros::NodeHandle& _nh);

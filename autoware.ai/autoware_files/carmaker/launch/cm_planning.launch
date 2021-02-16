@@ -10,19 +10,19 @@
     <arg name="mapSource"             value="0" /> <!-- Autoware=0, Vector Map Folder=1, kml file=2 -->
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     
-    <arg name="enableWaypoints"       value="false" /> <!-- In case of using multiple waypoints -->    
+    <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
     <arg name="waypointCandidateNum"   value="5" /> <!-- Find determined number of candidates for each waypoint -->
     <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->
 
     <!-- Carmaker -->
-    <arg name="use_static_goal"       value="false" />
+    <!-- <arg name="use_static_goal"       value="false" />
     <arg name="goal_pose_x"           value="1927.49" />
     <arg name="goal_pose_y"           value="-1008.88" />
     <arg name="goal_pose_z"           value="0.0" />
     <arg name="goal_ori_x"            value="0.0" />
     <arg name="goal_ori_y"            value="0.0" />
     <arg name="goal_ori_z"            value="0.6691" />
-    <arg name="goal_ori_w"            value="0.7431" />
+    <arg name="goal_ori_w"            value="0.7431" /> -->
 
     <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v1.yaml" />
   </include>
@@ -80,8 +80,8 @@
 
   <!-- op_motion_predictor -->
   <include file="$(find op_local_planner)/launch/op_motion_predictor.launch">
-    <arg name="input_object_list"               default="[/detection/object_tracker/objects_top,/detection/image_detector/objects]" />
-    <arg name="object_tf_list"                  default="[velodyne,velodyne]" />
+    <arg name="input_object_list"               default="[/detection/object_tracker/objects_top]" />
+    <arg name="object_tf_list"                  default="[velodyne]" />
     <arg name="enableCurbObstacles"             default="false" />    <!-- Detect curbs from map-->
     <arg name="enableGenrateBranches"           default="false"/>     <!-- Enable Branching -->
     <arg name="max_distance_to_lane"            default="2.0"/>       <!-- Distance to closest lane-->
@@ -121,7 +121,7 @@
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="40.0" />
     <arg name="sprintSpeed"                    default="10.0" />
-    <arg name="obstacleWaitingTimeinIntersection"  default="3.0" />
+    <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
     <arg name="turnThreshold"                   default="30.0" />
   </include>
 </launch>

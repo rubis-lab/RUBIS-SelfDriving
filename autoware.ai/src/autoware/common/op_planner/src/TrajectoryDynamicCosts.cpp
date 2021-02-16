@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-#define DEBUG_ENABLE
+// #define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -262,25 +262,17 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
 
   ////// Change Lane when turn left / right
   // Calculate Turn Angle
-  double turn_angle = 0;
+  // double turn_angle = 0;
 
-  if(m_PrevSelectedIndex != -1)
-    turn_angle = CalculateTurnAngle(rollOuts.at(m_PrevSelectedIndex), currState);
+  // if(m_PrevSelectedIndex != -1)
+  //   turn_angle = CalculateTurnAngle(rollOuts.at(m_PrevSelectedIndex), currState);
 
-  // std::cout << "b_all_free : " << bAllFree << " , t_a : " << turn_angle << std::endl;
+  std::cout << "t_a : " << m_turnAngle << std::endl;
 
   // Keep state when Intersection state
   if(state == PlannerHNS::INTERSECTION_STATE){
     smallestIndex = m_PrevSelectedIndex;
   }
-  // For Left Turn
-  // else if(bAllFree && turn_angle > 45){
-  //   smallestIndex = m_startTrajIdx;
-  // }
-  // // For Right Turn
-  // else if(bAllFree && turn_angle < -45){
-  //   smallestIndex = m_endTrajIdx;
-  // }
 
   // blocking test
   // bool bBlockByNearLane = true;
@@ -519,16 +511,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
     unsigned int tmp_start_idx, tmp_end_idx;
 
-    if(bIsIntersection){
-      tmp_start_idx = max(int(rollOuts.size()/2 - 1), 0);
-      tmp_end_idx = min(int(rollOuts.size()/2 + 1), int(rollOuts.size() - 1));
-    }
-    else{
-      tmp_start_idx = m_startTrajIdx;
-      tmp_end_idx = m_endTrajIdx;
-    }
-
-    for(unsigned int it = tmp_start_idx; it<= tmp_end_idx; it++)
+    for(unsigned int it = m_startTrajIdx; it<= m_endTrajIdx; it++)
     {
       #ifdef DEBUG_ENABLE
       int unskipped = 0;
@@ -563,17 +546,16 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         double lateralDist = fabs(obj_info.perp_distance - distance_from_center);
 
-        if(longitudinalDist < -5 ||
-          longitudinalDist > 30 ||
-          // obj_info.perp_distance < (((rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
-          // obj_info.perp_distance > ((rollOuts.size() - 1) / 2 + 1) * params.rollOutDensity + critical_lateral_distance / 2)
+        bool outsideOfNarrowArea = (longitudinalDist < -5 || longitudinalDist > 30 ||
           obj_info.perp_distance < (((rollOuts.size() - 1) / 2 - m_startTrajIdx) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
-          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2)
-          // obj_info.perp_distance < (((rollOuts.size() - 1) / 2) * params.rollOutDensity) * (-1) ||
-          // obj_info.perp_distance > ((rollOuts.size() - 1) / 2 + 1) * params.rollOutDensity)
-        {
-          continue;
-        }
+          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2);
+        bool outsideOfWideLeftArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 0 || obj_info.perp_distance < -10);
+        bool outsideOfWideRightArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 10 || obj_info.perp_distance < 0);
+
+        if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
+        if(m_turnAngle > 45 && outsideOfWideLeftArea) continue;
+
+        if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) continue;
 
         #ifdef DEBUG_ENABLE
         unskipped++;

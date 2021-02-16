@@ -176,7 +176,7 @@ VisualizeDetectedObjects::ObjectsToCentroids(const autoware_msgs::DetectedObject
 
   for (auto const &object: in_objects.objects)
   {
-    if(object.pose.position.z < -3.0 || object.pose.position.z > 0.5 ) continue;
+    if(object.pose.position.z < -3.0 || object.pose.position.z > 0.8 ) continue;
     
     if (IsObjectValid(object))
     {
@@ -321,7 +321,7 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_msgs::DetectedObjectArra
 
   for (auto const &object: in_objects.objects)
   {
-    if(object.pose.position.z < -3.0 || object.pose.position.z > 0.5 ) continue;
+    if(object.pose.position.z < -2.7 || object.pose.position.z > 0.5 ) continue;
     // if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty() && object.label == "unknown")
     if (IsObjectValid(object) && !object.convex_hull.polygon.points.empty())
     {
@@ -446,6 +446,8 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_msgs::DetectedObjectArr
   visualization_msgs::MarkerArray label_markers;
   for (auto const &object: in_objects.objects)
   {
+    if(object.pose.position.z < -2.7 || object.pose.position.z > 0.5 ) continue;
+
     if (IsObjectValid(object))
     {
       visualization_msgs::Marker label_marker;
@@ -495,10 +497,11 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_msgs::DetectedObjectArr
         // convert m/s to km/h
         std::stringstream kmh_velocity_stream;
         kmh_velocity_stream << std::fixed << std::setprecision(1) << (velocity * 3.6);
-        std::string text = "\n<" + std::to_string(object.id) + "> " + kmh_velocity_stream.str() + " km/h";
-        label_marker.text += text;
+        // std::string text = "\n<" + std::to_string(object.id) + "> " + kmh_velocity_stream.str() + " km/h";
+        // std::string text = "\n<" + std::to_string(object.id) + "> " + kmh_velocity_stream.str() + " km/h";
+        // label_marker.text += text;
       }
-
+      label_marker.text = std::to_string(object.id);
       label_marker.pose.position.x = object.pose.position.x;
       label_marker.pose.position.y = object.pose.position.y;
       label_marker.pose.position.z = label_height_;

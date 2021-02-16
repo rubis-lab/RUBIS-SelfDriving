@@ -51,6 +51,7 @@ TrajectoryEval::TrajectoryEval()
 
   sub_current_pose = nh.subscribe("/current_pose", 10, &TrajectoryEval::callbackGetCurrentPose, this);
   sub_current_state = nh.subscribe("/current_state", 10, &TrajectoryEval::callbackGetCurrentState, this);
+  sub_turn_angle = nh.subscribe("/turn_angle", 10, &TrajectoryEval::callbackGetTurnAngle, this);
 
   int bVelSource = 1;
   _nh.getParam("/op_trajectory_evaluator/velocitySource", bVelSource);
@@ -255,14 +256,16 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
 
   int vehicle_cnt = 0;
 
+  // std::cout << "bef : " << msg->objects.size() << std::endl;
 
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
-    if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
+    // if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
+    //   continue;
+    if(msg->objects.at(i).pose.position.z < -3.4 || msg->objects.at(i).pose.position.z > 0.8){
       continue;
-    if(msg->objects.at(i).pose.position.z < -3.0 || msg->objects.at(i).pose.position.z > 0.5)
-      continue;
+    }
 
     autoware_msgs::DetectedObject msg_obj = msg->objects.at(i); 
 
@@ -278,7 +281,9 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           double temp_x_distance = pose.pose.position.x;
           double temp_y_distance = pose.pose.position.y;
           // y-axis: Left + / Right -          
-          if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ) continue;
+          if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ){
+            continue;
+          }
           if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;          
         }
         catch(tf::TransformException& ex){
@@ -385,8 +390,9 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   }  
   pub_SprintSwitch.publish(sprint_switch_msg);
 
-  // ROS_INFO("object # : %d", m_PredictedObjects.size());
-  
+  // printf("object # : %d\n", m_PredictedObjects.size());
+
+  // std::cout<<"========================================"<<std::endl;
   std_msgs::Float64 distanceToPedestrianMsg; 
   distanceToPedestrianMsg.data = distance_to_pedestrian;
   pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
@@ -400,6 +406,11 @@ void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedC
 void TrajectoryEval::callbackGetCurrentState(const std_msgs::Int32 & msg)
 {
   m_CurrentBehavior.state = static_cast<PlannerHNS::STATE_TYPE>(msg.data);
+}
+
+void TrajectoryEval::callbackGetTurnAngle(const std_msgs::Float64 & msg)
+{
+  m_TrajectoryCostsCalculator.m_turnAngle = msg.data;
 }
 
 void TrajectoryEval::UpdateMyParams()
