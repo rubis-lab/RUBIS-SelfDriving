@@ -548,11 +548,12 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         bool outsideOfNarrowArea = (longitudinalDist < -5 || longitudinalDist > 30 ||
           obj_info.perp_distance < (((rollOuts.size() - 1) / 2 - m_startTrajIdx) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
-          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2);
+          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2);          
         bool outsideOfWideLeftArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 0 || obj_info.perp_distance < -10);
         bool outsideOfWideRightArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 10 || obj_info.perp_distance < 0);
 
-        if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
+        // if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
+        if(m_turnAngle < -45) continue;
         if(m_turnAngle > 45 && outsideOfWideLeftArea) continue;
 
         if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) continue;
@@ -571,7 +572,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
           trajectoryCosts.at(it).bBlocked = true;
 
         // // Disabled bj hjw
-        if(lateralDist <= 2
+        if(lateralDist <= 1.5
             && longitudinalDist >= 0
             && longitudinalDist < 30)
           trajectoryCosts.at(it).bBlocked = true;

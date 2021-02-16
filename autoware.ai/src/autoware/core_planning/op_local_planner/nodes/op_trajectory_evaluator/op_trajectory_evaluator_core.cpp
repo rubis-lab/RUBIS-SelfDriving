@@ -320,8 +320,6 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
   m_PredictedObjects.clear();
   bPredictedObjects = true;
 
-  std::cout << "lidar bef : " << msg->objects.size() << std::endl;
-
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
   {
@@ -406,8 +404,6 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
       m_PredictedObjects.push_back(obj);
     }
   }
-
-  std::cout<<"lidar After: "<<m_PredictedObjects.size()<<std::endl;
 
 }
 

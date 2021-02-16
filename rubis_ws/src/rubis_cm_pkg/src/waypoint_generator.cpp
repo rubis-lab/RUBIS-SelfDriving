@@ -368,6 +368,10 @@ void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArra
         double h = stof(line[1]);
         if(DEBUG_FLAG) std::cout<<"GPS waypoint: "<<category<<" "<<lat<<" "<<lon<<" "<<h<<std::endl;
         LLH2UTM(lat, lon, h, pose);
+        pose.orientation.x = 0;
+        pose.orientation.y = 0;
+        pose.orientation.z = 0.6691;
+        pose.orientation.w = 0.7431;
 
         if(category=="Start" && ndt_pub_cnt < 30){
             autoware_config_msgs::ConfigNDT config_msg;
@@ -388,7 +392,7 @@ void create_gps_waypoints(std::string waypoint_filename, geometry_msgs::PoseArra
             ndt_config_pub.publish(config_msg);
             ndt_pub_cnt++;
         }        
-        else if(category!="Start"){
+        else if(category!="Start"){            
             out.poses.push_back(pose);
         }        
     }

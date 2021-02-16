@@ -989,11 +989,11 @@ Lane* MappingHelpers::GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& ma
 
 
 // Added by PHY
-std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num){
+std::vector<WayPoint*> MappingHelpers::GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num, int min_distance){
   std::vector<Lane*> close_lanes;
   std::vector<WayPoint*> close_waypoints;
 
-  double distance_to_nearest_lane = 4;
+  double distance_to_nearest_lane = min_distance;
 
   while(distance_to_nearest_lane < 20)
   {
@@ -3674,8 +3674,8 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.y = li_list[i]["pose"][1]["y"];
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
 
-    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3);
-    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3);
+    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3,3 );
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3,3);
 
     int matched_lane;
     std::vector<WayPoint> matched_wp_list;
