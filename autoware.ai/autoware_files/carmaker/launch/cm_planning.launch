@@ -24,7 +24,7 @@
     <arg name="goal_ori_z"            value="0.6691" />
     <arg name="goal_ori_w"            value="0.7431" /> -->
 
-    <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v2.yaml" />
+    <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v3.yaml" />
   </include>
 
   <!-- op_common_params  -->

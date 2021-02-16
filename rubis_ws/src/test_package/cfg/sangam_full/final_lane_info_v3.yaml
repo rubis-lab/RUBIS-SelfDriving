@@ -3615,6 +3615,7 @@ lane_info_list:
         y : -1103.3
         z : 0.0
   # Lane 20+
+  # # v3 update(converge, side)
   -
     id : 24000
     start_idx : 3
@@ -3627,23 +3628,38 @@ lane_info_list:
         y : -936.0
         z : 0.0
       -
-        x : 1933.4
-        y : -812.5
+        x : 1933.5
+        y : -798.8
         z : 0.0
   -
-    id : 240
+    id : 24001
+    start_idx : 3
+    end_idx : 5
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1933.5
+        y : -798.8
+        z : 0.0
+      -
+        x : 1935.2
+        y : -747.9
+        z : 0.0
+  -
+    id : 24002
     start_idx : 4
     end_idx : 6
     left_turn : 0
     right_turn : 0
     pose :
       -
-        x : 1933.4
-        y : -812.5
+        x : 1935.2
+        y : -747.9
         z : 0.0
       -
-        x : 1937.1
-        y : -694.1
+        x : 1937.5
+        y : -674.0
         z : 0.0
   -
     id : 241
@@ -3753,7 +3769,7 @@ lane_info_list:
   -
     id : 247
     start_idx : 4
-    end_idx : 5
+    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :

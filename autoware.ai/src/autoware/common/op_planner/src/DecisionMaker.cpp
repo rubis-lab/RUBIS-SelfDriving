@@ -593,7 +593,7 @@ void DecisionMaker::InitBehaviorStates()
     //   desiredVelocity = 0;
     //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     // }
-    else if(beh.followDistance < 35 && beh.followDistance > 0){
+    else if(beh.followDistance < 35 && beh.followDistance > 0 && abs(m_turnAngle) > 45){
       desiredVelocity = 0;
       m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
     }
@@ -807,7 +807,14 @@ void DecisionMaker::InitBehaviorStates()
 
   // std::cout << "max_speed : " << m_maxSpeed << ", speedlimit_dist : " << m_speedLimitDistance << std::endl;
 
+  if(beh.state != INTERSECTION_STATE){
+    beh.followDistance = 120;
+    m_remainObstacleWaitingTime = 0.0;
+  }
+
   beh.maxVelocity = UpdateVelocityDirectlyToTrajectory(beh, vehicleState, dt);
+
+  // std::cout << "f_d : " << beh.followDistance << " / remain_time : " << m_remainObstacleWaitingTime << std::endl;
   
   //std::cout << "Eval_i: " << tc.index << ", Curr_i: " <<  m_pCurrentBehaviorState->GetCalcParams()->iCurrSafeTrajectory << ", Prev_i: " << m_pCurrentBehaviorState->GetCalcParams()->iPrevSafeTrajectory << std::endl;
 

@@ -23,7 +23,7 @@ typedef std::vector<WpId> WpIdVec;
 typedef std::vector<WpPtrId> WpPtrIdVec;
 typedef std::tuple<int, int, std::vector<WpVec> > PairPath;
 
-#define DEBUG_FLAG 1
+#define DEBUG_FLAG 0
 
 namespace PlannerHNS {
 

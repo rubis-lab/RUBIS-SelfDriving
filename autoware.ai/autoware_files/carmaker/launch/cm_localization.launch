@@ -62,12 +62,12 @@
   </include>
 
   <include file="$(find rubis_cm_pkg)/launch/waypoint_generator.launch">  
-    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_hyundai_1.csv" />-->
-    <!--<arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_hyundai_2.csv" /> -->
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_hyundai_1.csv" /> -->
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_hyundai_2.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_hyundai_3.csv" /> -->
-    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test.csv" />
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_jchoi_Test.csv" /> -->
-    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test_sjhwang.csv" /> -->
+    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test_sjhwang.csv" />
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_scene1.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_waypoints_example.csv" /> -->
 

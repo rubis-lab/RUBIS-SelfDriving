@@ -1461,7 +1461,6 @@ lane_info_list:
         y : -78.9
         z : 0.0
   # Lane 11+
-  # v3 update(converge, side)
   -
     id : 97
     start_idx : 3
@@ -1519,21 +1518,6 @@ lane_info_list:
         y : -49.2
         z : 0.0
       -
-        x : 2030.1
-        y : -47.3
-        z : 0.0
-  -
-    id : 10100
-    start_idx : 4
-    end_idx : 5
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 2030.1
-        y : -47.3
-        z : 0.0
-      -
         x : 1983.9
         y : -44.3
         z : 0.0
@@ -1571,7 +1555,7 @@ lane_info_list:
     id : 103
     start_idx : 3
     end_idx : 4
-    left_turn : 1
+    left_turn : 0
     right_turn : 0
     pose :
       -
@@ -1579,8 +1563,8 @@ lane_info_list:
         y : -48.3
         z : 0.0
       -
-        x : 2034.9
-        y : -41.6
+        x : 2044.5
+        y : -42.5
         z : 0.0
   -
     id : 104
@@ -1590,12 +1574,12 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 2034.9
-        y : -41.6
+        x : 2044.5
+        y : -42.5
         z : 0.0
       -
-        x : 2030.0
-        y : -41.2
+        x : 2011.5
+        y : -40.3
         z : 0.0
   -
     id : 105
@@ -1605,8 +1589,8 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 2030.0
-        y : -41.2
+        x : 2011.5
+        y : -40.3
         z : 0.0
       -
         x : 1983.9
@@ -1691,7 +1675,7 @@ lane_info_list:
     id : 111
     start_idx : 4
     end_idx : 4
-    left_turn : 0
+    left_turn : 1
     right_turn : 0
     pose :
       -
@@ -2381,7 +2365,6 @@ lane_info_list:
         y : -32.5
         z : 0.0
   # Lane 13+
-  # v3 update(converge, side)
   -
     id : 156
     start_idx : 3
@@ -2429,7 +2412,7 @@ lane_info_list:
         z : 0.0
   -
     id : 159
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 0
     right_turn : 1
@@ -2460,7 +2443,7 @@ lane_info_list:
   -
     id : 161
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 1
     right_turn : 0
     pose :
@@ -2534,7 +2517,6 @@ lane_info_list:
         y : 117.3
         z : 0.0
   # Lane 14+
-  # v3 update(converge, side)
   -
     id : 166
     start_idx : 4
@@ -2612,7 +2594,7 @@ lane_info_list:
         z : 0.0
   -
     id : 171
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 0
     right_turn : 1
@@ -2643,7 +2625,7 @@ lane_info_list:
   -
     id : 173
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 1
     right_turn : 0
     pose :
@@ -2673,7 +2655,7 @@ lane_info_list:
   -
     id : 175
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 0
     right_turn : 1
     pose :
@@ -2688,7 +2670,7 @@ lane_info_list:
   -
     id : 176
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 1
     right_turn : 0
     pose :
@@ -2701,7 +2683,6 @@ lane_info_list:
         y : 144.2
         z : 0.0
   # Lane 14-
-  # v3 update(converge, side)
   -
     id : 177
     start_idx : 3
@@ -2720,7 +2701,7 @@ lane_info_list:
   -
     id : 178
     start_idx : 3
-    end_idx : 5
+    end_idx : 6
     left_turn : 0
     right_turn : 0
     pose :
@@ -2764,8 +2745,8 @@ lane_info_list:
         z : 0.0
   -
     id : 181
-    start_idx : 3
-    end_idx : 4
+    start_idx : 2
+    end_idx : 5
     left_turn : 0
     right_turn : 0
     pose :
@@ -2849,8 +2830,8 @@ lane_info_list:
         y : 130.8
         z : 0.0
       -
-        x : 2222.1
-        y : 130.0
+        x : 2228.2
+        y : 129.0
         z : 0.0
   -
     id : 187
@@ -2860,8 +2841,8 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 2222.1
-        y : 130.0
+        x : 2228.2
+        y : 129.0
         z : 0.0
       -
         x : 2256.5
@@ -2882,9 +2863,9 @@ lane_info_list:
         x : 2017.8
         y : 135.6
         z : 0.0
-  - 
+  -
     id : 189
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 1
     right_turn : 0
@@ -2899,7 +2880,7 @@ lane_info_list:
         z : 0.0
   -
     id : 190
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 0
     right_turn : 1
@@ -2930,7 +2911,7 @@ lane_info_list:
   -
     id : 192
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 0
     right_turn : 1
     pose :
@@ -2958,7 +2939,6 @@ lane_info_list:
         y : 136.2
         z : 0.0
   # Lane 15+
-  # v3 update(converge, side)
   -
     id : 194
     start_idx : 4
@@ -2974,7 +2954,7 @@ lane_info_list:
         x : 1800.7
         y : 164.2
         z : 0.0
-  - 
+  -
     id : 195
     start_idx : 4
     end_idx : 6
@@ -3001,19 +2981,19 @@ lane_info_list:
         y : 167.5
         z : 0.0
       -
-        x : 1700.1
-        y : 171.5
+        x : 1674.7
+        y : 173.1
         z : 0.0
   -
     id : 197
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 0
     right_turn : 0
     pose :
       -
-        x : 1700.1
-        y : 171.5
+        x : 1674.7
+        y : 173.1
         z : 0.0
       -
         x : 1656.1
@@ -3061,8 +3041,8 @@ lane_info_list:
         y : 170.4
         z : 0.0
       -
-        x : 1699.6
-        y : 174.9
+        x : 1688.7
+        y : 176.1
         z : 0.0
   -
     id : 201
@@ -3072,8 +3052,8 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 1699.6
-        y : 174.9
+        x : 1688.7
+        y : 176.1
         z : 0.0
       -
         x : 1655.5
@@ -3158,36 +3138,21 @@ lane_info_list:
   -
     id : 207
     start_idx : 3
-    end_idx : 5
+    end_idx : 4
     left_turn : 0
-    right_turn : 0
+    right_turn : 1
     pose :
       -
         x : 1825.3
         y : 156.3
         z : 0.0
       -
-        x : 1847.6
-        y : 154.2
-        z : 0.0
-  -
-    id : 208
-    start_idx : 3
-    end_idx : 4
-    left_turn : 0
-    right_turn : 1
-    pose :
-      -
-        x : 1847.6
-        y : 154.2
-        z : 0.0
-      -
         x : 1880.2
         y : 149.1
         z : 0.0
   -
-    id : 209
-    start_idx : 3
+    id : 208
+    start_idx : 2
     end_idx : 4
     left_turn : 0
     right_turn : 0
@@ -3201,7 +3166,7 @@ lane_info_list:
         y : 147.0
         z : 0.0
   -
-    id : 210
+    id : 209
     start_idx : 3
     end_idx : 4
     left_turn : 0
@@ -3216,7 +3181,7 @@ lane_info_list:
         y : 145.2
         z : 0.0
   -
-    id : 211
+    id : 210
     start_idx : 4
     end_idx : 4
     left_turn : 0
@@ -3231,7 +3196,7 @@ lane_info_list:
         y : 141.8
         z : 0.0
   -
-    id : 212
+    id : 211
     start_idx : 4
     end_idx : 5
     left_turn : 1
@@ -3246,7 +3211,7 @@ lane_info_list:
         y : 155.2
         z : 0.0
   -
-    id : 213
+    id : 212
     start_idx : 4
     end_idx : 5
     left_turn : 0
@@ -3257,26 +3222,26 @@ lane_info_list:
         y : 155.2
         z : 0.0
       -
-        x : 1890.0
-        y : 154.3
+        x : 1908.1
+        y : 152.8
         z : 0.0
   -
-    id : 214
+    id : 213
     start_idx : 4
     end_idx : 4
     left_turn : 0
     right_turn : 0
     pose :
       -
-        x : 1890.0
-        y : 154.3
+        x : 1908.1
+        y : 152.8
         z : 0.0
       -
         x : 1930.6
         y : 151.6
         z : 0.0
   -
-    id : 215
+    id : 214
     start_idx : 3
     end_idx : 4
     left_turn : 0
@@ -3290,11 +3255,55 @@ lane_info_list:
         x : 1773.1
         y : 156.7
         z : 0.0
+  -
+    id : 215
+    start_idx : 3
+    end_idx : 5
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1773.1
+        y : 156.7
+        z : 0.0
+      -
+        x : 1791.9
+        y : 155.4
+        z : 0.0
+  -
+    id : 216
+    start_idx : 2
+    end_idx : 5
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1791.9
+        y : 155.4
+        z : 0.0
+      -
+        x : 1825.2
+        y : 153.2
+        z : 0.0
+  -
+    id : 217
+    start_idx : 2
+    end_idx : 4
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1825.2
+        y : 153.2
+        z : 0.0
+      -
+        x : 1883.6
+        y : 148.5
+        z : 0.0
   # Lane 16+   near "That" Section
-  # v3 update(converge, side)
   -
     id : 218
-    start_idx : 3
+    start_idx : 4
     end_idx : 4
     left_turn : 0
     right_turn : 0
@@ -3302,6 +3311,21 @@ lane_info_list:
       -
         x : 1942.9
         y : 706.2
+        z : 0.0
+      -
+        x : 1922.4
+        y : 709.3
+        z : 0.0
+  -
+    id : 219
+    start_idx : 3
+    end_idx : 4
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1922.4
+        y : 709.3
         z : 0.0
       -
         x : 1752.7
@@ -3416,7 +3440,6 @@ lane_info_list:
   # Lane 17 "That" Section
   # Lane 18 "That" Section
   # Lane 19+
-  # v3 update(converge, side)
   -
     id : 227
     start_idx : 3
@@ -3449,7 +3472,7 @@ lane_info_list:
         z : 0.0
   -
     id : 229
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 0
     right_turn : 1
@@ -3510,7 +3533,7 @@ lane_info_list:
   -
     id : 233
     start_idx : 4
-    end_idx : 4
+    end_idx : 5
     left_turn : 1
     right_turn : 0
     pose :
@@ -3538,7 +3561,6 @@ lane_info_list:
         y : -1010.0
         z : 0.0
   # Lane 19-
-  # v3 update(converge, side)
   -
     id : 235
     start_idx : 4
@@ -3661,7 +3683,7 @@ lane_info_list:
         y : -801.6
         z : 0.0
   -
-    id : 24200
+    id : 242
     start_idx : 2
     end_idx : 4
     left_turn : 0
@@ -3672,27 +3694,12 @@ lane_info_list:
         y : -801.6
         z : 0.0
       -
-        x : 1941.3
-        y : -7960.1
-        z : 0.0
-  -
-    id : 242
-    start_idx : 3
-    end_idx : 4
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1941.3
-        y : -760.1
-        z : 0.0
-      -
         x : 1942.0
         y : -729.0
         z : 0.0
   -
     id : 243
-    start_idx : 4
+    start_idx : 3
     end_idx : 4
     left_turn : 0
     right_turn : 1
@@ -3768,8 +3775,8 @@ lane_info_list:
   -
     id : 248
     start_idx : 4
-    end_idx : 4
-    left_turn : 0
+    end_idx : 5
+    left_turn : 1
     right_turn : 0
     pose :
       -
@@ -3781,9 +3788,9 @@ lane_info_list:
         y : -695.7
         z : 0.0
   -
-    id : 24900
-    start_idx : 4
-    end_idx : 5
+    id : 249
+    start_idx : 3
+    end_idx : 4
     left_turn : 0
     right_turn : 1
     pose :
@@ -3792,26 +3799,11 @@ lane_info_list:
         y : -876.8
         z : 0.0
       -
-        x : 1935.0
-        y : -859.3
-        z : 0.0
-  -
-    id : 249
-    start_idx : 3
-    end_idx : 4
-    left_turn : 0
-    right_turn : 1
-    pose :
-      -
-        x : 1935.8
-        y : -830.8
-        z : 0.0
-      -
         x : 1939.8
-        y : -811.4
+        y : -811.7
         z : 0.0
   -
-    id : 25000
+    id : 250
     start_idx : 3
     end_idx : 4
     left_turn : 1
@@ -3819,41 +3811,11 @@ lane_info_list:
     pose :
       -
         x : 1937.7
-        y : -877.1
+        y : -876.3
         z : 0.0
       -
-        x : 1935.2
-        y : -859.3
-        z : 0.0
-  -
-    id : 250
-    start_idx : 4
-    end_idx : 5
-    left_turn : 1
-    right_turn : 0
-    pose :
-      -
-        x : 1936.0
-        y : -831.0
-        z : 0.0
-      -
-        x : 1933.5
-        y : -813.3
-        z : 0.0
-  -
-    id : 251
-    start_idx : 3
-    end_idx : 5
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1935.2
-        y : -859.1
-        z : 0.0
-      -
-        x : 1935.8
-        y : -831.0
+        x : 1933.0
+        y : -813.2
         z : 0.0
   # Lane 20-
   -
