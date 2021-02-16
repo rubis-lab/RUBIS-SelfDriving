@@ -467,6 +467,7 @@ public:
 class RelativeInfo
 {
 public:
+  int id;
   double perp_distance;
   double to_front_distance; //negative
   double from_back_distance;
