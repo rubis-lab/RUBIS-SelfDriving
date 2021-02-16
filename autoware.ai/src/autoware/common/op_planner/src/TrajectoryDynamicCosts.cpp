@@ -214,7 +214,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     // Only add centroid
     p.pos = obj_list.at(io).center.pos;
     p.v = obj_list.at(io).center.v;
-    p.id = io;
+    p.id = obj_list.at(io).id;
     m_AllContourPoints.push_back(p);
   }
 
@@ -559,10 +559,14 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         if(m_turnAngle > 45 && outsideOfWideLeftArea) continue;
         
 
-        if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) continue;
+        if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) {
+          // std::cout<<" # Object in narrow space: "<<obj_info.id<<std::endl;
+          continue;
+        }
 
         #ifdef DEBUG_ENABLE
         unskipped++;
+        // std::cout<<" # Unskiped: "<<obj_info.id<<std::endl;
         #endif
 
         // Original
