@@ -342,7 +342,7 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     // }    
 
     WpPtrVec candidatwe_without_id;
-    candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum);
+    candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum, 5);
     
     for(auto it = candidatwe_without_id.begin(); it != candidatwe_without_id.end(); ++it){
       PlannerHNS::WayPoint* candidate = *it;

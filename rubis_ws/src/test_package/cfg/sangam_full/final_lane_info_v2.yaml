@@ -3638,7 +3638,7 @@ lane_info_list:
         z : 0.0
   # Lane 20+
   -
-    id : 240
+    id : 24000
     start_idx : 3
     end_idx : 6
     left_turn : 0
@@ -3647,6 +3647,21 @@ lane_info_list:
       -
         x : 1929.7
         y : -936.0
+        z : 0.0
+      -
+        x : 1933.4
+        y : -812.5
+        z : 0.0
+  -
+    id : 240
+    start_idx : 4
+    end_idx : 6
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1933.4
+        y : -812.5
         z : 0.0
       -
         x : 1937.1
@@ -8698,7 +8713,7 @@ lane_info_list:
 # Update
 # Lane 21+
   -
-    id : 2000
+    id : 2001
     start_idx : 4
     end_idx : 6
     left_turn : 0
@@ -8707,21 +8722,6 @@ lane_info_list:
       -
         x : 1938.4
         y : -637.5
-        z : 0.0
-      -
-        x : 1942.5
-        y : -509.9
-        z : 0.0
-  -
-    id : 2001
-    start_idx : 4
-    end_idx : 7
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1942.5
-        y : -509.9
         z : 0.0
       -
         x : 1943.7

@@ -352,6 +352,8 @@ void BehaviorGen::callbackGetGlobalPlannerPath(const autoware_msgs::LaneArrayCon
 
 void BehaviorGen::callbackGetLocalTrajectoryCost(const autoware_msgs::LaneConstPtr& msg)
 {
+
+  std::cout<<"#### trajectory cost index: "<<msg->lane_index<<std::endl;
   if(m_BehaviorGenerator.m_pCurrentBehaviorState->m_Behavior == PlannerHNS::INTERSECTION_STATE){
     bBestCost = true;
     m_TrajectoryBestCost.closest_obj_distance = msg->closest_object_distance;

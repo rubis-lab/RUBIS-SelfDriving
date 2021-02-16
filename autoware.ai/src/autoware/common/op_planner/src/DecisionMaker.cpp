@@ -182,7 +182,7 @@ void DecisionMaker::InitBehaviorStates()
  void DecisionMaker::CalculateImportantParameterForDecisionMaking(const PlannerHNS::VehicleState& car_state,
      const int& goalID, const bool& bEmergencyStop, const std::vector<TrafficLight>& detectedLights,
      const TrajectoryCost& bestTrajectory)
- {
+ {   
    if(m_TotalPath.size() == 0) return;
 
    PreCalculatedConditions* pValues = m_pCurrentBehaviorState->GetCalcParams();
@@ -369,8 +369,7 @@ void DecisionMaker::InitBehaviorStates()
     pValues->distanceToNext = 1;
     pValues->velocityOfNext = 0;
   }
-   //cout << "Distances: " << pValues->stoppingDistances.size() << ", Distance To Stop : " << pValues->distanceToStop << endl;
- }
+}
 
  void DecisionMaker::UpdateCurrentLane(const double& search_distance)
  {

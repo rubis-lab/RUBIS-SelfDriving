@@ -316,7 +316,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   {
     bestTrajectory.bBlocked = true;
     bestTrajectory.lane_index = m_PrevSelectedIndex;
-    bestTrajectory.index = m_PrevSelectedIndex;
+    // bestTrajectory.index = m_PrevSelectedIndex;
+    m_PrevSelectedIndex = smallestIndex;
     bestTrajectory.closest_obj_distance = smallestDistance;
     bestTrajectory.closest_obj_velocity = velo_of_next;
   }
@@ -344,6 +345,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   std::cout << "start_idx : " << m_startTrajIdx << ", end_idx : " << m_endTrajIdx << std::endl;
   std::cout << "current_idx : " << currIndex << ", selected one : " << smallestIndex << std::endl;
   std::cout << "---------------------------------------" << std::endl;
+
   #endif
 
   return bestTrajectory;
@@ -552,8 +554,10 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
         bool outsideOfWideLeftArea = (longitudinalDist < -5 || longitudinalDist > 15 || obj_info.perp_distance > 0.5 || obj_info.perp_distance < -7.5);
         bool outsideOfWideRightArea = (longitudinalDist < -5 || longitudinalDist > 15 || obj_info.perp_distance > 7.5 || obj_info.perp_distance <-0.5);
 
-        if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
+        // if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
+        if(m_turnAngle < -45) continue;
         if(m_turnAngle > 45 && outsideOfWideLeftArea) continue;
+        
 
         if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) continue;
 

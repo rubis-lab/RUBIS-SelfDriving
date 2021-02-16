@@ -91,7 +91,7 @@ public:
 
 
 // Added by PHY
-  static std::vector<WayPoint*> GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num);
+  static std::vector<WayPoint*> GetCloseWaypointsFromMap(const WayPoint& pos, RoadNetwork& map, const bool bDirectionBased, int candidate_num, int min_distance);
   static std::vector<Lane*> GetCloseLanesFromMap(const WayPoint& pos, RoadNetwork& map, const int candidate_num, const double& distance, const bool bDirectionBased = true);
 
   static Lane* GetClosestLaneFromMap(const WayPoint& pos, RoadNetwork& map, const double& distance = 5.0, const bool bDirectionBased = true);
