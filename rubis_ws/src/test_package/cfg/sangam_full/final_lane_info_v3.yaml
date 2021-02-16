@@ -4885,9 +4885,25 @@ lane_info_list:
         y : 559.4
         z : 0.0
   # Lane 33-
+  # v3, converge side update
   -
     id : 1044
     start_idx : 3
+    end_idx : 4
+    left_turn : 0
+    right_turn : 0
+    pose :
+      -
+        x : 1690.3
+        y : 819.7
+        z : 0.0
+      -
+        x : 1687.2
+        y : 788.0
+        z : 0.0
+  -
+    id : 1045
+    start_idx : 4
     end_idx : 5
     left_turn : 0
     right_turn : 0
@@ -4897,28 +4913,13 @@ lane_info_list:
         y : 819.7
         z : 0.0
       -
-        x : 1684.1
-        y : 761.5
+        x : 1687.2
+        y : 788.0
         z : 0.0
-  -
-    id : 1045
-    start_idx : 4
-    end_idx : 6
-    left_turn : 0
-    right_turn : 0
-    pose :
-      -
-        x : 1684.1
-        y : 761.5
-        z : 0.0
-      -
-        x : 1681.9
-        y : 739.2
-        z : 0.0  
   -
     id : 1046
     start_idx : 4
-    end_idx : 5
+    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :
@@ -4946,6 +4947,7 @@ lane_info_list:
         y : 741.7
         z : 0.0
   # Lane 32-
+  # v3, converge side update
   # -
   #   id : 1048
   #   start_idx : 4
@@ -4954,12 +4956,12 @@ lane_info_list:
   #   right_turn : 0
   #   pose :
   #     -
-  #       x : 1677.4
+  #       x : 1679.8
   #       y : 699.0
   #       z : 0.0
   #     -
-  #       x : 1636.1
-  #       y : 227.6
+  #       x : 1635.9275
+  #       y : 227.4292
   #       z : 0.0
   -
     # too close!!!!! left turn lane <-> straight lane
@@ -4970,12 +4972,12 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 1641.82
-        y : 216.83
+        x : 1635.9275
+        y : 227.4292
         z : 0.0
       -
-        x : 1638.56
-        y : 179.96
+        x : 1631.0
+        y : 177.7
         z : 0.0
   -
     # too close!!!!! left turn lane <-> straight lane
@@ -4986,18 +4988,18 @@ lane_info_list:
     right_turn : 0
     pose :
       -
-        x : 1641.56
-        y : 216.90
+        x : 1635.6171
+        y : 227.6244
         z : 0.0
       -
-        x : 1653.35
-        y : 177.92
+        x : 1642.5
+        y : 174.5
         z : 0.0
   # Lane 36-
   -
     id : 1051
     start_idx : 3
-    end_idx : 5
+    end_idx : 4
     left_turn : 0
     right_turn : 0
     pose :

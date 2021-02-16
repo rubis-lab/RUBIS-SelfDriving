@@ -3812,6 +3812,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
 
     if(!bMatched) continue;
 
+    // Lane Blocking Debug
     // int id = li_list[i]["id"];
 
     // printf("[%d/%d] %d matched : ", i, li_list.size(), id);
