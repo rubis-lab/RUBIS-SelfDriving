@@ -473,25 +473,30 @@ void BehaviorGen::callbackGetCarMakerTrafficLightSignals(const hellocm_msgs::Tra
 
 void BehaviorGen::callbackGetSpeedLimit(const hellocm_msgs::Speed_Limit& msg)
 {
-  m_BehaviorGenerator.m_speedLimitDistance = msg.distance;
-
   double speed_kph = msg.speed_limit;
-
-  if(speed_kph <= 1) return;
-
   // make margin
-  double speed_mps = (msg.speed_limit - 4) / 3.6;
+  double speed_mps = (speed_kph - 4) / 3.6;
 
-  if(m_BehaviorGenerator.m_maxSpeed > speed_mps && m_BehaviorGenerator.m_speedLimitDistance < 40){
+  double inputDistance = msg.distance;
+
+  if(speed_kph > 0.1 && inputDistance > 0.1){
+    m_BehaviorGenerator.m_speedLimitDistance = inputDistance;
+  }
+  else if(m_BehaviorGenerator.m_speedLimitDistance > 0){
+    // cm_speed_limit is 10Hz
+    m_BehaviorGenerator.m_speedLimitDistance -= (0.1 * m_BehaviorGenerator.m_maxSpeed);
+  }
+
+  if(speed_kph > 0.1 && m_BehaviorGenerator.m_maxSpeed > speed_mps && m_BehaviorGenerator.m_speedLimitDistance < 40){
     m_BehaviorGenerator.m_maxSpeed = speed_mps;
   }
   // change higher speed when timing for next speed
   // Consider FP error
-  else if(abs(prevSpeedLimit - speed_mps) > 0.2 && prevSpeedLimit > speed_mps){
+  else if(prevSpeedLimit > m_BehaviorGenerator.m_maxSpeed && abs(prevSpeedLimit - speed_mps) > 0.2 && m_BehaviorGenerator.m_speedLimitDistance < 0.1){
     m_BehaviorGenerator.m_maxSpeed = min(prevSpeedLimit, m_PlanningParams.maxSpeed);
   }
 
-  prevSpeedLimit = speed_mps;
+  if(speed_kph > 0.1) prevSpeedLimit = speed_mps;
 }
 
 void BehaviorGen::VisualizeLocalPlanner()

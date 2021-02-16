@@ -806,7 +806,7 @@ void DecisionMaker::InitBehaviorStates()
 
   beh.bNewPlan = SelectSafeTrajectory();
 
-  // std::cout << "max_speed : " << m_maxSpeed << std::endl;
+  // std::cout << "max_speed : " << m_maxSpeed << ", speedlimit_dist : " << m_speedLimitDistance << std::endl;
 
   beh.maxVelocity = UpdateVelocityDirectlyToTrajectory(beh, vehicleState, dt);
   
