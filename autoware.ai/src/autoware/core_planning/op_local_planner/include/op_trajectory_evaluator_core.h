@@ -121,6 +121,9 @@ protected:
   ros::Subscriber sub_current_state;
   ros::Subscriber sub_turn_angle;
 
+  // PHY added
+  ros::Subscriber sub_image_objects;
+
   // TF
   tf::TransformListener m_vtob_listener;
   tf::TransformListener m_vtom_listener;
@@ -136,6 +139,7 @@ protected:
   void callbackGetGlobalPlannerPath(const autoware_msgs::LaneArrayConstPtr& msg);
   void callbackGetLocalPlannerPath(const autoware_msgs::LaneArrayConstPtr& msg);
   void callbackGetPredictedObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg);
+  void callbackGetImageObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg);
   void callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr & msg);
   void callbackGetCurrentState(const std_msgs::Int32 & msg);
   void callbackGetTurnAngle(const std_msgs::Float64 & msg);

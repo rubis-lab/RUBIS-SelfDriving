@@ -66,6 +66,7 @@ TrajectoryEval::TrajectoryEval()
   sub_LocalPlannerPaths = nh.subscribe("/local_trajectories", 1, &TrajectoryEval::callbackGetLocalPlannerPath, this);
   sub_predicted_objects = nh.subscribe("/predicted_objects", 1, &TrajectoryEval::callbackGetPredictedObjects, this);
   sub_current_behavior = nh.subscribe("/current_behavior", 1, &TrajectoryEval::callbackGetBehaviorState, this);
+  sub_image_objects = nh.subscribe("//detection/image_detector/objects", 1, &TrajectoryEval::callbackGetImageObjects, this);
 
   PlannerHNS::ROSHelpers::InitCollisionPointsMarkers(50, m_CollisionsDummy);
 
@@ -243,20 +244,83 @@ void TrajectoryEval::callbackGetLocalPlannerPath(const autoware_msgs::LaneArrayC
   }
 }
 
-void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg)
+void TrajectoryEval::callbackGetImageObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg)
 {
-  m_PredictedObjects.clear();
-  bPredictedObjects = true;
+  int vehicle_cnt = 0;
   double distance_to_pedestrian = 1000;
   int image_person_detection_range_left = m_ImageWidth/2 - m_ImageWidth*m_PedestrianImageDetectionRange/2;
   int image_person_detection_range_right = m_ImageWidth/2 + m_ImageWidth*m_PedestrianImageDetectionRange/2;
   
   int image_vehicle_detection_range_left = m_ImageWidth/2 - m_ImageWidth*m_VehicleImageDetectionRange/2;
-  int image_vehicle_detection_range_right = m_ImageWidth/2 + m_ImageWidth*m_VehicleImageDetectionRange/2;
+  int image_vehicle_detection_range_right = m_ImageWidth/2 + m_ImageWidth*m_VehicleImageDetectionRange/2;  
+  
+  for(unsigned int i = 0 ; i <msg->objects.size(); i++)
+  {
+    // if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
+    //   continue;
+    if(msg->objects.at(i).pose.position.z < -3.4 || msg->objects.at(i).pose.position.z > 0.8){
+      continue;
+    }
 
-  int vehicle_cnt = 0;
+    autoware_msgs::DetectedObject msg_obj = msg->objects.at(i); 
 
-  // std::cout << "bef : " << msg->objects.size() << std::endl;
+    int image_obj_center_x = msg_obj.x+msg_obj.width/2;
+    int image_obj_center_y = msg_obj.y+msg_obj.height/2;
+    
+    if (msg_obj.label == "person"){// If person is detected only in image
+
+      if(image_obj_center_x >= image_person_detection_range_left && image_obj_center_x <= image_person_detection_range_right){ 
+        double temp_x_distance = 1000;
+        if(msg_obj.height>=800) temp_x_distance = 10.0;
+        else if(msg_obj.height>=720) temp_x_distance = 15.0;
+        else if(msg_obj.height>=620) temp_x_distance = 20.0;
+        else if(msg_obj.height>=450) temp_x_distance = 25.0;
+        else if(msg_obj.height>=370) temp_x_distance = 30.0;
+        else if(msg_obj.height>=330) temp_x_distance = 35.0;      
+        else if(msg_obj.height>=260) temp_x_distance = 40.0;   
+        else if(msg_obj.height>=200) temp_x_distance = 50.0;   
+        if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
+      }
+    }                    
+    else if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){            
+      if((msg_obj.width > m_VehicleImageWidthThreshold) 
+            && (image_obj_center_x > image_vehicle_detection_range_left) 
+            && (image_obj_center_x < image_vehicle_detection_range_right)
+      ){          
+        vehicle_cnt+=1;        
+      }
+    }
+  }
+
+  // Publish Sprint Switch
+  std_msgs::Bool sprint_switch_msg;
+
+  if(vehicle_cnt != 0){
+    m_noVehicleCnt = 0;
+    sprint_switch_msg.data = false;
+  }
+  else{ // No vehicle is exist in front of the car
+    if(m_noVehicleCnt < m_SprintDecisionTime*10) {
+      m_noVehicleCnt +=1;
+      sprint_switch_msg.data = false;
+    }
+    else if (m_noVehicleCnt >= 5) sprint_switch_msg.data = true;
+  }  
+  pub_SprintSwitch.publish(sprint_switch_msg);
+
+  // std::cout<<"========================================"<<std::endl;
+  std_msgs::Float64 distanceToPedestrianMsg; 
+  distanceToPedestrianMsg.data = distance_to_pedestrian;
+  pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
+}
+
+
+void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedObjectArrayConstPtr& msg)
+{
+  m_PredictedObjects.clear();
+  bPredictedObjects = true;
+
+  std::cout << "lidar bef : " << msg->objects.size() << std::endl;
 
   PlannerHNS::DetectedObject obj;
   for(unsigned int i = 0 ; i <msg->objects.size(); i++)
@@ -284,7 +348,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
           if(temp_y_distance > m_PedestrianLeftThreshold || temp_y_distance < m_PedestrianRightThreshold ){
             continue;
           }
-          if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;          
+          // if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;          
         }
         catch(tf::TransformException& ex){
           // ROS_ERROR("Cannot transform person pose: %s", ex.what());
@@ -292,9 +356,6 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
         }
       }
 
-      if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){
-        vehicle_cnt += 1;
-      }
 
       PlannerHNS::ROSHelpers::ConvertFromAutowareDetectedObjectToOpenPlannerDetectedObject(msg->objects.at(i), obj);
 
@@ -344,58 +405,10 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
 
       m_PredictedObjects.push_back(obj);
     }
-    else{
-      int image_obj_center_x = msg_obj.x+msg_obj.width/2;
-      int image_obj_center_y = msg_obj.y+msg_obj.height/2;
-      
-      if (msg_obj.label == "person"){// If person is detected only in image
-
-        if(image_obj_center_x >= image_person_detection_range_left && image_obj_center_x <= image_person_detection_range_right){ 
-          double temp_x_distance = 1000;
-          if(msg_obj.height>=800) temp_x_distance = 10.0;
-          else if(msg_obj.height>=720) temp_x_distance = 15.0;
-          else if(msg_obj.height>=620) temp_x_distance = 20.0;
-          else if(msg_obj.height>=450) temp_x_distance = 25.0;
-          else if(msg_obj.height>=370) temp_x_distance = 30.0;
-          else if(msg_obj.height>=330) temp_x_distance = 35.0;      
-          else if(msg_obj.height>=260) temp_x_distance = 40.0;   
-          else if(msg_obj.height>=200) temp_x_distance = 50.0;   
-          if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
-        }
-      }                    
-      else if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){            
-        if((msg_obj.width > m_VehicleImageWidthThreshold) 
-              && (image_obj_center_x > image_vehicle_detection_range_left) 
-              && (image_obj_center_x < image_vehicle_detection_range_right)
-        ){          
-          vehicle_cnt+=1;        
-        }
-      }
-    }
   }
 
-  // Publish Sprint Switch
-  std_msgs::Bool sprint_switch_msg;
+  std::cout<<"lidar After: "<<m_PredictedObjects.size()<<std::endl;
 
-  if(vehicle_cnt != 0){
-    m_noVehicleCnt = 0;
-    sprint_switch_msg.data = false;
-  }
-  else{ // No vehicle is exist in front of the car
-    if(m_noVehicleCnt < m_SprintDecisionTime*10) {
-      m_noVehicleCnt +=1;
-      sprint_switch_msg.data = false;
-    }
-    else if (m_noVehicleCnt >= 5) sprint_switch_msg.data = true;
-  }  
-  pub_SprintSwitch.publish(sprint_switch_msg);
-
-  // printf("object # : %d\n", m_PredictedObjects.size());
-
-  // std::cout<<"========================================"<<std::endl;
-  std_msgs::Float64 distanceToPedestrianMsg; 
-  distanceToPedestrianMsg.data = distance_to_pedestrian;
-  pub_DistanceToPedestrian.publish(distanceToPedestrianMsg);
 }
 
 void TrajectoryEval::callbackGetBehaviorState(const geometry_msgs::TwistStampedConstPtr& msg)
