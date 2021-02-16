@@ -214,7 +214,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
     // Only add centroid
     p.pos = obj_list.at(io).center.pos;
     p.v = obj_list.at(io).center.v;
-    p.id = io;
+    p.id = obj_list.at(io).id;
     m_AllContourPoints.push_back(p);
   }
 
@@ -316,7 +316,8 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   {
     bestTrajectory.bBlocked = true;
     bestTrajectory.lane_index = m_PrevSelectedIndex;
-    bestTrajectory.index = m_PrevSelectedIndex;
+    // bestTrajectory.index = m_PrevSelectedIndex;
+    m_PrevSelectedIndex = smallestIndex;
     bestTrajectory.closest_obj_distance = smallestDistance;
     bestTrajectory.closest_obj_velocity = velo_of_next;
   }
@@ -344,6 +345,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   std::cout << "start_idx : " << m_startTrajIdx << ", end_idx : " << m_endTrajIdx << std::endl;
   std::cout << "current_idx : " << currIndex << ", selected one : " << smallestIndex << std::endl;
   std::cout << "---------------------------------------" << std::endl;
+
   #endif
 
   return bestTrajectory;
@@ -548,18 +550,23 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         bool outsideOfNarrowArea = (longitudinalDist < -5 || longitudinalDist > 30 ||
           obj_info.perp_distance < (((rollOuts.size() - 1) / 2 - m_startTrajIdx) * params.rollOutDensity + critical_lateral_distance / 2) * (-1) ||
-          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2);          
-        bool outsideOfWideLeftArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 0 || obj_info.perp_distance < -10);
-        bool outsideOfWideRightArea = (longitudinalDist < -5 || longitudinalDist > 30 || obj_info.perp_distance > 10 || obj_info.perp_distance < 0);
+          obj_info.perp_distance > (m_endTrajIdx - (rollOuts.size() - 1) / 2) * params.rollOutDensity + critical_lateral_distance / 2);
+        bool outsideOfWideLeftArea = (longitudinalDist < -5 || longitudinalDist > 15 || obj_info.perp_distance > 0.5 || obj_info.perp_distance < -7.5);
+        bool outsideOfWideRightArea = (longitudinalDist < -5 || longitudinalDist > 15 || obj_info.perp_distance > 7.5 || obj_info.perp_distance <-0.5);
 
         // if(m_turnAngle < -45 && outsideOfWideRightArea) continue;
         if(m_turnAngle < -45) continue;
         if(m_turnAngle > 45 && outsideOfWideLeftArea) continue;
+        
 
-        if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) continue;
+        if(outsideOfNarrowArea && (!bIsIntersection || (bIsIntersection && abs(m_turnAngle) < 45))) {
+          // std::cout<<" # Object in narrow space: "<<obj_info.id<<std::endl;
+          continue;
+        }
 
         #ifdef DEBUG_ENABLE
         unskipped++;
+        // std::cout<<" # Unskiped: "<<obj_info.id<<std::endl;
         #endif
 
         // Original

@@ -3674,8 +3674,8 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
     end_pose.pos.y = li_list[i]["pose"][1]["y"];
     end_pose.pos.z = li_list[i]["pose"][1]["z"];
 
-    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3,3 );
-    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3,3);
+    std::vector<WayPoint*> start_wp_list = GetCloseWaypointsFromMap(start_pose, map, false, 3, 3);
+    std::vector<WayPoint*> end_wp_list = GetCloseWaypointsFromMap(end_pose, map, false, 3, 3);
 
     int matched_lane;
     std::vector<WayPoint> matched_wp_list;
