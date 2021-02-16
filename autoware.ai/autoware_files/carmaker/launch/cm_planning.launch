@@ -24,7 +24,7 @@
     <arg name="goal_ori_z"            value="0.6691" />
     <arg name="goal_ori_w"            value="0.7431" />
 
-    <arg name="LaneInfoFile"          value="sangam_full/total_lane_info.yaml" />
+    <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v1.yaml" />
   </include>
 
   <!-- op_common_params  -->
@@ -67,7 +67,7 @@
     <arg name="smoothingDataWeight"             default="0.45"  />
     <arg name="smoothingSmoothWeight"           default="0.4"  /> 
     <arg name="stopLineDetectionDistance"       default="40.0"  />
-    <arg name="stopLineMargin"                  default="20.0"  />
+    <arg name="stopLineMargin"                  default="13.0"  />
   </include>
 
   <!-- op_trajectory_generator -->
@@ -119,7 +119,7 @@
   <!-- op_behavior_selector -->
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
-    <arg name="distanceToPedestrianThreshold"   default="30.0" />
+    <arg name="distanceToPedestrianThreshold"   default="40.0" />
     <arg name="sprintSpeed"                    default="10.0" />
     <arg name="obstacleWaitingTimeinIntersection"  default="3.0" />
     <arg name="turnThreshold"                   default="30.0" />

@@ -64,9 +64,9 @@
   <include file="$(find rubis_cm_pkg)/launch/waypoint_generator.launch">
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_waypoints_example.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test.csv" /> -->
-    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_jchoi_Test.csv" />
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_jchoi_Test.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test_sjhwang.csv" /> -->
-    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_scene4.csv" /> -->
+    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_scene1.csv" />
     <arg name="zone_points_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_points.csv" />
     <arg name="zone_offset_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/zone_points/zone_offset.csv" />
     <arg name="mode" value="1" /> 
