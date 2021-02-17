@@ -99,11 +99,8 @@ public:
 
 static std::mutex mtx, mtx2;
 static std::vector<std::thread> thread_vec;
-static std::vector<std::thread> thread_vec2;
-
+static int finished_seq_num = 0;
 static int finished_thread = 0;
-static int finished_thread2 = 0;
-static int planned_seq = 0;
 
 static std::vector< WpPtrIdVec > m_WayPointSequences;
 static std::vector< WpPtrIdVec > m_allWaypointCandidates; // dim 0: waypoint id(index), dim 1: candidates for target waypoint
@@ -116,8 +113,6 @@ static std::vector< pthread_t > m_pThreadVec;
 static std::vector<std::vector<PlannerHNS::WayPoint> > m_GeneratedTotalPaths;
 static bool m_ThreadWorking = false;
 
-static std::vector< pthread_t > m_pThreadVec2;
-
 static WayPlannerParams m_params;
 static int m_GlobalPathID;
 static PlannerHNS::PlannerH m_PlannerH;
@@ -125,7 +120,6 @@ static PlannerHNS::RoadNetwork m_Map;
 static int m_ThreadNum;
 
 void threadMain(int start_idx, int end_idx, int total_size);
-void threadMain2(int start_idx, int end_idx);
 void clearUnnecessarySequences(int current_seq_idx, int end_idx, int fail_idx, WpPtrIdVec& planned_waypoint_pointers);
 bool GenerateWaypointsGlobalPlan(std::vector<PlannerHNS::WayPoint>& wayPoints, std::vector<std::vector<PlannerHNS::WayPoint> >& generatedTotalPaths, int& fail_idx);
 void signalHandler(int signum);
@@ -199,7 +193,6 @@ private:
   bool GenerateWayPointSequences();
   void seq_DFS(int num_of_sequence, int depth, WpPtrIdVec entry);
   void GeneratePairPath();
-  void generateTotalPath();
 
   protected:
     bool  m_bKmlMap;

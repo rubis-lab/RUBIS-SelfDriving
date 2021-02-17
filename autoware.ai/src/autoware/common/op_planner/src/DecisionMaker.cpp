@@ -94,6 +94,8 @@ void DecisionMaker::Init(const ControllerParams& ctrlParams, const PlannerHNS::P
     m_prevTrafficLightSignal = UNKNOWN_LIGHT;
     m_remainTrafficLightWaitingTime = 0;
 
+    bSpeedLimitEnable = false;
+
     InitBehaviorStates();
 
     if(m_pCurrentBehaviorState)
@@ -523,12 +525,13 @@ void DecisionMaker::InitBehaviorStates()
   // }
 
   // printf("vectormap said left : %d right : %d\n", bVectorMapLaneChangeLeft, bVectorMapLaneChangeRight);
-  // printf("lbI : %d, rbI : %d, ll_t : %d, rl_t : %d, t_a : %lf\n", bLeftLampByIntersection, bRightLampByIntersection, m_remainLeftLampTime, m_remainRightLampTime, m_targetSteerAngle);
+  // printf("lbI : %d, rbI : %d, ll_t : %d, rl_t : %d, s_a : %lf\n", bLeftLampByIntersection, bRightLampByIntersection, m_remainLeftLampTime, m_remainRightLampTime, m_targetSteerAngle);
+  // std::cout << "t_a : " << m_turnAngle << std::endl;
 
-  if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainRightLampTime <= 0 && m_targetSteerAngle > 0.015 && vehicleState.speed > 1.5){
+  if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainRightLampTime <= 0 && m_targetSteerAngle > 0.015 && vehicleState.speed > 1.5 && m_turnAngle < 10){
     m_remainLeftLampTime = 80;
   }
-  else if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainLeftLampTime <= 0 && m_targetSteerAngle < -0.015 && vehicleState.speed > 1.5){
+  else if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainLeftLampTime <= 0 && m_targetSteerAngle < -0.015 && vehicleState.speed > 1.5 && m_turnAngle > -10){
     m_remainRightLampTime = 80;
   }
 
@@ -697,9 +700,9 @@ void DecisionMaker::InitBehaviorStates()
   }
   else if(beh.state == FORWARD_STATE)
   {
-    // if(m_sprintSwitch == true){
-    //   max_velocity = m_sprintSpeed;
-    // }
+    if(m_sprintSwitch && !bSpeedLimitEnable){
+      max_velocity = m_sprintSpeed;
+    }
 
     double target_velocity = max_velocity;
     bool bSlowBecauseChange=false;
@@ -722,13 +725,10 @@ void DecisionMaker::InitBehaviorStates()
     forward_pid_vel = m_pidVelocity.getPID(e);
     m_pidIntersectionVelocity.getPID(e);
 
-    // if(m_sprintSwitch == true)
-    //   desiredVelocity = sprint_pid_vel;
-    // else
-    //   desiredVelocity = forward_pid_vel;
-
-    desiredVelocity = forward_pid_vel;
-
+    if(m_sprintSwitch == true)
+      desiredVelocity = sprint_pid_vel;
+    else
+      desiredVelocity = forward_pid_vel;
 
     if(desiredVelocity>max_velocity)
       desiredVelocity = max_velocity;
@@ -820,6 +820,7 @@ void DecisionMaker::InitBehaviorStates()
   beh.bNewPlan = SelectSafeTrajectory();
 
   // std::cout << "max_speed : " << m_maxSpeed << ", speedlimit_dist : " << m_speedLimitDistance << std::endl;
+  // std::cout << "sprint_switch : " << m_sprintSwitch << std::endl;
 
   if(beh.state != INTERSECTION_STATE){
     beh.followDistance = 120;

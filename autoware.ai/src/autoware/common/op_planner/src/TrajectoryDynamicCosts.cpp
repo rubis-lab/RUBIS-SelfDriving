@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-// #define DEBUG_ENABLE
+#define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -580,7 +580,7 @@ void TrajectoryDynamicCosts::CalculateLateralAndLongitudinalCostsStatic(vector<T
 
         // // Disabled bj hjw
         if(lateralDist <= 1.5
-            && longitudinalDist >= 0
+            && longitudinalDist >= -5
             && longitudinalDist < 30)
           trajectoryCosts.at(it).bBlocked = true;
 

@@ -268,7 +268,6 @@ void TrajectoryEval::callbackGetImageObjects(const autoware_msgs::DetectedObject
     int image_obj_center_y = msg_obj.y+msg_obj.height/2;
     
     if (msg_obj.label == "person"){// If person is detected only in image
-      std::cout<<"Person height: "<<msg_obj.height<<std::endl;
       if(image_obj_center_x >= image_person_detection_range_left && image_obj_center_x <= image_person_detection_range_right){ 
         double temp_x_distance = 1000;        
         if(msg_obj.height>=378) temp_x_distance = 20.0;
@@ -281,6 +280,8 @@ void TrajectoryEval::callbackGetImageObjects(const autoware_msgs::DetectedObject
         else if(msg_obj.height>=165) temp_x_distance = 55.0;   
         if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
       }
+
+      vehicle_cnt++;
     }                    
     else if(msg_obj.label == "car" || msg_obj.label == "truck" || msg_obj.label == "bus"){            
       if((msg_obj.width > m_VehicleImageWidthThreshold) 
@@ -326,6 +327,7 @@ void TrajectoryEval::callbackGetPredictedObjects(const autoware_msgs::DetectedOb
     // if(msg->objects.at(i).pose.position.y < -20 || msg->objects.at(i).pose.position.y > 20)
     //   continue;
     if(msg->objects.at(i).pose.position.z < -3.4 || msg->objects.at(i).pose.position.z > 0.8){
+    // if(msg->objects.at(i).pose.position.z < -3.4){
       continue;
     }
 

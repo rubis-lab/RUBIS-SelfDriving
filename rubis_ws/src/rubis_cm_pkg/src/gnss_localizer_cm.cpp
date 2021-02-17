@@ -286,7 +286,7 @@ int main(int argc, char** argv){
 
     ros::init(argc, argv, "gnss_cm_localizer");
     ros::NodeHandle nh;
-    gps_sub = nh.subscribe("/gps_out", 100, GPSCallback);
+    gps_sub = nh.subscribe("/gps_out_noise", 100, GPSCallback);
     imu_sub = nh.subscribe("/imu_out", 100, IMUCallback);
     pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/gnss_pose", 10);
     vel_pub = nh.advertise<geometry_msgs::TwistStamped>("gnss_vel", 10);    

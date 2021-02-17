@@ -1040,65 +1040,77 @@ void PlanningHelpers::GetIntersectionCondition(const WayPoint& p, std::vector<Cr
 
   distance = closestCrossingDistance;
 
-  // std::cout << "closest crossing : " << closestCrossingDistance << std::endl;
-
-  if(closestCrossingDistance > 100){
+  if(closestCrossingDistance > 70){
     isIntersection = false;
     intersectionID = -1;
     riskyLeftTurn = false;
     riskyRightTurn = false;
     return;
   }
+
+  isIntersection = true;
 
   for(int i=0; i<4; i++){
     if(crossings.at(closest_is_idx).risky_area.at(i).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(i), p.pos) == true){
       ego_risky_area_idx = i;
-      bIsIntersection = true;
+      // bIsIntersection = true;
       break;
     }
   }
 
-  if(!bIsIntersection){
-    isIntersection = false;
-    intersectionID = -1;
-    riskyLeftTurn = false;
-    riskyRightTurn = false;
+  // std::cout << "closest crossing : " << intersectionID << std::endl;
+  // std::cout << "closest crossing : " << closestCrossingDistance << std::endl;
+  // std::cout << "ego idx : " << ego_risky_area_idx << std::endl;
+
+  riskyLeftTurn = false;
+  riskyRightTurn = false;
+
+  if(ego_risky_area_idx == -1){
     return;
   }
-  else{
-    riskyLeftTurn = false;
-    riskyRightTurn = false;
-    int next_idx = (ego_risky_area_idx + 1) % 4;
-    int prev_idx = (ego_risky_area_idx + 3) % 4;
-    int diag_idx = (ego_risky_area_idx + 2) % 4;
-    for(unsigned int io=0; io<obj_list.size(); io++) // Object in object list
-    {
-      // std::cout << "v : " << obj_list.at(io).center.v << std::endl;
-      if(crossings.at(closest_is_idx).risky_area.at(next_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(next_idx), obj_list.at(io).center.pos) == true){
-      // if(crossings.at(closest_is_idx).risky_area.at(next_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(next_idx), obj_list.at(io).center.pos) == true && obj_list.at(io).center.v > 0){
-        // riskyLeftTurn = true;
-      }
-      if(crossings.at(closest_is_idx).risky_area.at(prev_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(prev_idx), obj_list.at(io).center.pos) == true){
-      // if(crossings.at(closest_is_idx).risky_area.at(prev_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(prev_idx), obj_list.at(io).center.pos) == true && obj_list.at(io).center.v > 0){
-        // riskyLeftTurn = true;
-        // riskyRightTurn = true;
-      }
-      // if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true){
-      if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true
-        && obj_list.at(io).center.v > 3
-        && obj_list.at(io).center.pos.z > -3
-        && obj_list.at(io).center.pos.z < 0.5
-        && (obj_list.at(io).w * obj_list.at(io).l) > 1){
+  
+  int next_idx = (ego_risky_area_idx + 1) % 4;
+  int prev_idx = (ego_risky_area_idx + 3) % 4;
+  int diag_idx = (ego_risky_area_idx + 2) % 4;
+  for(unsigned int io=0; io<obj_list.size(); io++) // Object in object list
+  {
+    // if((obj_list.at(io).w * obj_list.at(io).l) > 1)
+    //   printf("Obj id: %d | %lf %lf %lf w : %lf l : %f | v : %lf\n", obj_list.at(io).id, obj_list.at(io).center.pos.x, obj_list.at(io).center.pos.y, obj_list.at(io).center.pos.z, obj_list.at(io).w, obj_list.at(io).l, obj_list.at(io).center.v);
 
-        printf("id: %d | %lf %lf %lf w : %lf l : %f | v : %lf\n", obj_list.at(io).id, obj_list.at(io).center.pos.x, obj_list.at(io).center.pos.y, obj_list.at(io).center.pos.z, obj_list.at(io).w, obj_list.at(io).l, obj_list.at(io).center.v);
-        riskyLeftTurn = true;
-        // riskyRightTurn = true;
-      }
+    if(crossings.at(closest_is_idx).risky_area.at(next_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(next_idx), obj_list.at(io).center.pos) == true
+      && obj_list.at(io).center.v > 3
+      // && obj_list.at(io).center.pos.z > -3
+      // && obj_list.at(io).center.pos.z < 0.5
+      && (obj_list.at(io).w * obj_list.at(io).l) > 5
+      && (obj_list.at(io).w * obj_list.at(io).l) < 40
+      ){
+
+      printf("Next Idx id: %d | %lf %lf %lf w : %lf l : %f | v : %lf\n", obj_list.at(io).id, obj_list.at(io).center.pos.x, obj_list.at(io).center.pos.y, obj_list.at(io).center.pos.z, obj_list.at(io).w, obj_list.at(io).l, obj_list.at(io).center.v);
+      riskyLeftTurn = true;
+      // riskyRightTurn = true;
     }
-    isIntersection = true;
+    if(crossings.at(closest_is_idx).risky_area.at(prev_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(prev_idx), obj_list.at(io).center.pos) == true){
+    // if(crossings.at(closest_is_idx).risky_area.at(prev_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(prev_idx), obj_list.at(io).center.pos) == true && obj_list.at(io).center.v > 0){
+      // riskyLeftTurn = true;
+      // riskyRightTurn = true;
+    }
+    // if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true){
+    if(crossings.at(closest_is_idx).risky_area.at(diag_idx).PointInsidePolygon(crossings.at(closest_is_idx).risky_area.at(diag_idx), obj_list.at(io).center.pos) == true
+      && obj_list.at(io).center.v > 3
+      // && obj_list.at(io).center.pos.z > -3
+      // && obj_list.at(io).center.pos.z < 0.5
+      && (obj_list.at(io).w * obj_list.at(io).l) > 1
+      && (obj_list.at(io).w * obj_list.at(io).l) < 40
+      ){
+
+      printf("Diag Idx id : %d | %lf %lf %lf w : %lf l : %f | v : %lf\n", obj_list.at(io).id, obj_list.at(io).center.pos.x, obj_list.at(io).center.pos.y, obj_list.at(io).center.pos.z, obj_list.at(io).w, obj_list.at(io).l, obj_list.at(io).center.v);
+      riskyLeftTurn = true;
+      // riskyRightTurn = true;
+    }
   }
 
   std::cout << riskyLeftTurn << " " << riskyRightTurn << std::endl;
+  // std::cout << "====================================\n";
 }
 
 double PlanningHelpers::GetDistanceToClosestStopLineAndCheck(const std::vector<WayPoint>& path, const WayPoint& p, const double& giveUpDistance, int& stopLineID, int& stopSignID, int& trafficLightID, const int& prevIndex)

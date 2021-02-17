@@ -3605,45 +3605,63 @@ void MappingHelpers::ConstructIntersection_RUBIS(std::vector<PlannerHNS::Crossin
     cs.pos.y = is_list[i]["pose"]["y"];
     cs.pos.z = is_list[i]["pose"]["z"];
 
-    std::vector<GPSPoint> contour;
-    std::vector<GPSPoint> middle;
-    GPSPoint m01, m12, m23, m30;
-
-    for(int j=0; j<4; j++){
-      GPSPoint point;
-      point.x = is_list[i]["contour"][j]["x"];
-      point.y = is_list[i]["contour"][j]["y"];
-      point.z = is_list[i]["contour"][j]["z"];
-
-      cs.intersection_area.points.push_back(point);
-      contour.push_back(point);
-    }
-
-    for(int j=0; j<4; j++){
-      GPSPoint point;
-      point.x = (contour.at(j).x + contour.at((j+1)%4).x) / 2;
-      point.y = (contour.at(j).y + contour.at((j+1)%4).y) / 2;
-      middle.push_back(point);
-    }
-
+    // Add risky area
     for(int j=0; j<4; j++){
       PolygonShape area;
-      int prev_idx = (j+3)%4;
-      area.points.push_back(middle.at(prev_idx));
-      area.points.push_back(cs.pos);
-      
-      GPSPoint c2, c3;
-      c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 8;
-      c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 8;
 
-      c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 6;
-      c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 6;
+      for(int k=0; k<is_list[i]["risky_area"][j]["contour"].size(); k++){
+        GPSPoint point;
+        point.x = is_list[i]["risky_area"][j]["contour"][k]["x"];
+        point.y = is_list[i]["risky_area"][j]["contour"][k]["y"];
+        point.z = is_list[i]["risky_area"][j]["contour"][k]["z"];
 
-      area.points.push_back(c2);
-      area.points.push_back(c3);
-
+        area.points.push_back(point);
+      }
       cs.risky_area.push_back(area);
     }
+
+    ////// four vertex version
+    // std::vector<GPSPoint> contour;
+    // std::vector<GPSPoint> middle;
+    // GPSPoint m01, m12, m23, m30;
+
+    // for(int j=0; j<4; j++){
+    //   for(int k=0; k<4; k++){
+    //     GPSPoint point;
+    //     point.x = is_list[i]["risky_area"][j]["contour"][k]["x"];
+    //     point.y = is_list[i]["risky_area"][j]["contour"][k]["y"];
+    //     point.z = is_list[i]["risky_area"][j]["contour"][k]["z"];
+
+    //     cs.intersection_area.points.push_back(point);
+    //   }
+    //   contour.push_back(point);
+    // }
+
+    // for(int j=0; j<4; j++){
+    //   GPSPoint point;
+    //   point.x = (contour.at(j).x + contour.at((j+1)%4).x) / 2;
+    //   point.y = (contour.at(j).y + contour.at((j+1)%4).y) / 2;
+    //   middle.push_back(point);
+    // }
+
+    // for(int j=0; j<4; j++){
+    //   PolygonShape area;
+    //   int prev_idx = (j+3)%4;
+    //   area.points.push_back(middle.at(prev_idx));
+    //   area.points.push_back(cs.pos);
+      
+    //   GPSPoint c2, c3;
+    //   c2.x = cs.pos.x + (middle.at(j).x - cs.pos.x) * 8;
+    //   c2.y = cs.pos.y + (middle.at(j).y - cs.pos.y) * 8;
+
+    //   c3.x = middle.at(prev_idx).x + (contour.at(j).x - middle.at(prev_idx).x) * 6;
+    //   c3.y = middle.at(prev_idx).y + (contour.at(j).y - middle.at(prev_idx).y) * 6;
+
+    //   area.points.push_back(c2);
+    //   area.points.push_back(c3);
+
+    //   cs.risky_area.push_back(area);
+    // }
 
     crossing.push_back(cs);
   }
@@ -3812,7 +3830,6 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
 
     if(!bMatched) continue;
 
-    // Lane Blocking Debug
     // int id = li_list[i]["id"];
 
     // printf("[%d/%d] %d matched : ", i, li_list.size(), id);

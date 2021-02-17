@@ -12,7 +12,7 @@
     
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
     <arg name="waypointCandidateNum"   value="3" /> <!-- Find determined number of candidates for each waypoint -->
-    <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->
+    <arg name="threadNum"             value="18" /> <!-- Number of thread for mulit-threading -->
 
     <!-- Carmaker -->
     <!-- <arg name="use_static_goal"       value="false" />
@@ -24,7 +24,7 @@
     <arg name="goal_ori_z"            value="0.6691" />
     <arg name="goal_ori_w"            value="0.7431" /> -->
 
-    <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v3.yaml" />
+    <arg name="LaneInfoFile"          value="sangam_full/final_lane_info_v5_IP.yaml" />
   </include>
 
   <!-- op_common_params  -->
@@ -108,10 +108,10 @@
     <arg name="ImageHeight" default="1080" />
     <arg name="PedestrianRightThreshold" default="4.0" />
     <arg name="PedestrianLeftThreshold" default="4.0" />
-    <arg name="PedestrianImageDetectionRange" default="0.85" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
+    <arg name="PedestrianImageDetectionRange" default="0.95" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
     <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
     <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
-    <arg name="SprintDecisionTime" default="99999999999999999999.0" /> <!-- Seconds -->
+    <arg name="SprintDecisionTime" default="10.0" /> <!-- Seconds -->
 
     <arg name="intersectionFile"                default="sangam_full/intersection.yaml" />
   </include>
@@ -120,8 +120,8 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="40.0" />
-    <arg name="sprintSpeed"                    default="10.0" />
-    <arg name="obstacleWaitingTimeinIntersection"  default="2.0" />
+    <arg name="sprintSpeed"                    default="13.0" />
+    <arg name="obstacleWaitingTimeinIntersection"  default="2.5" />
     <arg name="turnThreshold"                   default="30.0" />
   </include>
 </launch>

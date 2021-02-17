@@ -62,6 +62,7 @@ public:
   double m_maxSpeed;
   bool bLeftLampByIntersection;
   bool bRightLampByIntersection;
+  bool bSpeedLimitEnable;
 
   bool bLeftLampByVectorMap;
   bool bRightLampByVectorMap;
