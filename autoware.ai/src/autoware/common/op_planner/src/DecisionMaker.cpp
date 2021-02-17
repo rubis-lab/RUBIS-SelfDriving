@@ -217,10 +217,12 @@ void DecisionMaker::InitBehaviorStates()
 
   pValues->iCurrSafeLane = bestTrajectory.lane_index;
 
+  std::cout<<"iCurrSafeTrajectory: "<<pValues->iCurrSafeTrajectory<<std::endl;
    if(bestTrajectory.lane_index >=0)
      pValues->iCurrSafeLane = bestTrajectory.lane_index;
    else
    {
+    //  std::cout<<" ## Lane inidex is -1"<<std::endl;
      PlannerHNS::RelativeInfo info;
      PlannerHNS::PlanningHelpers::GetRelativeInfoRange(m_TotalPath, state, m_params.rollOutDensity*m_params.rollOutNumber/2.0 + 0.1, info);
      pValues->iCurrSafeLane = info.iGlobalPath;

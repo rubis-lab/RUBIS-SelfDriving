@@ -341,10 +341,10 @@ bool GlobalPlanner::GenerateWayPointSequences(){
     WpPtrIdVec waypoint_candidates;
     PlannerHNS::WayPoint wp = m_WayPoints[i];
     
-    // if(i==0){
-    //   waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
-    //   waypoint_id++;
-    // }    
+    if(i==0){
+      waypoint_candidates.push_back(WpPtrId(waypoint_id, &m_CurrentPose));
+      waypoint_id++;
+    }    
 
     WpPtrVec candidatwe_without_id;
     candidatwe_without_id = PlannerHNS::MappingHelpers::GetCloseWaypointsFromMap(wp, m_Map, true, m_WaypointCandidateNum, 8);
@@ -789,6 +789,7 @@ void GlobalPlanner::MainLoop()
         XmlRpc::XmlRpcValue lane_info_xml;
         nh.getParam("/op_global_planner/lane_info_list", lane_info_xml);
         PlannerHNS::MappingHelpers::ConstructLaneInfo_RUBIS(m_Map, lane_info_xml);
+
       }
       else if(m_MapRaw.GetVersion()==1)
       {
@@ -810,7 +811,6 @@ void GlobalPlanner::MainLoop()
     }
 
     ClearOldCostFromMap();
-
     if(!m_EnableWaypoints){ // Use only one goal(waypoint)
       if(m_GoalsPos.size() > 0)
       {
@@ -880,8 +880,9 @@ void GlobalPlanner::MainLoop()
         if(bMakeNewPlan || (m_params.bEnableDynamicMapUpdate && UtilityHNS::UtilityH::GetTimeDiffNow(m_ReplnningTimer) > REPLANNING_TIME))
         {
           UtilityHNS::UtilityH::GetTickCount(m_ReplnningTimer);
-
-          if(m_ThreadWorking == true) continue; // avoid duplicated execution
+          if(m_ThreadWorking == true){
+            continue; // avoid duplicated execution
+          }
 
           // Generate candidates
           if(!isCandidatesCreated){

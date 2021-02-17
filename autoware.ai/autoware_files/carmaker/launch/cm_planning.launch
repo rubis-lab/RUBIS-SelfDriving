@@ -120,7 +120,7 @@
   <include file="$(find op_local_planner)/launch/op_behavior_selector.launch">
     <arg name="evidence_tust_number"            default="25"/>
     <arg name="distanceToPedestrianThreshold"   default="40.0" />
-    <arg name="sprintSpeed"                    default="13.0" />
+    <arg name="sprintSpeed"                    default="13.5" />
     <arg name="obstacleWaitingTimeinIntersection"  default="2.5" />
     <arg name="turnThreshold"                   default="30.0" />
   </include>

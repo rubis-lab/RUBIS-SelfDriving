@@ -3,7 +3,6 @@ import sys
 
 #[nodename,core_number,priority]
 node_name = [
-    ["op_behavior_selector",0,1],
     ["pure_pursuit",0,1],
     ["twist_filter",0,1]
 ]

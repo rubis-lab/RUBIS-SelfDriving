@@ -3830,7 +3830,7 @@ void MappingHelpers::ConstructLaneInfo_RUBIS(RoadNetwork& map, XmlRpc::XmlRpcVal
 
     if(!bMatched) continue;
 
-    // int id = li_list[i]["id"];
+    int id = li_list[i]["id"];
 
     // printf("[%d/%d] %d matched : ", i, li_list.size(), id);
     // for(int ti = 0; ti < matched_wp_list.size(); ti++){

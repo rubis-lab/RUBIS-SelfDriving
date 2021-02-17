@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-#define DEBUG_ENABLE
+// #define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -363,7 +363,10 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStep(const vector<vector<vector<WayP
   bestTrajectory.closest_obj_velocity = 0;
   bestTrajectory.index = -1;
 
-  if(!ValidateRollOutsInput(rollOuts) || rollOuts.size() != totalPaths.size()) return bestTrajectory;
+  if(!ValidateRollOutsInput(rollOuts) || rollOuts.size() != totalPaths.size()) {
+    std::cout<<" ## Not valid rollouts input || rollout size != totalPaths size: "<< rollOuts.size()<<" "<<totalPaths.size()<<std::endl;
+    return bestTrajectory;
+  }
 
   if(m_PrevCostIndex == -1)
     m_PrevCostIndex = params.rollOutNumber/2;

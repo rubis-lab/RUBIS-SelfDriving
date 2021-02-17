@@ -5722,7 +5722,7 @@ lane_info_list:
   -
     id : 1083
     start_idx : 4
-    end_idx : 5
+    end_idx : 4
     left_turn : 1
     right_turn : 0
     pose :

@@ -68,8 +68,8 @@
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_jchoi_Test.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_Test_sjhwang.csv" /> -->
-    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_sh_Test.csv" /> -->
-    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_total.csv" />
+    <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_sh_Test.csv" />
+    <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/GPS_RUBIS_total.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_scene1.csv" /> -->
     <!-- <arg name="waypoint_filename" value="$(env HOME)/autoware.ai/autoware_files/carmaker/documents/pose_waypoints_example.csv" /> -->
     
