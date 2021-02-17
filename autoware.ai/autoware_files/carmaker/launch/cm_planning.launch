@@ -11,7 +11,7 @@
     <arg name="mapFileName"           value="" /> <!-- incase of kml map source -->
     
     <arg name="enableWaypoints"       value="true" /> <!-- In case of using multiple waypoints -->    
-    <arg name="waypointCandidateNum"   value="5" /> <!-- Find determined number of candidates for each waypoint -->
+    <arg name="waypointCandidateNum"   value="3" /> <!-- Find determined number of candidates for each waypoint -->
     <arg name="threadNum"             value="15" /> <!-- Number of thread for mulit-threading -->
 
     <!-- Carmaker -->
@@ -108,7 +108,7 @@
     <arg name="ImageHeight" default="1080" />
     <arg name="PedestrianRightThreshold" default="4.0" />
     <arg name="PedestrianLeftThreshold" default="4.0" />
-    <arg name="PedestrianImageDetectionRange" default="0.75" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
+    <arg name="PedestrianImageDetectionRange" default="0.85" /> <!-- (Ratio If pedestrian's center point is located in this range, our car will be stopped -->               
     <arg name="VehicleImageDetectionRange" default="0.3" /> <!-- (Ratio) If vehicle's center point is located in this range, our car set speed as max velocity --> 
     <arg name="VehicleImageWidthThreshold" default="0.018" /> <!-- (Ratio) If vehilce's width ratio is lower than this, it will be not detected -->
     <arg name="SprintDecisionTime" default="99999999999999999999.0" /> <!-- Seconds -->

@@ -47,6 +47,8 @@ DecisionMaker::DecisionMaker()
   m_speedLimitDistance = 9999.0;
   bLeftLampByIntersection = false;
   bRightLampByIntersection = false;
+  m_remainLeftLampTime = 0;
+  m_remainRightLampTime = 0;
 }
 
 DecisionMaker::~DecisionMaker()
@@ -206,10 +208,12 @@ void DecisionMaker::InitBehaviorStates()
 
    if(bestTrajectory.index >=0 &&  bestTrajectory.index < (int)m_RollOuts.size())
      pValues->iCurrSafeTrajectory = bestTrajectory.index;
-   else
-     pValues->iCurrSafeTrajectory = pValues->iCentralTrajectory;
+  //  else
+  //    pValues->iCurrSafeTrajectory = pValues->iCentralTrajectory;
 
   pValues->bFullyBlock = bestTrajectory.bBlocked;
+
+  pValues->iCurrSafeLane = bestTrajectory.lane_index;
 
    if(bestTrajectory.lane_index >=0)
      pValues->iCurrSafeLane = bestTrajectory.lane_index;
@@ -518,17 +522,31 @@ void DecisionMaker::InitBehaviorStates()
   //   m_remainRightLampTime = 350;
   // }
 
-  if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainRightLampTime <= 0 && m_targetSteerAngle > 0.1){
-    m_remainLeftLampTime = 350;
+  // printf("vectormap said left : %d right : %d\n", bVectorMapLaneChangeLeft, bVectorMapLaneChangeRight);
+  // printf("lbI : %d, rbI : %d, ll_t : %d, rl_t : %d, t_a : %lf\n", bLeftLampByIntersection, bRightLampByIntersection, m_remainLeftLampTime, m_remainRightLampTime, m_targetSteerAngle);
+
+  if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainRightLampTime <= 0 && m_targetSteerAngle > 0.015 && vehicleState.speed > 1.5){
+    m_remainLeftLampTime = 80;
   }
-  else if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainLeftLampTime <= 0 && m_targetSteerAngle < -0.1){
-    m_remainRightLampTime = 350;
+  else if(!bLeftLampByIntersection && !bRightLampByIntersection && m_remainLeftLampTime <= 0 && m_targetSteerAngle < -0.015 && vehicleState.speed > 1.5){
+    m_remainRightLampTime = 80;
   }
 
-  if(m_remainLeftLampTime > 0 || bLeftLampByIntersection){
+  if(bLeftLampByIntersection || bRightLampByIntersection){
+    m_remainLeftLampTime = 0;
+    m_remainRightLampTime = 0;
+  }
+
+  if(bLeftLampByIntersection){
     currentBehavior.indicator = INDICATOR_LEFT;
   }
-  else if(m_remainRightLampTime > 0 || bRightLampByIntersection){
+  else if(bRightLampByIntersection){
+    currentBehavior.indicator = INDICATOR_RIGHT;
+  }
+  else if(m_remainLeftLampTime > 0){
+    currentBehavior.indicator = INDICATOR_LEFT;
+  }
+  else if(m_remainRightLampTime > 0){
     currentBehavior.indicator = INDICATOR_RIGHT;
   }
   else
@@ -585,14 +603,10 @@ void DecisionMaker::InitBehaviorStates()
       m_remainObstacleWaitingTime--;
       desiredVelocity = 0;
     }
-    // else if(m_params.obstacleinRiskyArea){
-      // double desiredAcceleration = m_maxSpeed * m_maxSpeed / 2 / std::max(beh.stopDistance - m_params.stopLineMargin, 0.1);
-      // double desiredVelocity = m_maxSpeed - desiredAcceleration * 0.1; // 0.1 stands for delta t.
-      // if(desiredVelocity < 0.5)
-      //   desiredVelocity = 0;
-    //   desiredVelocity = 0;
-    //   m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
-    // }
+    else if(m_params.obstacleinRiskyArea && abs(m_turnAngle) > 45){
+      desiredVelocity = 0;
+      m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);
+    }
     else if(beh.followDistance < 35 && beh.followDistance > 0 && abs(m_turnAngle) > 45){
       desiredVelocity = 0;
       m_remainObstacleWaitingTime = int(m_obstacleWaitingTimeinIntersection * 100);

@@ -268,17 +268,17 @@ void TrajectoryEval::callbackGetImageObjects(const autoware_msgs::DetectedObject
     int image_obj_center_y = msg_obj.y+msg_obj.height/2;
     
     if (msg_obj.label == "person"){// If person is detected only in image
-
+      std::cout<<"Person height: "<<msg_obj.height<<std::endl;
       if(image_obj_center_x >= image_person_detection_range_left && image_obj_center_x <= image_person_detection_range_right){ 
-        double temp_x_distance = 1000;
-        if(msg_obj.height>=800) temp_x_distance = 10.0;
-        else if(msg_obj.height>=720) temp_x_distance = 15.0;
-        else if(msg_obj.height>=620) temp_x_distance = 20.0;
-        else if(msg_obj.height>=450) temp_x_distance = 25.0;
-        else if(msg_obj.height>=370) temp_x_distance = 30.0;
-        else if(msg_obj.height>=330) temp_x_distance = 35.0;      
-        else if(msg_obj.height>=260) temp_x_distance = 40.0;   
-        else if(msg_obj.height>=200) temp_x_distance = 50.0;   
+        double temp_x_distance = 1000;        
+        if(msg_obj.height>=378) temp_x_distance = 20.0;
+        else if(msg_obj.height>=345) temp_x_distance = 25.0;
+        else if(msg_obj.height>=300) temp_x_distance = 30.0;
+        else if(msg_obj.height>=258) temp_x_distance = 35.0;
+        else if(msg_obj.height>=225) temp_x_distance = 40.0;
+        else if(msg_obj.height>=209) temp_x_distance = 45.0;
+        else if(msg_obj.height>=184) temp_x_distance = 50.0;
+        else if(msg_obj.height>=165) temp_x_distance = 55.0;   
         if(abs(temp_x_distance) < abs(distance_to_pedestrian)) distance_to_pedestrian = temp_x_distance;
       }
     }                    

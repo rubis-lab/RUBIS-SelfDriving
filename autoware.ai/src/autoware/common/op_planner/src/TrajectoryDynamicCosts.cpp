@@ -8,7 +8,7 @@
 #include "op_planner/MatrixOperations.h"
 #include "float.h"
 
-#define DEBUG_ENABLE
+// #define DEBUG_ENABLE
 
 namespace PlannerHNS
 {
@@ -267,7 +267,7 @@ TrajectoryCost TrajectoryDynamicCosts::DoOneStepStatic(const vector<vector<WayPo
   // if(m_PrevSelectedIndex != -1)
   //   turn_angle = CalculateTurnAngle(rollOuts.at(m_PrevSelectedIndex), currState);
 
-  std::cout << "t_a : " << m_turnAngle << std::endl;
+  // std::cout << "t_a : " << m_turnAngle << std::endl;
 
   // Keep state when Intersection state
   if(state == PlannerHNS::INTERSECTION_STATE){
