@@ -8645,8 +8645,8 @@ lane_info_list:
         z : 0.0
   -
     id : 9073
-    start_idx : 4
-    end_idx : 5
+    start_idx : 3
+    end_idx : 6
     left_turn : 0
     right_turn : 0
     pose :
